@@ -1,0 +1,31 @@
+{
+  "build": "6_cp311",
+  "build_number": 6,
+  "channel": "https://conda-forge.fredhutch.org/conda-forge/osx-arm64",
+  "constrains": [
+    "python 3.11.* *_cpython"
+  ],
+  "depends": [],
+  "extracted_package_dir": "/Users/Carlos/miniforge3/pkgs/python_abi-3.11-6_cp311",
+  "files": [],
+  "fn": "python_abi-3.11-6_cp311.conda",
+  "license": "BSD-3-Clause",
+  "link": {
+    "source": "/Users/Carlos/miniforge3/pkgs/python_abi-3.11-6_cp311",
+    "type": 1
+  },
+  "md5": "b30f805c0fccfebec5012f9f4c2ccfd9",
+  "name": "python_abi",
+  "package_tarball_full_path": "/Users/Carlos/miniforge3/pkgs/python_abi-3.11-6_cp311",
+  "paths_data": {
+    "paths": [],
+    "paths_version": 1
+  },
+  "requested_spec": "None",
+  "sha256": "3d17ac9da54e92fd3d8b52a37aecdf532a45bbc2c0025871da78cec469f1aff7",
+  "size": 6983,
+  "subdir": "osx-arm64",
+  "timestamp": 1743483247000,
+  "url": "https://conda-forge.fredhutch.org/conda-forge/osx-arm64/python_abi-3.11-6_cp311.conda",
+  "version": "3.11"
+}

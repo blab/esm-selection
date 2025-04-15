@@ -1,0 +1,11 @@
+prefix=/Users/Carlos/Desktop/Bedford/esm-selection/Flu_Snakemake_Pipeline/.snakemake/conda/c68281f7da3953da89c92cd799f1e235_
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include/webp
+
+Name: libsharpyuv
+Description: Library for sharp RGB to YUV conversion
+Version: 1.5.0
+Cflags: -I${includedir}
+Libs: -L${libdir} -lsharpyuv
+Libs.private:   

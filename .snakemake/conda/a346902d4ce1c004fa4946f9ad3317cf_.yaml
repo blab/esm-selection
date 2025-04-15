@@ -1,0 +1,9 @@
+name: nextstrain
+
+dependencies:
+  - nextstrain-cli
+  - augur
+  - auspice
+  - snakemake
+  - python=3.11
+

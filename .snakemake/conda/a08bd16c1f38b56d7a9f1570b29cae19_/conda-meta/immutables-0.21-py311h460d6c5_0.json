@@ -1,0 +1,220 @@
+{
+  "build": "py311h460d6c5_0",
+  "build_number": 0,
+  "channel": "https://conda-forge.fredhutch.org/conda-forge/osx-arm64",
+  "constrains": [],
+  "depends": [
+    "__osx >=11.0",
+    "python_abi 3.11.* *_cp311",
+    "python >=3.11,<3.12.0a0",
+    "python >=3.11,<3.12.0a0 *_cpython"
+  ],
+  "extracted_package_dir": "/Users/Carlos/miniforge3/pkgs/immutables-0.21-py311h460d6c5_0",
+  "files": [
+    "lib/python3.11/site-packages/immutables-0.21.dist-info/INSTALLER",
+    "lib/python3.11/site-packages/immutables-0.21.dist-info/LICENSE",
+    "lib/python3.11/site-packages/immutables-0.21.dist-info/LICENSE-APACHE",
+    "lib/python3.11/site-packages/immutables-0.21.dist-info/METADATA",
+    "lib/python3.11/site-packages/immutables-0.21.dist-info/NOTICE",
+    "lib/python3.11/site-packages/immutables-0.21.dist-info/RECORD",
+    "lib/python3.11/site-packages/immutables-0.21.dist-info/REQUESTED",
+    "lib/python3.11/site-packages/immutables-0.21.dist-info/WHEEL",
+    "lib/python3.11/site-packages/immutables-0.21.dist-info/direct_url.json",
+    "lib/python3.11/site-packages/immutables-0.21.dist-info/top_level.txt",
+    "lib/python3.11/site-packages/immutables/__init__.py",
+    "lib/python3.11/site-packages/immutables/__pycache__/__init__.cpython-311.pyc",
+    "lib/python3.11/site-packages/immutables/__pycache__/_protocols.cpython-311.pyc",
+    "lib/python3.11/site-packages/immutables/__pycache__/_testutils.cpython-311.pyc",
+    "lib/python3.11/site-packages/immutables/__pycache__/_version.cpython-311.pyc",
+    "lib/python3.11/site-packages/immutables/__pycache__/map.cpython-311.pyc",
+    "lib/python3.11/site-packages/immutables/_map.cpython-311-darwin.so",
+    "lib/python3.11/site-packages/immutables/_map.pyi",
+    "lib/python3.11/site-packages/immutables/_protocols.py",
+    "lib/python3.11/site-packages/immutables/_testutils.py",
+    "lib/python3.11/site-packages/immutables/_version.py",
+    "lib/python3.11/site-packages/immutables/map.py",
+    "lib/python3.11/site-packages/immutables/py.typed"
+  ],
+  "fn": "immutables-0.21-py311h460d6c5_0.conda",
+  "license": "Apache-2.0",
+  "link": {
+    "source": "/Users/Carlos/miniforge3/pkgs/immutables-0.21-py311h460d6c5_0",
+    "type": 1
+  },
+  "md5": "e9d23438945af721b64958135cac1447",
+  "name": "immutables",
+  "package_tarball_full_path": "/Users/Carlos/miniforge3/pkgs/immutables-0.21-py311h460d6c5_0",
+  "paths_data": {
+    "paths": [
+      {
+        "_path": "lib/python3.11/site-packages/immutables-0.21.dist-info/INSTALLER",
+        "path_type": "hardlink",
+        "sha256": "d0edee15f91b406f3f99726e44eb990be6e34fd0345b52b910c568e0eef6a2a8",
+        "sha256_in_prefix": "d0edee15f91b406f3f99726e44eb990be6e34fd0345b52b910c568e0eef6a2a8",
+        "size_in_bytes": 5
+      },
+      {
+        "_path": "lib/python3.11/site-packages/immutables-0.21.dist-info/LICENSE",
+        "path_type": "hardlink",
+        "sha256": "8648b04124b59d919a027a4d9572219ac4a34434e7f26cabdd4bd33dd33f01ca",
+        "sha256_in_prefix": "8648b04124b59d919a027a4d9572219ac4a34434e7f26cabdd4bd33dd33f01ca",
+        "size_in_bytes": 301
+      },
+      {
+        "_path": "lib/python3.11/site-packages/immutables-0.21.dist-info/LICENSE-APACHE",
+        "path_type": "hardlink",
+        "sha256": "25e8791da26f7e74c4baf19eafd7d137b64a46952ef840ed01c172b680cf4046",
+        "sha256_in_prefix": "25e8791da26f7e74c4baf19eafd7d137b64a46952ef840ed01c172b680cf4046",
+        "size_in_bytes": 11309
+      },
+      {
+        "_path": "lib/python3.11/site-packages/immutables-0.21.dist-info/METADATA",
+        "path_type": "hardlink",
+        "sha256": "d261a769f84732305b39069e17e162fd56be094cc4e1a499840fcc1d4a121346",
+        "sha256_in_prefix": "d261a769f84732305b39069e17e162fd56be094cc4e1a499840fcc1d4a121346",
+        "size_in_bytes": 4498
+      },
+      {
+        "_path": "lib/python3.11/site-packages/immutables-0.21.dist-info/NOTICE",
+        "path_type": "hardlink",
+        "sha256": "62c982da0e3173247ec93f7ce1a4101e9b87e353c55cb0d7cd2e4df91794d2fd",
+        "sha256_in_prefix": "62c982da0e3173247ec93f7ce1a4101e9b87e353c55cb0d7cd2e4df91794d2fd",
+        "size_in_bytes": 63
+      },
+      {
+        "_path": "lib/python3.11/site-packages/immutables-0.21.dist-info/RECORD",
+        "path_type": "hardlink",
+        "sha256": "49cb8ee92bc45a0f84fe792e98c23531cf3f37277a0c3eb2a1b84786961b3577",
+        "sha256_in_prefix": "49cb8ee92bc45a0f84fe792e98c23531cf3f37277a0c3eb2a1b84786961b3577",
+        "size_in_bytes": 1764
+      },
+      {
+        "_path": "lib/python3.11/site-packages/immutables-0.21.dist-info/REQUESTED",
+        "path_type": "hardlink",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "sha256_in_prefix": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_in_bytes": 0
+      },
+      {
+        "_path": "lib/python3.11/site-packages/immutables-0.21.dist-info/WHEEL",
+        "path_type": "hardlink",
+        "sha256": "3c5d0c830b6ffe80ecfe659852d2e91a161a21af233a10aa0714aa771cb682a1",
+        "sha256_in_prefix": "3c5d0c830b6ffe80ecfe659852d2e91a161a21af233a10aa0714aa771cb682a1",
+        "size_in_bytes": 109
+      },
+      {
+        "_path": "lib/python3.11/site-packages/immutables-0.21.dist-info/direct_url.json",
+        "path_type": "hardlink",
+        "sha256": "2efdd76f7a86b67a448d0f80c482b5d701388e6490084492491138373ddbbbf7",
+        "sha256_in_prefix": "2efdd76f7a86b67a448d0f80c482b5d701388e6490084492491138373ddbbbf7",
+        "size_in_bytes": 98
+      },
+      {
+        "_path": "lib/python3.11/site-packages/immutables-0.21.dist-info/top_level.txt",
+        "path_type": "hardlink",
+        "sha256": "d24f8214b88c1224427cadc0cb79f27d2d769bfe7a7bcdb2d7932e571b77eb87",
+        "sha256_in_prefix": "d24f8214b88c1224427cadc0cb79f27d2d769bfe7a7bcdb2d7932e571b77eb87",
+        "size_in_bytes": 11
+      },
+      {
+        "_path": "lib/python3.11/site-packages/immutables/__init__.py",
+        "path_type": "hardlink",
+        "sha256": "42316c99acd3ddc7b9aff18de1f5117f66dd54aabe1c9e6fd71ce299e7c7920e",
+        "sha256_in_prefix": "42316c99acd3ddc7b9aff18de1f5117f66dd54aabe1c9e6fd71ce299e7c7920e",
+        "size_in_bytes": 528
+      },
+      {
+        "_path": "lib/python3.11/site-packages/immutables/__pycache__/__init__.cpython-311.pyc",
+        "path_type": "hardlink",
+        "sha256": "87423566708a3af5af76645398f5027758984017e9366fafceb0d91a614497ee",
+        "sha256_in_prefix": "87423566708a3af5af76645398f5027758984017e9366fafceb0d91a614497ee",
+        "size_in_bytes": 908
+      },
+      {
+        "_path": "lib/python3.11/site-packages/immutables/__pycache__/_protocols.cpython-311.pyc",
+        "path_type": "hardlink",
+        "sha256": "146f6b99d74988ba61abcffd658b8b754a6ef54a3965cfd0fcbbcda02ebe6004",
+        "sha256_in_prefix": "146f6b99d74988ba61abcffd658b8b754a6ef54a3965cfd0fcbbcda02ebe6004",
+        "size_in_bytes": 7353
+      },
+      {
+        "_path": "lib/python3.11/site-packages/immutables/__pycache__/_testutils.cpython-311.pyc",
+        "path_type": "hardlink",
+        "sha256": "8f019c5548d86fb6713292f4daf3d52658d2903242f923e4aba8930d811ca07d",
+        "sha256_in_prefix": "8f019c5548d86fb6713292f4daf3d52658d2903242f923e4aba8930d811ca07d",
+        "size_in_bytes": 4967
+      },
+      {
+        "_path": "lib/python3.11/site-packages/immutables/__pycache__/_version.cpython-311.pyc",
+        "path_type": "hardlink",
+        "sha256": "5c2cd3bb085b05a0b57ad9627468ca78de431af9863b4fbd9f70066124a79552",
+        "sha256_in_prefix": "5c2cd3bb085b05a0b57ad9627468ca78de431af9863b4fbd9f70066124a79552",
+        "size_in_bytes": 181
+      },
+      {
+        "_path": "lib/python3.11/site-packages/immutables/__pycache__/map.cpython-311.pyc",
+        "path_type": "hardlink",
+        "sha256": "173c41b7b7dd56ddc991f120ec525be1b26efc5fe33ce0b77bf139681735f814",
+        "sha256_in_prefix": "173c41b7b7dd56ddc991f120ec525be1b26efc5fe33ce0b77bf139681735f814",
+        "size_in_bytes": 37870
+      },
+      {
+        "_path": "lib/python3.11/site-packages/immutables/_map.cpython-311-darwin.so",
+        "path_type": "hardlink",
+        "sha256": "06d7cea35cb643aed0502bc671183768a5530f07444c1a9d9f28922bf25096c0",
+        "sha256_in_prefix": "06d7cea35cb643aed0502bc671183768a5530f07444c1a9d9f28922bf25096c0",
+        "size_in_bytes": 75072
+      },
+      {
+        "_path": "lib/python3.11/site-packages/immutables/_map.pyi",
+        "path_type": "hardlink",
+        "sha256": "2b33fce6d0d2b82b70a9d4e40081358bf1fed6afacd8f895b7135eef22d011dc",
+        "sha256_in_prefix": "2b33fce6d0d2b82b70a9d4e40081358bf1fed6afacd8f895b7135eef22d011dc",
+        "size_in_bytes": 2759
+      },
+      {
+        "_path": "lib/python3.11/site-packages/immutables/_protocols.py",
+        "path_type": "hardlink",
+        "sha256": "ca9ffeb6c17256e30918b898d052b0e53469383f72d4c7a659fcbf206c0dd5b7",
+        "sha256_in_prefix": "ca9ffeb6c17256e30918b898d052b0e53469383f72d4c7a659fcbf206c0dd5b7",
+        "size_in_bytes": 2524
+      },
+      {
+        "_path": "lib/python3.11/site-packages/immutables/_testutils.py",
+        "path_type": "hardlink",
+        "sha256": "a79455ea7db54cbacbf89c1d61d620c91c18e93b912d509dbdadbebd4544e819",
+        "sha256_in_prefix": "a79455ea7db54cbacbf89c1d61d620c91c18e93b912d509dbdadbebd4544e819",
+        "size_in_bytes": 2262
+      },
+      {
+        "_path": "lib/python3.11/site-packages/immutables/_version.py",
+        "path_type": "hardlink",
+        "sha256": "47f7672bacc2c8fd7f9573b5a183d912e82bc4a55c9aaf833aaf5844d1e083d9",
+        "sha256_in_prefix": "47f7672bacc2c8fd7f9573b5a183d912e82bc4a55c9aaf833aaf5844d1e083d9",
+        "size_in_bytes": 574
+      },
+      {
+        "_path": "lib/python3.11/site-packages/immutables/map.py",
+        "path_type": "hardlink",
+        "sha256": "d683724472572b8d8b1945b96024370453ed6464024b3e208acc23e9b6b0726b",
+        "sha256_in_prefix": "d683724472572b8d8b1945b96024370453ed6464024b3e208acc23e9b6b0726b",
+        "size_in_bytes": 23614
+      },
+      {
+        "_path": "lib/python3.11/site-packages/immutables/py.typed",
+        "path_type": "hardlink",
+        "sha256": "95aebb28195b8d737effe0df18d71d39c8d8ba6569286fd3930fbc9f9767181e",
+        "sha256_in_prefix": "95aebb28195b8d737effe0df18d71d39c8d8ba6569286fd3930fbc9f9767181e",
+        "size_in_bytes": 8
+      }
+    ],
+    "paths_version": 1
+  },
+  "requested_spec": "None",
+  "sha256": "df3d5eeb073fd33f454ae4f7354946fb6df542673fd47b4994575f27530242c4",
+  "size": 50991,
+  "subdir": "osx-arm64",
+  "timestamp": 1728557544000,
+  "url": "https://conda-forge.fredhutch.org/conda-forge/osx-arm64/immutables-0.21-py311h460d6c5_0.conda",
+  "version": "0.21"
+}

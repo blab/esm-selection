@@ -1,0 +1,107 @@
+{
+  "build": "h9e79f82_7100102",
+  "build_number": 7100102,
+  "channel": "https://conda-forge.fredhutch.org/conda-forge/osx-arm64",
+  "constrains": [],
+  "depends": [
+    "__osx >=11.0",
+    "llvm-openmp >=18.1.8",
+    "libsuitesparseconfig >=7.10.1,<8.0a0"
+  ],
+  "extracted_package_dir": "/Users/Carlos/miniforge3/pkgs/libcxsparse-4.4.1-h9e79f82_7100102",
+  "files": [
+    "include/suitesparse/cs.h",
+    "lib/cmake/CXSparse/CXSparseConfig.cmake",
+    "lib/cmake/CXSparse/CXSparseConfigVersion.cmake",
+    "lib/cmake/CXSparse/CXSparseTargets-release.cmake",
+    "lib/cmake/CXSparse/CXSparseTargets.cmake",
+    "lib/libcxsparse.4.4.1.dylib",
+    "lib/libcxsparse.4.dylib",
+    "lib/libcxsparse.dylib",
+    "lib/pkgconfig/CXSparse.pc"
+  ],
+  "fn": "libcxsparse-4.4.1-h9e79f82_7100102.conda",
+  "license": "LGPL-2.1-or-later",
+  "link": {
+    "source": "/Users/Carlos/miniforge3/pkgs/libcxsparse-4.4.1-h9e79f82_7100102",
+    "type": 1
+  },
+  "md5": "d3b711fc46f75a04e71738d3e2c4fdc9",
+  "name": "libcxsparse",
+  "package_tarball_full_path": "/Users/Carlos/miniforge3/pkgs/libcxsparse-4.4.1-h9e79f82_7100102",
+  "paths_data": {
+    "paths": [
+      {
+        "_path": "include/suitesparse/cs.h",
+        "path_type": "hardlink",
+        "sha256": "e6b62c8de12ab54ef1a5fb3099b4146cc9c62928ea93579679e6e1a9bc548e8a",
+        "sha256_in_prefix": "e6b62c8de12ab54ef1a5fb3099b4146cc9c62928ea93579679e6e1a9bc548e8a",
+        "size_in_bytes": 33759
+      },
+      {
+        "_path": "lib/cmake/CXSparse/CXSparseConfig.cmake",
+        "path_type": "hardlink",
+        "sha256": "a68acedd5fd6292bbada3eaa1522c24008af8820f16607ef15ffdfc7aa9d84c7",
+        "sha256_in_prefix": "a68acedd5fd6292bbada3eaa1522c24008af8820f16607ef15ffdfc7aa9d84c7",
+        "size_in_bytes": 6551
+      },
+      {
+        "_path": "lib/cmake/CXSparse/CXSparseConfigVersion.cmake",
+        "path_type": "hardlink",
+        "sha256": "a8bdfebce9e25feb37f02f6c44709ff83cb8154b3a926ea71a92d9c036c0577e",
+        "sha256_in_prefix": "a8bdfebce9e25feb37f02f6c44709ff83cb8154b3a926ea71a92d9c036c0577e",
+        "size_in_bytes": 2762
+      },
+      {
+        "_path": "lib/cmake/CXSparse/CXSparseTargets-release.cmake",
+        "path_type": "hardlink",
+        "sha256": "13571b6f295344185a70e1cb59e97c2fe5528f56a954ed556c4afc1492a8a829",
+        "sha256_in_prefix": "13571b6f295344185a70e1cb59e97c2fe5528f56a954ed556c4afc1492a8a829",
+        "size_in_bytes": 984
+      },
+      {
+        "_path": "lib/cmake/CXSparse/CXSparseTargets.cmake",
+        "path_type": "hardlink",
+        "sha256": "86d27e94fa500ab6e44fad40be3771bf752e5a74fd09869c97f65d3a4c626fc4",
+        "sha256_in_prefix": "86d27e94fa500ab6e44fad40be3771bf752e5a74fd09869c97f65d3a4c626fc4",
+        "size_in_bytes": 4300
+      },
+      {
+        "_path": "lib/libcxsparse.4.4.1.dylib",
+        "path_type": "hardlink",
+        "sha256": "85d469a69884e03558f61689ef0135147824ebb658497963f31e4c0d85619606",
+        "sha256_in_prefix": "85d469a69884e03558f61689ef0135147824ebb658497963f31e4c0d85619606",
+        "size_in_bytes": 213120
+      },
+      {
+        "_path": "lib/libcxsparse.4.dylib",
+        "path_type": "softlink",
+        "sha256": "85d469a69884e03558f61689ef0135147824ebb658497963f31e4c0d85619606",
+        "size_in_bytes": 23
+      },
+      {
+        "_path": "lib/libcxsparse.dylib",
+        "path_type": "softlink",
+        "sha256": "85d469a69884e03558f61689ef0135147824ebb658497963f31e4c0d85619606",
+        "size_in_bytes": 19
+      },
+      {
+        "_path": "lib/pkgconfig/CXSparse.pc",
+        "file_mode": "text",
+        "path_type": "hardlink",
+        "prefix_placeholder": "/Users/runner/miniforge3/conda-bld/bld/rattler-build_libcxsparse_1742288952/host_env_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_",
+        "sha256": "8eded71e1b56cb9456f2c8408d4aa9bc7ff27e6861aeea7d25f2ba80031ca83b",
+        "sha256_in_prefix": "739d3aca687ac5b5901de54d3c16f20f709a24b48978684d78376076310c1077",
+        "size_in_bytes": 767
+      }
+    ],
+    "paths_version": 1
+  },
+  "requested_spec": "None",
+  "sha256": "b9399b5a0443aefa1deb063224ac27f9e58c5c74dddda0cd0ec5f7fba534931b",
+  "size": 89459,
+  "subdir": "osx-arm64",
+  "timestamp": 1742288952000,
+  "url": "https://conda-forge.fredhutch.org/conda-forge/osx-arm64/libcxsparse-4.4.1-h9e79f82_7100102.conda",
+  "version": "4.4.1"
+}

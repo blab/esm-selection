@@ -1,0 +1,72 @@
+{
+  "build": "h6d7a090_0",
+  "build_number": 0,
+  "channel": "https://conda-forge.fredhutch.org/conda-forge/osx-arm64",
+  "constrains": [],
+  "depends": [
+    "gmp >=6.2.1,<7.0a0"
+  ],
+  "extracted_package_dir": "/Users/Carlos/miniforge3/pkgs/glpk-5.0-h6d7a090_0",
+  "files": [
+    "bin/glpsol",
+    "include/glpk.h",
+    "lib/libglpk.40.dylib",
+    "lib/libglpk.a",
+    "lib/libglpk.dylib"
+  ],
+  "fn": "glpk-5.0-h6d7a090_0.tar.bz2",
+  "license": "GPL-3.0-or-later",
+  "link": {
+    "source": "/Users/Carlos/miniforge3/pkgs/glpk-5.0-h6d7a090_0",
+    "type": 1
+  },
+  "md5": "02b868940101a06a6365c109ab1a94fe",
+  "name": "glpk",
+  "package_tarball_full_path": "/Users/Carlos/miniforge3/pkgs/glpk-5.0-h6d7a090_0.tar.bz2",
+  "paths_data": {
+    "paths": [
+      {
+        "_path": "bin/glpsol",
+        "path_type": "hardlink",
+        "sha256": "ff22e37c0da16ec4f2c3fc5afa3ef69bc821b7c9a9537ef59eacadef682ef38d",
+        "sha256_in_prefix": "ff22e37c0da16ec4f2c3fc5afa3ef69bc821b7c9a9537ef59eacadef682ef38d",
+        "size_in_bytes": 89104
+      },
+      {
+        "_path": "include/glpk.h",
+        "path_type": "hardlink",
+        "sha256": "37da8b2cf33ad97be54c77d36780bc1c3b39385cf60fad41adb4db3b4bac0be8",
+        "sha256_in_prefix": "37da8b2cf33ad97be54c77d36780bc1c3b39385cf60fad41adb4db3b4bac0be8",
+        "size_in_bytes": 39881
+      },
+      {
+        "_path": "lib/libglpk.40.dylib",
+        "path_type": "hardlink",
+        "sha256": "285fde307a124bd1a3b05a7cd94ed9d0339f6e9415eb1aea8cd4d6e1754c2811",
+        "sha256_in_prefix": "285fde307a124bd1a3b05a7cd94ed9d0339f6e9415eb1aea8cd4d6e1754c2811",
+        "size_in_bytes": 935344
+      },
+      {
+        "_path": "lib/libglpk.a",
+        "path_type": "hardlink",
+        "sha256": "c4d5f1a5aaec181b9e9588a7d5dac53bfd002d69cb913b899439778acee5badc",
+        "sha256_in_prefix": "c4d5f1a5aaec181b9e9588a7d5dac53bfd002d69cb913b899439778acee5badc",
+        "size_in_bytes": 1569704
+      },
+      {
+        "_path": "lib/libglpk.dylib",
+        "path_type": "softlink",
+        "sha256": "285fde307a124bd1a3b05a7cd94ed9d0339f6e9415eb1aea8cd4d6e1754c2811",
+        "size_in_bytes": 935344
+      }
+    ],
+    "paths_version": 1
+  },
+  "requested_spec": "None",
+  "sha256": "ac67e0ee73936f2b38b4c3c55354bec4ac79f31d4f4ed1020103f052c052259d",
+  "size": 1003220,
+  "subdir": "osx-arm64",
+  "timestamp": 1624569244000,
+  "url": "https://conda-forge.fredhutch.org/conda-forge/osx-arm64/glpk-5.0-h6d7a090_0.tar.bz2",
+  "version": "5.0"
+}

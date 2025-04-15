@@ -1,0 +1,164 @@
+{
+  "build": "h4a8fc20_7100102",
+  "build_number": 7100102,
+  "channel": "https://conda-forge.fredhutch.org/conda-forge/osx-arm64",
+  "constrains": [],
+  "depends": [
+    "libgfortran >=5",
+    "libgfortran5 >=13.2.0",
+    "__osx >=11.0",
+    "llvm-openmp >=18.1.8"
+  ],
+  "extracted_package_dir": "/Users/Carlos/miniforge3/pkgs/libsuitesparseconfig-7.10.1-h4a8fc20_7100102",
+  "files": [
+    "include/suitesparse/SuiteSparse_config.h",
+    "lib/cmake/SuiteSparse/SuiteSparseBLAS.cmake",
+    "lib/cmake/SuiteSparse/SuiteSparseBLAS32.cmake",
+    "lib/cmake/SuiteSparse/SuiteSparseBLAS64.cmake",
+    "lib/cmake/SuiteSparse/SuiteSparseLAPACK.cmake",
+    "lib/cmake/SuiteSparse/SuiteSparsePolicy.cmake",
+    "lib/cmake/SuiteSparse/SuiteSparseReport.cmake",
+    "lib/cmake/SuiteSparse/SuiteSparse__thread.cmake",
+    "lib/cmake/SuiteSparse_config/SuiteSparse_configConfig.cmake",
+    "lib/cmake/SuiteSparse_config/SuiteSparse_configConfigVersion.cmake",
+    "lib/cmake/SuiteSparse_config/SuiteSparse_configTargets-release.cmake",
+    "lib/cmake/SuiteSparse_config/SuiteSparse_configTargets.cmake",
+    "lib/libsuitesparseconfig.7.10.1.dylib",
+    "lib/libsuitesparseconfig.7.dylib",
+    "lib/libsuitesparseconfig.dylib",
+    "lib/pkgconfig/SuiteSparse_config.pc"
+  ],
+  "fn": "libsuitesparseconfig-7.10.1-h4a8fc20_7100102.conda",
+  "license": "BSD-3-Clause",
+  "link": {
+    "source": "/Users/Carlos/miniforge3/pkgs/libsuitesparseconfig-7.10.1-h4a8fc20_7100102",
+    "type": 1
+  },
+  "md5": "7ffecea6d807f0bd69a3e136a409ced3",
+  "name": "libsuitesparseconfig",
+  "package_tarball_full_path": "/Users/Carlos/miniforge3/pkgs/libsuitesparseconfig-7.10.1-h4a8fc20_7100102.conda",
+  "paths_data": {
+    "paths": [
+      {
+        "_path": "include/suitesparse/SuiteSparse_config.h",
+        "path_type": "hardlink",
+        "sha256": "34633120e1a8d89d4b92d05767a1c1cb681606f6e3440524dd7b7c2a727a64ec",
+        "sha256_in_prefix": "34633120e1a8d89d4b92d05767a1c1cb681606f6e3440524dd7b7c2a727a64ec",
+        "size_in_bytes": 96131
+      },
+      {
+        "_path": "lib/cmake/SuiteSparse/SuiteSparseBLAS.cmake",
+        "path_type": "hardlink",
+        "sha256": "3e339b452ace423bbc8a709925bf62a6bfb035b553aee86e091e8721ff9b22c2",
+        "sha256_in_prefix": "3e339b452ace423bbc8a709925bf62a6bfb035b553aee86e091e8721ff9b22c2",
+        "size_in_bytes": 8204
+      },
+      {
+        "_path": "lib/cmake/SuiteSparse/SuiteSparseBLAS32.cmake",
+        "path_type": "hardlink",
+        "sha256": "305f498226d1cca440f841bce8f66b88e107b4c4f7d8874bc1bc1e1ce61ad7a6",
+        "sha256_in_prefix": "305f498226d1cca440f841bce8f66b88e107b4c4f7d8874bc1bc1e1ce61ad7a6",
+        "size_in_bytes": 640
+      },
+      {
+        "_path": "lib/cmake/SuiteSparse/SuiteSparseBLAS64.cmake",
+        "path_type": "hardlink",
+        "sha256": "037eb4e5a7a2d65ee20acaca7445ebb05eab0a3f9b077620c6344e6354a3bacf",
+        "sha256_in_prefix": "037eb4e5a7a2d65ee20acaca7445ebb05eab0a3f9b077620c6344e6354a3bacf",
+        "size_in_bytes": 2186
+      },
+      {
+        "_path": "lib/cmake/SuiteSparse/SuiteSparseLAPACK.cmake",
+        "path_type": "hardlink",
+        "sha256": "ba1198ed68e0d4ec11b376952049cf352649f5ee54a0a6cd867da2467bd9aef8",
+        "sha256_in_prefix": "ba1198ed68e0d4ec11b376952049cf352649f5ee54a0a6cd867da2467bd9aef8",
+        "size_in_bytes": 2308
+      },
+      {
+        "_path": "lib/cmake/SuiteSparse/SuiteSparsePolicy.cmake",
+        "path_type": "hardlink",
+        "sha256": "366b17e859ae54f31e8ea530d7cfc179ed0c6ebd583b5f6abf440baaf75fbd2b",
+        "sha256_in_prefix": "366b17e859ae54f31e8ea530d7cfc179ed0c6ebd583b5f6abf440baaf75fbd2b",
+        "size_in_bytes": 16683
+      },
+      {
+        "_path": "lib/cmake/SuiteSparse/SuiteSparseReport.cmake",
+        "path_type": "hardlink",
+        "sha256": "ecae14f2ce2e53b3c5e678619061327ee1f0bad6572a61ffab53c62cc75e93d3",
+        "sha256_in_prefix": "ecae14f2ce2e53b3c5e678619061327ee1f0bad6572a61ffab53c62cc75e93d3",
+        "size_in_bytes": 2440
+      },
+      {
+        "_path": "lib/cmake/SuiteSparse/SuiteSparse__thread.cmake",
+        "path_type": "hardlink",
+        "sha256": "fcf1630b375129eb0ba3c1f06a6bd589dc571e24180f0c82eeba0e528a907f21",
+        "sha256_in_prefix": "fcf1630b375129eb0ba3c1f06a6bd589dc571e24180f0c82eeba0e528a907f21",
+        "size_in_bytes": 1989
+      },
+      {
+        "_path": "lib/cmake/SuiteSparse_config/SuiteSparse_configConfig.cmake",
+        "path_type": "hardlink",
+        "sha256": "86ec10d6a5f4e72a85eb6381bc44d9f48434651a0efb2454475fb9cde6b7396d",
+        "sha256_in_prefix": "86ec10d6a5f4e72a85eb6381bc44d9f48434651a0efb2454475fb9cde6b7396d",
+        "size_in_bytes": 7881
+      },
+      {
+        "_path": "lib/cmake/SuiteSparse_config/SuiteSparse_configConfigVersion.cmake",
+        "path_type": "hardlink",
+        "sha256": "795e1bd2a2960ddbd3c157498e497e12cde81a3ef41e1f541d46e369fd9dd680",
+        "sha256_in_prefix": "795e1bd2a2960ddbd3c157498e497e12cde81a3ef41e1f541d46e369fd9dd680",
+        "size_in_bytes": 2765
+      },
+      {
+        "_path": "lib/cmake/SuiteSparse_config/SuiteSparse_configTargets-release.cmake",
+        "path_type": "hardlink",
+        "sha256": "0c1c95c73e59817bbb12f21980a84b7efbb16117865f3c9326fab32ae6c93120",
+        "sha256_in_prefix": "0c1c95c73e59817bbb12f21980a84b7efbb16117865f3c9326fab32ae6c93120",
+        "size_in_bytes": 981
+      },
+      {
+        "_path": "lib/cmake/SuiteSparse_config/SuiteSparse_configTargets.cmake",
+        "path_type": "hardlink",
+        "sha256": "7765a5fd12284c1f30db98c9d6e52200a63be93f2073e43d62e2f68ece806fcd",
+        "sha256_in_prefix": "7765a5fd12284c1f30db98c9d6e52200a63be93f2073e43d62e2f68ece806fcd",
+        "size_in_bytes": 4449
+      },
+      {
+        "_path": "lib/libsuitesparseconfig.7.10.1.dylib",
+        "path_type": "hardlink",
+        "sha256": "7e7598201bdec1991e8bbfa28fc438541c07d8fe802104a0e406ee41a0946924",
+        "sha256_in_prefix": "7e7598201bdec1991e8bbfa28fc438541c07d8fe802104a0e406ee41a0946924",
+        "size_in_bytes": 53504
+      },
+      {
+        "_path": "lib/libsuitesparseconfig.7.dylib",
+        "path_type": "softlink",
+        "sha256": "7e7598201bdec1991e8bbfa28fc438541c07d8fe802104a0e406ee41a0946924",
+        "size_in_bytes": 33
+      },
+      {
+        "_path": "lib/libsuitesparseconfig.dylib",
+        "path_type": "softlink",
+        "sha256": "7e7598201bdec1991e8bbfa28fc438541c07d8fe802104a0e406ee41a0946924",
+        "size_in_bytes": 28
+      },
+      {
+        "_path": "lib/pkgconfig/SuiteSparse_config.pc",
+        "file_mode": "text",
+        "path_type": "hardlink",
+        "prefix_placeholder": "/Users/runner/miniforge3/conda-bld/bld/rattler-build_libsuitesparseconfig_1742288952/host_env_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_p",
+        "sha256": "2e298b9f3fc3d51af4ec5094cfa3c7b6957d94d1f2d9313abcc475d88d217d1f",
+        "sha256_in_prefix": "2ee7f858dfe6fe6e4e1892df943b70e8cf78ea6d9c832e7452b228460a4d396e",
+        "size_in_bytes": 698
+      }
+    ],
+    "paths_version": 1
+  },
+  "requested_spec": "None",
+  "sha256": "847b393bfb5c8db10923544e44dcb5ba78e5978cbd841b04b7dc626a2b3c3306",
+  "size": 41963,
+  "subdir": "osx-arm64",
+  "timestamp": 1742288952000,
+  "url": "https://conda-forge.fredhutch.org/conda-forge/osx-arm64/libsuitesparseconfig-7.10.1-h4a8fc20_7100102.conda",
+  "version": "7.10.1"
+}

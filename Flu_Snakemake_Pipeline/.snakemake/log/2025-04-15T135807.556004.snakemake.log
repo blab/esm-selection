@@ -1,0 +1,139 @@
+Assuming unrestricted shared filesystem usage.
+None
+host: Nicolass-MacBook-Pro-2.local
+Building DAG of jobs...
+Creating conda environment envs/nextstrain_env.yaml...
+Downloading and installing remote packages.
+Cleaning up conda package tarballs.
+Environment for /Users/Carlos/Desktop/Bedford/esm-selection/Flu_Snakemake_Pipeline/envs/nextstrain_env.yaml created (location: .snakemake/conda/c68281f7da3953da89c92cd799f1e235_)
+Using shell: /bin/bash
+Provided cores: 8
+Rules claiming more threads will be scaled down.
+Job stats:
+job                    count
+-------------------  -------
+all                        1
+extract_node_fastas        8
+total                      9
+
+Select jobs to execute...
+Execute 8 jobs...
+[Tue Apr 15 13:59:00 2025]
+localrule extract_node_fastas:
+    input: h3n2_Sequences/h3n2_60y_np.json, root_tree_translated/h3n2_60y_np_root-sequence.json, scripts/extract_fasta_nodes.py
+    output: node_fastas/nodeSeqs_np.fasta
+    jobid: 7
+    reason: Missing output files: node_fastas/nodeSeqs_np.fasta
+    wildcards: segment=np
+    resources: tmpdir=/var/folders/d9/c2g9f9wx3sz_p7hzxj26b9w00000gp/T
+
+Activating conda environment: .snakemake/conda/c68281f7da3953da89c92cd799f1e235_
+[Tue Apr 15 13:59:00 2025]
+localrule extract_node_fastas:
+    input: h3n2_Sequences/h3n2_60y_pa.json, root_tree_translated/h3n2_60y_pa_root-sequence.json, scripts/extract_fasta_nodes.py
+    output: node_fastas/nodeSeqs_pa.fasta
+    jobid: 5
+    reason: Missing output files: node_fastas/nodeSeqs_pa.fasta
+    wildcards: segment=pa
+    resources: tmpdir=/var/folders/d9/c2g9f9wx3sz_p7hzxj26b9w00000gp/T
+
+Activating conda environment: .snakemake/conda/c68281f7da3953da89c92cd799f1e235_
+[Tue Apr 15 13:59:00 2025]
+localrule extract_node_fastas:
+    input: h3n2_Sequences/h3n2_60y_ha.json, root_tree_translated/h3n2_60y_ha_root-sequence.json, scripts/extract_fasta_nodes.py
+    output: node_fastas/nodeSeqs_ha.fasta
+    jobid: 15
+    reason: Missing output files: node_fastas/nodeSeqs_ha.fasta
+    wildcards: segment=ha
+    resources: tmpdir=/var/folders/d9/c2g9f9wx3sz_p7hzxj26b9w00000gp/T
+
+Activating conda environment: .snakemake/conda/c68281f7da3953da89c92cd799f1e235_
+[Tue Apr 15 13:59:00 2025]
+localrule extract_node_fastas:
+    input: h3n2_Sequences/h3n2_60y_ns.json, root_tree_translated/h3n2_60y_ns_root-sequence.json, scripts/extract_fasta_nodes.py
+    output: node_fastas/nodeSeqs_ns.fasta
+    jobid: 13
+    reason: Missing output files: node_fastas/nodeSeqs_ns.fasta
+    wildcards: segment=ns
+    resources: tmpdir=/var/folders/d9/c2g9f9wx3sz_p7hzxj26b9w00000gp/T
+
+Activating conda environment: .snakemake/conda/c68281f7da3953da89c92cd799f1e235_
+[Tue Apr 15 13:59:00 2025]
+localrule extract_node_fastas:
+    input: h3n2_Sequences/h3n2_60y_pb1.json, root_tree_translated/h3n2_60y_pb1_root-sequence.json, scripts/extract_fasta_nodes.py
+    output: node_fastas/nodeSeqs_pb1.fasta
+    jobid: 3
+    reason: Missing output files: node_fastas/nodeSeqs_pb1.fasta
+    wildcards: segment=pb1
+    resources: tmpdir=/var/folders/d9/c2g9f9wx3sz_p7hzxj26b9w00000gp/T
+
+Activating conda environment: .snakemake/conda/c68281f7da3953da89c92cd799f1e235_
+[Tue Apr 15 13:59:00 2025]
+localrule extract_node_fastas:
+    input: h3n2_Sequences/h3n2_60y_mp.json, root_tree_translated/h3n2_60y_mp_root-sequence.json, scripts/extract_fasta_nodes.py
+    output: node_fastas/nodeSeqs_mp.fasta
+    jobid: 11
+    reason: Missing output files: node_fastas/nodeSeqs_mp.fasta
+    wildcards: segment=mp
+    resources: tmpdir=/var/folders/d9/c2g9f9wx3sz_p7hzxj26b9w00000gp/T
+
+Activating conda environment: .snakemake/conda/c68281f7da3953da89c92cd799f1e235_
+[Tue Apr 15 13:59:00 2025]
+localrule extract_node_fastas:
+    input: h3n2_Sequences/h3n2_60y_pb2.json, root_tree_translated/h3n2_60y_pb2_root-sequence.json, scripts/extract_fasta_nodes.py
+    output: node_fastas/nodeSeqs_pb2.fasta
+    jobid: 1
+    reason: Missing output files: node_fastas/nodeSeqs_pb2.fasta
+    wildcards: segment=pb2
+    resources: tmpdir=/var/folders/d9/c2g9f9wx3sz_p7hzxj26b9w00000gp/T
+
+Activating conda environment: .snakemake/conda/c68281f7da3953da89c92cd799f1e235_
+[Tue Apr 15 13:59:00 2025]
+localrule extract_node_fastas:
+    input: h3n2_Sequences/h3n2_60y_na.json, root_tree_translated/h3n2_60y_na_root-sequence.json, scripts/extract_fasta_nodes.py
+    output: node_fastas/nodeSeqs_na.fasta
+    jobid: 9
+    reason: Missing output files: node_fastas/nodeSeqs_na.fasta
+    wildcards: segment=na
+    resources: tmpdir=/var/folders/d9/c2g9f9wx3sz_p7hzxj26b9w00000gp/T
+
+Activating conda environment: .snakemake/conda/c68281f7da3953da89c92cd799f1e235_
+Waiting for more resources.
+[Tue Apr 15 13:59:15 2025]
+Finished jobid: 11 (Rule: extract_node_fastas)
+1 of 9 steps (11%) done
+[Tue Apr 15 13:59:15 2025]
+Finished jobid: 7 (Rule: extract_node_fastas)
+2 of 9 steps (22%) done
+[Tue Apr 15 13:59:15 2025]
+Finished jobid: 1 (Rule: extract_node_fastas)
+3 of 9 steps (33%) done
+[Tue Apr 15 13:59:15 2025]
+Finished jobid: 5 (Rule: extract_node_fastas)
+4 of 9 steps (44%) done
+[Tue Apr 15 13:59:15 2025]
+Finished jobid: 13 (Rule: extract_node_fastas)
+5 of 9 steps (56%) done
+[Tue Apr 15 13:59:15 2025]
+Finished jobid: 3 (Rule: extract_node_fastas)
+6 of 9 steps (67%) done
+[Tue Apr 15 13:59:15 2025]
+Finished jobid: 9 (Rule: extract_node_fastas)
+7 of 9 steps (78%) done
+[Tue Apr 15 13:59:16 2025]
+Finished jobid: 15 (Rule: extract_node_fastas)
+8 of 9 steps (89%) done
+Select jobs to execute...
+Execute 1 jobs...
+[Tue Apr 15 13:59:16 2025]
+localrule all:
+    input: node_fastas/nodeSeqs_pb2.fasta, node_fastas/nodeSeqs_pb1.fasta, node_fastas/nodeSeqs_pa.fasta, node_fastas/nodeSeqs_np.fasta, node_fastas/nodeSeqs_na.fasta, node_fastas/nodeSeqs_mp.fasta, node_fastas/nodeSeqs_ns.fasta, node_fastas/nodeSeqs_ha.fasta
+    jobid: 0
+    reason: Input files updated by another job: node_fastas/nodeSeqs_na.fasta, node_fastas/nodeSeqs_pa.fasta, node_fastas/nodeSeqs_ha.fasta, node_fastas/nodeSeqs_ns.fasta, node_fastas/nodeSeqs_pb1.fasta, node_fastas/nodeSeqs_pb2.fasta, node_fastas/nodeSeqs_mp.fasta, node_fastas/nodeSeqs_np.fasta
+    resources: tmpdir=/var/folders/d9/c2g9f9wx3sz_p7hzxj26b9w00000gp/T
+
+Waiting for more resources.
+[Tue Apr 15 13:59:16 2025]
+Finished jobid: 0 (Rule: all)
+9 of 9 steps (100%) done
+Complete log(s): /Users/Carlos/Desktop/Bedford/esm-selection/Flu_Snakemake_Pipeline/.snakemake/log/2025-04-15T135807.556004.snakemake.log

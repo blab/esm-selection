@@ -1,0 +1,10 @@
+prefix=/Users/Carlos/Desktop/Bedford/esm-selection/.snakemake/conda/a346902d4ce1c004fa4946f9ad3317cf_
+libdir=${prefix}/lib
+includedir=${prefix}/include
+
+Name: qhullstatic_r
+Description: Qhull reentrant static library
+Version: 8.0.2
+Libs: -L${libdir} -lqhullstatic_r
+Cflags: -I${includedir}
+

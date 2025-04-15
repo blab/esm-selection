@@ -1,0 +1,141 @@
+{
+  "build": "py311h84f6924_0",
+  "build_number": 0,
+  "channel": "https://conda-forge.fredhutch.org/bioconda/osx-arm64",
+  "constrains": [],
+  "depends": [
+    "libzlib >=1.3.1,<2.0a0",
+    "python_abi 3.11.* *_cp311",
+    "python >=3.11,<3.12.0a0"
+  ],
+  "extracted_package_dir": "/Users/Carlos/miniforge3/pkgs/pyfastx-2.2.0-py311h84f6924_0",
+  "files": [
+    "bin/pyfastx",
+    "lib/python3.11/site-packages/__pycache__/pyfastxcli.cpython-311.pyc",
+    "lib/python3.11/site-packages/pyfastx-2.2.0.dist-info/INSTALLER",
+    "lib/python3.11/site-packages/pyfastx-2.2.0.dist-info/LICENSE",
+    "lib/python3.11/site-packages/pyfastx-2.2.0.dist-info/METADATA",
+    "lib/python3.11/site-packages/pyfastx-2.2.0.dist-info/RECORD",
+    "lib/python3.11/site-packages/pyfastx-2.2.0.dist-info/REQUESTED",
+    "lib/python3.11/site-packages/pyfastx-2.2.0.dist-info/WHEEL",
+    "lib/python3.11/site-packages/pyfastx-2.2.0.dist-info/direct_url.json",
+    "lib/python3.11/site-packages/pyfastx-2.2.0.dist-info/entry_points.txt",
+    "lib/python3.11/site-packages/pyfastx-2.2.0.dist-info/top_level.txt",
+    "lib/python3.11/site-packages/pyfastx.cpython-311-darwin.so",
+    "lib/python3.11/site-packages/pyfastxcli.py"
+  ],
+  "fn": "pyfastx-2.2.0-py311h84f6924_0.tar.bz2",
+  "license": "MIT",
+  "link": {
+    "source": "/Users/Carlos/miniforge3/pkgs/pyfastx-2.2.0-py311h84f6924_0",
+    "type": 1
+  },
+  "md5": "c3fb475cd0e965588c1c14976d2e27ce",
+  "name": "pyfastx",
+  "package_tarball_full_path": "/Users/Carlos/miniforge3/pkgs/pyfastx-2.2.0-py311h84f6924_0",
+  "paths_data": {
+    "paths": [
+      {
+        "_path": "bin/pyfastx",
+        "file_mode": "text",
+        "path_type": "hardlink",
+        "prefix_placeholder": "/opt/mambaforge/envs/bioconda/conda-bld/pyfastx_1735886577588/_h_env_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placeh",
+        "sha256": "7ea4536ab731e6ba74eb10948919824b8ec906275548385316124c20d8429de4",
+        "sha256_in_prefix": "47c8906d46b16053496de060d37b2148459c3bb071484a3aa668d6992288b23b",
+        "size_in_bytes": 463
+      },
+      {
+        "_path": "lib/python3.11/site-packages/__pycache__/pyfastxcli.cpython-311.pyc",
+        "path_type": "hardlink",
+        "sha256": "59bf60e85709f3117df29afb23946238ee885fcb85b7b340b8c422e43f410a9d",
+        "sha256_in_prefix": "59bf60e85709f3117df29afb23946238ee885fcb85b7b340b8c422e43f410a9d",
+        "size_in_bytes": 25456
+      },
+      {
+        "_path": "lib/python3.11/site-packages/pyfastx-2.2.0.dist-info/INSTALLER",
+        "path_type": "hardlink",
+        "sha256": "d0edee15f91b406f3f99726e44eb990be6e34fd0345b52b910c568e0eef6a2a8",
+        "sha256_in_prefix": "d0edee15f91b406f3f99726e44eb990be6e34fd0345b52b910c568e0eef6a2a8",
+        "size_in_bytes": 5
+      },
+      {
+        "_path": "lib/python3.11/site-packages/pyfastx-2.2.0.dist-info/LICENSE",
+        "path_type": "hardlink",
+        "sha256": "7ddd2d6e5cdb6c9f80a3d5ea53443a13eed3e106abf9d9ff4a6e73f6776dc12b",
+        "sha256_in_prefix": "7ddd2d6e5cdb6c9f80a3d5ea53443a13eed3e106abf9d9ff4a6e73f6776dc12b",
+        "size_in_bytes": 1077
+      },
+      {
+        "_path": "lib/python3.11/site-packages/pyfastx-2.2.0.dist-info/METADATA",
+        "path_type": "hardlink",
+        "sha256": "7a799fcec2470875a3fc5cfa04314037d7bb4a302a8e8d2d85b19c6fb26e98af",
+        "sha256_in_prefix": "7a799fcec2470875a3fc5cfa04314037d7bb4a302a8e8d2d85b19c6fb26e98af",
+        "size_in_bytes": 30503
+      },
+      {
+        "_path": "lib/python3.11/site-packages/pyfastx-2.2.0.dist-info/RECORD",
+        "path_type": "hardlink",
+        "sha256": "b384b31cdb41dce7683ae7a56bf2f2e7a7d0cafcbc0e6fa64988a9a0ac51ec00",
+        "sha256_in_prefix": "b384b31cdb41dce7683ae7a56bf2f2e7a7d0cafcbc0e6fa64988a9a0ac51ec00",
+        "size_in_bytes": 1042
+      },
+      {
+        "_path": "lib/python3.11/site-packages/pyfastx-2.2.0.dist-info/REQUESTED",
+        "path_type": "hardlink",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "sha256_in_prefix": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_in_bytes": 0
+      },
+      {
+        "_path": "lib/python3.11/site-packages/pyfastx-2.2.0.dist-info/WHEEL",
+        "path_type": "hardlink",
+        "sha256": "6837fe216426ab54555d1ff90a4d6a3e6ddeef1c72e1979249d5b8659034ed1f",
+        "sha256_in_prefix": "6837fe216426ab54555d1ff90a4d6a3e6ddeef1c72e1979249d5b8659034ed1f",
+        "size_in_bytes": 109
+      },
+      {
+        "_path": "lib/python3.11/site-packages/pyfastx-2.2.0.dist-info/direct_url.json",
+        "path_type": "hardlink",
+        "sha256": "4cbd0a22134ea4696a763708f9a8e4389b1f2385146f4ef88900566f1c32557c",
+        "sha256_in_prefix": "4cbd0a22134ea4696a763708f9a8e4389b1f2385146f4ef88900566f1c32557c",
+        "size_in_bytes": 100
+      },
+      {
+        "_path": "lib/python3.11/site-packages/pyfastx-2.2.0.dist-info/entry_points.txt",
+        "path_type": "hardlink",
+        "sha256": "b7f851e78b04c1de4a2bc4fe54833945d98ba50d6a15b36029948ff35558522a",
+        "sha256_in_prefix": "b7f851e78b04c1de4a2bc4fe54833945d98ba50d6a15b36029948ff35558522a",
+        "size_in_bytes": 44
+      },
+      {
+        "_path": "lib/python3.11/site-packages/pyfastx-2.2.0.dist-info/top_level.txt",
+        "path_type": "hardlink",
+        "sha256": "4ac5d396e855c21ae6cf3366093a6d8e7f161aa24abbfeb68434850e87be77a7",
+        "sha256_in_prefix": "4ac5d396e855c21ae6cf3366093a6d8e7f161aa24abbfeb68434850e87be77a7",
+        "size_in_bytes": 19
+      },
+      {
+        "_path": "lib/python3.11/site-packages/pyfastx.cpython-311-darwin.so",
+        "path_type": "hardlink",
+        "sha256": "57e2a7b9ab25bd87b81bed053e5621bdf29b50b186c0c1444a8eaac8344cff27",
+        "sha256_in_prefix": "57e2a7b9ab25bd87b81bed053e5621bdf29b50b186c0c1444a8eaac8344cff27",
+        "size_in_bytes": 1312544
+      },
+      {
+        "_path": "lib/python3.11/site-packages/pyfastxcli.py",
+        "path_type": "hardlink",
+        "sha256": "ab7015de51317c0f20dd38622f0a2b25fed7be8fc0223bf8b4f3bb920df51976",
+        "sha256_in_prefix": "ab7015de51317c0f20dd38622f0a2b25fed7be8fc0223bf8b4f3bb920df51976",
+        "size_in_bytes": 13741
+      }
+    ],
+    "paths_version": 1
+  },
+  "requested_spec": "None",
+  "sha256": "d755d802a09f2eb5f44fa4e678407502386f689396b804e824d6af7d6c61faf5",
+  "size": 650512,
+  "subdir": "osx-arm64",
+  "timestamp": 1735886648000,
+  "url": "https://conda-forge.fredhutch.org/bioconda/osx-arm64/pyfastx-2.2.0-py311h84f6924_0.tar.bz2",
+  "version": "2.2.0"
+}

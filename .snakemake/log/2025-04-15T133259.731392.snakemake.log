@@ -1,0 +1,6 @@
+Assuming unrestricted shared filesystem usage.
+None
+host: Nicolass-MacBook-Pro-2.local
+Building DAG of jobs...
+IOFileException in file "/Users/Carlos/Desktop/Bedford/esm-selection/Snakefile", line 9:
+bad character in group name 'wildcards.segment' at position 34 in wildcard statement

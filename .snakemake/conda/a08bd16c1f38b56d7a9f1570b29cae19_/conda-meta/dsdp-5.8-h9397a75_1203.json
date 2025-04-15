@@ -1,0 +1,91 @@
+{
+  "build": "h9397a75_1203",
+  "build_number": 1203,
+  "channel": "https://conda-forge.fredhutch.org/conda-forge/osx-arm64",
+  "constrains": [],
+  "depends": [
+    "libblas >=3.9.0,<4.0a0",
+    "liblapack >=3.9.0,<4.0a0",
+    "libcblas >=3.9.0,<4.0a0"
+  ],
+  "extracted_package_dir": "/Users/Carlos/miniforge3/pkgs/dsdp-5.8-h9397a75_1203",
+  "files": [
+    "bin/dsdp5",
+    "include/dsdp5.h",
+    "include/dsdpbasictypes.h",
+    "include/dsdplapack.h",
+    "include/dsdpmem.h",
+    "include/dsdpsys.h",
+    "lib/libdsdp.dylib"
+  ],
+  "fn": "dsdp-5.8-h9397a75_1203.tar.bz2",
+  "license": "DSDP",
+  "link": {
+    "source": "/Users/Carlos/miniforge3/pkgs/dsdp-5.8-h9397a75_1203",
+    "type": 1
+  },
+  "md5": "e406c442ad102deb751b6f5f33b9afc3",
+  "name": "dsdp",
+  "package_tarball_full_path": "/Users/Carlos/miniforge3/pkgs/dsdp-5.8-h9397a75_1203",
+  "paths_data": {
+    "paths": [
+      {
+        "_path": "bin/dsdp5",
+        "path_type": "hardlink",
+        "sha256": "6593bec57b17df197d16a55666eb8dd3867d2d82c00a04c9a351d5bed5343ea7",
+        "sha256_in_prefix": "6593bec57b17df197d16a55666eb8dd3867d2d82c00a04c9a351d5bed5343ea7",
+        "size_in_bytes": 88112
+      },
+      {
+        "_path": "include/dsdp5.h",
+        "path_type": "hardlink",
+        "sha256": "b6215f5712cf5c818749abf7e7028785a7fffc7e6906df94320e03db0f78a88c",
+        "sha256_in_prefix": "b6215f5712cf5c818749abf7e7028785a7fffc7e6906df94320e03db0f78a88c",
+        "size_in_bytes": 8980
+      },
+      {
+        "_path": "include/dsdpbasictypes.h",
+        "path_type": "hardlink",
+        "sha256": "bacf461ea04e033a0e7c86f7e23caba873717013caf287a47a6d15978832a540",
+        "sha256_in_prefix": "bacf461ea04e033a0e7c86f7e23caba873717013caf287a47a6d15978832a540",
+        "size_in_bytes": 2304
+      },
+      {
+        "_path": "include/dsdplapack.h",
+        "path_type": "hardlink",
+        "sha256": "d4be4186ca975b2f0ffcf2fe2e2c5c717274e42cae3cd240ab4be64668babbd3",
+        "sha256_in_prefix": "d4be4186ca975b2f0ffcf2fe2e2c5c717274e42cae3cd240ab4be64668babbd3",
+        "size_in_bytes": 6583
+      },
+      {
+        "_path": "include/dsdpmem.h",
+        "path_type": "hardlink",
+        "sha256": "e70f758eedd626c54c873ab0ed67837fe561cd265701e94b7be04e5263c5aee3",
+        "sha256_in_prefix": "e70f758eedd626c54c873ab0ed67837fe561cd265701e94b7be04e5263c5aee3",
+        "size_in_bytes": 2240
+      },
+      {
+        "_path": "include/dsdpsys.h",
+        "path_type": "hardlink",
+        "sha256": "4f12fb263fb8aebae633bdcc3bb397dfecd534398e5bd48389e43d23ab5edd6a",
+        "sha256_in_prefix": "4f12fb263fb8aebae633bdcc3bb397dfecd534398e5bd48389e43d23ab5edd6a",
+        "size_in_bytes": 2283
+      },
+      {
+        "_path": "lib/libdsdp.dylib",
+        "path_type": "hardlink",
+        "sha256": "e403231c9ca5c9254ec04816043f58254eff633715cd01c6d9400ee713fbf5aa",
+        "sha256_in_prefix": "e403231c9ca5c9254ec04816043f58254eff633715cd01c6d9400ee713fbf5aa",
+        "size_in_bytes": 432704
+      }
+    ],
+    "paths_version": 1
+  },
+  "requested_spec": "None",
+  "sha256": "f63b502f6c9e838bc2ff7f98bc752871134ffa31ec2f03b53d5e2f55539108ba",
+  "size": 200831,
+  "subdir": "osx-arm64",
+  "timestamp": 1605432837000,
+  "url": "https://conda-forge.fredhutch.org/conda-forge/osx-arm64/dsdp-5.8-h9397a75_1203.tar.bz2",
+  "version": "5.8"
+}

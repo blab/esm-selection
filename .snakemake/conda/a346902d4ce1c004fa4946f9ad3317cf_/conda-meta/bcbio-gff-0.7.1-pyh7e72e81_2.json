@@ -1,0 +1,167 @@
+{
+  "build": "pyh7e72e81_2",
+  "build_number": 2,
+  "channel": "https://conda-forge.fredhutch.org/bioconda/noarch",
+  "constrains": [],
+  "depends": [
+    "biopython <=1.86",
+    "bx-python",
+    "python",
+    "six"
+  ],
+  "extracted_package_dir": "/Users/Carlos/miniforge3/pkgs/bcbio-gff-0.7.1-pyh7e72e81_2",
+  "files": [
+    "lib/python3.11/site-packages/BCBio/GFF/GFFOutput.py",
+    "lib/python3.11/site-packages/BCBio/GFF/GFFParser.py",
+    "lib/python3.11/site-packages/BCBio/GFF/__init__.py",
+    "lib/python3.11/site-packages/BCBio/GFF/_utils.py",
+    "lib/python3.11/site-packages/BCBio/__init__.py",
+    "lib/python3.11/site-packages/bcbio_gff-0.7.1.dist-info/INSTALLER",
+    "lib/python3.11/site-packages/bcbio_gff-0.7.1.dist-info/LICENSE",
+    "lib/python3.11/site-packages/bcbio_gff-0.7.1.dist-info/METADATA",
+    "lib/python3.11/site-packages/bcbio_gff-0.7.1.dist-info/RECORD",
+    "lib/python3.11/site-packages/bcbio_gff-0.7.1.dist-info/REQUESTED",
+    "lib/python3.11/site-packages/bcbio_gff-0.7.1.dist-info/WHEEL",
+    "lib/python3.11/site-packages/bcbio_gff-0.7.1.dist-info/direct_url.json",
+    "lib/python3.11/site-packages/bcbio_gff-0.7.1.dist-info/top_level.txt",
+    "lib/python3.11/site-packages/BCBio/GFF/__pycache__/GFFOutput.cpython-311.pyc",
+    "lib/python3.11/site-packages/BCBio/GFF/__pycache__/GFFParser.cpython-311.pyc",
+    "lib/python3.11/site-packages/BCBio/GFF/__pycache__/__init__.cpython-311.pyc",
+    "lib/python3.11/site-packages/BCBio/GFF/__pycache__/_utils.cpython-311.pyc",
+    "lib/python3.11/site-packages/BCBio/__pycache__/__init__.cpython-311.pyc"
+  ],
+  "fn": "bcbio-gff-0.7.1-pyh7e72e81_2.tar.bz2",
+  "license": "Biopython License Agreement",
+  "link": {
+    "source": "/Users/Carlos/miniforge3/pkgs/bcbio-gff-0.7.1-pyh7e72e81_2",
+    "type": 1
+  },
+  "md5": "6e4203bff55d74b1633daa186b1438d7",
+  "name": "bcbio-gff",
+  "noarch": "python",
+  "package_tarball_full_path": "/Users/Carlos/miniforge3/pkgs/bcbio-gff-0.7.1-pyh7e72e81_2.tar.bz2",
+  "package_type": "noarch_python",
+  "paths_data": {
+    "paths": [
+      {
+        "_path": "site-packages/BCBio/GFF/GFFOutput.py",
+        "path_type": "hardlink",
+        "sha256": "578f587e1d076837ff14217b1470ea20b21844ddb488a33daa98c80bb2a0cae8",
+        "sha256_in_prefix": "578f587e1d076837ff14217b1470ea20b21844ddb488a33daa98c80bb2a0cae8",
+        "size_in_bytes": 7562
+      },
+      {
+        "_path": "site-packages/BCBio/GFF/GFFParser.py",
+        "path_type": "hardlink",
+        "sha256": "9d6d87838afaee2b058c6af5c37de449861aa31d3cd65113ba1cc30af39e1d02",
+        "sha256_in_prefix": "9d6d87838afaee2b058c6af5c37de449861aa31d3cd65113ba1cc30af39e1d02",
+        "size_in_bytes": 38683
+      },
+      {
+        "_path": "site-packages/BCBio/GFF/__init__.py",
+        "path_type": "hardlink",
+        "sha256": "4c409a004038ce9d7e8020134c19f515a3f2de7de5b0cfe7dfadb0e09b82d36f",
+        "sha256_in_prefix": "4c409a004038ce9d7e8020134c19f515a3f2de7de5b0cfe7dfadb0e09b82d36f",
+        "size_in_bytes": 237
+      },
+      {
+        "_path": "site-packages/BCBio/GFF/_utils.py",
+        "path_type": "hardlink",
+        "sha256": "1eead5873fd1af66b1849244b94cae3b7f6e6f5ce7564f9b49dce2b3cf439a4b",
+        "sha256_in_prefix": "1eead5873fd1af66b1849244b94cae3b7f6e6f5ce7564f9b49dce2b3cf439a4b",
+        "size_in_bytes": 1392
+      },
+      {
+        "_path": "site-packages/BCBio/__init__.py",
+        "path_type": "hardlink",
+        "sha256": "a268b766f75d4583c92d0aeacd6c6b437e5feaefe59ade54dc0177b0b648095c",
+        "sha256_in_prefix": "a268b766f75d4583c92d0aeacd6c6b437e5feaefe59ade54dc0177b0b648095c",
+        "size_in_bytes": 20
+      },
+      {
+        "_path": "site-packages/bcbio_gff-0.7.1.dist-info/INSTALLER",
+        "path_type": "hardlink",
+        "sha256": "d0edee15f91b406f3f99726e44eb990be6e34fd0345b52b910c568e0eef6a2a8",
+        "sha256_in_prefix": "d0edee15f91b406f3f99726e44eb990be6e34fd0345b52b910c568e0eef6a2a8",
+        "size_in_bytes": 5
+      },
+      {
+        "_path": "site-packages/bcbio_gff-0.7.1.dist-info/LICENSE",
+        "path_type": "hardlink",
+        "sha256": "df0691ed58128a5171528a15e7f4ab2ccb7b6fefc7697700c672dbbd25b42e41",
+        "sha256_in_prefix": "df0691ed58128a5171528a15e7f4ab2ccb7b6fefc7697700c672dbbd25b42e41",
+        "size_in_bytes": 1047
+      },
+      {
+        "_path": "site-packages/bcbio_gff-0.7.1.dist-info/METADATA",
+        "path_type": "hardlink",
+        "sha256": "3e05faa166af79db63074d4b6425185c9910fc18b6237e6afd4260b58f38b2eb",
+        "sha256_in_prefix": "3e05faa166af79db63074d4b6425185c9910fc18b6237e6afd4260b58f38b2eb",
+        "size_in_bytes": 343
+      },
+      {
+        "_path": "site-packages/bcbio_gff-0.7.1.dist-info/RECORD",
+        "path_type": "hardlink",
+        "sha256": "051573dd438af94d2c57dfac8eb7dd2343a2df49abf0f57734269b6d2ffec838",
+        "sha256_in_prefix": "051573dd438af94d2c57dfac8eb7dd2343a2df49abf0f57734269b6d2ffec838",
+        "size_in_bytes": 1311
+      },
+      {
+        "_path": "site-packages/bcbio_gff-0.7.1.dist-info/REQUESTED",
+        "path_type": "hardlink",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "sha256_in_prefix": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_in_bytes": 0
+      },
+      {
+        "_path": "site-packages/bcbio_gff-0.7.1.dist-info/WHEEL",
+        "path_type": "hardlink",
+        "sha256": "31d8bd3c3370119a6d3a34e551c02d87b5c90c5b4aac761a40c3ee9597810a24",
+        "sha256_in_prefix": "31d8bd3c3370119a6d3a34e551c02d87b5c90c5b4aac761a40c3ee9597810a24",
+        "size_in_bytes": 91
+      },
+      {
+        "_path": "site-packages/bcbio_gff-0.7.1.dist-info/direct_url.json",
+        "path_type": "hardlink",
+        "sha256": "6e2e60adb6ffaa1f4444da85b4f5deefabf017630538314e20f36aed02bce58f",
+        "sha256_in_prefix": "6e2e60adb6ffaa1f4444da85b4f5deefabf017630538314e20f36aed02bce58f",
+        "size_in_bytes": 83
+      },
+      {
+        "_path": "site-packages/bcbio_gff-0.7.1.dist-info/top_level.txt",
+        "path_type": "hardlink",
+        "sha256": "d74bc6ac561db3205137ee5f4f3d8ece698cfcc494ebda5908233674a5c8276b",
+        "sha256_in_prefix": "d74bc6ac561db3205137ee5f4f3d8ece698cfcc494ebda5908233674a5c8276b",
+        "size_in_bytes": 6
+      },
+      {
+        "_path": "lib/python3.11/site-packages/BCBio/GFF/__pycache__/GFFOutput.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/BCBio/GFF/__pycache__/GFFParser.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/BCBio/GFF/__pycache__/__init__.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/BCBio/GFF/__pycache__/_utils.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/BCBio/__pycache__/__init__.cpython-311.pyc",
+        "path_type": "pyc_file"
+      }
+    ],
+    "paths_version": 1
+  },
+  "requested_spec": "None",
+  "sha256": "2db414ca5c086630233ece8e2056e5c4342020c07c1ffc46aa99ed19c5d8b200",
+  "size": 21938,
+  "subdir": "noarch",
+  "timestamp": 1725522773000,
+  "url": "https://conda-forge.fredhutch.org/bioconda/noarch/bcbio-gff-0.7.1-pyh7e72e81_2.tar.bz2",
+  "version": "0.7.1"
+}

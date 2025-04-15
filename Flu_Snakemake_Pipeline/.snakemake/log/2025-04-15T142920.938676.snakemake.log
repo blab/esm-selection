@@ -1,0 +1,15 @@
+Assuming unrestricted shared filesystem usage.
+None
+host: Nicolass-MacBook-Pro-2.local
+Building DAG of jobs...
+MissingInputException in rule all in file "/Users/Carlos/Desktop/Bedford/esm-selection/Flu_Snakemake_Pipeline/Snakefile", line 4:
+Missing input files for rule all:
+    affected files:
+        max_freqs/max_freqs_pb1.json
+        max_freqs/max_freqs_na.json
+        max_freqs/max_freqs_ns.json
+        max_freqs/max_freqs_np.json
+        max_freqs/max_freqs_ha.json
+        max_freqs/max_freqs_pb2.json
+        max_freqs/max_freqs_mp.json
+        max_freqs/max_freqs_pa.json

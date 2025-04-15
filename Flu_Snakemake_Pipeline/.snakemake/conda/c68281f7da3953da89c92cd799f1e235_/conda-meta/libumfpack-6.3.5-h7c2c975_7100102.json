@@ -1,0 +1,109 @@
+{
+  "build": "h7c2c975_7100102",
+  "build_number": 7100102,
+  "channel": "https://conda-forge.fredhutch.org/conda-forge/osx-arm64",
+  "constrains": [],
+  "depends": [
+    "__osx >=11.0",
+    "libamd >=3.3.3,<4.0a0",
+    "libsuitesparseconfig >=7.10.1,<8.0a0",
+    "libblas >=3.9.0,<4.0a0",
+    "libcholmod >=5.3.1,<6.0a0"
+  ],
+  "extracted_package_dir": "/Users/Carlos/miniforge3/pkgs/libumfpack-6.3.5-h7c2c975_7100102",
+  "files": [
+    "include/suitesparse/umfpack.h",
+    "lib/cmake/UMFPACK/UMFPACKConfig.cmake",
+    "lib/cmake/UMFPACK/UMFPACKConfigVersion.cmake",
+    "lib/cmake/UMFPACK/UMFPACKTargets-release.cmake",
+    "lib/cmake/UMFPACK/UMFPACKTargets.cmake",
+    "lib/libumfpack.6.3.5.dylib",
+    "lib/libumfpack.6.dylib",
+    "lib/libumfpack.dylib",
+    "lib/pkgconfig/UMFPACK.pc"
+  ],
+  "fn": "libumfpack-6.3.5-h7c2c975_7100102.conda",
+  "license": "GPL-2.0-or-later",
+  "link": {
+    "source": "/Users/Carlos/miniforge3/pkgs/libumfpack-6.3.5-h7c2c975_7100102",
+    "type": 1
+  },
+  "md5": "ca1a54d25f34317fecb0a134e94d3cab",
+  "name": "libumfpack",
+  "package_tarball_full_path": "/Users/Carlos/miniforge3/pkgs/libumfpack-6.3.5-h7c2c975_7100102",
+  "paths_data": {
+    "paths": [
+      {
+        "_path": "include/suitesparse/umfpack.h",
+        "path_type": "hardlink",
+        "sha256": "dcf8af2881b35a59a296bad7a186aa26faca8a4194dee4bc3fb85f22251cbb7a",
+        "sha256_in_prefix": "dcf8af2881b35a59a296bad7a186aa26faca8a4194dee4bc3fb85f22251cbb7a",
+        "size_in_bytes": 222007
+      },
+      {
+        "_path": "lib/cmake/UMFPACK/UMFPACKConfig.cmake",
+        "path_type": "hardlink",
+        "sha256": "768e4b4e47439a806df50789e546502594aa7cb7b5ac044381ab787fe8fe0b36",
+        "sha256_in_prefix": "768e4b4e47439a806df50789e546502594aa7cb7b5ac044381ab787fe8fe0b36",
+        "size_in_bytes": 7636
+      },
+      {
+        "_path": "lib/cmake/UMFPACK/UMFPACKConfigVersion.cmake",
+        "path_type": "hardlink",
+        "sha256": "7faeea5addcf7a383cc9858695bea874648ee8a7cbc355b6a73673def88c9af3",
+        "sha256_in_prefix": "7faeea5addcf7a383cc9858695bea874648ee8a7cbc355b6a73673def88c9af3",
+        "size_in_bytes": 2762
+      },
+      {
+        "_path": "lib/cmake/UMFPACK/UMFPACKTargets-release.cmake",
+        "path_type": "hardlink",
+        "sha256": "1417e65aa3f312c2299d53c0c0f6987039a8d91389a21bd47325b2c8362fd917",
+        "sha256_in_prefix": "1417e65aa3f312c2299d53c0c0f6987039a8d91389a21bd47325b2c8362fd917",
+        "size_in_bytes": 1014
+      },
+      {
+        "_path": "lib/cmake/UMFPACK/UMFPACKTargets.cmake",
+        "path_type": "hardlink",
+        "sha256": "33dd211f42e9f69788cfce0645fdcffa1b042d200021d1ed46039ff59241f708",
+        "sha256_in_prefix": "33dd211f42e9f69788cfce0645fdcffa1b042d200021d1ed46039ff59241f708",
+        "size_in_bytes": 4361
+      },
+      {
+        "_path": "lib/libumfpack.6.3.5.dylib",
+        "path_type": "hardlink",
+        "sha256": "554702b23f55b79f0ce5f77f6b66e8ad66a5f3205b7598662e3b82aa2004a30e",
+        "sha256_in_prefix": "554702b23f55b79f0ce5f77f6b66e8ad66a5f3205b7598662e3b82aa2004a30e",
+        "size_in_bytes": 655200
+      },
+      {
+        "_path": "lib/libumfpack.6.dylib",
+        "path_type": "softlink",
+        "sha256": "554702b23f55b79f0ce5f77f6b66e8ad66a5f3205b7598662e3b82aa2004a30e",
+        "size_in_bytes": 22
+      },
+      {
+        "_path": "lib/libumfpack.dylib",
+        "path_type": "softlink",
+        "sha256": "554702b23f55b79f0ce5f77f6b66e8ad66a5f3205b7598662e3b82aa2004a30e",
+        "size_in_bytes": 18
+      },
+      {
+        "_path": "lib/pkgconfig/UMFPACK.pc",
+        "file_mode": "text",
+        "path_type": "hardlink",
+        "prefix_placeholder": "/Users/runner/miniforge3/conda-bld/bld/rattler-build_libumfpack_1742288952/host_env_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_p",
+        "sha256": "0b4e98bb291a15daa4c3d43d19f77f00583e669e145a2f43f28ae3d6167d308b",
+        "sha256_in_prefix": "b110954e3047011dfac7c7755c71fa713621527f7c2a3d9317fd0eb948ba270a",
+        "size_in_bytes": 757
+      }
+    ],
+    "paths_version": 1
+  },
+  "requested_spec": "None",
+  "sha256": "a7d2d337e953a3ff641efb5bb1842c6d3f66a0a21718a1d354f4841432bf3204",
+  "size": 295754,
+  "subdir": "osx-arm64",
+  "timestamp": 1742288952000,
+  "url": "https://conda-forge.fredhutch.org/conda-forge/osx-arm64/libumfpack-6.3.5-h7c2c975_7100102.conda",
+  "version": "6.3.5"
+}

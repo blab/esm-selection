@@ -1,0 +1,146 @@
+{
+  "build": "pyhd8ed1ab_0",
+  "build_number": 0,
+  "channel": "https://conda-forge.fredhutch.org/conda-forge/noarch",
+  "constrains": [],
+  "depends": [
+    "python >=3.5"
+  ],
+  "extracted_package_dir": "/Users/Carlos/miniforge3/pkgs/bracex-2.2.1-pyhd8ed1ab_0",
+  "files": [
+    "lib/python3.11/site-packages/bracex-2.2.1.dist-info/INSTALLER",
+    "lib/python3.11/site-packages/bracex-2.2.1.dist-info/LICENSE.md",
+    "lib/python3.11/site-packages/bracex-2.2.1.dist-info/METADATA",
+    "lib/python3.11/site-packages/bracex-2.2.1.dist-info/RECORD",
+    "lib/python3.11/site-packages/bracex-2.2.1.dist-info/REQUESTED",
+    "lib/python3.11/site-packages/bracex-2.2.1.dist-info/WHEEL",
+    "lib/python3.11/site-packages/bracex-2.2.1.dist-info/direct_url.json",
+    "lib/python3.11/site-packages/bracex-2.2.1.dist-info/top_level.txt",
+    "lib/python3.11/site-packages/bracex/__init__.py",
+    "lib/python3.11/site-packages/bracex/__main__.py",
+    "lib/python3.11/site-packages/bracex/__meta__.py",
+    "lib/python3.11/site-packages/bracex/py.typed",
+    "lib/python3.11/site-packages/bracex/__pycache__/__init__.cpython-311.pyc",
+    "lib/python3.11/site-packages/bracex/__pycache__/__main__.cpython-311.pyc",
+    "lib/python3.11/site-packages/bracex/__pycache__/__meta__.cpython-311.pyc"
+  ],
+  "fn": "bracex-2.2.1-pyhd8ed1ab_0.tar.bz2",
+  "license": "MIT",
+  "link": {
+    "source": "/Users/Carlos/miniforge3/pkgs/bracex-2.2.1-pyhd8ed1ab_0",
+    "type": 1
+  },
+  "md5": "586272349d7bef5b1ef527b56dca73cb",
+  "name": "bracex",
+  "noarch": "python",
+  "package_tarball_full_path": "/Users/Carlos/miniforge3/pkgs/bracex-2.2.1-pyhd8ed1ab_0.tar.bz2",
+  "package_type": "noarch_python",
+  "paths_data": {
+    "paths": [
+      {
+        "_path": "site-packages/bracex-2.2.1.dist-info/INSTALLER",
+        "path_type": "hardlink",
+        "sha256": "d0edee15f91b406f3f99726e44eb990be6e34fd0345b52b910c568e0eef6a2a8",
+        "sha256_in_prefix": "d0edee15f91b406f3f99726e44eb990be6e34fd0345b52b910c568e0eef6a2a8",
+        "size_in_bytes": 5
+      },
+      {
+        "_path": "site-packages/bracex-2.2.1.dist-info/LICENSE.md",
+        "path_type": "hardlink",
+        "sha256": "2deddc58e4488251f7ee8ed5b24dd9bbda31e68f3dbbd6e8a1b9cae0e4f1fb8e",
+        "sha256_in_prefix": "2deddc58e4488251f7ee8ed5b24dd9bbda31e68f3dbbd6e8a1b9cae0e4f1fb8e",
+        "size_in_bytes": 1076
+      },
+      {
+        "_path": "site-packages/bracex-2.2.1.dist-info/METADATA",
+        "path_type": "hardlink",
+        "sha256": "8e4c44bb402e884b6ffbb684c66693bb58fe0fa9114c8add1b7a3727e814277f",
+        "sha256_in_prefix": "8e4c44bb402e884b6ffbb684c66693bb58fe0fa9114c8add1b7a3727e814277f",
+        "size_in_bytes": 4720
+      },
+      {
+        "_path": "site-packages/bracex-2.2.1.dist-info/RECORD",
+        "path_type": "hardlink",
+        "sha256": "30929f9cf2b89aecf930e51dec7b51a09f230680195b64ccd667f8672256f901",
+        "sha256_in_prefix": "30929f9cf2b89aecf930e51dec7b51a09f230680195b64ccd667f8672256f901",
+        "size_in_bytes": 1097
+      },
+      {
+        "_path": "site-packages/bracex-2.2.1.dist-info/REQUESTED",
+        "path_type": "hardlink",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "sha256_in_prefix": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_in_bytes": 0
+      },
+      {
+        "_path": "site-packages/bracex-2.2.1.dist-info/WHEEL",
+        "path_type": "hardlink",
+        "sha256": "7b0c04b9e8a8d42d977874ef4f5ee7f1d6542603afc82582b7459534b0a53fda",
+        "sha256_in_prefix": "7b0c04b9e8a8d42d977874ef4f5ee7f1d6542603afc82582b7459534b0a53fda",
+        "size_in_bytes": 92
+      },
+      {
+        "_path": "site-packages/bracex-2.2.1.dist-info/direct_url.json",
+        "path_type": "hardlink",
+        "sha256": "8d9f8b3f200ece06b24d928a44fb58f259a17c75201f7d78e00df74099fa8f84",
+        "sha256_in_prefix": "8d9f8b3f200ece06b24d928a44fb58f259a17c75201f7d78e00df74099fa8f84",
+        "size_in_bytes": 102
+      },
+      {
+        "_path": "site-packages/bracex-2.2.1.dist-info/top_level.txt",
+        "path_type": "hardlink",
+        "sha256": "23c8286fc63f2888bd4a4aa28af87924fe13a7dfd20f178554c95035d99d3dfb",
+        "sha256_in_prefix": "23c8286fc63f2888bd4a4aa28af87924fe13a7dfd20f178554c95035d99d3dfb",
+        "size_in_bytes": 7
+      },
+      {
+        "_path": "site-packages/bracex/__init__.py",
+        "path_type": "hardlink",
+        "sha256": "99f25f22eb19de10c9dc21ba2cd477ed9d1c42f740abc3755c62fc00d2c476ff",
+        "sha256_in_prefix": "99f25f22eb19de10c9dc21ba2cd477ed9d1c42f740abc3755c62fc00d2c476ff",
+        "size_in_bytes": 15311
+      },
+      {
+        "_path": "site-packages/bracex/__main__.py",
+        "path_type": "hardlink",
+        "sha256": "b09bb74b4c09d9f71cd0ec19b6534d66f97be5dba8143dde9c83e38c25f7b342",
+        "sha256_in_prefix": "b09bb74b4c09d9f71cd0ec19b6534d66f97be5dba8143dde9c83e38c25f7b342",
+        "size_in_bytes": 2480
+      },
+      {
+        "_path": "site-packages/bracex/__meta__.py",
+        "path_type": "hardlink",
+        "sha256": "a1617a64d563418e5c6e432c952c5ed7594ac689a1d48492e97f92d4caf80c07",
+        "sha256_in_prefix": "a1617a64d563418e5c6e432c952c5ed7594ac689a1d48492e97f92d4caf80c07",
+        "size_in_bytes": 6849
+      },
+      {
+        "_path": "site-packages/bracex/py.typed",
+        "path_type": "hardlink",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "sha256_in_prefix": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_in_bytes": 0
+      },
+      {
+        "_path": "lib/python3.11/site-packages/bracex/__pycache__/__init__.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/bracex/__pycache__/__main__.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/bracex/__pycache__/__meta__.cpython-311.pyc",
+        "path_type": "pyc_file"
+      }
+    ],
+    "paths_version": 1
+  },
+  "requested_spec": "None",
+  "sha256": "e3f867b5be7837366e989df8f6e64f94ec180676fea3494285ee873f24921156",
+  "size": 14045,
+  "subdir": "noarch",
+  "timestamp": 1636190617000,
+  "url": "https://conda-forge.fredhutch.org/conda-forge/noarch/bracex-2.2.1-pyhd8ed1ab_0.tar.bz2",
+  "version": "2.2.1"
+}

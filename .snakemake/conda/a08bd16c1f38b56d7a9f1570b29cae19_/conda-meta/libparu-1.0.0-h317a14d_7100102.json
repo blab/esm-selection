@@ -1,0 +1,110 @@
+{
+  "build": "h317a14d_7100102",
+  "build_number": 7100102,
+  "channel": "https://conda-forge.fredhutch.org/conda-forge/osx-arm64",
+  "constrains": [],
+  "depends": [
+    "__osx >=11.0",
+    "libcxx >=18",
+    "libblas >=3.9.0,<4.0a0",
+    "llvm-openmp >=18.1.8",
+    "libsuitesparseconfig >=7.10.1,<8.0a0",
+    "libumfpack >=6.3.5,<7.0a0"
+  ],
+  "extracted_package_dir": "/Users/Carlos/miniforge3/pkgs/libparu-1.0.0-h317a14d_7100102",
+  "files": [
+    "include/suitesparse/ParU.h",
+    "lib/cmake/ParU/ParUConfig.cmake",
+    "lib/cmake/ParU/ParUConfigVersion.cmake",
+    "lib/cmake/ParU/ParUTargets-release.cmake",
+    "lib/cmake/ParU/ParUTargets.cmake",
+    "lib/libparu.1.0.0.dylib",
+    "lib/libparu.1.dylib",
+    "lib/libparu.dylib",
+    "lib/pkgconfig/ParU.pc"
+  ],
+  "fn": "libparu-1.0.0-h317a14d_7100102.conda",
+  "license": "GPL-3.0-or-later",
+  "link": {
+    "source": "/Users/Carlos/miniforge3/pkgs/libparu-1.0.0-h317a14d_7100102",
+    "type": 1
+  },
+  "md5": "a4a9867ec265528a89b4759951957504",
+  "name": "libparu",
+  "package_tarball_full_path": "/Users/Carlos/miniforge3/pkgs/libparu-1.0.0-h317a14d_7100102",
+  "paths_data": {
+    "paths": [
+      {
+        "_path": "include/suitesparse/ParU.h",
+        "path_type": "hardlink",
+        "sha256": "cbc9b4bfa9cf678db22a90d164b3de7e2423ead6415b1fcf1e65635edf2faadb",
+        "sha256_in_prefix": "cbc9b4bfa9cf678db22a90d164b3de7e2423ead6415b1fcf1e65635edf2faadb",
+        "size_in_bytes": 36374
+      },
+      {
+        "_path": "lib/cmake/ParU/ParUConfig.cmake",
+        "path_type": "hardlink",
+        "sha256": "ca62ddb7e1de1023af0b7364967c4972cff67adaf9e040ddbae563e776c6bc50",
+        "sha256_in_prefix": "ca62ddb7e1de1023af0b7364967c4972cff67adaf9e040ddbae563e776c6bc50",
+        "size_in_bytes": 8888
+      },
+      {
+        "_path": "lib/cmake/ParU/ParUConfigVersion.cmake",
+        "path_type": "hardlink",
+        "sha256": "f1e79939dfaba0392f914537e69e0ad7ba208bd0e661cb35004e4ad51c3c1310",
+        "sha256_in_prefix": "f1e79939dfaba0392f914537e69e0ad7ba208bd0e661cb35004e4ad51c3c1310",
+        "size_in_bytes": 2762
+      },
+      {
+        "_path": "lib/cmake/ParU/ParUTargets-release.cmake",
+        "path_type": "hardlink",
+        "sha256": "c3f737c5f8c4ed1facda7e2d72adaa426a5950efa446b7e9f2d69c15474932b6",
+        "sha256_in_prefix": "c3f737c5f8c4ed1facda7e2d72adaa426a5950efa446b7e9f2d69c15474932b6",
+        "size_in_bytes": 973
+      },
+      {
+        "_path": "lib/cmake/ParU/ParUTargets.cmake",
+        "path_type": "hardlink",
+        "sha256": "9e66ee9dff0d6069c5bc767ca1dc0e71fd38f8f8277fb9a36e5df80c2759f6a9",
+        "sha256_in_prefix": "9e66ee9dff0d6069c5bc767ca1dc0e71fd38f8f8277fb9a36e5df80c2759f6a9",
+        "size_in_bytes": 4418
+      },
+      {
+        "_path": "lib/libparu.1.0.0.dylib",
+        "path_type": "hardlink",
+        "sha256": "f88991f44b46a3c0aaed16adb1374e5f58df4bd51da50d5e5fa0af30f1544a19",
+        "sha256_in_prefix": "f88991f44b46a3c0aaed16adb1374e5f58df4bd51da50d5e5fa0af30f1544a19",
+        "size_in_bytes": 156080
+      },
+      {
+        "_path": "lib/libparu.1.dylib",
+        "path_type": "softlink",
+        "sha256": "f88991f44b46a3c0aaed16adb1374e5f58df4bd51da50d5e5fa0af30f1544a19",
+        "size_in_bytes": 19
+      },
+      {
+        "_path": "lib/libparu.dylib",
+        "path_type": "softlink",
+        "sha256": "f88991f44b46a3c0aaed16adb1374e5f58df4bd51da50d5e5fa0af30f1544a19",
+        "size_in_bytes": 15
+      },
+      {
+        "_path": "lib/pkgconfig/ParU.pc",
+        "file_mode": "text",
+        "path_type": "hardlink",
+        "prefix_placeholder": "/Users/runner/miniforge3/conda-bld/bld/rattler-build_libparu_1742288952/host_env_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_plac",
+        "sha256": "f05e28fa3226e2f57000a0bfbfe5801c3d6cb81b42f77a7675f33e0f38d412dc",
+        "sha256_in_prefix": "56f12a52373bd5ee538b3220b2558b480d4fd09ade698b8ea9dc55f12edd2b05",
+        "size_in_bytes": 806
+      }
+    ],
+    "paths_version": 1
+  },
+  "requested_spec": "None",
+  "sha256": "5f5e9eda2add2100cc4ec7c53859114af6667fee8fc9f7c4832077a507de608f",
+  "size": 84753,
+  "subdir": "osx-arm64",
+  "timestamp": 1742288952000,
+  "url": "https://conda-forge.fredhutch.org/conda-forge/osx-arm64/libparu-1.0.0-h317a14d_7100102.conda",
+  "version": "1.0.0"
+}

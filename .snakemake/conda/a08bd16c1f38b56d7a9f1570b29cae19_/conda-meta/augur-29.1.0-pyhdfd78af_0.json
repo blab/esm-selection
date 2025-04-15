@@ -1,0 +1,1305 @@
+{
+  "build": "pyhdfd78af_0",
+  "build_number": 0,
+  "channel": "https://conda-forge.fredhutch.org/bioconda/noarch",
+  "constrains": [],
+  "depends": [
+    "mafft",
+    "iqtree",
+    "fasttree",
+    "raxml",
+    "vcftools",
+    "python >=3.9",
+    "packaging >=19.2",
+    "cvxopt >=1.1.9,<2",
+    "isodate >=0.6.0,<0.7",
+    "numpy >=1.0.0,<2",
+    "scipy >=1.0.0,<2",
+    "pyfastx >=1.0.0,<3",
+    "treetime >=0.11.2,<0.12",
+    "biopython >=1.80,<2",
+    "bcbio-gff >=0.7.1,<0.8",
+    "networkx >=2.5,<4",
+    "python-calamine >=0.2.0",
+    "sqlite >=3.39,<4",
+    "jsonschema >=4.18.0,<5",
+    "xopen >=2.0.0,<3",
+    "pandas >=1.4.0,<3"
+  ],
+  "extracted_package_dir": "/Users/Carlos/miniforge3/pkgs/augur-29.1.0-pyhdfd78af_0",
+  "files": [
+    "lib/python3.11/site-packages/augur/__init__.py",
+    "lib/python3.11/site-packages/augur/__main__.py",
+    "lib/python3.11/site-packages/augur/__version__.py",
+    "lib/python3.11/site-packages/augur/align.py",
+    "lib/python3.11/site-packages/augur/ancestral.py",
+    "lib/python3.11/site-packages/augur/argparse_.py",
+    "lib/python3.11/site-packages/augur/clades.py",
+    "lib/python3.11/site-packages/augur/curate/__init__.py",
+    "lib/python3.11/site-packages/augur/curate/abbreviate_authors.py",
+    "lib/python3.11/site-packages/augur/curate/apply_geolocation_rules.py",
+    "lib/python3.11/site-packages/augur/curate/apply_record_annotations.py",
+    "lib/python3.11/site-packages/augur/curate/format_dates.py",
+    "lib/python3.11/site-packages/augur/curate/format_dates_directives.py",
+    "lib/python3.11/site-packages/augur/curate/normalize_strings.py",
+    "lib/python3.11/site-packages/augur/curate/parse_genbank_location.py",
+    "lib/python3.11/site-packages/augur/curate/passthru.py",
+    "lib/python3.11/site-packages/augur/curate/rename.py",
+    "lib/python3.11/site-packages/augur/curate/titlecase.py",
+    "lib/python3.11/site-packages/augur/curate/transform_strain_name.py",
+    "lib/python3.11/site-packages/augur/data/__init__.py",
+    "lib/python3.11/site-packages/augur/data/colors.tsv",
+    "lib/python3.11/site-packages/augur/data/geolocation_rules.tsv",
+    "lib/python3.11/site-packages/augur/data/lat_longs.tsv",
+    "lib/python3.11/site-packages/augur/data/schema-annotations.json",
+    "lib/python3.11/site-packages/augur/data/schema-auspice-config-v2.json",
+    "lib/python3.11/site-packages/augur/data/schema-export-root-sequence.json",
+    "lib/python3.11/site-packages/augur/data/schema-export-v1-meta.json",
+    "lib/python3.11/site-packages/augur/data/schema-export-v1-tree.json",
+    "lib/python3.11/site-packages/augur/data/schema-export-v2.json",
+    "lib/python3.11/site-packages/augur/data/schema-frequencies.json",
+    "lib/python3.11/site-packages/augur/data/schema-measurements-collection-config.json",
+    "lib/python3.11/site-packages/augur/data/schema-measurements.json",
+    "lib/python3.11/site-packages/augur/data/schema-tip-frequencies.json",
+    "lib/python3.11/site-packages/augur/dates/__init__.py",
+    "lib/python3.11/site-packages/augur/dates/ambiguous_date.py",
+    "lib/python3.11/site-packages/augur/dates/errors.py",
+    "lib/python3.11/site-packages/augur/debug.py",
+    "lib/python3.11/site-packages/augur/distance.py",
+    "lib/python3.11/site-packages/augur/errors.py",
+    "lib/python3.11/site-packages/augur/export.py",
+    "lib/python3.11/site-packages/augur/export_v1.py",
+    "lib/python3.11/site-packages/augur/export_v2.py",
+    "lib/python3.11/site-packages/augur/filter/__init__.py",
+    "lib/python3.11/site-packages/augur/filter/_run.py",
+    "lib/python3.11/site-packages/augur/filter/constants.py",
+    "lib/python3.11/site-packages/augur/filter/include_exclude_rules.py",
+    "lib/python3.11/site-packages/augur/filter/io.py",
+    "lib/python3.11/site-packages/augur/filter/subsample.py",
+    "lib/python3.11/site-packages/augur/filter/validate_arguments.py",
+    "lib/python3.11/site-packages/augur/filter/weights_file.py",
+    "lib/python3.11/site-packages/augur/frequencies.py",
+    "lib/python3.11/site-packages/augur/frequency_estimators.py",
+    "lib/python3.11/site-packages/augur/import_/__init__.py",
+    "lib/python3.11/site-packages/augur/import_/beast.py",
+    "lib/python3.11/site-packages/augur/index.py",
+    "lib/python3.11/site-packages/augur/io/__init__.py",
+    "lib/python3.11/site-packages/augur/io/file.py",
+    "lib/python3.11/site-packages/augur/io/json.py",
+    "lib/python3.11/site-packages/augur/io/metadata.py",
+    "lib/python3.11/site-packages/augur/io/print.py",
+    "lib/python3.11/site-packages/augur/io/sequences.py",
+    "lib/python3.11/site-packages/augur/io/shell_command_runner.py",
+    "lib/python3.11/site-packages/augur/io/strains.py",
+    "lib/python3.11/site-packages/augur/io/vcf.py",
+    "lib/python3.11/site-packages/augur/lbi.py",
+    "lib/python3.11/site-packages/augur/mask.py",
+    "lib/python3.11/site-packages/augur/measurements/__init__.py",
+    "lib/python3.11/site-packages/augur/measurements/concat.py",
+    "lib/python3.11/site-packages/augur/measurements/export.py",
+    "lib/python3.11/site-packages/augur/merge.py",
+    "lib/python3.11/site-packages/augur/parse.py",
+    "lib/python3.11/site-packages/augur/read_file.py",
+    "lib/python3.11/site-packages/augur/reconstruct_sequences.py",
+    "lib/python3.11/site-packages/augur/refine.py",
+    "lib/python3.11/site-packages/augur/sequence_traits.py",
+    "lib/python3.11/site-packages/augur/titer_model.py",
+    "lib/python3.11/site-packages/augur/titers.py",
+    "lib/python3.11/site-packages/augur/traits.py",
+    "lib/python3.11/site-packages/augur/translate.py",
+    "lib/python3.11/site-packages/augur/tree.py",
+    "lib/python3.11/site-packages/augur/types.py",
+    "lib/python3.11/site-packages/augur/util_support/__init__.py",
+    "lib/python3.11/site-packages/augur/util_support/auspice_config.py",
+    "lib/python3.11/site-packages/augur/util_support/color_parser.py",
+    "lib/python3.11/site-packages/augur/util_support/color_parser_line.py",
+    "lib/python3.11/site-packages/augur/util_support/node_data.py",
+    "lib/python3.11/site-packages/augur/util_support/node_data_file.py",
+    "lib/python3.11/site-packages/augur/util_support/node_data_reader.py",
+    "lib/python3.11/site-packages/augur/util_support/warnings.py",
+    "lib/python3.11/site-packages/augur/utils.py",
+    "lib/python3.11/site-packages/augur/validate.py",
+    "lib/python3.11/site-packages/augur/validate_export.py",
+    "lib/python3.11/site-packages/augur/version.py",
+    "lib/python3.11/site-packages/augur/write_file.py",
+    "lib/python3.11/site-packages/nextstrain_augur-29.1.0.dist-info/INSTALLER",
+    "lib/python3.11/site-packages/nextstrain_augur-29.1.0.dist-info/METADATA",
+    "lib/python3.11/site-packages/nextstrain_augur-29.1.0.dist-info/RECORD",
+    "lib/python3.11/site-packages/nextstrain_augur-29.1.0.dist-info/REQUESTED",
+    "lib/python3.11/site-packages/nextstrain_augur-29.1.0.dist-info/WHEEL",
+    "lib/python3.11/site-packages/nextstrain_augur-29.1.0.dist-info/direct_url.json",
+    "lib/python3.11/site-packages/nextstrain_augur-29.1.0.dist-info/entry_points.txt",
+    "lib/python3.11/site-packages/nextstrain_augur-29.1.0.dist-info/licenses/LICENSE.nextstrain-cli",
+    "lib/python3.11/site-packages/nextstrain_augur-29.1.0.dist-info/licenses/LICENSE.nextstrain-ncov-ingest",
+    "lib/python3.11/site-packages/nextstrain_augur-29.1.0.dist-info/licenses/LICENSE.txt",
+    "lib/python3.11/site-packages/nextstrain_augur-29.1.0.dist-info/top_level.txt",
+    "lib/python3.11/site-packages/augur/__pycache__/__init__.cpython-311.pyc",
+    "lib/python3.11/site-packages/augur/__pycache__/__main__.cpython-311.pyc",
+    "lib/python3.11/site-packages/augur/__pycache__/__version__.cpython-311.pyc",
+    "lib/python3.11/site-packages/augur/__pycache__/align.cpython-311.pyc",
+    "lib/python3.11/site-packages/augur/__pycache__/ancestral.cpython-311.pyc",
+    "lib/python3.11/site-packages/augur/__pycache__/argparse_.cpython-311.pyc",
+    "lib/python3.11/site-packages/augur/__pycache__/clades.cpython-311.pyc",
+    "lib/python3.11/site-packages/augur/curate/__pycache__/__init__.cpython-311.pyc",
+    "lib/python3.11/site-packages/augur/curate/__pycache__/abbreviate_authors.cpython-311.pyc",
+    "lib/python3.11/site-packages/augur/curate/__pycache__/apply_geolocation_rules.cpython-311.pyc",
+    "lib/python3.11/site-packages/augur/curate/__pycache__/apply_record_annotations.cpython-311.pyc",
+    "lib/python3.11/site-packages/augur/curate/__pycache__/format_dates.cpython-311.pyc",
+    "lib/python3.11/site-packages/augur/curate/__pycache__/format_dates_directives.cpython-311.pyc",
+    "lib/python3.11/site-packages/augur/curate/__pycache__/normalize_strings.cpython-311.pyc",
+    "lib/python3.11/site-packages/augur/curate/__pycache__/parse_genbank_location.cpython-311.pyc",
+    "lib/python3.11/site-packages/augur/curate/__pycache__/passthru.cpython-311.pyc",
+    "lib/python3.11/site-packages/augur/curate/__pycache__/rename.cpython-311.pyc",
+    "lib/python3.11/site-packages/augur/curate/__pycache__/titlecase.cpython-311.pyc",
+    "lib/python3.11/site-packages/augur/curate/__pycache__/transform_strain_name.cpython-311.pyc",
+    "lib/python3.11/site-packages/augur/data/__pycache__/__init__.cpython-311.pyc",
+    "lib/python3.11/site-packages/augur/dates/__pycache__/__init__.cpython-311.pyc",
+    "lib/python3.11/site-packages/augur/dates/__pycache__/ambiguous_date.cpython-311.pyc",
+    "lib/python3.11/site-packages/augur/dates/__pycache__/errors.cpython-311.pyc",
+    "lib/python3.11/site-packages/augur/__pycache__/debug.cpython-311.pyc",
+    "lib/python3.11/site-packages/augur/__pycache__/distance.cpython-311.pyc",
+    "lib/python3.11/site-packages/augur/__pycache__/errors.cpython-311.pyc",
+    "lib/python3.11/site-packages/augur/__pycache__/export.cpython-311.pyc",
+    "lib/python3.11/site-packages/augur/__pycache__/export_v1.cpython-311.pyc",
+    "lib/python3.11/site-packages/augur/__pycache__/export_v2.cpython-311.pyc",
+    "lib/python3.11/site-packages/augur/filter/__pycache__/__init__.cpython-311.pyc",
+    "lib/python3.11/site-packages/augur/filter/__pycache__/_run.cpython-311.pyc",
+    "lib/python3.11/site-packages/augur/filter/__pycache__/constants.cpython-311.pyc",
+    "lib/python3.11/site-packages/augur/filter/__pycache__/include_exclude_rules.cpython-311.pyc",
+    "lib/python3.11/site-packages/augur/filter/__pycache__/io.cpython-311.pyc",
+    "lib/python3.11/site-packages/augur/filter/__pycache__/subsample.cpython-311.pyc",
+    "lib/python3.11/site-packages/augur/filter/__pycache__/validate_arguments.cpython-311.pyc",
+    "lib/python3.11/site-packages/augur/filter/__pycache__/weights_file.cpython-311.pyc",
+    "lib/python3.11/site-packages/augur/__pycache__/frequencies.cpython-311.pyc",
+    "lib/python3.11/site-packages/augur/__pycache__/frequency_estimators.cpython-311.pyc",
+    "lib/python3.11/site-packages/augur/import_/__pycache__/__init__.cpython-311.pyc",
+    "lib/python3.11/site-packages/augur/import_/__pycache__/beast.cpython-311.pyc",
+    "lib/python3.11/site-packages/augur/__pycache__/index.cpython-311.pyc",
+    "lib/python3.11/site-packages/augur/io/__pycache__/__init__.cpython-311.pyc",
+    "lib/python3.11/site-packages/augur/io/__pycache__/file.cpython-311.pyc",
+    "lib/python3.11/site-packages/augur/io/__pycache__/json.cpython-311.pyc",
+    "lib/python3.11/site-packages/augur/io/__pycache__/metadata.cpython-311.pyc",
+    "lib/python3.11/site-packages/augur/io/__pycache__/print.cpython-311.pyc",
+    "lib/python3.11/site-packages/augur/io/__pycache__/sequences.cpython-311.pyc",
+    "lib/python3.11/site-packages/augur/io/__pycache__/shell_command_runner.cpython-311.pyc",
+    "lib/python3.11/site-packages/augur/io/__pycache__/strains.cpython-311.pyc",
+    "lib/python3.11/site-packages/augur/io/__pycache__/vcf.cpython-311.pyc",
+    "lib/python3.11/site-packages/augur/__pycache__/lbi.cpython-311.pyc",
+    "lib/python3.11/site-packages/augur/__pycache__/mask.cpython-311.pyc",
+    "lib/python3.11/site-packages/augur/measurements/__pycache__/__init__.cpython-311.pyc",
+    "lib/python3.11/site-packages/augur/measurements/__pycache__/concat.cpython-311.pyc",
+    "lib/python3.11/site-packages/augur/measurements/__pycache__/export.cpython-311.pyc",
+    "lib/python3.11/site-packages/augur/__pycache__/merge.cpython-311.pyc",
+    "lib/python3.11/site-packages/augur/__pycache__/parse.cpython-311.pyc",
+    "lib/python3.11/site-packages/augur/__pycache__/read_file.cpython-311.pyc",
+    "lib/python3.11/site-packages/augur/__pycache__/reconstruct_sequences.cpython-311.pyc",
+    "lib/python3.11/site-packages/augur/__pycache__/refine.cpython-311.pyc",
+    "lib/python3.11/site-packages/augur/__pycache__/sequence_traits.cpython-311.pyc",
+    "lib/python3.11/site-packages/augur/__pycache__/titer_model.cpython-311.pyc",
+    "lib/python3.11/site-packages/augur/__pycache__/titers.cpython-311.pyc",
+    "lib/python3.11/site-packages/augur/__pycache__/traits.cpython-311.pyc",
+    "lib/python3.11/site-packages/augur/__pycache__/translate.cpython-311.pyc",
+    "lib/python3.11/site-packages/augur/__pycache__/tree.cpython-311.pyc",
+    "lib/python3.11/site-packages/augur/__pycache__/types.cpython-311.pyc",
+    "lib/python3.11/site-packages/augur/util_support/__pycache__/__init__.cpython-311.pyc",
+    "lib/python3.11/site-packages/augur/util_support/__pycache__/auspice_config.cpython-311.pyc",
+    "lib/python3.11/site-packages/augur/util_support/__pycache__/color_parser.cpython-311.pyc",
+    "lib/python3.11/site-packages/augur/util_support/__pycache__/color_parser_line.cpython-311.pyc",
+    "lib/python3.11/site-packages/augur/util_support/__pycache__/node_data.cpython-311.pyc",
+    "lib/python3.11/site-packages/augur/util_support/__pycache__/node_data_file.cpython-311.pyc",
+    "lib/python3.11/site-packages/augur/util_support/__pycache__/node_data_reader.cpython-311.pyc",
+    "lib/python3.11/site-packages/augur/util_support/__pycache__/warnings.cpython-311.pyc",
+    "lib/python3.11/site-packages/augur/__pycache__/utils.cpython-311.pyc",
+    "lib/python3.11/site-packages/augur/__pycache__/validate.cpython-311.pyc",
+    "lib/python3.11/site-packages/augur/__pycache__/validate_export.cpython-311.pyc",
+    "lib/python3.11/site-packages/augur/__pycache__/version.cpython-311.pyc",
+    "lib/python3.11/site-packages/augur/__pycache__/write_file.cpython-311.pyc",
+    "bin/augur"
+  ],
+  "fn": "augur-29.1.0-pyhdfd78af_0.tar.bz2",
+  "license": "AGPL-3.0-only",
+  "link": {
+    "source": "/Users/Carlos/miniforge3/pkgs/augur-29.1.0-pyhdfd78af_0",
+    "type": 1
+  },
+  "md5": "95efb6caf3973f3f709b7c6cecb3fe28",
+  "name": "augur",
+  "noarch": "python",
+  "package_tarball_full_path": "/Users/Carlos/miniforge3/pkgs/augur-29.1.0-pyhdfd78af_0",
+  "package_type": "noarch_python",
+  "paths_data": {
+    "paths": [
+      {
+        "_path": "site-packages/augur/__init__.py",
+        "path_type": "hardlink",
+        "sha256": "c09c9df9c3ab2c6da5823e407dc3976655d0e6c081c43fcfe88a0fde33385a71",
+        "sha256_in_prefix": "c09c9df9c3ab2c6da5823e407dc3976655d0e6c081c43fcfe88a0fde33385a71",
+        "size_in_bytes": 4420
+      },
+      {
+        "_path": "site-packages/augur/__main__.py",
+        "path_type": "hardlink",
+        "sha256": "016a46b8bc1c156149ed10b8c5c2a7dd3291baeb9428ed9c5248a44eb2a2543c",
+        "sha256_in_prefix": "016a46b8bc1c156149ed10b8c5c2a7dd3291baeb9428ed9c5248a44eb2a2543c",
+        "size_in_bytes": 987
+      },
+      {
+        "_path": "site-packages/augur/__version__.py",
+        "path_type": "hardlink",
+        "sha256": "1dc3db12aaeb77e2931d5082defcddf58628d11501f0e4ba135e8dab5c1ab72f",
+        "sha256_in_prefix": "1dc3db12aaeb77e2931d5082defcddf58628d11501f0e4ba135e8dab5c1ab72f",
+        "size_in_bytes": 538
+      },
+      {
+        "_path": "site-packages/augur/align.py",
+        "path_type": "hardlink",
+        "sha256": "1f9bc94bf3ec51b5d3a56ddd487cffccb91af95f191b622b93ce67733024c396",
+        "sha256_in_prefix": "1f9bc94bf3ec51b5d3a56ddd487cffccb91af95f191b622b93ce67733024c396",
+        "size_in_bytes": 20035
+      },
+      {
+        "_path": "site-packages/augur/ancestral.py",
+        "path_type": "hardlink",
+        "sha256": "bb41390cda19e939b01ce65ab43b6fbe7b102da6bbac8a62a8c09dd202f854a3",
+        "sha256_in_prefix": "bb41390cda19e939b01ce65ab43b6fbe7b102da6bbac8a62a8c09dd202f854a3",
+        "size_in_bytes": 24343
+      },
+      {
+        "_path": "site-packages/augur/argparse_.py",
+        "path_type": "hardlink",
+        "sha256": "93e4ce4a3a81a1f81be6366af75b4f90789504c69aeed0b0ea0cc914ab65ff20",
+        "sha256_in_prefix": "93e4ce4a3a81a1f81be6366af75b4f90789504c69aeed0b0ea0cc914ab65ff20",
+        "size_in_bytes": 5773
+      },
+      {
+        "_path": "site-packages/augur/clades.py",
+        "path_type": "hardlink",
+        "sha256": "a5943e592b2c58942decdd0325023a0293e7609e75beaf065358530c2ae356c8",
+        "sha256_in_prefix": "a5943e592b2c58942decdd0325023a0293e7609e75beaf065358530c2ae356c8",
+        "size_in_bytes": 16519
+      },
+      {
+        "_path": "site-packages/augur/curate/__init__.py",
+        "path_type": "hardlink",
+        "sha256": "8bfd6c79927f7e455323c3abdca078c9e9fe2a89297a4301d3cf9e35187f4f1a",
+        "sha256_in_prefix": "8bfd6c79927f7e455323c3abdca078c9e9fe2a89297a4301d3cf9e35187f4f1a",
+        "size_in_bytes": 11154
+      },
+      {
+        "_path": "site-packages/augur/curate/abbreviate_authors.py",
+        "path_type": "hardlink",
+        "sha256": "0dd25209faebd1d66007075fef180494c8f162ff9f1cfda34b371ddb2240fddf",
+        "sha256_in_prefix": "0dd25209faebd1d66007075fef180494c8f162ff9f1cfda34b371ddb2240fddf",
+        "size_in_bytes": 2548
+      },
+      {
+        "_path": "site-packages/augur/curate/apply_geolocation_rules.py",
+        "path_type": "hardlink",
+        "sha256": "575ba90fb0b3f49147ec6b18e265df372e673115c2ce3b3a1702155d08b01283",
+        "sha256_in_prefix": "575ba90fb0b3f49147ec6b18e265df372e673115c2ce3b3a1702155d08b01283",
+        "size_in_bytes": 11378
+      },
+      {
+        "_path": "site-packages/augur/curate/apply_record_annotations.py",
+        "path_type": "hardlink",
+        "sha256": "d1c1e15d56925a733f972c7d412e9ae061ea392efde6f9a04195c4c3d43a743b",
+        "sha256_in_prefix": "d1c1e15d56925a733f972c7d412e9ae061ea392efde6f9a04195c4c3d43a743b",
+        "size_in_bytes": 2311
+      },
+      {
+        "_path": "site-packages/augur/curate/format_dates.py",
+        "path_type": "hardlink",
+        "sha256": "d2da70ff6d2e56a7c49c55db97f73f041a8101558028e7d40fa5b41814591d11",
+        "sha256_in_prefix": "d2da70ff6d2e56a7c49c55db97f73f041a8101558028e7d40fa5b41814591d11",
+        "size_in_bytes": 9493
+      },
+      {
+        "_path": "site-packages/augur/curate/format_dates_directives.py",
+        "path_type": "hardlink",
+        "sha256": "01098c91ed5c57c0bfccadff5913d3ad68c5799efd1ccb1a366663dac53dda37",
+        "sha256_in_prefix": "01098c91ed5c57c0bfccadff5913d3ad68c5799efd1ccb1a366663dac53dda37",
+        "size_in_bytes": 1058
+      },
+      {
+        "_path": "site-packages/augur/curate/normalize_strings.py",
+        "path_type": "hardlink",
+        "sha256": "672f0eca5f33b16b40512c47f9c562432b4fd71918c72b2bdd2b75a9e851a970",
+        "sha256_in_prefix": "672f0eca5f33b16b40512c47f9c562432b4fd71918c72b2bdd2b75a9e851a970",
+        "size_in_bytes": 1533
+      },
+      {
+        "_path": "site-packages/augur/curate/parse_genbank_location.py",
+        "path_type": "hardlink",
+        "sha256": "47de0fa9a8dc95f1b6e43954dc20fdfd2aecd34be6be7850f0333b1469f3cfa0",
+        "sha256_in_prefix": "47de0fa9a8dc95f1b6e43954dc20fdfd2aecd34be6be7850f0333b1469f3cfa0",
+        "size_in_bytes": 2088
+      },
+      {
+        "_path": "site-packages/augur/curate/passthru.py",
+        "path_type": "hardlink",
+        "sha256": "f041d3270c6df83df24148daa9fcadd387ea27eb32d97aef45011320054c9e0b",
+        "sha256_in_prefix": "f041d3270c6df83df24148daa9fcadd387ea27eb32d97aef45011320054c9e0b",
+        "size_in_bytes": 402
+      },
+      {
+        "_path": "site-packages/augur/curate/rename.py",
+        "path_type": "hardlink",
+        "sha256": "c7d187b7d9269270c0421732e1375505d29120e53d0fdf14427a7fcb4e816bf8",
+        "sha256_in_prefix": "c7d187b7d9269270c0421732e1375505d29120e53d0fdf14427a7fcb4e816bf8",
+        "size_in_bytes": 4259
+      },
+      {
+        "_path": "site-packages/augur/curate/titlecase.py",
+        "path_type": "hardlink",
+        "sha256": "790fa0e176c096520aa53b6b8fe827754f25b45d27844aaebb6bbd54782d476f",
+        "sha256_in_prefix": "790fa0e176c096520aa53b6b8fe827754f25b45d27844aaebb6bbd54782d476f",
+        "size_in_bytes": 4702
+      },
+      {
+        "_path": "site-packages/augur/curate/transform_strain_name.py",
+        "path_type": "hardlink",
+        "sha256": "68ae899ae3497ec8580e871f09ae8093e42216ecca10f6db33dee25d9c8dcde3",
+        "sha256_in_prefix": "68ae899ae3497ec8580e871f09ae8093e42216ecca10f6db33dee25d9c8dcde3",
+        "size_in_bytes": 2326
+      },
+      {
+        "_path": "site-packages/augur/data/__init__.py",
+        "path_type": "hardlink",
+        "sha256": "9bb80962f2cf43ffb29bc176c908f5c5f6793fb1d8ac89a70bd4673b4d824220",
+        "sha256_in_prefix": "9bb80962f2cf43ffb29bc176c908f5c5f6793fb1d8ac89a70bd4673b4d824220",
+        "size_in_bytes": 1338
+      },
+      {
+        "_path": "site-packages/augur/data/colors.tsv",
+        "path_type": "hardlink",
+        "sha256": "c0dae956ad979f6a27cbcd30377e970ccf051ca24523a4b92fe2dbfec64fd8e5",
+        "sha256_in_prefix": "c0dae956ad979f6a27cbcd30377e970ccf051ca24523a4b92fe2dbfec64fd8e5",
+        "size_in_bytes": 440
+      },
+      {
+        "_path": "site-packages/augur/data/geolocation_rules.tsv",
+        "path_type": "hardlink",
+        "sha256": "984c91ac143ef75f94341176e15977f1c79ec84ab2d3f0a920e2b5d8aac50562",
+        "sha256_in_prefix": "984c91ac143ef75f94341176e15977f1c79ec84ab2d3f0a920e2b5d8aac50562",
+        "size_in_bytes": 3481567
+      },
+      {
+        "_path": "site-packages/augur/data/lat_longs.tsv",
+        "path_type": "hardlink",
+        "sha256": "f341e2c84a02dca62000ac0a524a32da1170eb7c68fa76c237710e27184a7a56",
+        "sha256_in_prefix": "f341e2c84a02dca62000ac0a524a32da1170eb7c68fa76c237710e27184a7a56",
+        "size_in_bytes": 136386
+      },
+      {
+        "_path": "site-packages/augur/data/schema-annotations.json",
+        "path_type": "hardlink",
+        "sha256": "8d43f76dce50ce345e7d640d5429c23bb2a8b37d426d9d1dce4e7652fbb2ee04",
+        "sha256_in_prefix": "8d43f76dce50ce345e7d640d5429c23bb2a8b37d426d9d1dce4e7652fbb2ee04",
+        "size_in_bytes": 3452
+      },
+      {
+        "_path": "site-packages/augur/data/schema-auspice-config-v2.json",
+        "path_type": "hardlink",
+        "sha256": "3b7f35c6dc4a9bbfaf7fa25bea7076c2f3419a88aedf068862e360909503dc5d",
+        "sha256_in_prefix": "3b7f35c6dc4a9bbfaf7fa25bea7076c2f3419a88aedf068862e360909503dc5d",
+        "size_in_bytes": 13806
+      },
+      {
+        "_path": "site-packages/augur/data/schema-export-root-sequence.json",
+        "path_type": "hardlink",
+        "sha256": "8a22c73b9588f039c044f125187828544d13c62850445b0812f9eb0c42b1a032",
+        "sha256_in_prefix": "8a22c73b9588f039c044f125187828544d13c62850445b0812f9eb0c42b1a032",
+        "size_in_bytes": 1397
+      },
+      {
+        "_path": "site-packages/augur/data/schema-export-v1-meta.json",
+        "path_type": "hardlink",
+        "sha256": "088d4a19459a0868d868ece96027cb066932bc87f35aaf483115ba769f84d6f1",
+        "sha256_in_prefix": "088d4a19459a0868d868ece96027cb066932bc87f35aaf483115ba769f84d6f1",
+        "size_in_bytes": 11273
+      },
+      {
+        "_path": "site-packages/augur/data/schema-export-v1-tree.json",
+        "path_type": "hardlink",
+        "sha256": "3b23ba894b8519cffaacb1874cb9c194216f1c908a265c870cadd8ce78036b99",
+        "sha256_in_prefix": "3b23ba894b8519cffaacb1874cb9c194216f1c908a265c870cadd8ce78036b99",
+        "size_in_bytes": 6536
+      },
+      {
+        "_path": "site-packages/augur/data/schema-export-v2.json",
+        "path_type": "hardlink",
+        "sha256": "99fee2a7c0602320d759f503e9ae04c9efa4ed8b9b36edc79954acae18d37d36",
+        "sha256_in_prefix": "99fee2a7c0602320d759f503e9ae04c9efa4ed8b9b36edc79954acae18d37d36",
+        "size_in_bytes": 18755
+      },
+      {
+        "_path": "site-packages/augur/data/schema-frequencies.json",
+        "path_type": "hardlink",
+        "sha256": "6d9afb535f9547fca4b4e1af1ef6de474b41468f003081eb9f1bfd39a03f2c3b",
+        "sha256_in_prefix": "6d9afb535f9547fca4b4e1af1ef6de474b41468f003081eb9f1bfd39a03f2c3b",
+        "size_in_bytes": 4295
+      },
+      {
+        "_path": "site-packages/augur/data/schema-measurements-collection-config.json",
+        "path_type": "hardlink",
+        "sha256": "89ffa45d2d186c10e626ff1dff7e8744ac848601d9a84497996c36d115e0181e",
+        "sha256_in_prefix": "89ffa45d2d186c10e626ff1dff7e8744ac848601d9a84497996c36d115e0181e",
+        "size_in_bytes": 5732
+      },
+      {
+        "_path": "site-packages/augur/data/schema-measurements.json",
+        "path_type": "hardlink",
+        "sha256": "62e91eee083eb8e0108b553044626d498dfdb8dfa4804960ddf5e4dceb42956e",
+        "sha256_in_prefix": "62e91eee083eb8e0108b553044626d498dfdb8dfa4804960ddf5e4dceb42956e",
+        "size_in_bytes": 9567
+      },
+      {
+        "_path": "site-packages/augur/data/schema-tip-frequencies.json",
+        "path_type": "hardlink",
+        "sha256": "98ed58cf34691ea614413af6a7fba116da47bb9e99ec4f47d7ef4b6ce2d085f3",
+        "sha256_in_prefix": "98ed58cf34691ea614413af6a7fba116da47bb9e99ec4f47d7ef4b6ce2d085f3",
+        "size_in_bytes": 1720
+      },
+      {
+        "_path": "site-packages/augur/dates/__init__.py",
+        "path_type": "hardlink",
+        "sha256": "fbb92f7a83e82638201a16bfec5357abe2664811c8cec2b56847fdd1a051c365",
+        "sha256_in_prefix": "fbb92f7a83e82638201a16bfec5357abe2664811c8cec2b56847fdd1a051c365",
+        "size_in_bytes": 7542
+      },
+      {
+        "_path": "site-packages/augur/dates/ambiguous_date.py",
+        "path_type": "hardlink",
+        "sha256": "fdb1f7b7e88fe08c36541f1dac84228222d0fabfd3eab9b4a86620b2a16840d1",
+        "sha256_in_prefix": "fdb1f7b7e88fe08c36541f1dac84228222d0fabfd3eab9b4a86620b2a16840d1",
+        "size_in_bytes": 6680
+      },
+      {
+        "_path": "site-packages/augur/dates/errors.py",
+        "path_type": "hardlink",
+        "sha256": "f34478a4a77e5d7a80c15fd695296f7ca506d49e7078887b752222ecfcaf5d30",
+        "sha256_in_prefix": "f34478a4a77e5d7a80c15fd695296f7ca506d49e7078887b752222ecfcaf5d30",
+        "size_in_bytes": 588
+      },
+      {
+        "_path": "site-packages/augur/debug.py",
+        "path_type": "hardlink",
+        "sha256": "2b119794fe78f519b5f5326c57985bde531caa054cc93a904f8acafcccb73add",
+        "sha256_in_prefix": "2b119794fe78f519b5f5326c57985bde531caa054cc93a904f8acafcccb73add",
+        "size_in_bytes": 137
+      },
+      {
+        "_path": "site-packages/augur/distance.py",
+        "path_type": "hardlink",
+        "sha256": "59d47c3508c6463267264304d0136b93547db0800198625a31a19a6dc1fa8c3e",
+        "sha256_in_prefix": "59d47c3508c6463267264304d0136b93547db0800198625a31a19a6dc1fa8c3e",
+        "size_in_bytes": 32119
+      },
+      {
+        "_path": "site-packages/augur/errors.py",
+        "path_type": "hardlink",
+        "sha256": "452f0bfa993a3735a762de1434930a1d0572112e422ed0202d8c0da88bc44103",
+        "sha256_in_prefix": "452f0bfa993a3735a762de1434930a1d0572112e422ed0202d8c0da88bc44103",
+        "size_in_bytes": 38
+      },
+      {
+        "_path": "site-packages/augur/export.py",
+        "path_type": "hardlink",
+        "sha256": "66e648b4769767ed7bf6b49a47850fa0b15474b2be83d2dbd5787014bf0b656d",
+        "sha256_in_prefix": "66e648b4769767ed7bf6b49a47850fa0b15474b2be83d2dbd5787014bf0b656d",
+        "size_in_bytes": 663
+      },
+      {
+        "_path": "site-packages/augur/export_v1.py",
+        "path_type": "hardlink",
+        "sha256": "984f624213c0b6e6cc773733fa7a43a85ff25baa8d4c4fa1876a73aea409a7f2",
+        "sha256_in_prefix": "984f624213c0b6e6cc773733fa7a43a85ff25baa8d4c4fa1876a73aea409a7f2",
+        "size_in_bytes": 17054
+      },
+      {
+        "_path": "site-packages/augur/export_v2.py",
+        "path_type": "hardlink",
+        "sha256": "91db5d5a2a76abaa3a2258ded345878778e75d8d8fce19c3631eb8a13d99e718",
+        "sha256_in_prefix": "91db5d5a2a76abaa3a2258ded345878778e75d8d8fce19c3631eb8a13d99e718",
+        "size_in_bytes": 58593
+      },
+      {
+        "_path": "site-packages/augur/filter/__init__.py",
+        "path_type": "hardlink",
+        "sha256": "c47ac938faa162974eab42b57b84e0b02b1c35af317be4d3aa4146cae31cd34b",
+        "sha256_in_prefix": "c47ac938faa162974eab42b57b84e0b02b1c35af317be4d3aa4146cae31cd34b",
+        "size_in_bytes": 11713
+      },
+      {
+        "_path": "site-packages/augur/filter/_run.py",
+        "path_type": "hardlink",
+        "sha256": "f50a56cebaaa355898c8061ad5a4cc1cb5cd0829ff524af54b2eea4546c6cfb8",
+        "sha256_in_prefix": "f50a56cebaaa355898c8061ad5a4cc1cb5cd0829ff524af54b2eea4546c6cfb8",
+        "size_in_bytes": 23914
+      },
+      {
+        "_path": "site-packages/augur/filter/constants.py",
+        "path_type": "hardlink",
+        "sha256": "4775b395b1a90d925cd06cc757679adf937b56ea1ce765533102cadef2699a91",
+        "sha256_in_prefix": "4775b395b1a90d925cd06cc757679adf937b56ea1ce765533102cadef2699a91",
+        "size_in_bytes": 293
+      },
+      {
+        "_path": "site-packages/augur/filter/include_exclude_rules.py",
+        "path_type": "hardlink",
+        "sha256": "de55cc3b9dc5672247aaf4cde25c7b5a13a4be4a4d0fa7a8e579a431f4c1ce25",
+        "sha256_in_prefix": "de55cc3b9dc5672247aaf4cde25c7b5a13a4be4a4d0fa7a8e579a431f4c1ce25",
+        "size_in_bytes": 36671
+      },
+      {
+        "_path": "site-packages/augur/filter/io.py",
+        "path_type": "hardlink",
+        "sha256": "df016694e509ea643677c0e9768f09a072f17a87820eca46b65ef67098b30402",
+        "sha256_in_prefix": "df016694e509ea643677c0e9768f09a072f17a87820eca46b65ef67098b30402",
+        "size_in_bytes": 6422
+      },
+      {
+        "_path": "site-packages/augur/filter/subsample.py",
+        "path_type": "hardlink",
+        "sha256": "3e9e04ed12ab0b2efb9a2e7c4aa2f48447d2aaa48d9a445879eb437df5fe1f7a",
+        "sha256_in_prefix": "3e9e04ed12ab0b2efb9a2e7c4aa2f48447d2aaa48d9a445879eb437df5fe1f7a",
+        "size_in_bytes": 24999
+      },
+      {
+        "_path": "site-packages/augur/filter/validate_arguments.py",
+        "path_type": "hardlink",
+        "sha256": "896fd4c900a8aba71a0d3931241cfa629b93936d3a96d9a2b5a588628a679a97",
+        "sha256_in_prefix": "896fd4c900a8aba71a0d3931241cfa629b93936d3a96d9a2b5a588628a679a97",
+        "size_in_bytes": 2797
+      },
+      {
+        "_path": "site-packages/augur/filter/weights_file.py",
+        "path_type": "hardlink",
+        "sha256": "418b0201b7d3a540f18d4fbfb28e387a287028fa33c519cc2fb9dcefb9c82ea6",
+        "sha256_in_prefix": "418b0201b7d3a540f18d4fbfb28e387a287028fa33c519cc2fb9dcefb9c82ea6",
+        "size_in_bytes": 3279
+      },
+      {
+        "_path": "site-packages/augur/frequencies.py",
+        "path_type": "hardlink",
+        "sha256": "27ea9c2e67456df0267e40fbd0cde647607b3ede9be2db6157d119aa58ae8ab9",
+        "sha256_in_prefix": "27ea9c2e67456df0267e40fbd0cde647607b3ede9be2db6157d119aa58ae8ab9",
+        "size_in_bytes": 14402
+      },
+      {
+        "_path": "site-packages/augur/frequency_estimators.py",
+        "path_type": "hardlink",
+        "sha256": "0f547f69b0a6f66c9c590aecc8867019fecaa3e2a94d34d4061eb72dc9dcb90d",
+        "sha256_in_prefix": "0f547f69b0a6f66c9c590aecc8867019fecaa3e2a94d34d4061eb72dc9dcb90d",
+        "size_in_bytes": 50593
+      },
+      {
+        "_path": "site-packages/augur/import_/__init__.py",
+        "path_type": "hardlink",
+        "sha256": "d4742a662d690133411b502a19d85bfaf3be79ac44037338408ffcf1f8eb703c",
+        "sha256_in_prefix": "d4742a662d690133411b502a19d85bfaf3be79ac44037338408ffcf1f8eb703c",
+        "size_in_bytes": 576
+      },
+      {
+        "_path": "site-packages/augur/import_/beast.py",
+        "path_type": "hardlink",
+        "sha256": "a3105f161e1206169f1e7a25629eb96200d3bea69d2a98f394c411e7d659ca2b",
+        "sha256_in_prefix": "a3105f161e1206169f1e7a25629eb96200d3bea69d2a98f394c411e7d659ca2b",
+        "size_in_bytes": 26705
+      },
+      {
+        "_path": "site-packages/augur/index.py",
+        "path_type": "hardlink",
+        "sha256": "379faf6b3d6148e1c7957efd5f853c75047ecd3a1ea42eb80a0159318cd2a473",
+        "sha256_in_prefix": "379faf6b3d6148e1c7957efd5f853c75047ecd3a1ea42eb80a0159318cd2a473",
+        "size_in_bytes": 7778
+      },
+      {
+        "_path": "site-packages/augur/io/__init__.py",
+        "path_type": "hardlink",
+        "sha256": "05868c2f52447e82145d55629cbe4200161b718f4675b7bbffdd218a27085b65",
+        "sha256_in_prefix": "05868c2f52447e82145d55629cbe4200161b718f4675b7bbffdd218a27085b65",
+        "size_in_bytes": 434
+      },
+      {
+        "_path": "site-packages/augur/io/file.py",
+        "path_type": "hardlink",
+        "sha256": "d9aeb554d59bebf2237fe4f0193e39a798ead75a0586a88e17df82e16cf544ef",
+        "sha256_in_prefix": "d9aeb554d59bebf2237fe4f0193e39a798ead75a0586a88e17df82e16cf544ef",
+        "size_in_bytes": 1724
+      },
+      {
+        "_path": "site-packages/augur/io/json.py",
+        "path_type": "hardlink",
+        "sha256": "c55dcb8813ce1809fc395c77e685963a4832b696b5bb6e198c61522121034dcc",
+        "sha256_in_prefix": "c55dcb8813ce1809fc395c77e685963a4832b696b5bb6e198c61522121034dcc",
+        "size_in_bytes": 11877
+      },
+      {
+        "_path": "site-packages/augur/io/metadata.py",
+        "path_type": "hardlink",
+        "sha256": "f105cc055255cbb95e73bcb5eaacf6eae35a9323a686d38f0ae7523d4bc445b7",
+        "sha256_in_prefix": "f105cc055255cbb95e73bcb5eaacf6eae35a9323a686d38f0ae7523d4bc445b7",
+        "size_in_bytes": 27412
+      },
+      {
+        "_path": "site-packages/augur/io/print.py",
+        "path_type": "hardlink",
+        "sha256": "4a803ebaa4db5778bf9de6f78e768f2ba27957894bbeced379126bb4acd8ba75",
+        "sha256_in_prefix": "4a803ebaa4db5778bf9de6f78e768f2ba27957894bbeced379126bb4acd8ba75",
+        "size_in_bytes": 628
+      },
+      {
+        "_path": "site-packages/augur/io/sequences.py",
+        "path_type": "hardlink",
+        "sha256": "a4cf008df6972fbba7139299c708e03a7848126f408b7441c79fe397201da16e",
+        "sha256_in_prefix": "a4cf008df6972fbba7139299c708e03a7848126f408b7441c79fe397201da16e",
+        "size_in_bytes": 5228
+      },
+      {
+        "_path": "site-packages/augur/io/shell_command_runner.py",
+        "path_type": "hardlink",
+        "sha256": "4b3d559d8846ebde6711c55d5de8d843f28f1f50798038e20761140695ad293c",
+        "sha256_in_prefix": "4b3d559d8846ebde6711c55d5de8d843f28f1f50798038e20761140695ad293c",
+        "size_in_bytes": 4444
+      },
+      {
+        "_path": "site-packages/augur/io/strains.py",
+        "path_type": "hardlink",
+        "sha256": "7d1b2b88d66ff74ae890d53490e9ba4fbc126637423ec7bd22f46ded48307662",
+        "sha256_in_prefix": "7d1b2b88d66ff74ae890d53490e9ba4fbc126637423ec7bd22f46ded48307662",
+        "size_in_bytes": 800
+      },
+      {
+        "_path": "site-packages/augur/io/vcf.py",
+        "path_type": "hardlink",
+        "sha256": "9136794ef4ea394722a084ea83a9830d7752ec565ef3aeea27af54cdb7c3d06b",
+        "sha256_in_prefix": "9136794ef4ea394722a084ea83a9830d7752ec565ef3aeea27af54cdb7c3d06b",
+        "size_in_bytes": 4590
+      },
+      {
+        "_path": "site-packages/augur/lbi.py",
+        "path_type": "hardlink",
+        "sha256": "126dc206baf9046e2ef6683724e1106d004fc11450bc674b87e7fc4f23aa82a3",
+        "sha256_in_prefix": "126dc206baf9046e2ef6683724e1106d004fc11450bc674b87e7fc4f23aa82a3",
+        "size_in_bytes": 5461
+      },
+      {
+        "_path": "site-packages/augur/mask.py",
+        "path_type": "hardlink",
+        "sha256": "26870914cc735b074cf28f7916004142221d9c5c24572b5b0ffd5e37cd25cf8b",
+        "sha256_in_prefix": "26870914cc735b074cf28f7916004142221d9c5c24572b5b0ffd5e37cd25cf8b",
+        "size_in_bytes": 9812
+      },
+      {
+        "_path": "site-packages/augur/measurements/__init__.py",
+        "path_type": "hardlink",
+        "sha256": "11fd625ec7993be03d308e10b470c02b0da4b62c089dbf248583e871f46fadec",
+        "sha256_in_prefix": "11fd625ec7993be03d308e10b470c02b0da4b62c089dbf248583e871f46fadec",
+        "size_in_bytes": 544
+      },
+      {
+        "_path": "site-packages/augur/measurements/concat.py",
+        "path_type": "hardlink",
+        "sha256": "bfb242038f985889c369d86dd15080e280e9dbfadf51d2233f336f76caa1b38c",
+        "sha256_in_prefix": "bfb242038f985889c369d86dd15080e280e9dbfadf51d2233f336f76caa1b38c",
+        "size_in_bytes": 1928
+      },
+      {
+        "_path": "site-packages/augur/measurements/export.py",
+        "path_type": "hardlink",
+        "sha256": "cf0c9b192b0a01d8810e5f25283478f3e4246c007aa7d4513975082fbd33f8f4",
+        "sha256_in_prefix": "cf0c9b192b0a01d8810e5f25283478f3e4246c007aa7d4513975082fbd33f8f4",
+        "size_in_bytes": 12140
+      },
+      {
+        "_path": "site-packages/augur/merge.py",
+        "path_type": "hardlink",
+        "sha256": "2647af43d125e367861915aab7db411bd68002b348a769cb685399249cc05e79",
+        "sha256_in_prefix": "2647af43d125e367861915aab7db411bd68002b348a769cb685399249cc05e79",
+        "size_in_bytes": 21141
+      },
+      {
+        "_path": "site-packages/augur/parse.py",
+        "path_type": "hardlink",
+        "sha256": "d03885f4e342815811812013235a6e8358652d73779491fbb52fb2bbaeb8a6a5",
+        "sha256_in_prefix": "d03885f4e342815811812013235a6e8358652d73779491fbb52fb2bbaeb8a6a5",
+        "size_in_bytes": 8127
+      },
+      {
+        "_path": "site-packages/augur/read_file.py",
+        "path_type": "hardlink",
+        "sha256": "9054f25d3c156bb54def387619f2f0d1e730d8041272484f8d1d42d80669f0a6",
+        "sha256_in_prefix": "9054f25d3c156bb54def387619f2f0d1e730d8041272484f8d1d42d80669f0a6",
+        "size_in_bytes": 3090
+      },
+      {
+        "_path": "site-packages/augur/reconstruct_sequences.py",
+        "path_type": "hardlink",
+        "sha256": "5dd6ed5b5e7d346bda2a81689c492ce2cbe2a91f5e7dcef02b866939d94c07f9",
+        "sha256_in_prefix": "5dd6ed5b5e7d346bda2a81689c492ce2cbe2a91f5e7dcef02b866939d94c07f9",
+        "size_in_bytes": 4127
+      },
+      {
+        "_path": "site-packages/augur/refine.py",
+        "path_type": "hardlink",
+        "sha256": "e951ff2bcc52d74f58fc5c04b3d9ed964e469fdc4eaa73dc5beac2e8637807c4",
+        "sha256_in_prefix": "e951ff2bcc52d74f58fc5c04b3d9ed964e469fdc4eaa73dc5beac2e8637807c4",
+        "size_in_bytes": 23408
+      },
+      {
+        "_path": "site-packages/augur/sequence_traits.py",
+        "path_type": "hardlink",
+        "sha256": "595c7761058769d4ebd51c5ac75131405020b385f45109ba2e56b7d2f36ae0d6",
+        "sha256_in_prefix": "595c7761058769d4ebd51c5ac75131405020b385f45109ba2e56b7d2f36ae0d6",
+        "size_in_bytes": 13417
+      },
+      {
+        "_path": "site-packages/augur/titer_model.py",
+        "path_type": "hardlink",
+        "sha256": "171e0bae95419db91f59f7d46240a6aae0625bb3ea1d7af65d9b639b3849dd24",
+        "sha256_in_prefix": "171e0bae95419db91f59f7d46240a6aae0625bb3ea1d7af65d9b639b3849dd24",
+        "size_in_bytes": 48562
+      },
+      {
+        "_path": "site-packages/augur/titers.py",
+        "path_type": "hardlink",
+        "sha256": "a174734f52ec101a7e71999ed574fa7093aa59b23e5bc66563ecc1ec1b652ecf",
+        "sha256_in_prefix": "a174734f52ec101a7e71999ed574fa7093aa59b23e5bc66563ecc1ec1b652ecf",
+        "size_in_bytes": 6453
+      },
+      {
+        "_path": "site-packages/augur/traits.py",
+        "path_type": "hardlink",
+        "sha256": "4166d20d85cedc28cdd16f69707ef0b0c9b3090dcd1c4d342bf7bf27569db091",
+        "sha256_in_prefix": "4166d20d85cedc28cdd16f69707ef0b0c9b3090dcd1c4d342bf7bf27569db091",
+        "size_in_bytes": 10607
+      },
+      {
+        "_path": "site-packages/augur/translate.py",
+        "path_type": "hardlink",
+        "sha256": "a70fff91a891e5fe8863c725411f1932b155cafa0859543ad339cd3f06498b1b",
+        "sha256_in_prefix": "a70fff91a891e5fe8863c725411f1932b155cafa0859543ad339cd3f06498b1b",
+        "size_in_bytes": 21767
+      },
+      {
+        "_path": "site-packages/augur/tree.py",
+        "path_type": "hardlink",
+        "sha256": "96a96417c10ea31343314e903989c6930faad9ab1bc6ed1324451ecdee25e6e5",
+        "sha256_in_prefix": "96a96417c10ea31343314e903989c6930faad9ab1bc6ed1324451ecdee25e6e5",
+        "size_in_bytes": 25258
+      },
+      {
+        "_path": "site-packages/augur/types.py",
+        "path_type": "hardlink",
+        "sha256": "6dde1491d00e9e1767dabf171ace777bf0b6e815f4e6c6a039be697e66911a3c",
+        "sha256_in_prefix": "6dde1491d00e9e1767dabf171ace777bf0b6e815f4e6c6a039be697e66911a3c",
+        "size_in_bytes": 2054
+      },
+      {
+        "_path": "site-packages/augur/util_support/__init__.py",
+        "path_type": "hardlink",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "sha256_in_prefix": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_in_bytes": 0
+      },
+      {
+        "_path": "site-packages/augur/util_support/auspice_config.py",
+        "path_type": "hardlink",
+        "sha256": "ee3448e9d519f892ce394428d979413722d5bd6441f0beb73b5c8cd95ed98568",
+        "sha256_in_prefix": "ee3448e9d519f892ce394428d979413722d5bd6441f0beb73b5c8cd95ed98568",
+        "size_in_bytes": 13025
+      },
+      {
+        "_path": "site-packages/augur/util_support/color_parser.py",
+        "path_type": "hardlink",
+        "sha256": "00143b32f862f117412d126151b3551c44792348b802c28bfe5b633f1d65dbc2",
+        "sha256_in_prefix": "00143b32f862f117412d126151b3551c44792348b802c28bfe5b633f1d65dbc2",
+        "size_in_bytes": 1105
+      },
+      {
+        "_path": "site-packages/augur/util_support/color_parser_line.py",
+        "path_type": "hardlink",
+        "sha256": "1d7f7b7215dc771ea45367ac9f3bccb9e5b75e372fd070ccdf2c05ccbccfee7b",
+        "sha256_in_prefix": "1d7f7b7215dc771ea45367ac9f3bccb9e5b75e372fd070ccdf2c05ccbccfee7b",
+        "size_in_bytes": 1078
+      },
+      {
+        "_path": "site-packages/augur/util_support/node_data.py",
+        "path_type": "hardlink",
+        "sha256": "782bf4a09813aaeeb9e36f4960e8da3a3ad5f3c5e17a654e2b1e13d70828005a",
+        "sha256_in_prefix": "782bf4a09813aaeeb9e36f4960e8da3a3ad5f3c5e17a654e2b1e13d70828005a",
+        "size_in_bytes": 1416
+      },
+      {
+        "_path": "site-packages/augur/util_support/node_data_file.py",
+        "path_type": "hardlink",
+        "sha256": "0072656874ee3446349b59297b6d098133579b18b357dbd306cc8433d7e5097b",
+        "sha256_in_prefix": "0072656874ee3446349b59297b6d098133579b18b357dbd306cc8433d7e5097b",
+        "size_in_bytes": 4828
+      },
+      {
+        "_path": "site-packages/augur/util_support/node_data_reader.py",
+        "path_type": "hardlink",
+        "sha256": "19209866449e082365e4a9e68d8c9be4acdeb14bd101a778a2d698268637093c",
+        "sha256_in_prefix": "19209866449e082365e4a9e68d8c9be4acdeb14bd101a778a2d698268637093c",
+        "size_in_bytes": 2712
+      },
+      {
+        "_path": "site-packages/augur/util_support/warnings.py",
+        "path_type": "hardlink",
+        "sha256": "be73de891364497424d110fa9bb82299173414af09218e4e966c11d5b0084ec7",
+        "sha256_in_prefix": "be73de891364497424d110fa9bb82299173414af09218e4e966c11d5b0084ec7",
+        "size_in_bytes": 1345
+      },
+      {
+        "_path": "site-packages/augur/utils.py",
+        "path_type": "hardlink",
+        "sha256": "3086eac82d7dfffbe852a69aea93a8de303779e4635e07dad8f986b5a6ee9503",
+        "sha256_in_prefix": "3086eac82d7dfffbe852a69aea93a8de303779e4635e07dad8f986b5a6ee9503",
+        "size_in_bytes": 29855
+      },
+      {
+        "_path": "site-packages/augur/validate.py",
+        "path_type": "hardlink",
+        "sha256": "9cd39fcae9bbd3aea038ee441bc45fba35b5e3811485f535c82cb320c660cd1b",
+        "sha256_in_prefix": "9cd39fcae9bbd3aea038ee441bc45fba35b5e3811485f535c82cb320c660cd1b",
+        "size_in_bytes": 18717
+      },
+      {
+        "_path": "site-packages/augur/validate_export.py",
+        "path_type": "hardlink",
+        "sha256": "a0cb6e80c6a86a46ed564b12996851d4fcf698ae22210df73bea2757d897b2d5",
+        "sha256_in_prefix": "a0cb6e80c6a86a46ed564b12996851d4fcf698ae22210df73bea2757d897b2d5",
+        "size_in_bytes": 13252
+      },
+      {
+        "_path": "site-packages/augur/version.py",
+        "path_type": "hardlink",
+        "sha256": "df5e0398d63f6dff69068266777cf65ac7c97467800b20b1c11d945bd7665854",
+        "sha256_in_prefix": "df5e0398d63f6dff69068266777cf65ac7c97467800b20b1c11d945bd7665854",
+        "size_in_bytes": 240
+      },
+      {
+        "_path": "site-packages/augur/write_file.py",
+        "path_type": "hardlink",
+        "sha256": "df20a461cfd4ba2383f0d1bef42c756d930bd408ff159b03ec5d38dca5f63cc2",
+        "sha256_in_prefix": "df20a461cfd4ba2383f0d1bef42c756d930bd408ff159b03ec5d38dca5f63cc2",
+        "size_in_bytes": 2323
+      },
+      {
+        "_path": "site-packages/nextstrain_augur-29.1.0.dist-info/INSTALLER",
+        "path_type": "hardlink",
+        "sha256": "d0edee15f91b406f3f99726e44eb990be6e34fd0345b52b910c568e0eef6a2a8",
+        "sha256_in_prefix": "d0edee15f91b406f3f99726e44eb990be6e34fd0345b52b910c568e0eef6a2a8",
+        "size_in_bytes": 5
+      },
+      {
+        "_path": "site-packages/nextstrain_augur-29.1.0.dist-info/METADATA",
+        "path_type": "hardlink",
+        "sha256": "689b50527f3f1fe6ecc9ae61dd2ef4e95a563ef781f37325f6d4c1d4558475e8",
+        "sha256_in_prefix": "689b50527f3f1fe6ecc9ae61dd2ef4e95a563ef781f37325f6d4c1d4558475e8",
+        "size_in_bytes": 6497
+      },
+      {
+        "_path": "site-packages/nextstrain_augur-29.1.0.dist-info/RECORD",
+        "path_type": "hardlink",
+        "sha256": "1ef152c7ac4b42d6a62d881a3554ac5a8f567c7381c1bd86cf8f9315a40266e3",
+        "sha256_in_prefix": "1ef152c7ac4b42d6a62d881a3554ac5a8f567c7381c1bd86cf8f9315a40266e3",
+        "size_in_bytes": 13221
+      },
+      {
+        "_path": "site-packages/nextstrain_augur-29.1.0.dist-info/REQUESTED",
+        "path_type": "hardlink",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "sha256_in_prefix": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_in_bytes": 0
+      },
+      {
+        "_path": "site-packages/nextstrain_augur-29.1.0.dist-info/WHEEL",
+        "path_type": "hardlink",
+        "sha256": "0a6c85234931e5c7443132e238d4116c64308c8a11d5a21807b782010e0a3c9d",
+        "sha256_in_prefix": "0a6c85234931e5c7443132e238d4116c64308c8a11d5a21807b782010e0a3c9d",
+        "size_in_bytes": 91
+      },
+      {
+        "_path": "site-packages/nextstrain_augur-29.1.0.dist-info/direct_url.json",
+        "path_type": "hardlink",
+        "sha256": "106f04303186b69bcc9087d3b68187b74c5225a9fe3424e6e7d07e58ad2ffddc",
+        "sha256_in_prefix": "106f04303186b69bcc9087d3b68187b74c5225a9fe3424e6e7d07e58ad2ffddc",
+        "size_in_bytes": 79
+      },
+      {
+        "_path": "site-packages/nextstrain_augur-29.1.0.dist-info/entry_points.txt",
+        "path_type": "hardlink",
+        "sha256": "75d395fbfe09012be3df1cab56742412857664d525715544623e7c647e0ffe6f",
+        "sha256_in_prefix": "75d395fbfe09012be3df1cab56742412857664d525715544623e7c647e0ffe6f",
+        "size_in_bytes": 46
+      },
+      {
+        "_path": "site-packages/nextstrain_augur-29.1.0.dist-info/licenses/LICENSE.nextstrain-cli",
+        "path_type": "hardlink",
+        "sha256": "3bbf671fe347116be967c8a11b00b6d83dce7ebc8d414634782de1f128bdcab5",
+        "sha256_in_prefix": "3bbf671fe347116be967c8a11b00b6d83dce7ebc8d414634782de1f128bdcab5",
+        "size_in_bytes": 1482
+      },
+      {
+        "_path": "site-packages/nextstrain_augur-29.1.0.dist-info/licenses/LICENSE.nextstrain-ncov-ingest",
+        "path_type": "hardlink",
+        "sha256": "5fe45adee3a7153ce361d6abc6e0584661ff110ea37c4930b889b89ef8a45066",
+        "sha256_in_prefix": "5fe45adee3a7153ce361d6abc6e0584661ff110ea37c4930b889b89ef8a45066",
+        "size_in_bytes": 1387
+      },
+      {
+        "_path": "site-packages/nextstrain_augur-29.1.0.dist-info/licenses/LICENSE.txt",
+        "path_type": "hardlink",
+        "sha256": "20bd3a5bfc35b16a5fcc4f7ddd36aad1926d41ea2f6ae058ba42c85e3d8e681a",
+        "sha256_in_prefix": "20bd3a5bfc35b16a5fcc4f7ddd36aad1926d41ea2f6ae058ba42c85e3d8e681a",
+        "size_in_bytes": 32387
+      },
+      {
+        "_path": "site-packages/nextstrain_augur-29.1.0.dist-info/top_level.txt",
+        "path_type": "hardlink",
+        "sha256": "bc2d730aeaa3bb39bd23c71faea4c31ad49ce1d51585add116dfee775783fcf1",
+        "sha256_in_prefix": "bc2d730aeaa3bb39bd23c71faea4c31ad49ce1d51585add116dfee775783fcf1",
+        "size_in_bytes": 6
+      },
+      {
+        "_path": "lib/python3.11/site-packages/augur/__pycache__/__init__.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/augur/__pycache__/__main__.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/augur/__pycache__/__version__.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/augur/__pycache__/align.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/augur/__pycache__/ancestral.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/augur/__pycache__/argparse_.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/augur/__pycache__/clades.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/augur/curate/__pycache__/__init__.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/augur/curate/__pycache__/abbreviate_authors.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/augur/curate/__pycache__/apply_geolocation_rules.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/augur/curate/__pycache__/apply_record_annotations.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/augur/curate/__pycache__/format_dates.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/augur/curate/__pycache__/format_dates_directives.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/augur/curate/__pycache__/normalize_strings.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/augur/curate/__pycache__/parse_genbank_location.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/augur/curate/__pycache__/passthru.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/augur/curate/__pycache__/rename.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/augur/curate/__pycache__/titlecase.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/augur/curate/__pycache__/transform_strain_name.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/augur/data/__pycache__/__init__.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/augur/dates/__pycache__/__init__.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/augur/dates/__pycache__/ambiguous_date.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/augur/dates/__pycache__/errors.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/augur/__pycache__/debug.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/augur/__pycache__/distance.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/augur/__pycache__/errors.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/augur/__pycache__/export.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/augur/__pycache__/export_v1.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/augur/__pycache__/export_v2.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/augur/filter/__pycache__/__init__.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/augur/filter/__pycache__/_run.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/augur/filter/__pycache__/constants.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/augur/filter/__pycache__/include_exclude_rules.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/augur/filter/__pycache__/io.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/augur/filter/__pycache__/subsample.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/augur/filter/__pycache__/validate_arguments.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/augur/filter/__pycache__/weights_file.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/augur/__pycache__/frequencies.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/augur/__pycache__/frequency_estimators.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/augur/import_/__pycache__/__init__.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/augur/import_/__pycache__/beast.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/augur/__pycache__/index.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/augur/io/__pycache__/__init__.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/augur/io/__pycache__/file.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/augur/io/__pycache__/json.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/augur/io/__pycache__/metadata.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/augur/io/__pycache__/print.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/augur/io/__pycache__/sequences.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/augur/io/__pycache__/shell_command_runner.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/augur/io/__pycache__/strains.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/augur/io/__pycache__/vcf.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/augur/__pycache__/lbi.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/augur/__pycache__/mask.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/augur/measurements/__pycache__/__init__.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/augur/measurements/__pycache__/concat.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/augur/measurements/__pycache__/export.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/augur/__pycache__/merge.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/augur/__pycache__/parse.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/augur/__pycache__/read_file.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/augur/__pycache__/reconstruct_sequences.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/augur/__pycache__/refine.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/augur/__pycache__/sequence_traits.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/augur/__pycache__/titer_model.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/augur/__pycache__/titers.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/augur/__pycache__/traits.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/augur/__pycache__/translate.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/augur/__pycache__/tree.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/augur/__pycache__/types.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/augur/util_support/__pycache__/__init__.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/augur/util_support/__pycache__/auspice_config.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/augur/util_support/__pycache__/color_parser.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/augur/util_support/__pycache__/color_parser_line.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/augur/util_support/__pycache__/node_data.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/augur/util_support/__pycache__/node_data_file.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/augur/util_support/__pycache__/node_data_reader.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/augur/util_support/__pycache__/warnings.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/augur/__pycache__/utils.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/augur/__pycache__/validate.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/augur/__pycache__/validate_export.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/augur/__pycache__/version.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/augur/__pycache__/write_file.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "bin/augur",
+        "path_type": "unix_python_entry_point"
+      }
+    ],
+    "paths_version": 1
+  },
+  "requested_spec": "augur",
+  "sha256": "7e8776b2ff820eb1a327b5f8670df0d49aa662de3e95ef50968370d07377eb27",
+  "size": 594396,
+  "subdir": "noarch",
+  "timestamp": 1744331192000,
+  "url": "https://conda-forge.fredhutch.org/bioconda/noarch/augur-29.1.0-pyhdfd78af_0.tar.bz2",
+  "version": "29.1.0"
+}

@@ -1,0 +1,106 @@
+{
+  "build": "h99b4a89_7100102",
+  "build_number": 7100102,
+  "channel": "https://conda-forge.fredhutch.org/conda-forge/osx-arm64",
+  "constrains": [],
+  "depends": [
+    "__osx >=11.0",
+    "libsuitesparseconfig >=7.10.1,<8.0a0"
+  ],
+  "extracted_package_dir": "/Users/Carlos/miniforge3/pkgs/librbio-4.3.4-h99b4a89_7100102",
+  "files": [
+    "include/suitesparse/RBio.h",
+    "lib/cmake/RBio/RBioConfig.cmake",
+    "lib/cmake/RBio/RBioConfigVersion.cmake",
+    "lib/cmake/RBio/RBioTargets-release.cmake",
+    "lib/cmake/RBio/RBioTargets.cmake",
+    "lib/librbio.4.3.4.dylib",
+    "lib/librbio.4.dylib",
+    "lib/librbio.dylib",
+    "lib/pkgconfig/RBio.pc"
+  ],
+  "fn": "librbio-4.3.4-h99b4a89_7100102.conda",
+  "license": "GPL-2.0-or-later",
+  "link": {
+    "source": "/Users/Carlos/miniforge3/pkgs/librbio-4.3.4-h99b4a89_7100102",
+    "type": 1
+  },
+  "md5": "fa40dbe91ad646bf5abed56855a8b631",
+  "name": "librbio",
+  "package_tarball_full_path": "/Users/Carlos/miniforge3/pkgs/librbio-4.3.4-h99b4a89_7100102.conda",
+  "paths_data": {
+    "paths": [
+      {
+        "_path": "include/suitesparse/RBio.h",
+        "path_type": "hardlink",
+        "sha256": "4be00c8e3d2ac07b2a1b3e729eacb980d51ac97a073360f714050d92d24506a7",
+        "sha256_in_prefix": "4be00c8e3d2ac07b2a1b3e729eacb980d51ac97a073360f714050d92d24506a7",
+        "size_in_bytes": 11697
+      },
+      {
+        "_path": "lib/cmake/RBio/RBioConfig.cmake",
+        "path_type": "hardlink",
+        "sha256": "11b611ea09f3a07602977cb46299b15c2f7f383e2d37f6e8fea5db989f0bfedf",
+        "sha256_in_prefix": "11b611ea09f3a07602977cb46299b15c2f7f383e2d37f6e8fea5db989f0bfedf",
+        "size_in_bytes": 6387
+      },
+      {
+        "_path": "lib/cmake/RBio/RBioConfigVersion.cmake",
+        "path_type": "hardlink",
+        "sha256": "0ec7d6373cfd27af490e12711659b2f6c69e701c2b05eccc5b53a44da78979a5",
+        "sha256_in_prefix": "0ec7d6373cfd27af490e12711659b2f6c69e701c2b05eccc5b53a44da78979a5",
+        "size_in_bytes": 2762
+      },
+      {
+        "_path": "lib/cmake/RBio/RBioTargets-release.cmake",
+        "path_type": "hardlink",
+        "sha256": "b492e8b396a5c1cf9f618a1bb18103bd2568ffc826c590ecc64e61f58a841e75",
+        "sha256_in_prefix": "b492e8b396a5c1cf9f618a1bb18103bd2568ffc826c590ecc64e61f58a841e75",
+        "size_in_bytes": 952
+      },
+      {
+        "_path": "lib/cmake/RBio/RBioTargets.cmake",
+        "path_type": "hardlink",
+        "sha256": "56ca093408f5aee6c17461399dd40ef52c5a7dbb9edfd01486da70ffc42abff6",
+        "sha256_in_prefix": "56ca093408f5aee6c17461399dd40ef52c5a7dbb9edfd01486da70ffc42abff6",
+        "size_in_bytes": 4276
+      },
+      {
+        "_path": "lib/librbio.4.3.4.dylib",
+        "path_type": "hardlink",
+        "sha256": "055aaf61d7edf5fcb38d6e5633540eb979fe5dd3cd3a1ff2ae4c9497d9e69a37",
+        "sha256_in_prefix": "055aaf61d7edf5fcb38d6e5633540eb979fe5dd3cd3a1ff2ae4c9497d9e69a37",
+        "size_in_bytes": 86384
+      },
+      {
+        "_path": "lib/librbio.4.dylib",
+        "path_type": "softlink",
+        "sha256": "055aaf61d7edf5fcb38d6e5633540eb979fe5dd3cd3a1ff2ae4c9497d9e69a37",
+        "size_in_bytes": 19
+      },
+      {
+        "_path": "lib/librbio.dylib",
+        "path_type": "softlink",
+        "sha256": "055aaf61d7edf5fcb38d6e5633540eb979fe5dd3cd3a1ff2ae4c9497d9e69a37",
+        "size_in_bytes": 15
+      },
+      {
+        "_path": "lib/pkgconfig/RBio.pc",
+        "file_mode": "text",
+        "path_type": "hardlink",
+        "prefix_placeholder": "/Users/runner/miniforge3/conda-bld/bld/rattler-build_librbio_1742288952/host_env_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_plac",
+        "sha256": "97d951bacab25c6fe5bea40a44e198dfb6f2c0a9981dc0c9b02b462733b49e8d",
+        "sha256_in_prefix": "864dd37a94cf0f6aac9aeba58b750a9c229574110acaf0826317b2304cad165c",
+        "size_in_bytes": 762
+      }
+    ],
+    "paths_version": 1
+  },
+  "requested_spec": "None",
+  "sha256": "098994f7c6993c1239027e84c547106cc8aaac4542802ba9fb05bb00d6c8c4ef",
+  "size": 42264,
+  "subdir": "osx-arm64",
+  "timestamp": 1742288952000,
+  "url": "https://conda-forge.fredhutch.org/conda-forge/osx-arm64/librbio-4.3.4-h99b4a89_7100102.conda",
+  "version": "4.3.4"
+}

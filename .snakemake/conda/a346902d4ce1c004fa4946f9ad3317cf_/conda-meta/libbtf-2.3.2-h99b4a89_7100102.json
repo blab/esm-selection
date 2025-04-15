@@ -1,0 +1,106 @@
+{
+  "build": "h99b4a89_7100102",
+  "build_number": 7100102,
+  "channel": "https://conda-forge.fredhutch.org/conda-forge/osx-arm64",
+  "constrains": [],
+  "depends": [
+    "__osx >=11.0",
+    "libsuitesparseconfig >=7.10.1,<8.0a0"
+  ],
+  "extracted_package_dir": "/Users/Carlos/miniforge3/pkgs/libbtf-2.3.2-h99b4a89_7100102",
+  "files": [
+    "include/suitesparse/btf.h",
+    "lib/cmake/BTF/BTFConfig.cmake",
+    "lib/cmake/BTF/BTFConfigVersion.cmake",
+    "lib/cmake/BTF/BTFTargets-release.cmake",
+    "lib/cmake/BTF/BTFTargets.cmake",
+    "lib/libbtf.2.3.2.dylib",
+    "lib/libbtf.2.dylib",
+    "lib/libbtf.dylib",
+    "lib/pkgconfig/BTF.pc"
+  ],
+  "fn": "libbtf-2.3.2-h99b4a89_7100102.conda",
+  "license": "LGPL-2.1-or-later",
+  "link": {
+    "source": "/Users/Carlos/miniforge3/pkgs/libbtf-2.3.2-h99b4a89_7100102",
+    "type": 1
+  },
+  "md5": "bb83a609dcf66d5ac2fd666888788c16",
+  "name": "libbtf",
+  "package_tarball_full_path": "/Users/Carlos/miniforge3/pkgs/libbtf-2.3.2-h99b4a89_7100102.conda",
+  "paths_data": {
+    "paths": [
+      {
+        "_path": "include/suitesparse/btf.h",
+        "path_type": "hardlink",
+        "sha256": "f5cf73928fedcebebe1021094359433060e3297be4e2edbbfc430ddb0a999a73",
+        "sha256_in_prefix": "f5cf73928fedcebebe1021094359433060e3297be4e2edbbfc430ddb0a999a73",
+        "size_in_bytes": 12634
+      },
+      {
+        "_path": "lib/cmake/BTF/BTFConfig.cmake",
+        "path_type": "hardlink",
+        "sha256": "02937995322718cfa54668a6364e16a3054c303b082378a837a26d9b483fe9f3",
+        "sha256_in_prefix": "02937995322718cfa54668a6364e16a3054c303b082378a837a26d9b483fe9f3",
+        "size_in_bytes": 6344
+      },
+      {
+        "_path": "lib/cmake/BTF/BTFConfigVersion.cmake",
+        "path_type": "hardlink",
+        "sha256": "35e6e90c1cce4d2f3580c219b4fd7a8fc060b3517d22e8bd8d59e78c246a12aa",
+        "sha256_in_prefix": "35e6e90c1cce4d2f3580c219b4fd7a8fc060b3517d22e8bd8d59e78c246a12aa",
+        "size_in_bytes": 2762
+      },
+      {
+        "_path": "lib/cmake/BTF/BTFTargets-release.cmake",
+        "path_type": "hardlink",
+        "sha256": "62da4293375bb1a92772cbb5eb09be5421722fc2ef406dc2df4ff5f0b0207a9d",
+        "sha256_in_prefix": "62da4293375bb1a92772cbb5eb09be5421722fc2ef406dc2df4ff5f0b0207a9d",
+        "size_in_bytes": 867
+      },
+      {
+        "_path": "lib/cmake/BTF/BTFTargets.cmake",
+        "path_type": "hardlink",
+        "sha256": "3c0d0cf9edcca35e61856e427145e4b1aa5b60d8062d1bd01293220b3fce6922",
+        "sha256_in_prefix": "3c0d0cf9edcca35e61856e427145e4b1aa5b60d8062d1bd01293220b3fce6922",
+        "size_in_bytes": 4270
+      },
+      {
+        "_path": "lib/libbtf.2.3.2.dylib",
+        "path_type": "hardlink",
+        "sha256": "fa151c4a8b3c3ee54b5d7835f6b92fd8cf5527922068fd3cd8edae97b22434e8",
+        "sha256_in_prefix": "fa151c4a8b3c3ee54b5d7835f6b92fd8cf5527922068fd3cd8edae97b22434e8",
+        "size_in_bytes": 51392
+      },
+      {
+        "_path": "lib/libbtf.2.dylib",
+        "path_type": "softlink",
+        "sha256": "fa151c4a8b3c3ee54b5d7835f6b92fd8cf5527922068fd3cd8edae97b22434e8",
+        "size_in_bytes": 18
+      },
+      {
+        "_path": "lib/libbtf.dylib",
+        "path_type": "softlink",
+        "sha256": "fa151c4a8b3c3ee54b5d7835f6b92fd8cf5527922068fd3cd8edae97b22434e8",
+        "size_in_bytes": 14
+      },
+      {
+        "_path": "lib/pkgconfig/BTF.pc",
+        "file_mode": "text",
+        "path_type": "hardlink",
+        "prefix_placeholder": "/Users/runner/miniforge3/conda-bld/bld/rattler-build_libbtf_1742288952/host_env_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_place",
+        "sha256": "2071eff09e5deaa703b03a991a3f20034ac41e3ea3146ab30f652a4b677523c8",
+        "sha256_in_prefix": "41a649ebbf5ceb6eefa3bbafbab439671aca29b52126ca485ff38b4f0225fa68",
+        "size_in_bytes": 717
+      }
+    ],
+    "paths_version": 1
+  },
+  "requested_spec": "None",
+  "sha256": "b05f0169f8723d4a3128ba0b77382385f01835f245079f14c3cb1406a9aff4a8",
+  "size": 25541,
+  "subdir": "osx-arm64",
+  "timestamp": 1742288952000,
+  "url": "https://conda-forge.fredhutch.org/conda-forge/osx-arm64/libbtf-2.3.2-h99b4a89_7100102.conda",
+  "version": "2.3.2"
+}

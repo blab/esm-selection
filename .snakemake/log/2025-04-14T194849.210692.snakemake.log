@@ -1,0 +1,228 @@
+Assuming unrestricted shared filesystem usage.
+None
+host: Nicolass-MacBook-Pro-2.local
+Building DAG of jobs...
+Your conda installation is not configured to use strict channel priorities. This is however important for having robust and correct environments (for details, see https://conda-forge.org/docs/user/tipsandtricks.html). Please consider to configure strict priorities by executing 'conda config --set channel_priority strict'.
+Using shell: /bin/bash
+Provided cores: 8
+Rules claiming more threads will be scaled down.
+Job stats:
+job                    count
+-------------------  -------
+all                        1
+extract_node_fastas        5
+total                      6
+
+Select jobs to execute...
+Execute 5 jobs...
+[Mon Apr 14 19:48:51 2025]
+localrule extract_node_fastas:
+    input: nextstrain_trees/flu_seasonal_h3n2_na_60y_root-sequence.json, nextstrain_trees/flu_seasonal_h3n2_na_60y.json, SM_scripts/extract_fasta_nodes.py
+    output: nextstrain_trees/nodeSeqs_na.fasta
+    jobid: 9
+    reason: Missing output files: nextstrain_trees/nodeSeqs_na.fasta
+    wildcards: segment=na
+    resources: tmpdir=/var/folders/d9/c2g9f9wx3sz_p7hzxj26b9w00000gp/T
+
+Activating conda environment: .snakemake/conda/a08bd16c1f38b56d7a9f1570b29cae19_
+[Mon Apr 14 19:48:51 2025]
+localrule extract_node_fastas:
+    input: nextstrain_trees/flu_seasonal_h3n2_np_60y_root-sequence.json, nextstrain_trees/flu_seasonal_h3n2_np_60y.json, SM_scripts/extract_fasta_nodes.py
+    output: nextstrain_trees/nodeSeqs_np.fasta
+    jobid: 7
+    reason: Missing output files: nextstrain_trees/nodeSeqs_np.fasta
+    wildcards: segment=np
+    resources: tmpdir=/var/folders/d9/c2g9f9wx3sz_p7hzxj26b9w00000gp/T
+
+Activating conda environment: .snakemake/conda/a08bd16c1f38b56d7a9f1570b29cae19_
+[Mon Apr 14 19:48:51 2025]
+localrule extract_node_fastas:
+    input: nextstrain_trees/flu_seasonal_h3n2_pa_60y_root-sequence.json, nextstrain_trees/flu_seasonal_h3n2_pa_60y.json, SM_scripts/extract_fasta_nodes.py
+    output: nextstrain_trees/nodeSeqs_pa.fasta
+    jobid: 5
+    reason: Missing output files: nextstrain_trees/nodeSeqs_pa.fasta
+    wildcards: segment=pa
+    resources: tmpdir=/var/folders/d9/c2g9f9wx3sz_p7hzxj26b9w00000gp/T
+
+Activating conda environment: .snakemake/conda/a08bd16c1f38b56d7a9f1570b29cae19_
+[Mon Apr 14 19:48:51 2025]
+localrule extract_node_fastas:
+    input: nextstrain_trees/flu_seasonal_h3n2_pb1_60y_root-sequence.json, nextstrain_trees/flu_seasonal_h3n2_pb1_60y.json, SM_scripts/extract_fasta_nodes.py
+    output: nextstrain_trees/nodeSeqs_pb1.fasta
+    jobid: 3
+    reason: Missing output files: nextstrain_trees/nodeSeqs_pb1.fasta
+    wildcards: segment=pb1
+    resources: tmpdir=/var/folders/d9/c2g9f9wx3sz_p7hzxj26b9w00000gp/T
+
+Activating conda environment: .snakemake/conda/a08bd16c1f38b56d7a9f1570b29cae19_
+[Mon Apr 14 19:48:51 2025]
+localrule extract_node_fastas:
+    input: nextstrain_trees/flu_seasonal_h3n2_pb2_60y_root-sequence.json, nextstrain_trees/flu_seasonal_h3n2_pb2_60y.json, SM_scripts/extract_fasta_nodes.py
+    output: nextstrain_trees/nodeSeqs_pb2.fasta
+    jobid: 1
+    reason: Missing output files: nextstrain_trees/nodeSeqs_pb2.fasta
+    wildcards: segment=pb2
+    resources: tmpdir=/var/folders/d9/c2g9f9wx3sz_p7hzxj26b9w00000gp/T
+
+Activating conda environment: .snakemake/conda/a08bd16c1f38b56d7a9f1570b29cae19_
+Waiting for more resources.
+RuleException:
+CalledProcessError in file "/Users/Carlos/Desktop/Bedford/esm-selection/Snakefile", line 39:
+Command 'source /Users/Carlos/miniforge3/bin/activate '/Users/Carlos/Desktop/Bedford/esm-selection/.snakemake/conda/a08bd16c1f38b56d7a9f1570b29cae19_'; set -euo pipefail;  
+        python SM_scripts/extract_fasta_nodes.py --gene np --local-files True --tree nextstrain_trees/flu_seasonal_h3n2_np_60y.json --root nextstrain_trees/flu_seasonal_h3n2_np_60y_root-sequence.json 
+        mv np_nodeSeqs.fasta nextstrain_trees/nodeSeqs_np.fasta' returned non-zero exit status 1.
+[Mon Apr 14 19:49:00 2025]
+Error in rule extract_node_fastas:
+    message: None
+    jobid: 7
+    input: nextstrain_trees/flu_seasonal_h3n2_np_60y_root-sequence.json, nextstrain_trees/flu_seasonal_h3n2_np_60y.json, SM_scripts/extract_fasta_nodes.py
+    output: nextstrain_trees/nodeSeqs_np.fasta
+    conda-env: /Users/Carlos/Desktop/Bedford/esm-selection/.snakemake/conda/a08bd16c1f38b56d7a9f1570b29cae19_
+    shell:
+        
+        python SM_scripts/extract_fasta_nodes.py --gene np --local-files True --tree nextstrain_trees/flu_seasonal_h3n2_np_60y.json --root nextstrain_trees/flu_seasonal_h3n2_np_60y_root-sequence.json 
+        mv np_nodeSeqs.fasta nextstrain_trees/nodeSeqs_np.fasta
+        
+        (command exited with non-zero exit code)
+RuleException:
+CalledProcessError in file "/Users/Carlos/Desktop/Bedford/esm-selection/Snakefile", line 39:
+Command 'source /Users/Carlos/miniforge3/bin/activate '/Users/Carlos/Desktop/Bedford/esm-selection/.snakemake/conda/a08bd16c1f38b56d7a9f1570b29cae19_'; set -euo pipefail;  
+        python SM_scripts/extract_fasta_nodes.py --gene pb1 --local-files True --tree nextstrain_trees/flu_seasonal_h3n2_pb1_60y.json --root nextstrain_trees/flu_seasonal_h3n2_pb1_60y_root-sequence.json 
+        mv pb1_nodeSeqs.fasta nextstrain_trees/nodeSeqs_pb1.fasta' returned non-zero exit status 1.
+[Mon Apr 14 19:49:00 2025]
+Error in rule extract_node_fastas:
+    message: None
+    jobid: 3
+    input: nextstrain_trees/flu_seasonal_h3n2_pb1_60y_root-sequence.json, nextstrain_trees/flu_seasonal_h3n2_pb1_60y.json, SM_scripts/extract_fasta_nodes.py
+    output: nextstrain_trees/nodeSeqs_pb1.fasta
+    conda-env: /Users/Carlos/Desktop/Bedford/esm-selection/.snakemake/conda/a08bd16c1f38b56d7a9f1570b29cae19_
+    shell:
+        
+        python SM_scripts/extract_fasta_nodes.py --gene pb1 --local-files True --tree nextstrain_trees/flu_seasonal_h3n2_pb1_60y.json --root nextstrain_trees/flu_seasonal_h3n2_pb1_60y_root-sequence.json 
+        mv pb1_nodeSeqs.fasta nextstrain_trees/nodeSeqs_pb1.fasta
+        
+        (command exited with non-zero exit code)
+RuleException:
+CalledProcessError in file "/Users/Carlos/Desktop/Bedford/esm-selection/Snakefile", line 39:
+Command 'source /Users/Carlos/miniforge3/bin/activate '/Users/Carlos/Desktop/Bedford/esm-selection/.snakemake/conda/a08bd16c1f38b56d7a9f1570b29cae19_'; set -euo pipefail;  
+        python SM_scripts/extract_fasta_nodes.py --gene pb2 --local-files True --tree nextstrain_trees/flu_seasonal_h3n2_pb2_60y.json --root nextstrain_trees/flu_seasonal_h3n2_pb2_60y_root-sequence.json 
+        mv pb2_nodeSeqs.fasta nextstrain_trees/nodeSeqs_pb2.fasta' returned non-zero exit status 1.
+[Mon Apr 14 19:49:00 2025]
+Error in rule extract_node_fastas:
+    message: None
+    jobid: 1
+    input: nextstrain_trees/flu_seasonal_h3n2_pb2_60y_root-sequence.json, nextstrain_trees/flu_seasonal_h3n2_pb2_60y.json, SM_scripts/extract_fasta_nodes.py
+    output: nextstrain_trees/nodeSeqs_pb2.fasta
+    conda-env: /Users/Carlos/Desktop/Bedford/esm-selection/.snakemake/conda/a08bd16c1f38b56d7a9f1570b29cae19_
+    shell:
+        
+        python SM_scripts/extract_fasta_nodes.py --gene pb2 --local-files True --tree nextstrain_trees/flu_seasonal_h3n2_pb2_60y.json --root nextstrain_trees/flu_seasonal_h3n2_pb2_60y_root-sequence.json 
+        mv pb2_nodeSeqs.fasta nextstrain_trees/nodeSeqs_pb2.fasta
+        
+        (command exited with non-zero exit code)
+RuleException:
+CalledProcessError in file "/Users/Carlos/Desktop/Bedford/esm-selection/Snakefile", line 39:
+Command 'source /Users/Carlos/miniforge3/bin/activate '/Users/Carlos/Desktop/Bedford/esm-selection/.snakemake/conda/a08bd16c1f38b56d7a9f1570b29cae19_'; set -euo pipefail;  
+        python SM_scripts/extract_fasta_nodes.py --gene pa --local-files True --tree nextstrain_trees/flu_seasonal_h3n2_pa_60y.json --root nextstrain_trees/flu_seasonal_h3n2_pa_60y_root-sequence.json 
+        mv pa_nodeSeqs.fasta nextstrain_trees/nodeSeqs_pa.fasta' returned non-zero exit status 1.
+[Mon Apr 14 19:49:00 2025]
+Error in rule extract_node_fastas:
+    message: None
+    jobid: 5
+    input: nextstrain_trees/flu_seasonal_h3n2_pa_60y_root-sequence.json, nextstrain_trees/flu_seasonal_h3n2_pa_60y.json, SM_scripts/extract_fasta_nodes.py
+    output: nextstrain_trees/nodeSeqs_pa.fasta
+    conda-env: /Users/Carlos/Desktop/Bedford/esm-selection/.snakemake/conda/a08bd16c1f38b56d7a9f1570b29cae19_
+    shell:
+        
+        python SM_scripts/extract_fasta_nodes.py --gene pa --local-files True --tree nextstrain_trees/flu_seasonal_h3n2_pa_60y.json --root nextstrain_trees/flu_seasonal_h3n2_pa_60y_root-sequence.json 
+        mv pa_nodeSeqs.fasta nextstrain_trees/nodeSeqs_pa.fasta
+        
+        (command exited with non-zero exit code)
+RuleException:
+CalledProcessError in file "/Users/Carlos/Desktop/Bedford/esm-selection/Snakefile", line 39:
+Command 'source /Users/Carlos/miniforge3/bin/activate '/Users/Carlos/Desktop/Bedford/esm-selection/.snakemake/conda/a08bd16c1f38b56d7a9f1570b29cae19_'; set -euo pipefail;  
+        python SM_scripts/extract_fasta_nodes.py --gene na --local-files True --tree nextstrain_trees/flu_seasonal_h3n2_na_60y.json --root nextstrain_trees/flu_seasonal_h3n2_na_60y_root-sequence.json 
+        mv na_nodeSeqs.fasta nextstrain_trees/nodeSeqs_na.fasta' returned non-zero exit status 1.
+[Mon Apr 14 19:49:02 2025]
+Error in rule extract_node_fastas:
+    message: None
+    jobid: 9
+    input: nextstrain_trees/flu_seasonal_h3n2_na_60y_root-sequence.json, nextstrain_trees/flu_seasonal_h3n2_na_60y.json, SM_scripts/extract_fasta_nodes.py
+    output: nextstrain_trees/nodeSeqs_na.fasta
+    conda-env: /Users/Carlos/Desktop/Bedford/esm-selection/.snakemake/conda/a08bd16c1f38b56d7a9f1570b29cae19_
+    shell:
+        
+        python SM_scripts/extract_fasta_nodes.py --gene na --local-files True --tree nextstrain_trees/flu_seasonal_h3n2_na_60y.json --root nextstrain_trees/flu_seasonal_h3n2_na_60y_root-sequence.json 
+        mv na_nodeSeqs.fasta nextstrain_trees/nodeSeqs_na.fasta
+        
+        (command exited with non-zero exit code)
+Shutting down, this might take some time.
+Exiting because a job execution failed. Look below for error messages
+[Mon Apr 14 19:49:02 2025]
+Error in rule extract_node_fastas:
+    message: None
+    jobid: 9
+    input: nextstrain_trees/flu_seasonal_h3n2_na_60y_root-sequence.json, nextstrain_trees/flu_seasonal_h3n2_na_60y.json, SM_scripts/extract_fasta_nodes.py
+    output: nextstrain_trees/nodeSeqs_na.fasta
+    conda-env: /Users/Carlos/Desktop/Bedford/esm-selection/.snakemake/conda/a08bd16c1f38b56d7a9f1570b29cae19_
+    shell:
+        
+        python SM_scripts/extract_fasta_nodes.py --gene na --local-files True --tree nextstrain_trees/flu_seasonal_h3n2_na_60y.json --root nextstrain_trees/flu_seasonal_h3n2_na_60y_root-sequence.json 
+        mv na_nodeSeqs.fasta nextstrain_trees/nodeSeqs_na.fasta
+        
+        (command exited with non-zero exit code)
+[Mon Apr 14 19:49:02 2025]
+Error in rule extract_node_fastas:
+    message: None
+    jobid: 7
+    input: nextstrain_trees/flu_seasonal_h3n2_np_60y_root-sequence.json, nextstrain_trees/flu_seasonal_h3n2_np_60y.json, SM_scripts/extract_fasta_nodes.py
+    output: nextstrain_trees/nodeSeqs_np.fasta
+    conda-env: /Users/Carlos/Desktop/Bedford/esm-selection/.snakemake/conda/a08bd16c1f38b56d7a9f1570b29cae19_
+    shell:
+        
+        python SM_scripts/extract_fasta_nodes.py --gene np --local-files True --tree nextstrain_trees/flu_seasonal_h3n2_np_60y.json --root nextstrain_trees/flu_seasonal_h3n2_np_60y_root-sequence.json 
+        mv np_nodeSeqs.fasta nextstrain_trees/nodeSeqs_np.fasta
+        
+        (command exited with non-zero exit code)
+[Mon Apr 14 19:49:02 2025]
+Error in rule extract_node_fastas:
+    message: None
+    jobid: 5
+    input: nextstrain_trees/flu_seasonal_h3n2_pa_60y_root-sequence.json, nextstrain_trees/flu_seasonal_h3n2_pa_60y.json, SM_scripts/extract_fasta_nodes.py
+    output: nextstrain_trees/nodeSeqs_pa.fasta
+    conda-env: /Users/Carlos/Desktop/Bedford/esm-selection/.snakemake/conda/a08bd16c1f38b56d7a9f1570b29cae19_
+    shell:
+        
+        python SM_scripts/extract_fasta_nodes.py --gene pa --local-files True --tree nextstrain_trees/flu_seasonal_h3n2_pa_60y.json --root nextstrain_trees/flu_seasonal_h3n2_pa_60y_root-sequence.json 
+        mv pa_nodeSeqs.fasta nextstrain_trees/nodeSeqs_pa.fasta
+        
+        (command exited with non-zero exit code)
+[Mon Apr 14 19:49:02 2025]
+Error in rule extract_node_fastas:
+    message: None
+    jobid: 3
+    input: nextstrain_trees/flu_seasonal_h3n2_pb1_60y_root-sequence.json, nextstrain_trees/flu_seasonal_h3n2_pb1_60y.json, SM_scripts/extract_fasta_nodes.py
+    output: nextstrain_trees/nodeSeqs_pb1.fasta
+    conda-env: /Users/Carlos/Desktop/Bedford/esm-selection/.snakemake/conda/a08bd16c1f38b56d7a9f1570b29cae19_
+    shell:
+        
+        python SM_scripts/extract_fasta_nodes.py --gene pb1 --local-files True --tree nextstrain_trees/flu_seasonal_h3n2_pb1_60y.json --root nextstrain_trees/flu_seasonal_h3n2_pb1_60y_root-sequence.json 
+        mv pb1_nodeSeqs.fasta nextstrain_trees/nodeSeqs_pb1.fasta
+        
+        (command exited with non-zero exit code)
+[Mon Apr 14 19:49:02 2025]
+Error in rule extract_node_fastas:
+    message: None
+    jobid: 1
+    input: nextstrain_trees/flu_seasonal_h3n2_pb2_60y_root-sequence.json, nextstrain_trees/flu_seasonal_h3n2_pb2_60y.json, SM_scripts/extract_fasta_nodes.py
+    output: nextstrain_trees/nodeSeqs_pb2.fasta
+    conda-env: /Users/Carlos/Desktop/Bedford/esm-selection/.snakemake/conda/a08bd16c1f38b56d7a9f1570b29cae19_
+    shell:
+        
+        python SM_scripts/extract_fasta_nodes.py --gene pb2 --local-files True --tree nextstrain_trees/flu_seasonal_h3n2_pb2_60y.json --root nextstrain_trees/flu_seasonal_h3n2_pb2_60y_root-sequence.json 
+        mv pb2_nodeSeqs.fasta nextstrain_trees/nodeSeqs_pb2.fasta
+        
+        (command exited with non-zero exit code)
+Complete log(s): /Users/Carlos/Desktop/Bedford/esm-selection/.snakemake/log/2025-04-14T194849.210692.snakemake.log
+WorkflowError:
+At least one job did not complete successfully.

@@ -1,0 +1,66 @@
+Assuming unrestricted shared filesystem usage.
+None
+host: Nicolass-MacBook-Pro-2.local
+Building DAG of jobs...
+Your conda installation is not configured to use strict channel priorities. This is however important for having robust and correct environments (for details, see https://conda-forge.org/docs/user/tipsandtricks.html). Please consider to configure strict priorities by executing 'conda config --set channel_priority strict'.
+Using shell: /bin/bash
+Provided cores: 8
+Rules claiming more threads will be scaled down.
+Job stats:
+job                         count
+------------------------  -------
+download_nextstrain_data        1
+extract_node_fastas             1
+total                           2
+
+Select jobs to execute...
+Execute 1 jobs...
+[Mon Apr 14 19:14:47 2025]
+localrule download_nextstrain_data:
+    output: nextstrain_trees/flu_seasonal_h3n2_PB2_60y.json, nextstrain_trees/flu_seasonal_h3n2_PB2_60y_tip-frequencies.json, nextstrain_trees/flu_seasonal_h3n2_PB2_60y_root-sequence.json
+    jobid: 1
+    reason: Missing output files: nextstrain_trees/flu_seasonal_h3n2_PB2_60y_root-sequence.json
+    wildcards: segment=PB2
+    resources: tmpdir=/var/folders/d9/c2g9f9wx3sz_p7hzxj26b9w00000gp/T
+
+Warning: the following output files of rule download_nextstrain_data were not present when the DAG was created:
+{'nextstrain_trees/flu_seasonal_h3n2_PB2_60y_root-sequence.json'}
+Activating conda environment: .snakemake/conda/a08bd16c1f38b56d7a9f1570b29cae19_
+Waiting for more resources.
+RuleException:
+CalledProcessError in file "/Users/Carlos/Desktop/Bedford/esm-selection/Snakefile", line 19:
+Command 'source /Users/Carlos/miniforge3/bin/activate '/Users/Carlos/Desktop/Bedford/esm-selection/.snakemake/conda/a08bd16c1f38b56d7a9f1570b29cae19_'; set -euo pipefail;  
+        mkdir -p nextstrain_trees
+        cd nextstrain_trees
+        nextstrain remote download https://nextstrain.org/groups/blab/flu/seasonal/h3n2/PB2/60y' returned non-zero exit status 1.
+[Mon Apr 14 19:14:48 2025]
+Error in rule download_nextstrain_data:
+    message: None
+    jobid: 1
+    output: nextstrain_trees/flu_seasonal_h3n2_PB2_60y.json, nextstrain_trees/flu_seasonal_h3n2_PB2_60y_tip-frequencies.json, nextstrain_trees/flu_seasonal_h3n2_PB2_60y_root-sequence.json
+    conda-env: /Users/Carlos/Desktop/Bedford/esm-selection/.snakemake/conda/a08bd16c1f38b56d7a9f1570b29cae19_
+    shell:
+        
+        mkdir -p nextstrain_trees
+        cd nextstrain_trees
+        nextstrain remote download https://nextstrain.org/groups/blab/flu/seasonal/h3n2/PB2/60y
+        
+        (command exited with non-zero exit code)
+Shutting down, this might take some time.
+Exiting because a job execution failed. Look below for error messages
+[Mon Apr 14 19:14:57 2025]
+Error in rule download_nextstrain_data:
+    message: None
+    jobid: 1
+    output: nextstrain_trees/flu_seasonal_h3n2_PB2_60y.json, nextstrain_trees/flu_seasonal_h3n2_PB2_60y_tip-frequencies.json, nextstrain_trees/flu_seasonal_h3n2_PB2_60y_root-sequence.json
+    conda-env: /Users/Carlos/Desktop/Bedford/esm-selection/.snakemake/conda/a08bd16c1f38b56d7a9f1570b29cae19_
+    shell:
+        
+        mkdir -p nextstrain_trees
+        cd nextstrain_trees
+        nextstrain remote download https://nextstrain.org/groups/blab/flu/seasonal/h3n2/PB2/60y
+        
+        (command exited with non-zero exit code)
+Complete log(s): /Users/Carlos/Desktop/Bedford/esm-selection/.snakemake/log/2025-04-14T191445.764215.snakemake.log
+WorkflowError:
+At least one job did not complete successfully.

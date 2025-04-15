@@ -1,0 +1,3 @@
+[console_scripts]
+augur = augur.__main__:main
+

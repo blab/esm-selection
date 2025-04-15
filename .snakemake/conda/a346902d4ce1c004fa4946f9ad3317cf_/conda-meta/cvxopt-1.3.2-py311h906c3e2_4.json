@@ -1,0 +1,362 @@
+{
+  "build": "py311h906c3e2_4",
+  "build_number": 4,
+  "channel": "https://conda-forge.fredhutch.org/conda-forge/osx-arm64",
+  "constrains": [],
+  "depends": [
+    "__osx >=11.0",
+    "dsdp",
+    "fftw >=3.3.10,<4.0a0",
+    "glpk >=5.0,<6.0a0",
+    "gsl >=2.7,<2.8.0a0",
+    "libamd >=3.3.3,<4.0a0",
+    "libblas >=3.9.0,<4.0a0",
+    "libbtf >=2.3.2,<3.0a0",
+    "libcamd >=3.3.3,<4.0a0",
+    "libccolamd >=3.3.4,<4.0a0",
+    "libcholmod >=5.3.1,<6.0a0",
+    "libcolamd >=3.3.4,<4.0a0",
+    "libcxsparse >=4.4.1,<5.0a0",
+    "libklu >=2.3.5,<3.0a0",
+    "liblapack >=3.9.0,<4.0a0",
+    "libldl >=3.3.2,<4.0a0",
+    "libparu >=1.0.0,<2.0a0",
+    "librbio >=4.3.4,<5.0a0",
+    "libspex >=3.2.3,<4.0a0",
+    "libspqr >=4.3.4,<5.0a0",
+    "libsuitesparseconfig >=7.10.1,<8.0a0",
+    "libumfpack >=6.3.5,<7.0a0",
+    "python >=3.11,<3.12.0a0",
+    "python >=3.11,<3.12.0a0 *_cpython",
+    "python_abi 3.11.* *_cp311",
+    "suitesparse >=7.10.1,<8.0a0"
+  ],
+  "extracted_package_dir": "/Users/Carlos/miniforge3/pkgs/cvxopt-1.3.2-py311h906c3e2_4",
+  "files": [
+    "include/cvxopt.h",
+    "lib/python3.11/site-packages/cvxopt-1.3.2-py3.11.egg-info/PKG-INFO",
+    "lib/python3.11/site-packages/cvxopt-1.3.2-py3.11.egg-info/SOURCES.txt",
+    "lib/python3.11/site-packages/cvxopt-1.3.2-py3.11.egg-info/dependency_links.txt",
+    "lib/python3.11/site-packages/cvxopt-1.3.2-py3.11.egg-info/not-zip-safe",
+    "lib/python3.11/site-packages/cvxopt-1.3.2-py3.11.egg-info/top_level.txt",
+    "lib/python3.11/site-packages/cvxopt/__init__.py",
+    "lib/python3.11/site-packages/cvxopt/__pycache__/__init__.cpython-311.pyc",
+    "lib/python3.11/site-packages/cvxopt/__pycache__/_version.cpython-311.pyc",
+    "lib/python3.11/site-packages/cvxopt/__pycache__/coneprog.cpython-311.pyc",
+    "lib/python3.11/site-packages/cvxopt/__pycache__/cvxprog.cpython-311.pyc",
+    "lib/python3.11/site-packages/cvxopt/__pycache__/info.cpython-311.pyc",
+    "lib/python3.11/site-packages/cvxopt/__pycache__/misc.cpython-311.pyc",
+    "lib/python3.11/site-packages/cvxopt/__pycache__/modeling.cpython-311.pyc",
+    "lib/python3.11/site-packages/cvxopt/__pycache__/msk.cpython-311.pyc",
+    "lib/python3.11/site-packages/cvxopt/__pycache__/printing.cpython-311.pyc",
+    "lib/python3.11/site-packages/cvxopt/__pycache__/solvers.cpython-311.pyc",
+    "lib/python3.11/site-packages/cvxopt/_version.py",
+    "lib/python3.11/site-packages/cvxopt/amd.cpython-311-darwin.so",
+    "lib/python3.11/site-packages/cvxopt/base.cpython-311-darwin.so",
+    "lib/python3.11/site-packages/cvxopt/blas.cpython-311-darwin.so",
+    "lib/python3.11/site-packages/cvxopt/cholmod.cpython-311-darwin.so",
+    "lib/python3.11/site-packages/cvxopt/coneprog.py",
+    "lib/python3.11/site-packages/cvxopt/cvxprog.py",
+    "lib/python3.11/site-packages/cvxopt/dsdp.cpython-311-darwin.so",
+    "lib/python3.11/site-packages/cvxopt/fftw.cpython-311-darwin.so",
+    "lib/python3.11/site-packages/cvxopt/glpk.cpython-311-darwin.so",
+    "lib/python3.11/site-packages/cvxopt/gsl.cpython-311-darwin.so",
+    "lib/python3.11/site-packages/cvxopt/info.py",
+    "lib/python3.11/site-packages/cvxopt/lapack.cpython-311-darwin.so",
+    "lib/python3.11/site-packages/cvxopt/misc.py",
+    "lib/python3.11/site-packages/cvxopt/misc_solvers.cpython-311-darwin.so",
+    "lib/python3.11/site-packages/cvxopt/modeling.py",
+    "lib/python3.11/site-packages/cvxopt/msk.py",
+    "lib/python3.11/site-packages/cvxopt/printing.py",
+    "lib/python3.11/site-packages/cvxopt/solvers.py",
+    "lib/python3.11/site-packages/cvxopt/umfpack.cpython-311-darwin.so"
+  ],
+  "fn": "cvxopt-1.3.2-py311h906c3e2_4.conda",
+  "license": "GPL-3.0-or-later",
+  "link": {
+    "source": "/Users/Carlos/miniforge3/pkgs/cvxopt-1.3.2-py311h906c3e2_4",
+    "type": 1
+  },
+  "md5": "b48196abb50d073d3fafe031f532ea7f",
+  "name": "cvxopt",
+  "package_tarball_full_path": "/Users/Carlos/miniforge3/pkgs/cvxopt-1.3.2-py311h906c3e2_4.conda",
+  "paths_data": {
+    "paths": [
+      {
+        "_path": "include/cvxopt.h",
+        "path_type": "hardlink",
+        "sha256": "4cbd0b2ce355c19b2fe690c5ecf919ad5b64be169d8154a8ceef886416e0fe4d",
+        "sha256_in_prefix": "4cbd0b2ce355c19b2fe690c5ecf919ad5b64be169d8154a8ceef886416e0fe4d",
+        "size_in_bytes": 4701
+      },
+      {
+        "_path": "lib/python3.11/site-packages/cvxopt-1.3.2-py3.11.egg-info/PKG-INFO",
+        "path_type": "hardlink",
+        "sha256": "a8cb298b0fac1d9fce907e0d2c451f598f67ae369dfb586098cfc1d6f68f7f6c",
+        "sha256_in_prefix": "a8cb298b0fac1d9fce907e0d2c451f598f67ae369dfb586098cfc1d6f68f7f6c",
+        "size_in_bytes": 1533
+      },
+      {
+        "_path": "lib/python3.11/site-packages/cvxopt-1.3.2-py3.11.egg-info/SOURCES.txt",
+        "path_type": "hardlink",
+        "sha256": "fde4de980361a47ac0bd52d72dd29a6177ca678f40f6a50ed18c06fecb9c92de",
+        "sha256_in_prefix": "fde4de980361a47ac0bd52d72dd29a6177ca678f40f6a50ed18c06fecb9c92de",
+        "size_in_bytes": 41410
+      },
+      {
+        "_path": "lib/python3.11/site-packages/cvxopt-1.3.2-py3.11.egg-info/dependency_links.txt",
+        "path_type": "hardlink",
+        "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+        "sha256_in_prefix": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+        "size_in_bytes": 1
+      },
+      {
+        "_path": "lib/python3.11/site-packages/cvxopt-1.3.2-py3.11.egg-info/not-zip-safe",
+        "path_type": "hardlink",
+        "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+        "sha256_in_prefix": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+        "size_in_bytes": 1
+      },
+      {
+        "_path": "lib/python3.11/site-packages/cvxopt-1.3.2-py3.11.egg-info/top_level.txt",
+        "path_type": "hardlink",
+        "sha256": "39979a530c01799385e22b90d4fb54de1532c53eeff666edccf7582b32ff0d31",
+        "sha256_in_prefix": "39979a530c01799385e22b90d4fb54de1532c53eeff666edccf7582b32ff0d31",
+        "size_in_bytes": 76
+      },
+      {
+        "_path": "lib/python3.11/site-packages/cvxopt/__init__.py",
+        "path_type": "hardlink",
+        "sha256": "8004e124a216d1201decc40bec7e21923195a61ac2b978d0ba1fffd2aa7fb464",
+        "sha256_in_prefix": "8004e124a216d1201decc40bec7e21923195a61ac2b978d0ba1fffd2aa7fb464",
+        "size_in_bytes": 9780
+      },
+      {
+        "_path": "lib/python3.11/site-packages/cvxopt/__pycache__/__init__.cpython-311.pyc",
+        "path_type": "hardlink",
+        "sha256": "c93405223f70bec0f056ac180e3f5cefa9fccd8a7ae8d54cf1e2a01ccd4bc90a",
+        "sha256_in_prefix": "c93405223f70bec0f056ac180e3f5cefa9fccd8a7ae8d54cf1e2a01ccd4bc90a",
+        "size_in_bytes": 12803
+      },
+      {
+        "_path": "lib/python3.11/site-packages/cvxopt/__pycache__/_version.cpython-311.pyc",
+        "path_type": "hardlink",
+        "sha256": "cd8efaaa8be796f75708cc2e7dd6e2acf4d381b92cf839218151e37fddcb5112",
+        "sha256_in_prefix": "cd8efaaa8be796f75708cc2e7dd6e2acf4d381b92cf839218151e37fddcb5112",
+        "size_in_bytes": 688
+      },
+      {
+        "_path": "lib/python3.11/site-packages/cvxopt/__pycache__/coneprog.cpython-311.pyc",
+        "path_type": "hardlink",
+        "sha256": "49a577b64aeb6a111ae79f47d68a9600cdd0de3657212d9c6a6600d1dce8e051",
+        "sha256_in_prefix": "49a577b64aeb6a111ae79f47d68a9600cdd0de3657212d9c6a6600d1dce8e051",
+        "size_in_bytes": 196683
+      },
+      {
+        "_path": "lib/python3.11/site-packages/cvxopt/__pycache__/cvxprog.cpython-311.pyc",
+        "path_type": "hardlink",
+        "sha256": "4e32a24f9fb0d3d9364a0b05b6207b08a5db19d881c855e34807fe95a50486a8",
+        "sha256_in_prefix": "4e32a24f9fb0d3d9364a0b05b6207b08a5db19d881c855e34807fe95a50486a8",
+        "size_in_bytes": 93467
+      },
+      {
+        "_path": "lib/python3.11/site-packages/cvxopt/__pycache__/info.cpython-311.pyc",
+        "path_type": "hardlink",
+        "sha256": "7ce8180d3fd29b8c27ad11bee48188ff9062adeabb97f8dd26ce0e64c5a93108",
+        "sha256_in_prefix": "7ce8180d3fd29b8c27ad11bee48188ff9062adeabb97f8dd26ce0e64c5a93108",
+        "size_in_bytes": 291
+      },
+      {
+        "_path": "lib/python3.11/site-packages/cvxopt/__pycache__/misc.cpython-311.pyc",
+        "path_type": "hardlink",
+        "sha256": "8691c671b149fa29b835cadcb340929daee1192270d6b0668ed415523eee70b9",
+        "sha256_in_prefix": "8691c671b149fa29b835cadcb340929daee1192270d6b0668ed415523eee70b9",
+        "size_in_bytes": 69236
+      },
+      {
+        "_path": "lib/python3.11/site-packages/cvxopt/__pycache__/modeling.cpython-311.pyc",
+        "path_type": "hardlink",
+        "sha256": "6d388efa6f94deb53dc21187539e76599edb1ac79c3ee6684890b826f2046dc3",
+        "sha256_in_prefix": "6d388efa6f94deb53dc21187539e76599edb1ac79c3ee6684890b826f2046dc3",
+        "size_in_bytes": 149354
+      },
+      {
+        "_path": "lib/python3.11/site-packages/cvxopt/__pycache__/msk.cpython-311.pyc",
+        "path_type": "hardlink",
+        "sha256": "97100f9cec44ad49a65c213bcd3f5f2d94de2d2d44e1d13abff52348e7ed4149",
+        "sha256_in_prefix": "97100f9cec44ad49a65c213bcd3f5f2d94de2d2d44e1d13abff52348e7ed4149",
+        "size_in_bytes": 54763
+      },
+      {
+        "_path": "lib/python3.11/site-packages/cvxopt/__pycache__/printing.cpython-311.pyc",
+        "path_type": "hardlink",
+        "sha256": "34a2dc5bf83acebe6299a84237d9d5e906787859a54298f64abf4aaf04db8240",
+        "sha256_in_prefix": "34a2dc5bf83acebe6299a84237d9d5e906787859a54298f64abf4aaf04db8240",
+        "size_in_bytes": 10276
+      },
+      {
+        "_path": "lib/python3.11/site-packages/cvxopt/__pycache__/solvers.cpython-311.pyc",
+        "path_type": "hardlink",
+        "sha256": "33d2c10ef3b436431eaceb931ddc46c5f468af213ce508df33e9ba8af72cc8f1",
+        "sha256_in_prefix": "33d2c10ef3b436431eaceb931ddc46c5f468af213ce508df33e9ba8af72cc8f1",
+        "size_in_bytes": 1123
+      },
+      {
+        "_path": "lib/python3.11/site-packages/cvxopt/_version.py",
+        "path_type": "hardlink",
+        "sha256": "d8c20a3071bf6e9dca990559c1ad2b4afa131c845fc70912c4539484c2b87907",
+        "sha256_in_prefix": "d8c20a3071bf6e9dca990559c1ad2b4afa131c845fc70912c4539484c2b87907",
+        "size_in_bytes": 511
+      },
+      {
+        "_path": "lib/python3.11/site-packages/cvxopt/amd.cpython-311-darwin.so",
+        "path_type": "hardlink",
+        "sha256": "a7332fbd2d35adc5256d46feca10721c43b2e469a141ee733983ed9cbfff838d",
+        "sha256_in_prefix": "a7332fbd2d35adc5256d46feca10721c43b2e469a141ee733983ed9cbfff838d",
+        "size_in_bytes": 53040
+      },
+      {
+        "_path": "lib/python3.11/site-packages/cvxopt/base.cpython-311-darwin.so",
+        "file_mode": "binary",
+        "path_type": "hardlink",
+        "prefix_placeholder": "/Users/runner/miniforge3/conda-bld/cvxopt_1744543887842/_h_env_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_pl",
+        "sha256": "887739a98c9501e6574f8759feba263f46670cbbaf57223001a326ae293898b6",
+        "sha256_in_prefix": "bb4cc3d5d22f5ad283872b718cc32d9f92650254cb02f7ece1cc9efc4613dd5f",
+        "size_in_bytes": 197328
+      },
+      {
+        "_path": "lib/python3.11/site-packages/cvxopt/blas.cpython-311-darwin.so",
+        "path_type": "hardlink",
+        "sha256": "19ad7cb30e28fc322994d6420d8564d2e96e84e0e5b291887ca2e5498e671731",
+        "sha256_in_prefix": "19ad7cb30e28fc322994d6420d8564d2e96e84e0e5b291887ca2e5498e671731",
+        "size_in_bytes": 139600
+      },
+      {
+        "_path": "lib/python3.11/site-packages/cvxopt/cholmod.cpython-311-darwin.so",
+        "path_type": "hardlink",
+        "sha256": "6f27adb8c896d9bd59dd9bd6ad4d71f4e694b047d45d792621a7697bd5e8b64c",
+        "sha256_in_prefix": "6f27adb8c896d9bd59dd9bd6ad4d71f4e694b047d45d792621a7697bd5e8b64c",
+        "size_in_bytes": 71872
+      },
+      {
+        "_path": "lib/python3.11/site-packages/cvxopt/coneprog.py",
+        "path_type": "hardlink",
+        "sha256": "b262241bff1a51e254f2b6728d8e499d4de29be9bc6949380d2a154db2cc6e6d",
+        "sha256_in_prefix": "b262241bff1a51e254f2b6728d8e499d4de29be9bc6949380d2a154db2cc6e6d",
+        "size_in_bytes": 168050
+      },
+      {
+        "_path": "lib/python3.11/site-packages/cvxopt/cvxprog.py",
+        "path_type": "hardlink",
+        "sha256": "d2502c136ed44b0a2166f396faf4b870be975d613e67778d9e4840a5ae544116",
+        "sha256_in_prefix": "d2502c136ed44b0a2166f396faf4b870be975d613e67778d9e4840a5ae544116",
+        "size_in_bytes": 83899
+      },
+      {
+        "_path": "lib/python3.11/site-packages/cvxopt/dsdp.cpython-311-darwin.so",
+        "file_mode": "binary",
+        "path_type": "hardlink",
+        "prefix_placeholder": "/Users/runner/miniforge3/conda-bld/cvxopt_1744543887842/_h_env_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_pl",
+        "sha256": "d59628d76242afbb17668a0bfa1831f5006518e10a4ee1e388206336cbd679d6",
+        "sha256_in_prefix": "7bf2e0fc4a3366c6c058894dfcf34676b9aa89ddfc4b9ec74609507c2000873c",
+        "size_in_bytes": 55168
+      },
+      {
+        "_path": "lib/python3.11/site-packages/cvxopt/fftw.cpython-311-darwin.so",
+        "file_mode": "binary",
+        "path_type": "hardlink",
+        "prefix_placeholder": "/Users/runner/miniforge3/conda-bld/cvxopt_1744543887842/_h_env_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_pl",
+        "sha256": "aba335d08dd51e8c9bb4cba9cbd149a202dd08805feac755b5dad91c0f5ede73",
+        "sha256_in_prefix": "9b929fe52ef8901489db3564ee17daa1e96a0a05571e1cdd0701aa103cddf180",
+        "size_in_bytes": 70368
+      },
+      {
+        "_path": "lib/python3.11/site-packages/cvxopt/glpk.cpython-311-darwin.so",
+        "file_mode": "binary",
+        "path_type": "hardlink",
+        "prefix_placeholder": "/Users/runner/miniforge3/conda-bld/cvxopt_1744543887842/_h_env_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_pl",
+        "sha256": "db0b8518ed6a5a7ebd44830213a513cc2fa83832430d2a6abf7f4fe5ddcad5aa",
+        "sha256_in_prefix": "45989fa6557c260b3a5c823853afd643b491e77d8a633c14fef2f2e6eaa268b2",
+        "size_in_bytes": 71072
+      },
+      {
+        "_path": "lib/python3.11/site-packages/cvxopt/gsl.cpython-311-darwin.so",
+        "path_type": "hardlink",
+        "sha256": "80d83fc5b04040aae6e0ec226218feb80405f1145d88b12edb002bb23b661d2e",
+        "sha256_in_prefix": "80d83fc5b04040aae6e0ec226218feb80405f1145d88b12edb002bb23b661d2e",
+        "size_in_bytes": 52912
+      },
+      {
+        "_path": "lib/python3.11/site-packages/cvxopt/info.py",
+        "path_type": "hardlink",
+        "sha256": "d97982e1e801a7c56ab9c3860a84ebcbf25cf883adb73eea75ffacc4e108656b",
+        "sha256_in_prefix": "d97982e1e801a7c56ab9c3860a84ebcbf25cf883adb73eea75ffacc4e108656b",
+        "size_in_bytes": 885
+      },
+      {
+        "_path": "lib/python3.11/site-packages/cvxopt/lapack.cpython-311-darwin.so",
+        "path_type": "hardlink",
+        "sha256": "ed0f3fbcc1bc82082590608d1de9722aaf267344560cf778897b913bbde6292f",
+        "sha256_in_prefix": "ed0f3fbcc1bc82082590608d1de9722aaf267344560cf778897b913bbde6292f",
+        "size_in_bytes": 227104
+      },
+      {
+        "_path": "lib/python3.11/site-packages/cvxopt/misc.py",
+        "path_type": "hardlink",
+        "sha256": "a806ba3718bf14ccb9f34544f752b6bc829eb3d6265447656f48f7b10d92d242",
+        "sha256_in_prefix": "a806ba3718bf14ccb9f34544f752b6bc829eb3d6265447656f48f7b10d92d242",
+        "size_in_bytes": 54949
+      },
+      {
+        "_path": "lib/python3.11/site-packages/cvxopt/misc_solvers.cpython-311-darwin.so",
+        "path_type": "hardlink",
+        "sha256": "d2f4b0a3a8a91baf08115961a3d5c3a5072b3b4b6ffc4fb224b02733c756e65f",
+        "sha256_in_prefix": "d2f4b0a3a8a91baf08115961a3d5c3a5072b3b4b6ffc4fb224b02733c756e65f",
+        "size_in_bytes": 70256
+      },
+      {
+        "_path": "lib/python3.11/site-packages/cvxopt/modeling.py",
+        "path_type": "hardlink",
+        "sha256": "78685b39388e12d83909bd0f5df03fbde946ad062a19a05eb5c7c3fd3f666c65",
+        "sha256_in_prefix": "78685b39388e12d83909bd0f5df03fbde946ad062a19a05eb5c7c3fd3f666c65",
+        "size_in_bytes": 100979
+      },
+      {
+        "_path": "lib/python3.11/site-packages/cvxopt/msk.py",
+        "path_type": "hardlink",
+        "sha256": "d0c69e40733875edc9a1c1195ea6af0d63dff6ffce320bc7aa62978b9aa8c210",
+        "sha256_in_prefix": "d0c69e40733875edc9a1c1195ea6af0d63dff6ffce320bc7aa62978b9aa8c210",
+        "size_in_bytes": 37174
+      },
+      {
+        "_path": "lib/python3.11/site-packages/cvxopt/printing.py",
+        "path_type": "hardlink",
+        "sha256": "522bbdb7d77aaba578e5a06516b2d63fabbc31290b568c11796950ab4fa8d389",
+        "sha256_in_prefix": "522bbdb7d77aaba578e5a06516b2d63fabbc31290b568c11796950ab4fa8d389",
+        "size_in_bytes": 5483
+      },
+      {
+        "_path": "lib/python3.11/site-packages/cvxopt/solvers.py",
+        "path_type": "hardlink",
+        "sha256": "ac21c1e32028656979800389226950248a9be892a1f84a4c25c1348c84f97ff0",
+        "sha256_in_prefix": "ac21c1e32028656979800389226950248a9be892a1f84a4c25c1348c84f97ff0",
+        "size_in_bytes": 1562
+      },
+      {
+        "_path": "lib/python3.11/site-packages/cvxopt/umfpack.cpython-311-darwin.so",
+        "path_type": "hardlink",
+        "sha256": "ebed4b691c86177f133dff16b66e1b7f9bfd74bbb2d508c7a2926b7f224e2b51",
+        "sha256_in_prefix": "ebed4b691c86177f133dff16b66e1b7f9bfd74bbb2d508c7a2926b7f224e2b51",
+        "size_in_bytes": 53856
+      }
+    ],
+    "paths_version": 1
+  },
+  "requested_spec": "None",
+  "sha256": "5dcb2de5903d45b381d5b3a5a58e579d1c7e16395bde34f6367bcba945b06aa0",
+  "size": 509146,
+  "subdir": "osx-arm64",
+  "timestamp": 1744544090000,
+  "url": "https://conda-forge.fredhutch.org/conda-forge/osx-arm64/cvxopt-1.3.2-py311h906c3e2_4.conda",
+  "version": "1.3.2"
+}

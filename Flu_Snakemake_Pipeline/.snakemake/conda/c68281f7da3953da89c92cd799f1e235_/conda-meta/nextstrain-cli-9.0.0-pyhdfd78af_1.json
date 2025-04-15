@@ -1,0 +1,951 @@
+{
+  "build": "pyhdfd78af_1",
+  "build_number": 1,
+  "channel": "https://conda-forge.fredhutch.org/bioconda/noarch",
+  "constrains": [],
+  "depends": [
+    "boto3",
+    "cryptography",
+    "docutils",
+    "fasteners",
+    "fsspec !=2023.9.1",
+    "packaging >=3.0.0",
+    "pyjwt >=2.0.0",
+    "pyparsing",
+    "python >=3.8",
+    "requests",
+    "s3fs >=2021.04.0,!=2023.9.1",
+    "typing_extensions >=3.6.4",
+    "urllib3 >=2.0.0",
+    "wcmatch >=6.0",
+    "wrapt"
+  ],
+  "extracted_package_dir": "/Users/Carlos/miniforge3/pkgs/nextstrain-cli-9.0.0-pyhdfd78af_1",
+  "files": [
+    "lib/python3.11/site-packages/nextstrain/cli/__init__.py",
+    "lib/python3.11/site-packages/nextstrain/cli/__main__.py",
+    "lib/python3.11/site-packages/nextstrain/cli/__version__.py",
+    "lib/python3.11/site-packages/nextstrain/cli/argparse.py",
+    "lib/python3.11/site-packages/nextstrain/cli/authn/__init__.py",
+    "lib/python3.11/site-packages/nextstrain/cli/authn/configuration.py",
+    "lib/python3.11/site-packages/nextstrain/cli/authn/errors.py",
+    "lib/python3.11/site-packages/nextstrain/cli/authn/session.py",
+    "lib/python3.11/site-packages/nextstrain/cli/aws/__init__.py",
+    "lib/python3.11/site-packages/nextstrain/cli/aws/cognito/__init__.py",
+    "lib/python3.11/site-packages/nextstrain/cli/aws/cognito/srp.py",
+    "lib/python3.11/site-packages/nextstrain/cli/browser.py",
+    "lib/python3.11/site-packages/nextstrain/cli/command/__init__.py",
+    "lib/python3.11/site-packages/nextstrain/cli/command/authorization.py",
+    "lib/python3.11/site-packages/nextstrain/cli/command/build.py",
+    "lib/python3.11/site-packages/nextstrain/cli/command/check_setup.py",
+    "lib/python3.11/site-packages/nextstrain/cli/command/debugger.py",
+    "lib/python3.11/site-packages/nextstrain/cli/command/deploy.py",
+    "lib/python3.11/site-packages/nextstrain/cli/command/init_shell.py",
+    "lib/python3.11/site-packages/nextstrain/cli/command/login.py",
+    "lib/python3.11/site-packages/nextstrain/cli/command/logout.py",
+    "lib/python3.11/site-packages/nextstrain/cli/command/remote/__init__.py",
+    "lib/python3.11/site-packages/nextstrain/cli/command/remote/delete.py",
+    "lib/python3.11/site-packages/nextstrain/cli/command/remote/download.py",
+    "lib/python3.11/site-packages/nextstrain/cli/command/remote/ls.py",
+    "lib/python3.11/site-packages/nextstrain/cli/command/remote/upload.py",
+    "lib/python3.11/site-packages/nextstrain/cli/command/setup.py",
+    "lib/python3.11/site-packages/nextstrain/cli/command/shell.py",
+    "lib/python3.11/site-packages/nextstrain/cli/command/update.py",
+    "lib/python3.11/site-packages/nextstrain/cli/command/version.py",
+    "lib/python3.11/site-packages/nextstrain/cli/command/view.py",
+    "lib/python3.11/site-packages/nextstrain/cli/command/whoami.py",
+    "lib/python3.11/site-packages/nextstrain/cli/config.py",
+    "lib/python3.11/site-packages/nextstrain/cli/console.py",
+    "lib/python3.11/site-packages/nextstrain/cli/debug.py",
+    "lib/python3.11/site-packages/nextstrain/cli/env.py",
+    "lib/python3.11/site-packages/nextstrain/cli/errors.py",
+    "lib/python3.11/site-packages/nextstrain/cli/gzip.py",
+    "lib/python3.11/site-packages/nextstrain/cli/hostenv.py",
+    "lib/python3.11/site-packages/nextstrain/cli/markdown.py",
+    "lib/python3.11/site-packages/nextstrain/cli/net.py",
+    "lib/python3.11/site-packages/nextstrain/cli/paths.py",
+    "lib/python3.11/site-packages/nextstrain/cli/remote/__init__.py",
+    "lib/python3.11/site-packages/nextstrain/cli/remote/nextstrain_dot_org.py",
+    "lib/python3.11/site-packages/nextstrain/cli/remote/s3.py",
+    "lib/python3.11/site-packages/nextstrain/cli/resources/__init__.py",
+    "lib/python3.11/site-packages/nextstrain/cli/resources/bashrc",
+    "lib/python3.11/site-packages/nextstrain/cli/rst/__init__.py",
+    "lib/python3.11/site-packages/nextstrain/cli/rst/sphinx.py",
+    "lib/python3.11/site-packages/nextstrain/cli/runner/__init__.py",
+    "lib/python3.11/site-packages/nextstrain/cli/runner/ambient.py",
+    "lib/python3.11/site-packages/nextstrain/cli/runner/aws_batch/__init__.py",
+    "lib/python3.11/site-packages/nextstrain/cli/runner/aws_batch/jobs.py",
+    "lib/python3.11/site-packages/nextstrain/cli/runner/aws_batch/logs.py",
+    "lib/python3.11/site-packages/nextstrain/cli/runner/aws_batch/s3.py",
+    "lib/python3.11/site-packages/nextstrain/cli/runner/conda.py",
+    "lib/python3.11/site-packages/nextstrain/cli/runner/docker.py",
+    "lib/python3.11/site-packages/nextstrain/cli/runner/singularity.py",
+    "lib/python3.11/site-packages/nextstrain/cli/types.py",
+    "lib/python3.11/site-packages/nextstrain/cli/url.py",
+    "lib/python3.11/site-packages/nextstrain/cli/util.py",
+    "lib/python3.11/site-packages/nextstrain/cli/volume.py",
+    "lib/python3.11/site-packages/nextstrain_cli-9.0.0.dist-info/INSTALLER",
+    "lib/python3.11/site-packages/nextstrain_cli-9.0.0.dist-info/LICENSE",
+    "lib/python3.11/site-packages/nextstrain_cli-9.0.0.dist-info/LICENSE.cognito-srp",
+    "lib/python3.11/site-packages/nextstrain_cli-9.0.0.dist-info/LICENSE.id3c",
+    "lib/python3.11/site-packages/nextstrain_cli-9.0.0.dist-info/LICENSE.sphinx",
+    "lib/python3.11/site-packages/nextstrain_cli-9.0.0.dist-info/METADATA",
+    "lib/python3.11/site-packages/nextstrain_cli-9.0.0.dist-info/RECORD",
+    "lib/python3.11/site-packages/nextstrain_cli-9.0.0.dist-info/REQUESTED",
+    "lib/python3.11/site-packages/nextstrain_cli-9.0.0.dist-info/WHEEL",
+    "lib/python3.11/site-packages/nextstrain_cli-9.0.0.dist-info/direct_url.json",
+    "lib/python3.11/site-packages/nextstrain_cli-9.0.0.dist-info/entry_points.txt",
+    "lib/python3.11/site-packages/nextstrain_cli-9.0.0.dist-info/top_level.txt",
+    "lib/python3.11/site-packages/nextstrain/cli/__pycache__/__init__.cpython-311.pyc",
+    "lib/python3.11/site-packages/nextstrain/cli/__pycache__/__main__.cpython-311.pyc",
+    "lib/python3.11/site-packages/nextstrain/cli/__pycache__/__version__.cpython-311.pyc",
+    "lib/python3.11/site-packages/nextstrain/cli/__pycache__/argparse.cpython-311.pyc",
+    "lib/python3.11/site-packages/nextstrain/cli/authn/__pycache__/__init__.cpython-311.pyc",
+    "lib/python3.11/site-packages/nextstrain/cli/authn/__pycache__/configuration.cpython-311.pyc",
+    "lib/python3.11/site-packages/nextstrain/cli/authn/__pycache__/errors.cpython-311.pyc",
+    "lib/python3.11/site-packages/nextstrain/cli/authn/__pycache__/session.cpython-311.pyc",
+    "lib/python3.11/site-packages/nextstrain/cli/aws/__pycache__/__init__.cpython-311.pyc",
+    "lib/python3.11/site-packages/nextstrain/cli/aws/cognito/__pycache__/__init__.cpython-311.pyc",
+    "lib/python3.11/site-packages/nextstrain/cli/aws/cognito/__pycache__/srp.cpython-311.pyc",
+    "lib/python3.11/site-packages/nextstrain/cli/__pycache__/browser.cpython-311.pyc",
+    "lib/python3.11/site-packages/nextstrain/cli/command/__pycache__/__init__.cpython-311.pyc",
+    "lib/python3.11/site-packages/nextstrain/cli/command/__pycache__/authorization.cpython-311.pyc",
+    "lib/python3.11/site-packages/nextstrain/cli/command/__pycache__/build.cpython-311.pyc",
+    "lib/python3.11/site-packages/nextstrain/cli/command/__pycache__/check_setup.cpython-311.pyc",
+    "lib/python3.11/site-packages/nextstrain/cli/command/__pycache__/debugger.cpython-311.pyc",
+    "lib/python3.11/site-packages/nextstrain/cli/command/__pycache__/deploy.cpython-311.pyc",
+    "lib/python3.11/site-packages/nextstrain/cli/command/__pycache__/init_shell.cpython-311.pyc",
+    "lib/python3.11/site-packages/nextstrain/cli/command/__pycache__/login.cpython-311.pyc",
+    "lib/python3.11/site-packages/nextstrain/cli/command/__pycache__/logout.cpython-311.pyc",
+    "lib/python3.11/site-packages/nextstrain/cli/command/remote/__pycache__/__init__.cpython-311.pyc",
+    "lib/python3.11/site-packages/nextstrain/cli/command/remote/__pycache__/delete.cpython-311.pyc",
+    "lib/python3.11/site-packages/nextstrain/cli/command/remote/__pycache__/download.cpython-311.pyc",
+    "lib/python3.11/site-packages/nextstrain/cli/command/remote/__pycache__/ls.cpython-311.pyc",
+    "lib/python3.11/site-packages/nextstrain/cli/command/remote/__pycache__/upload.cpython-311.pyc",
+    "lib/python3.11/site-packages/nextstrain/cli/command/__pycache__/setup.cpython-311.pyc",
+    "lib/python3.11/site-packages/nextstrain/cli/command/__pycache__/shell.cpython-311.pyc",
+    "lib/python3.11/site-packages/nextstrain/cli/command/__pycache__/update.cpython-311.pyc",
+    "lib/python3.11/site-packages/nextstrain/cli/command/__pycache__/version.cpython-311.pyc",
+    "lib/python3.11/site-packages/nextstrain/cli/command/__pycache__/view.cpython-311.pyc",
+    "lib/python3.11/site-packages/nextstrain/cli/command/__pycache__/whoami.cpython-311.pyc",
+    "lib/python3.11/site-packages/nextstrain/cli/__pycache__/config.cpython-311.pyc",
+    "lib/python3.11/site-packages/nextstrain/cli/__pycache__/console.cpython-311.pyc",
+    "lib/python3.11/site-packages/nextstrain/cli/__pycache__/debug.cpython-311.pyc",
+    "lib/python3.11/site-packages/nextstrain/cli/__pycache__/env.cpython-311.pyc",
+    "lib/python3.11/site-packages/nextstrain/cli/__pycache__/errors.cpython-311.pyc",
+    "lib/python3.11/site-packages/nextstrain/cli/__pycache__/gzip.cpython-311.pyc",
+    "lib/python3.11/site-packages/nextstrain/cli/__pycache__/hostenv.cpython-311.pyc",
+    "lib/python3.11/site-packages/nextstrain/cli/__pycache__/markdown.cpython-311.pyc",
+    "lib/python3.11/site-packages/nextstrain/cli/__pycache__/net.cpython-311.pyc",
+    "lib/python3.11/site-packages/nextstrain/cli/__pycache__/paths.cpython-311.pyc",
+    "lib/python3.11/site-packages/nextstrain/cli/remote/__pycache__/__init__.cpython-311.pyc",
+    "lib/python3.11/site-packages/nextstrain/cli/remote/__pycache__/nextstrain_dot_org.cpython-311.pyc",
+    "lib/python3.11/site-packages/nextstrain/cli/remote/__pycache__/s3.cpython-311.pyc",
+    "lib/python3.11/site-packages/nextstrain/cli/resources/__pycache__/__init__.cpython-311.pyc",
+    "lib/python3.11/site-packages/nextstrain/cli/rst/__pycache__/__init__.cpython-311.pyc",
+    "lib/python3.11/site-packages/nextstrain/cli/rst/__pycache__/sphinx.cpython-311.pyc",
+    "lib/python3.11/site-packages/nextstrain/cli/runner/__pycache__/__init__.cpython-311.pyc",
+    "lib/python3.11/site-packages/nextstrain/cli/runner/__pycache__/ambient.cpython-311.pyc",
+    "lib/python3.11/site-packages/nextstrain/cli/runner/aws_batch/__pycache__/__init__.cpython-311.pyc",
+    "lib/python3.11/site-packages/nextstrain/cli/runner/aws_batch/__pycache__/jobs.cpython-311.pyc",
+    "lib/python3.11/site-packages/nextstrain/cli/runner/aws_batch/__pycache__/logs.cpython-311.pyc",
+    "lib/python3.11/site-packages/nextstrain/cli/runner/aws_batch/__pycache__/s3.cpython-311.pyc",
+    "lib/python3.11/site-packages/nextstrain/cli/runner/__pycache__/conda.cpython-311.pyc",
+    "lib/python3.11/site-packages/nextstrain/cli/runner/__pycache__/docker.cpython-311.pyc",
+    "lib/python3.11/site-packages/nextstrain/cli/runner/__pycache__/singularity.cpython-311.pyc",
+    "lib/python3.11/site-packages/nextstrain/cli/__pycache__/types.cpython-311.pyc",
+    "lib/python3.11/site-packages/nextstrain/cli/__pycache__/url.cpython-311.pyc",
+    "lib/python3.11/site-packages/nextstrain/cli/__pycache__/util.cpython-311.pyc",
+    "lib/python3.11/site-packages/nextstrain/cli/__pycache__/volume.cpython-311.pyc",
+    "bin/nextstrain"
+  ],
+  "fn": "nextstrain-cli-9.0.0-pyhdfd78af_1.tar.bz2",
+  "license": "MIT",
+  "link": {
+    "source": "/Users/Carlos/miniforge3/pkgs/nextstrain-cli-9.0.0-pyhdfd78af_1",
+    "type": 1
+  },
+  "md5": "6fe23393cd95911cb561f05f064359ce",
+  "name": "nextstrain-cli",
+  "noarch": "python",
+  "package_tarball_full_path": "/Users/Carlos/miniforge3/pkgs/nextstrain-cli-9.0.0-pyhdfd78af_1",
+  "package_type": "noarch_python",
+  "paths_data": {
+    "paths": [
+      {
+        "_path": "site-packages/nextstrain/cli/__init__.py",
+        "path_type": "hardlink",
+        "sha256": "750d314b4c3d2b9c8c273a11b454c61c1f243de8b59c59c08ce328953ad87903",
+        "sha256_in_prefix": "750d314b4c3d2b9c8c273a11b454c61c1f243de8b59c59c08ce328953ad87903",
+        "size_in_bytes": 2709
+      },
+      {
+        "_path": "site-packages/nextstrain/cli/__main__.py",
+        "path_type": "hardlink",
+        "sha256": "a551f68c0ef56530b8fc0e804b5279fd42dcd9404ce898da9e80b47a9a9ac0f7",
+        "sha256_in_prefix": "a551f68c0ef56530b8fc0e804b5279fd42dcd9404ce898da9e80b47a9a9ac0f7",
+        "size_in_bytes": 1418
+      },
+      {
+        "_path": "site-packages/nextstrain/cli/__version__.py",
+        "path_type": "hardlink",
+        "sha256": "882955923a706a793b3ae11a15a6c4287bccf32ea63b9859c46bd47e0e4e9a65",
+        "sha256_in_prefix": "882955923a706a793b3ae11a15a6c4287bccf32ea63b9859c46bd47e0e4e9a65",
+        "size_in_bytes": 22
+      },
+      {
+        "_path": "site-packages/nextstrain/cli/argparse.py",
+        "path_type": "hardlink",
+        "sha256": "07c2fe87f478169f1820c3187cd83ff73038baaa938dd833b541d0c270011ba6",
+        "sha256_in_prefix": "07c2fe87f478169f1820c3187cd83ff73038baaa938dd833b541d0c270011ba6",
+        "size_in_bytes": 10652
+      },
+      {
+        "_path": "site-packages/nextstrain/cli/authn/__init__.py",
+        "path_type": "hardlink",
+        "sha256": "1371f517e882f91106455a6ccb90fb6f9b2f418df62884b2277c5a2bf2796c47",
+        "sha256_in_prefix": "1371f517e882f91106455a6ccb90fb6f9b2f418df62884b2277c5a2bf2796c47",
+        "size_in_bytes": 8863
+      },
+      {
+        "_path": "site-packages/nextstrain/cli/authn/configuration.py",
+        "path_type": "hardlink",
+        "sha256": "b5016faa0d6513f441602234b797b3852e240db5ad9eebae419fed01f7b0654a",
+        "sha256_in_prefix": "b5016faa0d6513f441602234b797b3852e240db5ad9eebae419fed01f7b0654a",
+        "size_in_bytes": 2467
+      },
+      {
+        "_path": "site-packages/nextstrain/cli/authn/errors.py",
+        "path_type": "hardlink",
+        "sha256": "da0204aedc6424ebf33603882e0acd9da7d20f1c60184c88bc1afc0e9e930964",
+        "sha256_in_prefix": "da0204aedc6424ebf33603882e0acd9da7d20f1c60184c88bc1afc0e9e930964",
+        "size_in_bytes": 887
+      },
+      {
+        "_path": "site-packages/nextstrain/cli/authn/session.py",
+        "path_type": "hardlink",
+        "sha256": "06dd952ca13a7dcf0333041a9a734cd9e55de5f4960b006c4516be071931477e",
+        "sha256_in_prefix": "06dd952ca13a7dcf0333041a9a734cd9e55de5f4960b006c4516be071931477e",
+        "size_in_bytes": 30409
+      },
+      {
+        "_path": "site-packages/nextstrain/cli/aws/__init__.py",
+        "path_type": "hardlink",
+        "sha256": "718348b11e503053b91e7e7aac212242a88635bd7789f846db0bf5298f2bcac8",
+        "sha256_in_prefix": "718348b11e503053b91e7e7aac212242a88635bd7789f846db0bf5298f2bcac8",
+        "size_in_bytes": 572
+      },
+      {
+        "_path": "site-packages/nextstrain/cli/aws/cognito/__init__.py",
+        "path_type": "hardlink",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "sha256_in_prefix": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_in_bytes": 0
+      },
+      {
+        "_path": "site-packages/nextstrain/cli/aws/cognito/srp.py",
+        "path_type": "hardlink",
+        "sha256": "ac160828528a4dc972ed07a2da38cdcc1373ff49f97f64da149c0dbec766fd68",
+        "sha256_in_prefix": "ac160828528a4dc972ed07a2da38cdcc1373ff49f97f64da149c0dbec766fd68",
+        "size_in_bytes": 11366
+      },
+      {
+        "_path": "site-packages/nextstrain/cli/browser.py",
+        "path_type": "hardlink",
+        "sha256": "fe1a30c27198bcdf65db6142630511545dbd0a1cebb5046af6ff6a45c48ed34b",
+        "sha256_in_prefix": "fe1a30c27198bcdf65db6142630511545dbd0a1cebb5046af6ff6a45c48ed34b",
+        "size_in_bytes": 2261
+      },
+      {
+        "_path": "site-packages/nextstrain/cli/command/__init__.py",
+        "path_type": "hardlink",
+        "sha256": "50e61b223c69e9899fb8965767583eee6b828dc579934ab5eb9564ea29e5b793",
+        "sha256_in_prefix": "50e61b223c69e9899fb8965767583eee6b828dc579934ab5eb9564ea29e5b793",
+        "size_in_bytes": 855
+      },
+      {
+        "_path": "site-packages/nextstrain/cli/command/authorization.py",
+        "path_type": "hardlink",
+        "sha256": "72e2c3425f65d6e099bd3096d5b954bbed9a29e854ece884a69f1deec255b804",
+        "sha256_in_prefix": "72e2c3425f65d6e099bd3096d5b954bbed9a29e854ece884a69f1deec255b804",
+        "size_in_bytes": 1514
+      },
+      {
+        "_path": "site-packages/nextstrain/cli/command/build.py",
+        "path_type": "hardlink",
+        "sha256": "9968256f662cd0d540dfdad03149343913b00528c4ad60841d82415c4ed15f53",
+        "sha256_in_prefix": "9968256f662cd0d540dfdad03149343913b00528c4ad60841d82415c4ed15f53",
+        "size_in_bytes": 20367
+      },
+      {
+        "_path": "site-packages/nextstrain/cli/command/check_setup.py",
+        "path_type": "hardlink",
+        "sha256": "b14671b43dd36508477ce520bced2f76891c401cb8019bdaf058566ac1118e41",
+        "sha256_in_prefix": "b14671b43dd36508477ce520bced2f76891c401cb8019bdaf058566ac1118e41",
+        "size_in_bytes": 5491
+      },
+      {
+        "_path": "site-packages/nextstrain/cli/command/debugger.py",
+        "path_type": "hardlink",
+        "sha256": "4861f4bfd7398be437e2e1cc0b25e92b56e67508bc6ed29cd1768617e8aebdbb",
+        "sha256_in_prefix": "4861f4bfd7398be437e2e1cc0b25e92b56e67508bc6ed29cd1768617e8aebdbb",
+        "size_in_bytes": 310
+      },
+      {
+        "_path": "site-packages/nextstrain/cli/command/deploy.py",
+        "path_type": "hardlink",
+        "sha256": "5b9ed5503245409336a963e3db943b683e465a88c4d37d766877b09bb062aba1",
+        "sha256_in_prefix": "5b9ed5503245409336a963e3db943b683e465a88c4d37d766877b09bb062aba1",
+        "size_in_bytes": 793
+      },
+      {
+        "_path": "site-packages/nextstrain/cli/command/init_shell.py",
+        "path_type": "hardlink",
+        "sha256": "bfe2ad3c77faf20ee5a0420e86484cf336999c372e5d855a2fa5c432e279060e",
+        "sha256_in_prefix": "bfe2ad3c77faf20ee5a0420e86484cf336999c372e5d855a2fa5c432e279060e",
+        "size_in_bytes": 4256
+      },
+      {
+        "_path": "site-packages/nextstrain/cli/command/login.py",
+        "path_type": "hardlink",
+        "sha256": "1145368b975ffe264c5b0d9cf1884e6ea2f6a2d1983bbea148626d1d1420f152",
+        "sha256_in_prefix": "1145368b975ffe264c5b0d9cf1884e6ea2f6a2d1983bbea148626d1d1420f152",
+        "size_in_bytes": 5648
+      },
+      {
+        "_path": "site-packages/nextstrain/cli/command/logout.py",
+        "path_type": "hardlink",
+        "sha256": "35b560dd2972be759c3666ad2a018bf0a85e8a77a184f4f9157495fffaf1490d",
+        "sha256_in_prefix": "35b560dd2972be759c3666ad2a018bf0a85e8a77a184f4f9157495fffaf1490d",
+        "size_in_bytes": 1490
+      },
+      {
+        "_path": "site-packages/nextstrain/cli/command/remote/__init__.py",
+        "path_type": "hardlink",
+        "sha256": "108cde69555e9cc31b09de1310115357af7521d0c11620a93924509da95579c7",
+        "sha256_in_prefix": "108cde69555e9cc31b09de1310115357af7521d0c11620a93924509da95579c7",
+        "size_in_bytes": 1255
+      },
+      {
+        "_path": "site-packages/nextstrain/cli/command/remote/delete.py",
+        "path_type": "hardlink",
+        "sha256": "00e7ca2fe3b53bf7aec24dc8da52f0820135b460e885470a04b4ba0909cbbb4a",
+        "sha256_in_prefix": "00e7ca2fe3b53bf7aec24dc8da52f0820135b460e885470a04b4ba0909cbbb4a",
+        "size_in_bytes": 1894
+      },
+      {
+        "_path": "site-packages/nextstrain/cli/command/remote/download.py",
+        "path_type": "hardlink",
+        "sha256": "bf5647222f76db085c22c55b2d65bcaac97663199b6576b7e988475b3ea003f0",
+        "sha256_in_prefix": "bf5647222f76db085c22c55b2d65bcaac97663199b6576b7e988475b3ea003f0",
+        "size_in_bytes": 3377
+      },
+      {
+        "_path": "site-packages/nextstrain/cli/command/remote/ls.py",
+        "path_type": "hardlink",
+        "sha256": "fd2cfbb78c3f0adcf4f65ff56fece68069042b948586a93a8ba144d6d40d0aa3",
+        "sha256_in_prefix": "fd2cfbb78c3f0adcf4f65ff56fece68069042b948586a93a8ba144d6d40d0aa3",
+        "size_in_bytes": 1022
+      },
+      {
+        "_path": "site-packages/nextstrain/cli/command/remote/upload.py",
+        "path_type": "hardlink",
+        "sha256": "6669bef2edf77de127ab9740404ed7283aabda697c238e0f1e03ebad53f9b8de",
+        "sha256_in_prefix": "6669bef2edf77de127ab9740404ed7283aabda697c238e0f1e03ebad53f9b8de",
+        "size_in_bytes": 2247
+      },
+      {
+        "_path": "site-packages/nextstrain/cli/command/setup.py",
+        "path_type": "hardlink",
+        "sha256": "ac6d1715f0d98913b798de3d56d83e5041a5cba2b6e5bceb38e4af6ff7bacf21",
+        "sha256_in_prefix": "ac6d1715f0d98913b798de3d56d83e5041a5cba2b6e5bceb38e4af6ff7bacf21",
+        "size_in_bytes": 3874
+      },
+      {
+        "_path": "site-packages/nextstrain/cli/command/shell.py",
+        "path_type": "hardlink",
+        "sha256": "0526590f46dde679558bea7f3351df217e9be46581a8ce2d038b8c008542642f",
+        "sha256_in_prefix": "0526590f46dde679558bea7f3351df217e9be46581a8ce2d038b8c008542642f",
+        "size_in_bytes": 4813
+      },
+      {
+        "_path": "site-packages/nextstrain/cli/command/update.py",
+        "path_type": "hardlink",
+        "sha256": "7d5610ba2e8d3250c6cde0daa7d189169da319e5cb6f863db0d05a4b3456affb",
+        "sha256_in_prefix": "7d5610ba2e8d3250c6cde0daa7d189169da319e5cb6f863db0d05a4b3456affb",
+        "size_in_bytes": 2484
+      },
+      {
+        "_path": "site-packages/nextstrain/cli/command/version.py",
+        "path_type": "hardlink",
+        "sha256": "871ff0193e8415cb3280272521e49ce45910f52e008f11e43f949470ac728bcb",
+        "sha256_in_prefix": "871ff0193e8415cb3280272521e49ce45910f52e008f11e43f949470ac728bcb",
+        "size_in_bytes": 1184
+      },
+      {
+        "_path": "site-packages/nextstrain/cli/command/view.py",
+        "path_type": "hardlink",
+        "sha256": "fcd2fe876f62b158d7b14605386548a6c10765a01eb5e2321f250b65f10c2d25",
+        "sha256_in_prefix": "fcd2fe876f62b158d7b14605386548a6c10765a01eb5e2321f250b65f10c2d25",
+        "size_in_bytes": 17260
+      },
+      {
+        "_path": "site-packages/nextstrain/cli/command/whoami.py",
+        "path_type": "hardlink",
+        "sha256": "6dbd6ba514fa2b1809743c0a2cad538eaaef282882113297f8e5fae9bc71be23",
+        "sha256_in_prefix": "6dbd6ba514fa2b1809743c0a2cad538eaaef282882113297f8e5fae9bc71be23",
+        "size_in_bytes": 1651
+      },
+      {
+        "_path": "site-packages/nextstrain/cli/config.py",
+        "path_type": "hardlink",
+        "sha256": "a18823609d25397351c58de76ca2720f1c15adc65689fe1b0b73dd9f43c4da0f",
+        "sha256_in_prefix": "a18823609d25397351c58de76ca2720f1c15adc65689fe1b0b73dd9f43c4da0f",
+        "size_in_bytes": 3797
+      },
+      {
+        "_path": "site-packages/nextstrain/cli/console.py",
+        "path_type": "hardlink",
+        "sha256": "0015edc3dd39188575b04e20ff04a383c5d46eb633f7bb3da7466c014b0dcf96",
+        "sha256_in_prefix": "0015edc3dd39188575b04e20ff04a383c5d46eb633f7bb3da7466c014b0dcf96",
+        "size_in_bytes": 4734
+      },
+      {
+        "_path": "site-packages/nextstrain/cli/debug.py",
+        "path_type": "hardlink",
+        "sha256": "385068d0145f61d4c1da25d95e232953621a05fd9e74d1857265ef3fbba16dba",
+        "sha256_in_prefix": "385068d0145f61d4c1da25d95e232953621a05fd9e74d1857265ef3fbba16dba",
+        "size_in_bytes": 516
+      },
+      {
+        "_path": "site-packages/nextstrain/cli/env.py",
+        "path_type": "hardlink",
+        "sha256": "94a09fd8115864dd2c6f61804685bcffad46bceb324aac688a34b67b33851aa9",
+        "sha256_in_prefix": "94a09fd8115864dd2c6f61804685bcffad46bceb324aac688a34b67b33851aa9",
+        "size_in_bytes": 7623
+      },
+      {
+        "_path": "site-packages/nextstrain/cli/errors.py",
+        "path_type": "hardlink",
+        "sha256": "bac4ba5543d0d723406f3a976f6d882cd0323712e5e9f794cb82beed4e182108",
+        "sha256_in_prefix": "bac4ba5543d0d723406f3a976f6d882cd0323712e5e9f794cb82beed4e182108",
+        "size_in_bytes": 884
+      },
+      {
+        "_path": "site-packages/nextstrain/cli/gzip.py",
+        "path_type": "hardlink",
+        "sha256": "3592d1a1816e73e8ce43e558b22644c8a7fcc1f7891114e7e7a58a02efa34a8b",
+        "sha256_in_prefix": "3592d1a1816e73e8ce43e558b22644c8a7fcc1f7891114e7e7a58a02efa34a8b",
+        "size_in_bytes": 5168
+      },
+      {
+        "_path": "site-packages/nextstrain/cli/hostenv.py",
+        "path_type": "hardlink",
+        "sha256": "538c2a6eba3c7d01da3266030a334778807ab9a94b42f837594ccdd2bb2d6910",
+        "sha256_in_prefix": "538c2a6eba3c7d01da3266030a334778807ab9a94b42f837594ccdd2bb2d6910",
+        "size_in_bytes": 1451
+      },
+      {
+        "_path": "site-packages/nextstrain/cli/markdown.py",
+        "path_type": "hardlink",
+        "sha256": "e7322c57e00dc93e77a594cde0b837556974368d5f19bbf1c2050bc596ea5af7",
+        "sha256_in_prefix": "e7322c57e00dc93e77a594cde0b837556974368d5f19bbf1c2050bc596ea5af7",
+        "size_in_bytes": 15260
+      },
+      {
+        "_path": "site-packages/nextstrain/cli/net.py",
+        "path_type": "hardlink",
+        "sha256": "723892dd39ea94c71e826b192dbef77969ec271724352ce769be3ae8d655a619",
+        "sha256_in_prefix": "723892dd39ea94c71e826b192dbef77969ec271724352ce769be3ae8d655a619",
+        "size_in_bytes": 1800
+      },
+      {
+        "_path": "site-packages/nextstrain/cli/paths.py",
+        "path_type": "hardlink",
+        "sha256": "46572ef4de164a928454a91098fb33a39f5fca2dd2697df697987d59c4678d20",
+        "sha256_in_prefix": "46572ef4de164a928454a91098fb33a39f5fca2dd2697df697987d59c4678d20",
+        "size_in_bytes": 1394
+      },
+      {
+        "_path": "site-packages/nextstrain/cli/remote/__init__.py",
+        "path_type": "hardlink",
+        "sha256": "3f1ff3d912cf1a80cdf30fc9a2ec9761c393e394e5241b73febf9b4c30eeffd9",
+        "sha256_in_prefix": "3f1ff3d912cf1a80cdf30fc9a2ec9761c393e394e5241b73febf9b4c30eeffd9",
+        "size_in_bytes": 6703
+      },
+      {
+        "_path": "site-packages/nextstrain/cli/remote/nextstrain_dot_org.py",
+        "path_type": "hardlink",
+        "sha256": "65496f1cf64861791f5444cacc5b6e3e5793e977f463edc3c3ffcb9d35a13dbe",
+        "sha256_in_prefix": "65496f1cf64861791f5444cacc5b6e3e5793e977f463edc3c3ffcb9d35a13dbe",
+        "size_in_bytes": 39094
+      },
+      {
+        "_path": "site-packages/nextstrain/cli/remote/s3.py",
+        "path_type": "hardlink",
+        "sha256": "0396bbc0db63a2229ae8c37c96d72816910bfa8c154654f67abc3ea124ff329f",
+        "sha256_in_prefix": "0396bbc0db63a2229ae8c37c96d72816910bfa8c154654f67abc3ea124ff329f",
+        "size_in_bytes": 16509
+      },
+      {
+        "_path": "site-packages/nextstrain/cli/resources/__init__.py",
+        "path_type": "hardlink",
+        "sha256": "45893c6b0cfb36ecb4918fd79257d0d1b12140ac3c59462ff34a4af88606c078",
+        "sha256_in_prefix": "45893c6b0cfb36ecb4918fd79257d0d1b12140ac3c59462ff34a4af88606c078",
+        "size_in_bytes": 1046
+      },
+      {
+        "_path": "site-packages/nextstrain/cli/resources/bashrc",
+        "path_type": "hardlink",
+        "sha256": "d9f7aab9063b7a135f46c2dccb9f98d628cbb0b0cbd204d3db87eb1dc58ab5e7",
+        "sha256_in_prefix": "d9f7aab9063b7a135f46c2dccb9f98d628cbb0b0cbd204d3db87eb1dc58ab5e7",
+        "size_in_bytes": 544
+      },
+      {
+        "_path": "site-packages/nextstrain/cli/rst/__init__.py",
+        "path_type": "hardlink",
+        "sha256": "93c50778a89273ae3a7ca55d32cf60b3682656a7cd60175ccb5449db947e30f4",
+        "sha256_in_prefix": "93c50778a89273ae3a7ca55d32cf60b3682656a7cd60175ccb5449db947e30f4",
+        "size_in_bytes": 10864
+      },
+      {
+        "_path": "site-packages/nextstrain/cli/rst/sphinx.py",
+        "path_type": "hardlink",
+        "sha256": "1ed97eaa2d2c3ff82429bf15132776862552b860e5855d7f44f51c77c9b1c9cb",
+        "sha256_in_prefix": "1ed97eaa2d2c3ff82429bf15132776862552b860e5855d7f44f51c77c9b1c9cb",
+        "size_in_bytes": 40657
+      },
+      {
+        "_path": "site-packages/nextstrain/cli/runner/__init__.py",
+        "path_type": "hardlink",
+        "sha256": "18a83a7206594cdc8dff5bd8ff670af6c3132e4e0d26eb71ebfd0212b4242935",
+        "sha256_in_prefix": "18a83a7206594cdc8dff5bd8ff670af6c3132e4e0d26eb71ebfd0212b4242935",
+        "size_in_bytes": 11125
+      },
+      {
+        "_path": "site-packages/nextstrain/cli/runner/ambient.py",
+        "path_type": "hardlink",
+        "sha256": "3778a7d2192bd55c52fa113b4f1ae6b72d525ceb9898e3e23956bcc0255875b9",
+        "sha256_in_prefix": "3778a7d2192bd55c52fa113b4f1ae6b72d525ceb9898e3e23956bcc0255875b9",
+        "size_in_bytes": 3199
+      },
+      {
+        "_path": "site-packages/nextstrain/cli/runner/aws_batch/__init__.py",
+        "path_type": "hardlink",
+        "sha256": "0178487c7bc28b1703b945a38a262dedcdbc5f195a1120384f8463546942a338",
+        "sha256_in_prefix": "0178487c7bc28b1703b945a38a262dedcdbc5f195a1120384f8463546942a338",
+        "size_in_bytes": 20602
+      },
+      {
+        "_path": "site-packages/nextstrain/cli/runner/aws_batch/jobs.py",
+        "path_type": "hardlink",
+        "sha256": "02de05af9e7a1ac1a2e9410c7faf24810d1cda530c7b7e2c532aaa683e73c817",
+        "sha256_in_prefix": "02de05af9e7a1ac1a2e9410c7faf24810d1cda530c7b7e2c532aaa683e73c817",
+        "size_in_bytes": 10738
+      },
+      {
+        "_path": "site-packages/nextstrain/cli/runner/aws_batch/logs.py",
+        "path_type": "hardlink",
+        "sha256": "21f426262d6b048c9292de6d03ead0f87e209359ac28e5e5bfd831e0032ccf6c",
+        "sha256_in_prefix": "21f426262d6b048c9292de6d03ead0f87e209359ac28e5e5bfd831e0032ccf6c",
+        "size_in_bytes": 3542
+      },
+      {
+        "_path": "site-packages/nextstrain/cli/runner/aws_batch/s3.py",
+        "path_type": "hardlink",
+        "sha256": "36c453303a8e82e757f07691f8f2609f4f3727059745a06408cf008d8d9a9e7f",
+        "sha256_in_prefix": "36c453303a8e82e757f07691f8f2609f4f3727059745a06408cf008d8d9a9e7f",
+        "size_in_bytes": 10082
+      },
+      {
+        "_path": "site-packages/nextstrain/cli/runner/conda.py",
+        "path_type": "hardlink",
+        "sha256": "579b82d68084486a120b4d1ec502c47a549f92f87c876aa2973f28e11787f602",
+        "sha256_in_prefix": "579b82d68084486a120b4d1ec502c47a549f92f87c876aa2973f28e11787f602",
+        "size_in_bytes": 25794
+      },
+      {
+        "_path": "site-packages/nextstrain/cli/runner/docker.py",
+        "path_type": "hardlink",
+        "sha256": "cdb64021c2fc4d285e384bfd723ddfc3e017387977203a870b68b12da38b735d",
+        "sha256_in_prefix": "cdb64021c2fc4d285e384bfd723ddfc3e017387977203a870b68b12da38b735d",
+        "size_in_bytes": 24415
+      },
+      {
+        "_path": "site-packages/nextstrain/cli/runner/singularity.py",
+        "path_type": "hardlink",
+        "sha256": "0ead3c25073648007ab656684e9afd91fe6de6a1e6ea9c40144e86fdb1cf9217",
+        "sha256_in_prefix": "0ead3c25073648007ab656684e9afd91fe6de6a1e6ea9c40144e86fdb1cf9217",
+        "size_in_bytes": 20671
+      },
+      {
+        "_path": "site-packages/nextstrain/cli/types.py",
+        "path_type": "hardlink",
+        "sha256": "084da4fc7497cab5da314fdbb9e43475d8d8f00da15d6f6c81a8699a94c62a94",
+        "sha256_in_prefix": "084da4fc7497cab5da314fdbb9e43475d8d8f00da15d6f6c81a8699a94c62a94",
+        "size_in_bytes": 3323
+      },
+      {
+        "_path": "site-packages/nextstrain/cli/url.py",
+        "path_type": "hardlink",
+        "sha256": "6caa54117d02b6e834fb591342815c860fb22e50ab672bfc886c804ef08fa13d",
+        "sha256_in_prefix": "6caa54117d02b6e834fb591342815c860fb22e50ab672bfc886c804ef08fa13d",
+        "size_in_bytes": 3566
+      },
+      {
+        "_path": "site-packages/nextstrain/cli/util.py",
+        "path_type": "hardlink",
+        "sha256": "78a94f14e08318d22ff423311c629896f5e204b9d06a0270825277e7ee437582",
+        "sha256_in_prefix": "78a94f14e08318d22ff423311c629896f5e204b9d06a0270825277e7ee437582",
+        "size_in_bytes": 23259
+      },
+      {
+        "_path": "site-packages/nextstrain/cli/volume.py",
+        "path_type": "hardlink",
+        "sha256": "ecd3ddcefc08e0e60e9f976b77670ea5aa8a7ad2ede5b8cfce20dcef35376b9d",
+        "sha256_in_prefix": "ecd3ddcefc08e0e60e9f976b77670ea5aa8a7ad2ede5b8cfce20dcef35376b9d",
+        "size_in_bytes": 1204
+      },
+      {
+        "_path": "site-packages/nextstrain_cli-9.0.0.dist-info/INSTALLER",
+        "path_type": "hardlink",
+        "sha256": "d0edee15f91b406f3f99726e44eb990be6e34fd0345b52b910c568e0eef6a2a8",
+        "sha256_in_prefix": "d0edee15f91b406f3f99726e44eb990be6e34fd0345b52b910c568e0eef6a2a8",
+        "size_in_bytes": 5
+      },
+      {
+        "_path": "site-packages/nextstrain_cli-9.0.0.dist-info/LICENSE",
+        "path_type": "hardlink",
+        "sha256": "faaffaf43024dc687da606982dd87c2ff1efb5c10e07dc41df49db34ca5b9206",
+        "sha256_in_prefix": "faaffaf43024dc687da606982dd87c2ff1efb5c10e07dc41df49db34ca5b9206",
+        "size_in_bytes": 1096
+      },
+      {
+        "_path": "site-packages/nextstrain_cli-9.0.0.dist-info/LICENSE.cognito-srp",
+        "path_type": "hardlink",
+        "sha256": "55ba43a88e6846b09711df28bd63338aba65e4c40cbd0c24b84eac9df3964605",
+        "sha256_in_prefix": "55ba43a88e6846b09711df28bd63338aba65e4c40cbd0c24b84eac9df3964605",
+        "size_in_bytes": 11683
+      },
+      {
+        "_path": "site-packages/nextstrain_cli-9.0.0.dist-info/LICENSE.id3c",
+        "path_type": "hardlink",
+        "sha256": "48e0972a1f86ea47d2f5a46c67d1d464a2cd838466f1b32f1eaa556986952aa5",
+        "sha256_in_prefix": "48e0972a1f86ea47d2f5a46c67d1d464a2cd838466f1b32f1eaa556986952aa5",
+        "size_in_bytes": 1363
+      },
+      {
+        "_path": "site-packages/nextstrain_cli-9.0.0.dist-info/LICENSE.sphinx",
+        "path_type": "hardlink",
+        "sha256": "7b0fe5bf5f004567ae700b9ac824708a6caf030dc221a532ec0448b04e0e1f60",
+        "sha256_in_prefix": "7b0fe5bf5f004567ae700b9ac824708a6caf030dc221a532ec0448b04e0e1f60",
+        "size_in_bytes": 1569
+      },
+      {
+        "_path": "site-packages/nextstrain_cli-9.0.0.dist-info/METADATA",
+        "path_type": "hardlink",
+        "sha256": "e26d900d1febb0026a38d55917acd3509c447dff3f6cb7ce5b3443a22592f7d3",
+        "sha256_in_prefix": "e26d900d1febb0026a38d55917acd3509c447dff3f6cb7ce5b3443a22592f7d3",
+        "size_in_bytes": 4084
+      },
+      {
+        "_path": "site-packages/nextstrain_cli-9.0.0.dist-info/RECORD",
+        "path_type": "hardlink",
+        "sha256": "8d01f6e793363648ae76c3c85d1503c7e59844f47aea30b4dde6ffd964531634",
+        "sha256_in_prefix": "8d01f6e793363648ae76c3c85d1503c7e59844f47aea30b4dde6ffd964531634",
+        "size_in_bytes": 10403
+      },
+      {
+        "_path": "site-packages/nextstrain_cli-9.0.0.dist-info/REQUESTED",
+        "path_type": "hardlink",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "sha256_in_prefix": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_in_bytes": 0
+      },
+      {
+        "_path": "site-packages/nextstrain_cli-9.0.0.dist-info/WHEEL",
+        "path_type": "hardlink",
+        "sha256": "8c1ef367737d84833d69d5bbaa54c0cb270b616f67a5a58a2d1cdaa1570b29c3",
+        "sha256_in_prefix": "8c1ef367737d84833d69d5bbaa54c0cb270b616f67a5a58a2d1cdaa1570b29c3",
+        "size_in_bytes": 91
+      },
+      {
+        "_path": "site-packages/nextstrain_cli-9.0.0.dist-info/direct_url.json",
+        "path_type": "hardlink",
+        "sha256": "bb30416a7a4a000783e0ba43e0616611ca665d2640553a9c8f71b5b96a7fbb01",
+        "sha256_in_prefix": "bb30416a7a4a000783e0ba43e0616611ca665d2640553a9c8f71b5b96a7fbb01",
+        "size_in_bytes": 88
+      },
+      {
+        "_path": "site-packages/nextstrain_cli-9.0.0.dist-info/entry_points.txt",
+        "path_type": "hardlink",
+        "sha256": "2f4475e92b13e75960f42a46e34e1f890e4dcfcbb9d3d66529bfa0f7f452d69e",
+        "sha256_in_prefix": "2f4475e92b13e75960f42a46e34e1f890e4dcfcbb9d3d66529bfa0f7f452d69e",
+        "size_in_bytes": 60
+      },
+      {
+        "_path": "site-packages/nextstrain_cli-9.0.0.dist-info/top_level.txt",
+        "path_type": "hardlink",
+        "sha256": "01b6f448e7720f81fc805d87f08a57616ef50e292f47c6eeef50e66c7bd16545",
+        "sha256_in_prefix": "01b6f448e7720f81fc805d87f08a57616ef50e292f47c6eeef50e66c7bd16545",
+        "size_in_bytes": 11
+      },
+      {
+        "_path": "lib/python3.11/site-packages/nextstrain/cli/__pycache__/__init__.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/nextstrain/cli/__pycache__/__main__.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/nextstrain/cli/__pycache__/__version__.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/nextstrain/cli/__pycache__/argparse.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/nextstrain/cli/authn/__pycache__/__init__.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/nextstrain/cli/authn/__pycache__/configuration.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/nextstrain/cli/authn/__pycache__/errors.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/nextstrain/cli/authn/__pycache__/session.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/nextstrain/cli/aws/__pycache__/__init__.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/nextstrain/cli/aws/cognito/__pycache__/__init__.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/nextstrain/cli/aws/cognito/__pycache__/srp.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/nextstrain/cli/__pycache__/browser.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/nextstrain/cli/command/__pycache__/__init__.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/nextstrain/cli/command/__pycache__/authorization.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/nextstrain/cli/command/__pycache__/build.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/nextstrain/cli/command/__pycache__/check_setup.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/nextstrain/cli/command/__pycache__/debugger.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/nextstrain/cli/command/__pycache__/deploy.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/nextstrain/cli/command/__pycache__/init_shell.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/nextstrain/cli/command/__pycache__/login.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/nextstrain/cli/command/__pycache__/logout.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/nextstrain/cli/command/remote/__pycache__/__init__.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/nextstrain/cli/command/remote/__pycache__/delete.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/nextstrain/cli/command/remote/__pycache__/download.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/nextstrain/cli/command/remote/__pycache__/ls.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/nextstrain/cli/command/remote/__pycache__/upload.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/nextstrain/cli/command/__pycache__/setup.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/nextstrain/cli/command/__pycache__/shell.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/nextstrain/cli/command/__pycache__/update.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/nextstrain/cli/command/__pycache__/version.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/nextstrain/cli/command/__pycache__/view.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/nextstrain/cli/command/__pycache__/whoami.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/nextstrain/cli/__pycache__/config.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/nextstrain/cli/__pycache__/console.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/nextstrain/cli/__pycache__/debug.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/nextstrain/cli/__pycache__/env.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/nextstrain/cli/__pycache__/errors.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/nextstrain/cli/__pycache__/gzip.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/nextstrain/cli/__pycache__/hostenv.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/nextstrain/cli/__pycache__/markdown.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/nextstrain/cli/__pycache__/net.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/nextstrain/cli/__pycache__/paths.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/nextstrain/cli/remote/__pycache__/__init__.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/nextstrain/cli/remote/__pycache__/nextstrain_dot_org.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/nextstrain/cli/remote/__pycache__/s3.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/nextstrain/cli/resources/__pycache__/__init__.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/nextstrain/cli/rst/__pycache__/__init__.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/nextstrain/cli/rst/__pycache__/sphinx.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/nextstrain/cli/runner/__pycache__/__init__.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/nextstrain/cli/runner/__pycache__/ambient.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/nextstrain/cli/runner/aws_batch/__pycache__/__init__.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/nextstrain/cli/runner/aws_batch/__pycache__/jobs.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/nextstrain/cli/runner/aws_batch/__pycache__/logs.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/nextstrain/cli/runner/aws_batch/__pycache__/s3.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/nextstrain/cli/runner/__pycache__/conda.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/nextstrain/cli/runner/__pycache__/docker.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/nextstrain/cli/runner/__pycache__/singularity.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/nextstrain/cli/__pycache__/types.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/nextstrain/cli/__pycache__/url.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/nextstrain/cli/__pycache__/util.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/nextstrain/cli/__pycache__/volume.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "bin/nextstrain",
+        "path_type": "unix_python_entry_point"
+      }
+    ],
+    "paths_version": 1
+  },
+  "requested_spec": "nextstrain-cli",
+  "sha256": "f87fbbda23db6f9f27bddb7a03aac21ea9c3d64d3a2aa5038df9882c3fd8ea07",
+  "size": 130720,
+  "subdir": "noarch",
+  "timestamp": 1743012634000,
+  "url": "https://conda-forge.fredhutch.org/bioconda/noarch/nextstrain-cli-9.0.0-pyhdfd78af_1.tar.bz2",
+  "version": "9.0.0"
+}

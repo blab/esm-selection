@@ -1,0 +1,48 @@
+{
+  "build": "py_1",
+  "build_number": 1,
+  "channel": "https://conda-forge.fredhutch.org/bioconda/noarch",
+  "constrains": [],
+  "depends": [
+    "python"
+  ],
+  "extracted_package_dir": "/Users/Carlos/miniforge3/pkgs/munkres-1.0.7-py_1",
+  "files": [
+    "lib/python3.11/site-packages/munkres.py",
+    "lib/python3.11/site-packages/__pycache__/munkres.cpython-311.pyc"
+  ],
+  "fn": "munkres-1.0.7-py_1.tar.bz2",
+  "license": "Apache License",
+  "link": {
+    "source": "/Users/Carlos/miniforge3/pkgs/munkres-1.0.7-py_1",
+    "type": 1
+  },
+  "md5": "783d3baa1b57281daf35ce2a07a86017",
+  "name": "munkres",
+  "noarch": "python",
+  "package_tarball_full_path": "/Users/Carlos/miniforge3/pkgs/munkres-1.0.7-py_1",
+  "package_type": "noarch_python",
+  "paths_data": {
+    "paths": [
+      {
+        "_path": "site-packages/munkres.py",
+        "path_type": "hardlink",
+        "sha256": "b7012b63a20322be2904157e3f8ab7c51f805134ed26f1622808a8973e98e3b5",
+        "sha256_in_prefix": "b7012b63a20322be2904157e3f8ab7c51f805134ed26f1622808a8973e98e3b5",
+        "size_in_bytes": 24745
+      },
+      {
+        "_path": "lib/python3.11/site-packages/__pycache__/munkres.cpython-311.pyc",
+        "path_type": "pyc_file"
+      }
+    ],
+    "paths_version": 1
+  },
+  "requested_spec": "None",
+  "sha256": "294a0ab49c882b17cacdad9513048a3d8da8c06e78f50bd44750d197aaa89099",
+  "size": 10165,
+  "subdir": "noarch",
+  "timestamp": 1531562478000,
+  "url": "https://conda-forge.fredhutch.org/bioconda/noarch/munkres-1.0.7-py_1.tar.bz2",
+  "version": "1.0.7"
+}

@@ -1,0 +1,122 @@
+{
+  "build": "h13dfb9a_0",
+  "build_number": 0,
+  "channel": "https://conda-forge.fredhutch.org/conda-forge/osx-arm64",
+  "constrains": [],
+  "depends": [
+    "__osx >=11.0",
+    "libcxx >=18"
+  ],
+  "extracted_package_dir": "/Users/Carlos/miniforge3/pkgs/zlib-ng-2.2.4-h13dfb9a_0",
+  "files": [
+    "include/zconf-ng.h",
+    "include/zlib-ng.h",
+    "include/zlib_name_mangling-ng.h",
+    "lib/cmake/zlib-ng/zlib-ng-config-version.cmake",
+    "lib/cmake/zlib-ng/zlib-ng-config.cmake",
+    "lib/cmake/zlib-ng/zlib-ng-release.cmake",
+    "lib/cmake/zlib-ng/zlib-ng.cmake",
+    "lib/libz-ng.2.2.4.dylib",
+    "lib/libz-ng.2.dylib",
+    "lib/libz-ng.dylib",
+    "lib/pkgconfig/zlib-ng.pc"
+  ],
+  "fn": "zlib-ng-2.2.4-h13dfb9a_0.conda",
+  "license": "Zlib",
+  "link": {
+    "source": "/Users/Carlos/miniforge3/pkgs/zlib-ng-2.2.4-h13dfb9a_0",
+    "type": 1
+  },
+  "md5": "73ac419d43520743df271e1e7d5eb012",
+  "name": "zlib-ng",
+  "package_tarball_full_path": "/Users/Carlos/miniforge3/pkgs/zlib-ng-2.2.4-h13dfb9a_0.conda",
+  "paths_data": {
+    "paths": [
+      {
+        "_path": "include/zconf-ng.h",
+        "path_type": "hardlink",
+        "sha256": "c9abec4c04cc7d29c846f24230e73076e3c215cc3e56fca7ce1ddcbd65ade802",
+        "sha256_in_prefix": "c9abec4c04cc7d29c846f24230e73076e3c215cc3e56fca7ce1ddcbd65ade802",
+        "size_in_bytes": 5026
+      },
+      {
+        "_path": "include/zlib-ng.h",
+        "path_type": "hardlink",
+        "sha256": "98603e2d893e5f31ff45f9368002a6edf304112c2880308bf9e675b95380705f",
+        "sha256_in_prefix": "98603e2d893e5f31ff45f9368002a6edf304112c2880308bf9e675b95380705f",
+        "size_in_bytes": 92784
+      },
+      {
+        "_path": "include/zlib_name_mangling-ng.h",
+        "path_type": "hardlink",
+        "sha256": "38e51a846d6c2bd6100298c55328dba4437c08fa1dceda4eb2e06ecb1d142058",
+        "sha256_in_prefix": "38e51a846d6c2bd6100298c55328dba4437c08fa1dceda4eb2e06ecb1d142058",
+        "size_in_bytes": 230
+      },
+      {
+        "_path": "lib/cmake/zlib-ng/zlib-ng-config-version.cmake",
+        "path_type": "hardlink",
+        "sha256": "54cc44fe3d1acb25d87513d1f3cada95fdc3ff976873bdd6d495cf7a8ea79b10",
+        "sha256_in_prefix": "54cc44fe3d1acb25d87513d1f3cada95fdc3ff976873bdd6d495cf7a8ea79b10",
+        "size_in_bytes": 1861
+      },
+      {
+        "_path": "lib/cmake/zlib-ng/zlib-ng-config.cmake",
+        "path_type": "hardlink",
+        "sha256": "1b4cd1c7b66dec13186ab89d3f1f8f2faaa333a8c86173b07ea6e4efd578e960",
+        "sha256_in_prefix": "1b4cd1c7b66dec13186ab89d3f1f8f2faaa333a8c86173b07ea6e4efd578e960",
+        "size_in_bytes": 1124
+      },
+      {
+        "_path": "lib/cmake/zlib-ng/zlib-ng-release.cmake",
+        "path_type": "hardlink",
+        "sha256": "66794dba8d2627c123aa1e4fe0ec761b902f4fd7906a27f947a9a6c441c11fb3",
+        "sha256_in_prefix": "66794dba8d2627c123aa1e4fe0ec761b902f4fd7906a27f947a9a6c441c11fb3",
+        "size_in_bytes": 855
+      },
+      {
+        "_path": "lib/cmake/zlib-ng/zlib-ng.cmake",
+        "path_type": "hardlink",
+        "sha256": "efb47ab1e0b9e13e9348a45cd6a0b35e57916f609f35481a84a8153d08b42ca7",
+        "sha256_in_prefix": "efb47ab1e0b9e13e9348a45cd6a0b35e57916f609f35481a84a8153d08b42ca7",
+        "size_in_bytes": 4158
+      },
+      {
+        "_path": "lib/libz-ng.2.2.4.dylib",
+        "path_type": "hardlink",
+        "sha256": "dcfac7caf9d262f514380e0a56c605ab2dc40d2e11e37c4dbc8ca478be32c8f5",
+        "sha256_in_prefix": "dcfac7caf9d262f514380e0a56c605ab2dc40d2e11e37c4dbc8ca478be32c8f5",
+        "size_in_bytes": 142944
+      },
+      {
+        "_path": "lib/libz-ng.2.dylib",
+        "path_type": "softlink",
+        "sha256": "dcfac7caf9d262f514380e0a56c605ab2dc40d2e11e37c4dbc8ca478be32c8f5",
+        "size_in_bytes": 142944
+      },
+      {
+        "_path": "lib/libz-ng.dylib",
+        "path_type": "softlink",
+        "sha256": "dcfac7caf9d262f514380e0a56c605ab2dc40d2e11e37c4dbc8ca478be32c8f5",
+        "size_in_bytes": 142944
+      },
+      {
+        "_path": "lib/pkgconfig/zlib-ng.pc",
+        "file_mode": "text",
+        "path_type": "hardlink",
+        "prefix_placeholder": "/Users/runner/miniforge3/conda-bld/zlib-ng_1739246096005/_h_env_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_p",
+        "sha256": "71ed0c244d23540cb260018ad55210227fe8b9f93310cfbc333de63e07f85ef9",
+        "sha256_in_prefix": "279e1854f685ee56731ce132b8cede32ca13cf1675999ce89870a9bf68f3cf55",
+        "size_in_bytes": 543
+      }
+    ],
+    "paths_version": 1
+  },
+  "requested_spec": "None",
+  "sha256": "00d2321c74825e3c33cf95ed9d3322013fb253222d204d388f0c7d69cb69cb3f",
+  "size": 87396,
+  "subdir": "osx-arm64",
+  "timestamp": 1739246493000,
+  "url": "https://conda-forge.fredhutch.org/conda-forge/osx-arm64/zlib-ng-2.2.4-h13dfb9a_0.conda",
+  "version": "2.2.4"
+}

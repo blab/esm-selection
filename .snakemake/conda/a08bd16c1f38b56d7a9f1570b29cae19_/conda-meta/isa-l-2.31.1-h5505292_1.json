@@ -1,0 +1,138 @@
+{
+  "build": "h5505292_1",
+  "build_number": 1,
+  "channel": "https://conda-forge.fredhutch.org/conda-forge/osx-arm64",
+  "constrains": [],
+  "depends": [
+    "__osx >=11.0"
+  ],
+  "extracted_package_dir": "/Users/Carlos/miniforge3/pkgs/isa-l-2.31.1-h5505292_1",
+  "files": [
+    "bin/igzip",
+    "include/isa-l.h",
+    "include/isa-l/crc.h",
+    "include/isa-l/crc64.h",
+    "include/isa-l/erasure_code.h",
+    "include/isa-l/gf_vect_mul.h",
+    "include/isa-l/igzip_lib.h",
+    "include/isa-l/mem_routines.h",
+    "include/isa-l/raid.h",
+    "include/isa-l/test.h",
+    "lib/libisal.2.dylib",
+    "lib/libisal.dylib",
+    "lib/pkgconfig/libisal.pc"
+  ],
+  "fn": "isa-l-2.31.1-h5505292_1.conda",
+  "license": "BSD-3-Clause",
+  "link": {
+    "source": "/Users/Carlos/miniforge3/pkgs/isa-l-2.31.1-h5505292_1",
+    "type": 1
+  },
+  "md5": "00c87ad2b46e1863f514b831674f1a43",
+  "name": "isa-l",
+  "package_tarball_full_path": "/Users/Carlos/miniforge3/pkgs/isa-l-2.31.1-h5505292_1",
+  "paths_data": {
+    "paths": [
+      {
+        "_path": "bin/igzip",
+        "path_type": "hardlink",
+        "sha256": "1ac39a85d1f4c519813016113f72d606f3c4f05d26cad37e804630ba05ddcfdc",
+        "sha256_in_prefix": "1ac39a85d1f4c519813016113f72d606f3c4f05d26cad37e804630ba05ddcfdc",
+        "size_in_bytes": 54576
+      },
+      {
+        "_path": "include/isa-l.h",
+        "path_type": "hardlink",
+        "sha256": "1430d6b67353e969dcb18771c1e2fec6ff96dee3b88bd9c979ce6812584c70cf",
+        "sha256_in_prefix": "1430d6b67353e969dcb18771c1e2fec6ff96dee3b88bd9c979ce6812584c70cf",
+        "size_in_bytes": 590
+      },
+      {
+        "_path": "include/isa-l/crc.h",
+        "path_type": "hardlink",
+        "sha256": "fc3b165b7b5e293f88019b65cbbf1f7dd2dd964747ae55baca56f81b814e920d",
+        "sha256_in_prefix": "fc3b165b7b5e293f88019b65cbbf1f7dd2dd964747ae55baca56f81b814e920d",
+        "size_in_bytes": 7367
+      },
+      {
+        "_path": "include/isa-l/crc64.h",
+        "path_type": "hardlink",
+        "sha256": "90d7accca40cb13e91cb9198c70bc6cfd02bb14b86a6518dfdd61714eaf95220",
+        "sha256_in_prefix": "90d7accca40cb13e91cb9198c70bc6cfd02bb14b86a6518dfdd61714eaf95220",
+        "size_in_bytes": 12043
+      },
+      {
+        "_path": "include/isa-l/erasure_code.h",
+        "path_type": "hardlink",
+        "sha256": "4b55d8df2e675afb22569135c09ae988b2f937a20c1be6942e822195e4595537",
+        "sha256_in_prefix": "4b55d8df2e675afb22569135c09ae988b2f937a20c1be6942e822195e4595537",
+        "size_in_bytes": 39463
+      },
+      {
+        "_path": "include/isa-l/gf_vect_mul.h",
+        "path_type": "hardlink",
+        "sha256": "46a76472dde50fdff520ebc2795f461413bce23c90e452dc620a1ab53a41d43f",
+        "sha256_in_prefix": "46a76472dde50fdff520ebc2795f461413bce23c90e452dc620a1ab53a41d43f",
+        "size_in_bytes": 6129
+      },
+      {
+        "_path": "include/isa-l/igzip_lib.h",
+        "path_type": "hardlink",
+        "sha256": "91cc7da4b83413cc8999bd2ac49bdaa67a5d39dfff8415cd744465e0b18caca0",
+        "sha256_in_prefix": "91cc7da4b83413cc8999bd2ac49bdaa67a5d39dfff8415cd744465e0b18caca0",
+        "size_in_bytes": 47866
+      },
+      {
+        "_path": "include/isa-l/mem_routines.h",
+        "path_type": "hardlink",
+        "sha256": "7bcc933300fe0720bedda2b1ff227d47191a3eaf970a75de32205d34099b4999",
+        "sha256_in_prefix": "7bcc933300fe0720bedda2b1ff227d47191a3eaf970a75de32205d34099b4999",
+        "size_in_bytes": 2395
+      },
+      {
+        "_path": "include/isa-l/raid.h",
+        "path_type": "hardlink",
+        "sha256": "4199cb7a70a65dcf2e9e644461190b2f7940796f82babd868aed0ad83e520ea4",
+        "sha256_in_prefix": "4199cb7a70a65dcf2e9e644461190b2f7940796f82babd868aed0ad83e520ea4",
+        "size_in_bytes": 10601
+      },
+      {
+        "_path": "include/isa-l/test.h",
+        "path_type": "hardlink",
+        "sha256": "7805f02784078d56ebaa7744ecf91dc8e1cd26b7b53e498904a84af337a7b959",
+        "sha256_in_prefix": "7805f02784078d56ebaa7744ecf91dc8e1cd26b7b53e498904a84af337a7b959",
+        "size_in_bytes": 13620
+      },
+      {
+        "_path": "lib/libisal.2.dylib",
+        "path_type": "hardlink",
+        "sha256": "f441ccf08d7bcdcaa93b36de63c8484de8f8283515fbbb023338c452bc9b3ba4",
+        "sha256_in_prefix": "f441ccf08d7bcdcaa93b36de63c8484de8f8283515fbbb023338c452bc9b3ba4",
+        "size_in_bytes": 330928
+      },
+      {
+        "_path": "lib/libisal.dylib",
+        "path_type": "softlink",
+        "sha256": "f441ccf08d7bcdcaa93b36de63c8484de8f8283515fbbb023338c452bc9b3ba4",
+        "size_in_bytes": 330928
+      },
+      {
+        "_path": "lib/pkgconfig/libisal.pc",
+        "file_mode": "text",
+        "path_type": "hardlink",
+        "prefix_placeholder": "/Users/runner/miniforge3/conda-bld/isa-l_1736497118521/_h_env_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_pla",
+        "sha256": "8a6156bc3c75daf8aab81b564c88cbfef3d3f4efbc165327c5712e013b29b742",
+        "sha256_in_prefix": "7c5ce7e0465180e12df48f3275b1d83194b0e8a58d6de0bfcbe16dc25b12c008",
+        "size_in_bytes": 475
+      }
+    ],
+    "paths_version": 1
+  },
+  "requested_spec": "None",
+  "sha256": "f0cad459ebfc209269cb7a964fc37d811aa973876c5508e529e414f379a38c23",
+  "size": 122475,
+  "subdir": "osx-arm64",
+  "timestamp": 1736497418000,
+  "url": "https://conda-forge.fredhutch.org/conda-forge/osx-arm64/isa-l-2.31.1-h5505292_1.conda",
+  "version": "2.31.1"
+}

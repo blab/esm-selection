@@ -1,0 +1,106 @@
+{
+  "build": "h99b4a89_7100102",
+  "build_number": 7100102,
+  "channel": "https://conda-forge.fredhutch.org/conda-forge/osx-arm64",
+  "constrains": [],
+  "depends": [
+    "__osx >=11.0",
+    "libsuitesparseconfig >=7.10.1,<8.0a0"
+  ],
+  "extracted_package_dir": "/Users/Carlos/miniforge3/pkgs/libcolamd-3.3.4-h99b4a89_7100102",
+  "files": [
+    "include/suitesparse/colamd.h",
+    "lib/cmake/COLAMD/COLAMDConfig.cmake",
+    "lib/cmake/COLAMD/COLAMDConfigVersion.cmake",
+    "lib/cmake/COLAMD/COLAMDTargets-release.cmake",
+    "lib/cmake/COLAMD/COLAMDTargets.cmake",
+    "lib/libcolamd.3.3.4.dylib",
+    "lib/libcolamd.3.dylib",
+    "lib/libcolamd.dylib",
+    "lib/pkgconfig/COLAMD.pc"
+  ],
+  "fn": "libcolamd-3.3.4-h99b4a89_7100102.conda",
+  "license": "BSD-3-Clause",
+  "link": {
+    "source": "/Users/Carlos/miniforge3/pkgs/libcolamd-3.3.4-h99b4a89_7100102",
+    "type": 1
+  },
+  "md5": "89673c8b6f5efcce6e92f5269996cc40",
+  "name": "libcolamd",
+  "package_tarball_full_path": "/Users/Carlos/miniforge3/pkgs/libcolamd-3.3.4-h99b4a89_7100102",
+  "paths_data": {
+    "paths": [
+      {
+        "_path": "include/suitesparse/colamd.h",
+        "path_type": "hardlink",
+        "sha256": "708ebcae18432d41d7abfefb768ea2a1ea3ba74aaf2c90ebaeae28da2ea92e1e",
+        "sha256_in_prefix": "708ebcae18432d41d7abfefb768ea2a1ea3ba74aaf2c90ebaeae28da2ea92e1e",
+        "size_in_bytes": 9542
+      },
+      {
+        "_path": "lib/cmake/COLAMD/COLAMDConfig.cmake",
+        "path_type": "hardlink",
+        "sha256": "34b5b1019f44c9f4fac3ad8aa96168d2496a0ec5db1b40ba40b6ef8af7539db3",
+        "sha256_in_prefix": "34b5b1019f44c9f4fac3ad8aa96168d2496a0ec5db1b40ba40b6ef8af7539db3",
+        "size_in_bytes": 6473
+      },
+      {
+        "_path": "lib/cmake/COLAMD/COLAMDConfigVersion.cmake",
+        "path_type": "hardlink",
+        "sha256": "2248dc0dbcc0173466190c47902df794691e0574ca15d044dd7cdfdc0b28ef5a",
+        "sha256_in_prefix": "2248dc0dbcc0173466190c47902df794691e0574ca15d044dd7cdfdc0b28ef5a",
+        "size_in_bytes": 2762
+      },
+      {
+        "_path": "lib/cmake/COLAMD/COLAMDTargets-release.cmake",
+        "path_type": "hardlink",
+        "sha256": "d84f3ba3c60a1d73409d70f38848e18b37bbfe30df01b6d8c5d44a8532718161",
+        "sha256_in_prefix": "d84f3ba3c60a1d73409d70f38848e18b37bbfe30df01b6d8c5d44a8532718161",
+        "size_in_bytes": 968
+      },
+      {
+        "_path": "lib/cmake/COLAMD/COLAMDTargets.cmake",
+        "path_type": "hardlink",
+        "sha256": "24d180e04dbb7d3b22d56eba75b8110c220ee4bab76512e316e79330742a1ef3",
+        "sha256_in_prefix": "24d180e04dbb7d3b22d56eba75b8110c220ee4bab76512e316e79330742a1ef3",
+        "size_in_bytes": 4288
+      },
+      {
+        "_path": "lib/libcolamd.3.3.4.dylib",
+        "path_type": "hardlink",
+        "sha256": "6839b4f17b1df2e30fae8dc490579d58bd1cb04f46e10cdc388500732b6db6db",
+        "sha256_in_prefix": "6839b4f17b1df2e30fae8dc490579d58bd1cb04f46e10cdc388500732b6db6db",
+        "size_in_bytes": 68640
+      },
+      {
+        "_path": "lib/libcolamd.3.dylib",
+        "path_type": "softlink",
+        "sha256": "6839b4f17b1df2e30fae8dc490579d58bd1cb04f46e10cdc388500732b6db6db",
+        "size_in_bytes": 21
+      },
+      {
+        "_path": "lib/libcolamd.dylib",
+        "path_type": "softlink",
+        "sha256": "6839b4f17b1df2e30fae8dc490579d58bd1cb04f46e10cdc388500732b6db6db",
+        "size_in_bytes": 17
+      },
+      {
+        "_path": "lib/pkgconfig/COLAMD.pc",
+        "file_mode": "text",
+        "path_type": "hardlink",
+        "prefix_placeholder": "/Users/runner/miniforge3/conda-bld/bld/rattler-build_libcolamd_1742288952/host_env_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_pl",
+        "sha256": "faeef3236538afda2f8ba271bf449a79bda7df44999e52b0e31e596da7682505",
+        "sha256_in_prefix": "9ec6140300b20f8185cc818fdfc49af5ee4b227a8c88c3ce5c46a8f836daff84",
+        "size_in_bytes": 751
+      }
+    ],
+    "paths_version": 1
+  },
+  "requested_spec": "None",
+  "sha256": "3c4467faf60994dd095a66ba5a4508b9d610487ed89458084d87ad3e4b0fe53f",
+  "size": 31802,
+  "subdir": "osx-arm64",
+  "timestamp": 1742288952000,
+  "url": "https://conda-forge.fredhutch.org/conda-forge/osx-arm64/libcolamd-3.3.4-h99b4a89_7100102.conda",
+  "version": "3.3.4"
+}

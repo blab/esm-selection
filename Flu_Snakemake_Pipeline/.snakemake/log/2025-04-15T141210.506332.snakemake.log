@@ -1,0 +1,123 @@
+Assuming unrestricted shared filesystem usage.
+None
+host: Nicolass-MacBook-Pro-2.local
+Building DAG of jobs...
+Using shell: /bin/bash
+Provided cores: 8
+Rules claiming more threads will be scaled down.
+Job stats:
+job                 count
+----------------  -------
+all                     1
+extract_max_freq        8
+total                   9
+
+Select jobs to execute...
+Execute 8 jobs...
+[Tue Apr 15 14:12:11 2025]
+localrule extract_max_freq:
+    input: h3n2_Sequences/h3n2_60y_np.json, root_tree_translated/h3n2_60y_np_root-sequence.json, scripts/extract_max_freq.py
+    output: max_freqs/max_freqs_np.json
+    jobid: 7
+    reason: Missing output files: max_freqs/max_freqs_np.json
+    wildcards: segment=np
+    resources: tmpdir=/var/folders/d9/c2g9f9wx3sz_p7hzxj26b9w00000gp/T
+
+Activating conda environment: .snakemake/conda/c68281f7da3953da89c92cd799f1e235_
+[Tue Apr 15 14:12:11 2025]
+localrule extract_max_freq:
+    input: h3n2_Sequences/h3n2_60y_pa.json, root_tree_translated/h3n2_60y_pa_root-sequence.json, scripts/extract_max_freq.py
+    output: max_freqs/max_freqs_pa.json
+    jobid: 5
+    reason: Missing output files: max_freqs/max_freqs_pa.json
+    wildcards: segment=pa
+    resources: tmpdir=/var/folders/d9/c2g9f9wx3sz_p7hzxj26b9w00000gp/T
+
+Activating conda environment: .snakemake/conda/c68281f7da3953da89c92cd799f1e235_
+[Tue Apr 15 14:12:11 2025]
+localrule extract_max_freq:
+    input: h3n2_Sequences/h3n2_60y_ha.json, root_tree_translated/h3n2_60y_ha_root-sequence.json, scripts/extract_max_freq.py
+    output: max_freqs/max_freqs_ha.json
+    jobid: 15
+    reason: Missing output files: max_freqs/max_freqs_ha.json
+    wildcards: segment=ha
+    resources: tmpdir=/var/folders/d9/c2g9f9wx3sz_p7hzxj26b9w00000gp/T
+
+Activating conda environment: .snakemake/conda/c68281f7da3953da89c92cd799f1e235_
+[Tue Apr 15 14:12:11 2025]
+localrule extract_max_freq:
+    input: h3n2_Sequences/h3n2_60y_ns.json, root_tree_translated/h3n2_60y_ns_root-sequence.json, scripts/extract_max_freq.py
+    output: max_freqs/max_freqs_ns.json
+    jobid: 13
+    reason: Missing output files: max_freqs/max_freqs_ns.json
+    wildcards: segment=ns
+    resources: tmpdir=/var/folders/d9/c2g9f9wx3sz_p7hzxj26b9w00000gp/T
+
+Activating conda environment: .snakemake/conda/c68281f7da3953da89c92cd799f1e235_
+[Tue Apr 15 14:12:11 2025]
+localrule extract_max_freq:
+    input: h3n2_Sequences/h3n2_60y_pb1.json, root_tree_translated/h3n2_60y_pb1_root-sequence.json, scripts/extract_max_freq.py
+    output: max_freqs/max_freqs_pb1.json
+    jobid: 3
+    reason: Missing output files: max_freqs/max_freqs_pb1.json
+    wildcards: segment=pb1
+    resources: tmpdir=/var/folders/d9/c2g9f9wx3sz_p7hzxj26b9w00000gp/T
+
+Activating conda environment: .snakemake/conda/c68281f7da3953da89c92cd799f1e235_
+[Tue Apr 15 14:12:11 2025]
+localrule extract_max_freq:
+    input: h3n2_Sequences/h3n2_60y_mp.json, root_tree_translated/h3n2_60y_mp_root-sequence.json, scripts/extract_max_freq.py
+    output: max_freqs/max_freqs_mp.json
+    jobid: 11
+    reason: Missing output files: max_freqs/max_freqs_mp.json
+    wildcards: segment=mp
+    resources: tmpdir=/var/folders/d9/c2g9f9wx3sz_p7hzxj26b9w00000gp/T
+
+Activating conda environment: .snakemake/conda/c68281f7da3953da89c92cd799f1e235_
+[Tue Apr 15 14:12:11 2025]
+localrule extract_max_freq:
+    input: h3n2_Sequences/h3n2_60y_pb2.json, root_tree_translated/h3n2_60y_pb2_root-sequence.json, scripts/extract_max_freq.py
+    output: max_freqs/max_freqs_pb2.json
+    jobid: 1
+    reason: Missing output files: max_freqs/max_freqs_pb2.json
+    wildcards: segment=pb2
+    resources: tmpdir=/var/folders/d9/c2g9f9wx3sz_p7hzxj26b9w00000gp/T
+
+Activating conda environment: .snakemake/conda/c68281f7da3953da89c92cd799f1e235_
+[Tue Apr 15 14:12:11 2025]
+localrule extract_max_freq:
+    input: h3n2_Sequences/h3n2_60y_na.json, root_tree_translated/h3n2_60y_na_root-sequence.json, scripts/extract_max_freq.py
+    output: max_freqs/max_freqs_na.json
+    jobid: 9
+    reason: Missing output files: max_freqs/max_freqs_na.json
+    wildcards: segment=na
+    resources: tmpdir=/var/folders/d9/c2g9f9wx3sz_p7hzxj26b9w00000gp/T
+
+Activating conda environment: .snakemake/conda/c68281f7da3953da89c92cd799f1e235_
+Waiting for more resources.
+Waiting at most 5 seconds for missing files:
+max_freqs/max_freqs_ns.json (missing locally)
+MissingOutputException in rule extract_max_freq in file "/Users/Carlos/Desktop/Bedford/esm-selection/Flu_Snakemake_Pipeline/Snakefile", line 62:
+Job 13  completed successfully, but some output files are missing. Missing files after 5 seconds. This might be due to filesystem latency. If that is the case, consider to increase the wait time with --latency-wait:
+max_freqs/max_freqs_ns.json (missing locally, parent dir contents: )
+Waiting at most 5 seconds for missing files:
+max_freqs/max_freqs_np.json (missing locally)
+MissingOutputException in rule extract_max_freq in file "/Users/Carlos/Desktop/Bedford/esm-selection/Flu_Snakemake_Pipeline/Snakefile", line 62:
+Job 7  completed successfully, but some output files are missing. Missing files after 5 seconds. This might be due to filesystem latency. If that is the case, consider to increase the wait time with --latency-wait:
+max_freqs/max_freqs_np.json (missing locally, parent dir contents: )
+Waiting at most 5 seconds for missing files:
+max_freqs/max_freqs_mp.json (missing locally)
+MissingOutputException in rule extract_max_freq in file "/Users/Carlos/Desktop/Bedford/esm-selection/Flu_Snakemake_Pipeline/Snakefile", line 62:
+Job 11  completed successfully, but some output files are missing. Missing files after 5 seconds. This might be due to filesystem latency. If that is the case, consider to increase the wait time with --latency-wait:
+max_freqs/max_freqs_mp.json (missing locally, parent dir contents: )
+Waiting at most 5 seconds for missing files:
+max_freqs/max_freqs_pa.json (missing locally)
+MissingOutputException in rule extract_max_freq in file "/Users/Carlos/Desktop/Bedford/esm-selection/Flu_Snakemake_Pipeline/Snakefile", line 62:
+Job 5  completed successfully, but some output files are missing. Missing files after 5 seconds. This might be due to filesystem latency. If that is the case, consider to increase the wait time with --latency-wait:
+max_freqs/max_freqs_pa.json (missing locally, parent dir contents: )
+Waiting at most 5 seconds for missing files:
+max_freqs/max_freqs_pb2.json (missing locally)
+Terminating processes on user request, this might take some time.
+Complete log(s): /Users/Carlos/Desktop/Bedford/esm-selection/Flu_Snakemake_Pipeline/.snakemake/log/2025-04-15T141210.506332.snakemake.log
+WorkflowError:
+At least one job did not complete successfully.

@@ -1,0 +1,10 @@
+name: protein-env
+dependencies:
+  - python=3.11  # or your preferred version
+  - pytorch  # GPU or CPU version depends on your system
+  - pandas
+  - tqdm
+  - biopython
+  - pip
+  - pip:
+      - fair-esm  # esm package from Facebook

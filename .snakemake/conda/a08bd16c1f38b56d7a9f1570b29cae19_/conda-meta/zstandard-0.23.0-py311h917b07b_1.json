@@ -1,0 +1,143 @@
+{
+  "build": "py311h917b07b_1",
+  "build_number": 1,
+  "channel": "https://conda-forge.fredhutch.org/conda-forge/osx-arm64",
+  "constrains": [],
+  "depends": [
+    "__osx >=11.0",
+    "python_abi 3.11.* *_cp311",
+    "python >=3.11,<3.12.0a0",
+    "python >=3.11,<3.12.0a0 *_cpython",
+    "cffi >=1.11"
+  ],
+  "extracted_package_dir": "/Users/Carlos/miniforge3/pkgs/zstandard-0.23.0-py311h917b07b_1",
+  "files": [
+    "lib/python3.11/site-packages/zstandard-0.23.0-py3.11.egg-info/PKG-INFO",
+    "lib/python3.11/site-packages/zstandard-0.23.0-py3.11.egg-info/SOURCES.txt",
+    "lib/python3.11/site-packages/zstandard-0.23.0-py3.11.egg-info/dependency_links.txt",
+    "lib/python3.11/site-packages/zstandard-0.23.0-py3.11.egg-info/requires.txt",
+    "lib/python3.11/site-packages/zstandard-0.23.0-py3.11.egg-info/top_level.txt",
+    "lib/python3.11/site-packages/zstandard/__init__.py",
+    "lib/python3.11/site-packages/zstandard/__init__.pyi",
+    "lib/python3.11/site-packages/zstandard/__pycache__/__init__.cpython-311.pyc",
+    "lib/python3.11/site-packages/zstandard/__pycache__/backend_cffi.cpython-311.pyc",
+    "lib/python3.11/site-packages/zstandard/_cffi.cpython-311-darwin.so",
+    "lib/python3.11/site-packages/zstandard/backend_c.cpython-311-darwin.so",
+    "lib/python3.11/site-packages/zstandard/backend_cffi.py",
+    "lib/python3.11/site-packages/zstandard/py.typed"
+  ],
+  "fn": "zstandard-0.23.0-py311h917b07b_1.conda",
+  "license": "BSD-3-Clause",
+  "link": {
+    "source": "/Users/Carlos/miniforge3/pkgs/zstandard-0.23.0-py311h917b07b_1",
+    "type": 1
+  },
+  "md5": "be18ca5f35d991ab12342a6fc3f7a6f8",
+  "name": "zstandard",
+  "package_tarball_full_path": "/Users/Carlos/miniforge3/pkgs/zstandard-0.23.0-py311h917b07b_1",
+  "paths_data": {
+    "paths": [
+      {
+        "_path": "lib/python3.11/site-packages/zstandard-0.23.0-py3.11.egg-info/PKG-INFO",
+        "path_type": "hardlink",
+        "sha256": "f1c809ec7d1e7cb9cc16d8a755b086408b39b603240702dc979397d8ab017d3f",
+        "sha256_in_prefix": "f1c809ec7d1e7cb9cc16d8a755b086408b39b603240702dc979397d8ab017d3f",
+        "size_in_bytes": 3178
+      },
+      {
+        "_path": "lib/python3.11/site-packages/zstandard-0.23.0-py3.11.egg-info/SOURCES.txt",
+        "path_type": "hardlink",
+        "sha256": "2902c4078db8dc1081804d32ed07d8472efcde5971844f7a10624f60a8224299",
+        "sha256_in_prefix": "2902c4078db8dc1081804d32ed07d8472efcde5971844f7a10624f60a8224299",
+        "size_in_bytes": 2739
+      },
+      {
+        "_path": "lib/python3.11/site-packages/zstandard-0.23.0-py3.11.egg-info/dependency_links.txt",
+        "path_type": "hardlink",
+        "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+        "sha256_in_prefix": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+        "size_in_bytes": 1
+      },
+      {
+        "_path": "lib/python3.11/site-packages/zstandard-0.23.0-py3.11.egg-info/requires.txt",
+        "path_type": "hardlink",
+        "sha256": "11409f2a84863ef7a7294f76de5f540c867eb619e0070540b5f1213827a5f87b",
+        "sha256_in_prefix": "11409f2a84863ef7a7294f76de5f540c867eb619e0070540b5f1213827a5f87b",
+        "size_in_bytes": 75
+      },
+      {
+        "_path": "lib/python3.11/site-packages/zstandard-0.23.0-py3.11.egg-info/top_level.txt",
+        "path_type": "hardlink",
+        "sha256": "27ec23f78a4f69d6388a915a6a7ad8065acc6e53927a01184bca3f2dda20ae95",
+        "sha256_in_prefix": "27ec23f78a4f69d6388a915a6a7ad8065acc6e53927a01184bca3f2dda20ae95",
+        "size_in_bytes": 10
+      },
+      {
+        "_path": "lib/python3.11/site-packages/zstandard/__init__.py",
+        "path_type": "hardlink",
+        "sha256": "c7debceb9c9bc6fef625ee1958501e841ce46db5dc696858b2aeb764036b8164",
+        "sha256_in_prefix": "c7debceb9c9bc6fef625ee1958501e841ce46db5dc696858b2aeb764036b8164",
+        "size_in_bytes": 7102
+      },
+      {
+        "_path": "lib/python3.11/site-packages/zstandard/__init__.pyi",
+        "path_type": "hardlink",
+        "sha256": "92f3fa52cf483d7e12b1f839070684dff13bbae135633554a3d853cd851c3470",
+        "sha256_in_prefix": "92f3fa52cf483d7e12b1f839070684dff13bbae135633554a3d853cd851c3470",
+        "size_in_bytes": 13938
+      },
+      {
+        "_path": "lib/python3.11/site-packages/zstandard/__pycache__/__init__.cpython-311.pyc",
+        "path_type": "hardlink",
+        "sha256": "fb50a8d65725fd17f96671a1632c057607e8302e56598b31c7378bf705c33c5c",
+        "sha256_in_prefix": "fb50a8d65725fd17f96671a1632c057607e8302e56598b31c7378bf705c33c5c",
+        "size_in_bytes": 6815
+      },
+      {
+        "_path": "lib/python3.11/site-packages/zstandard/__pycache__/backend_cffi.cpython-311.pyc",
+        "path_type": "hardlink",
+        "sha256": "3264d3d4cfe7e9516728c260c8261da7d0ceb1c4dcc8d6dd778adb03eca032d5",
+        "sha256_in_prefix": "3264d3d4cfe7e9516728c260c8261da7d0ceb1c4dcc8d6dd778adb03eca032d5",
+        "size_in_bytes": 179131
+      },
+      {
+        "_path": "lib/python3.11/site-packages/zstandard/_cffi.cpython-311-darwin.so",
+        "path_type": "hardlink",
+        "sha256": "f7bcf17b963ecc263727d2fa4017d5c8c3937781c57f4bc177e8393e5a98ca98",
+        "sha256_in_prefix": "f7bcf17b963ecc263727d2fa4017d5c8c3937781c57f4bc177e8393e5a98ca98",
+        "size_in_bytes": 759408
+      },
+      {
+        "_path": "lib/python3.11/site-packages/zstandard/backend_c.cpython-311-darwin.so",
+        "file_mode": "binary",
+        "path_type": "hardlink",
+        "prefix_placeholder": "/Users/runner/miniforge3/conda-bld/zstandard_1741853307742/_h_env_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold",
+        "sha256": "6ba42d7f6b9a887e84a83166d6dc588d9ce8032613ccf7763675e87fed87753f",
+        "sha256_in_prefix": "f595974c112b8ec7916783f220a7d88c08395a1f48f4e229f3000a1bfe113c9a",
+        "size_in_bytes": 833408
+      },
+      {
+        "_path": "lib/python3.11/site-packages/zstandard/backend_cffi.py",
+        "path_type": "hardlink",
+        "sha256": "db6751fcd4fcc5bd283a2b94e414bb6250c11269669d47c42b94719744cd4e29",
+        "sha256_in_prefix": "db6751fcd4fcc5bd283a2b94e414bb6250c11269669d47c42b94719744cd4e29",
+        "size_in_bytes": 152504
+      },
+      {
+        "_path": "lib/python3.11/site-packages/zstandard/py.typed",
+        "path_type": "hardlink",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "sha256_in_prefix": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_in_bytes": 0
+      }
+    ],
+    "paths_version": 1
+  },
+  "requested_spec": "None",
+  "sha256": "496189ea504358088128df526e545a96d7c8b597bea0747f09bc0e081a67a69b",
+  "size": 532580,
+  "subdir": "osx-arm64",
+  "timestamp": 1741853536000,
+  "url": "https://conda-forge.fredhutch.org/conda-forge/osx-arm64/zstandard-0.23.0-py311h917b07b_1.conda",
+  "version": "0.23.0"
+}

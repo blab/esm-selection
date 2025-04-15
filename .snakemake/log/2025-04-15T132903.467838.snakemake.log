@@ -1,0 +1,11 @@
+Assuming unrestricted shared filesystem usage.
+None
+host: Nicolass-MacBook-Pro-2.local
+Building DAG of jobs...
+MissingInputException in rule extract_node_fastas in file "/Users/Carlos/Desktop/Bedford/esm-selection/Snakefile", line 45:
+Missing input files for rule extract_node_fastas:
+    output: nextstrain_trees/nodeSeqs_mp.fasta
+    wildcards: segment=mp
+    affected files:
+        nextstrain_trees/flu_seasonal_h3n2_mp_60y_root-sequence.json
+        nextstrain_trees/flu_seasonal_h3n2_mp_60y.json

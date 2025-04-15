@@ -1,0 +1,159 @@
+{
+  "build": "h15d103f_7100102",
+  "build_number": 7100102,
+  "channel": "https://conda-forge.fredhutch.org/conda-forge/osx-arm64",
+  "constrains": [],
+  "depends": [
+    "__osx >=11.0",
+    "llvm-openmp >=18.1.8",
+    "libcolamd >=3.3.4,<4.0a0",
+    "mpfr >=4.2.1,<5.0a0",
+    "libsuitesparseconfig >=7.10.1,<8.0a0",
+    "libamd >=3.3.3,<4.0a0",
+    "gmp >=6.3.0,<7.0a0"
+  ],
+  "extracted_package_dir": "/Users/Carlos/miniforge3/pkgs/libspex-3.2.3-h15d103f_7100102",
+  "files": [
+    "include/suitesparse/SPEX.h",
+    "include/suitesparse/spex_python_connect.h",
+    "lib/cmake/SPEX/FindGMP.cmake",
+    "lib/cmake/SPEX/FindMPFR.cmake",
+    "lib/cmake/SPEX/SPEXConfig.cmake",
+    "lib/cmake/SPEX/SPEXConfigVersion.cmake",
+    "lib/cmake/SPEX/SPEXTargets-release.cmake",
+    "lib/cmake/SPEX/SPEXTargets.cmake",
+    "lib/libspex.3.2.3.dylib",
+    "lib/libspex.3.dylib",
+    "lib/libspex.dylib",
+    "lib/libspexpython.3.2.3.dylib",
+    "lib/libspexpython.3.dylib",
+    "lib/libspexpython.dylib",
+    "lib/pkgconfig/SPEX.pc"
+  ],
+  "fn": "libspex-3.2.3-h15d103f_7100102.conda",
+  "license": "LGPL-2.0-or-later",
+  "link": {
+    "source": "/Users/Carlos/miniforge3/pkgs/libspex-3.2.3-h15d103f_7100102",
+    "type": 1
+  },
+  "md5": "36b461a2ccf825c682fe8918b82c2f7a",
+  "name": "libspex",
+  "package_tarball_full_path": "/Users/Carlos/miniforge3/pkgs/libspex-3.2.3-h15d103f_7100102.conda",
+  "paths_data": {
+    "paths": [
+      {
+        "_path": "include/suitesparse/SPEX.h",
+        "path_type": "hardlink",
+        "sha256": "42d0f816004f3cdc1926363c32aa8cac9a25aeb55505b817589ea7d13ab77ab2",
+        "sha256_in_prefix": "42d0f816004f3cdc1926363c32aa8cac9a25aeb55505b817589ea7d13ab77ab2",
+        "size_in_bytes": 65690
+      },
+      {
+        "_path": "include/suitesparse/spex_python_connect.h",
+        "path_type": "hardlink",
+        "sha256": "f08434bbdef869edf13fc3df283b61dbf60bcec5cb82171e91489f7589f31111",
+        "sha256_in_prefix": "f08434bbdef869edf13fc3df283b61dbf60bcec5cb82171e91489f7589f31111",
+        "size_in_bytes": 1159
+      },
+      {
+        "_path": "lib/cmake/SPEX/FindGMP.cmake",
+        "path_type": "hardlink",
+        "sha256": "f84f8288972b3fc3bd2ea6e4e982cb9b9899dcbd6c3da476fb1d007e6a857da2",
+        "sha256_in_prefix": "f84f8288972b3fc3bd2ea6e4e982cb9b9899dcbd6c3da476fb1d007e6a857da2",
+        "size_in_bytes": 6158
+      },
+      {
+        "_path": "lib/cmake/SPEX/FindMPFR.cmake",
+        "path_type": "hardlink",
+        "sha256": "1bec9d3fffcdaa27393eebc78b2aeda52a8524f6469fccf051dd5adcbe32a1f1",
+        "sha256_in_prefix": "1bec9d3fffcdaa27393eebc78b2aeda52a8524f6469fccf051dd5adcbe32a1f1",
+        "size_in_bytes": 5586
+      },
+      {
+        "_path": "lib/cmake/SPEX/SPEXConfig.cmake",
+        "path_type": "hardlink",
+        "sha256": "9fa05c2ad6f48e075553be937d90fba72c6c97fdf2df0683de08c3f88553f052",
+        "sha256_in_prefix": "9fa05c2ad6f48e075553be937d90fba72c6c97fdf2df0683de08c3f88553f052",
+        "size_in_bytes": 7647
+      },
+      {
+        "_path": "lib/cmake/SPEX/SPEXConfigVersion.cmake",
+        "path_type": "hardlink",
+        "sha256": "4e7e5006ccdf64080e1825839ade54efb3a96bbdd638170ca60ae402304d5db3",
+        "sha256_in_prefix": "4e7e5006ccdf64080e1825839ade54efb3a96bbdd638170ca60ae402304d5db3",
+        "size_in_bytes": 2762
+      },
+      {
+        "_path": "lib/cmake/SPEX/SPEXTargets-release.cmake",
+        "path_type": "hardlink",
+        "sha256": "66fbfb945d49a5b38289ae5e6205f5916c2e92b11273336506e9d1f049e76a23",
+        "sha256_in_prefix": "66fbfb945d49a5b38289ae5e6205f5916c2e92b11273336506e9d1f049e76a23",
+        "size_in_bytes": 989
+      },
+      {
+        "_path": "lib/cmake/SPEX/SPEXTargets.cmake",
+        "file_mode": "text",
+        "path_type": "hardlink",
+        "prefix_placeholder": "/Users/runner/miniforge3/conda-bld/bld/rattler-build_libspex_1742288952/host_env_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_plac",
+        "sha256": "1a0d33117aa66782cf62cbf7cb2e11a9ca2ead5dbe057558b2366e3e26b9ddb2",
+        "sha256_in_prefix": "b52ab35b6002fc81d74ea5e0a1a04a8d0ac624b830f9ae873dd8c7d0dce2bb7f",
+        "size_in_bytes": 5373
+      },
+      {
+        "_path": "lib/libspex.3.2.3.dylib",
+        "path_type": "hardlink",
+        "sha256": "c962f0d672ee9cad859f6960f9cc0a1f387eb10d65eb1d86c307f14a731c76fd",
+        "sha256_in_prefix": "c962f0d672ee9cad859f6960f9cc0a1f387eb10d65eb1d86c307f14a731c76fd",
+        "size_in_bytes": 130944
+      },
+      {
+        "_path": "lib/libspex.3.dylib",
+        "path_type": "softlink",
+        "sha256": "c962f0d672ee9cad859f6960f9cc0a1f387eb10d65eb1d86c307f14a731c76fd",
+        "size_in_bytes": 19
+      },
+      {
+        "_path": "lib/libspex.dylib",
+        "path_type": "softlink",
+        "sha256": "c962f0d672ee9cad859f6960f9cc0a1f387eb10d65eb1d86c307f14a731c76fd",
+        "size_in_bytes": 15
+      },
+      {
+        "_path": "lib/libspexpython.3.2.3.dylib",
+        "path_type": "hardlink",
+        "sha256": "08b359ffadb564e3cbfb0ea6ea69a1de61acb72bfd00ef672156b2e70227b439",
+        "sha256_in_prefix": "08b359ffadb564e3cbfb0ea6ea69a1de61acb72bfd00ef672156b2e70227b439",
+        "size_in_bytes": 52144
+      },
+      {
+        "_path": "lib/libspexpython.3.dylib",
+        "path_type": "softlink",
+        "sha256": "08b359ffadb564e3cbfb0ea6ea69a1de61acb72bfd00ef672156b2e70227b439",
+        "size_in_bytes": 25
+      },
+      {
+        "_path": "lib/libspexpython.dylib",
+        "path_type": "softlink",
+        "sha256": "08b359ffadb564e3cbfb0ea6ea69a1de61acb72bfd00ef672156b2e70227b439",
+        "size_in_bytes": 21
+      },
+      {
+        "_path": "lib/pkgconfig/SPEX.pc",
+        "file_mode": "text",
+        "path_type": "hardlink",
+        "prefix_placeholder": "/Users/runner/miniforge3/conda-bld/bld/rattler-build_libspex_1742288952/host_env_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_plac",
+        "sha256": "6587b46b56ffe2187829890c331a5eb64e7ecde000ed93ef9d2ea6ab40810677",
+        "sha256_in_prefix": "2974f1de0cd9069f82e8448daff5dbe79a30c7dbe18922412466e54e8b657510",
+        "size_in_bytes": 867
+      }
+    ],
+    "paths_version": 1
+  },
+  "requested_spec": "None",
+  "sha256": "9975d6a1294f015813ff6a599430723877d2eb85749ea6cb2caf5cc72290c6a4",
+  "size": 73313,
+  "subdir": "osx-arm64",
+  "timestamp": 1742288952000,
+  "url": "https://conda-forge.fredhutch.org/conda-forge/osx-arm64/libspex-3.2.3-h15d103f_7100102.conda",
+  "version": "3.2.3"
+}

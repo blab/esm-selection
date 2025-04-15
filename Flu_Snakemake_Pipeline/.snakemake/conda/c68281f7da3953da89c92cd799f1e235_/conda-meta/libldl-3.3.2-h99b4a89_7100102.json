@@ -1,0 +1,106 @@
+{
+  "build": "h99b4a89_7100102",
+  "build_number": 7100102,
+  "channel": "https://conda-forge.fredhutch.org/conda-forge/osx-arm64",
+  "constrains": [],
+  "depends": [
+    "__osx >=11.0",
+    "libsuitesparseconfig >=7.10.1,<8.0a0"
+  ],
+  "extracted_package_dir": "/Users/Carlos/miniforge3/pkgs/libldl-3.3.2-h99b4a89_7100102",
+  "files": [
+    "include/suitesparse/ldl.h",
+    "lib/cmake/LDL/LDLConfig.cmake",
+    "lib/cmake/LDL/LDLConfigVersion.cmake",
+    "lib/cmake/LDL/LDLTargets-release.cmake",
+    "lib/cmake/LDL/LDLTargets.cmake",
+    "lib/libldl.3.3.2.dylib",
+    "lib/libldl.3.dylib",
+    "lib/libldl.dylib",
+    "lib/pkgconfig/LDL.pc"
+  ],
+  "fn": "libldl-3.3.2-h99b4a89_7100102.conda",
+  "license": "LGPL-2.1-or-later",
+  "link": {
+    "source": "/Users/Carlos/miniforge3/pkgs/libldl-3.3.2-h99b4a89_7100102",
+    "type": 1
+  },
+  "md5": "fe46ab585d717eeaf157c5111e076d0a",
+  "name": "libldl",
+  "package_tarball_full_path": "/Users/Carlos/miniforge3/pkgs/libldl-3.3.2-h99b4a89_7100102",
+  "paths_data": {
+    "paths": [
+      {
+        "_path": "include/suitesparse/ldl.h",
+        "path_type": "hardlink",
+        "sha256": "9b884ed7a668fe8f2ff3cf46cf60463089f5691612e5dc9ae0963110ffcd6379",
+        "sha256_in_prefix": "9b884ed7a668fe8f2ff3cf46cf60463089f5691612e5dc9ae0963110ffcd6379",
+        "size_in_bytes": 4558
+      },
+      {
+        "_path": "lib/cmake/LDL/LDLConfig.cmake",
+        "path_type": "hardlink",
+        "sha256": "cdc50a223f7070892e13fa95544b992600d22d157799755c07617796864e931a",
+        "sha256_in_prefix": "cdc50a223f7070892e13fa95544b992600d22d157799755c07617796864e931a",
+        "size_in_bytes": 6464
+      },
+      {
+        "_path": "lib/cmake/LDL/LDLConfigVersion.cmake",
+        "path_type": "hardlink",
+        "sha256": "c626ddf5e9282a52c8ace822ce88579d78947b90bbb433a67187e1d499110d0e",
+        "sha256_in_prefix": "c626ddf5e9282a52c8ace822ce88579d78947b90bbb433a67187e1d499110d0e",
+        "size_in_bytes": 2762
+      },
+      {
+        "_path": "lib/cmake/LDL/LDLTargets-release.cmake",
+        "path_type": "hardlink",
+        "sha256": "089801d8fda0786f6904bf33a55c2c9bc3d1cfc525a9d3309c72bac81e389e80",
+        "sha256_in_prefix": "089801d8fda0786f6904bf33a55c2c9bc3d1cfc525a9d3309c72bac81e389e80",
+        "size_in_bytes": 867
+      },
+      {
+        "_path": "lib/cmake/LDL/LDLTargets.cmake",
+        "path_type": "hardlink",
+        "sha256": "3f1e1b57561a8c5f092eae5d00784e4f60b137544fc24119cf8fa1f515ea706b",
+        "sha256_in_prefix": "3f1e1b57561a8c5f092eae5d00784e4f60b137544fc24119cf8fa1f515ea706b",
+        "size_in_bytes": 4270
+      },
+      {
+        "_path": "lib/libldl.3.3.2.dylib",
+        "path_type": "hardlink",
+        "sha256": "942106915cd4d0e069f8a2b677a3f36e2ea361ea1e3dca053d293e9b66e8b5c3",
+        "sha256_in_prefix": "942106915cd4d0e069f8a2b677a3f36e2ea361ea1e3dca053d293e9b66e8b5c3",
+        "size_in_bytes": 51904
+      },
+      {
+        "_path": "lib/libldl.3.dylib",
+        "path_type": "softlink",
+        "sha256": "942106915cd4d0e069f8a2b677a3f36e2ea361ea1e3dca053d293e9b66e8b5c3",
+        "size_in_bytes": 18
+      },
+      {
+        "_path": "lib/libldl.dylib",
+        "path_type": "softlink",
+        "sha256": "942106915cd4d0e069f8a2b677a3f36e2ea361ea1e3dca053d293e9b66e8b5c3",
+        "size_in_bytes": 14
+      },
+      {
+        "_path": "lib/pkgconfig/LDL.pc",
+        "file_mode": "text",
+        "path_type": "hardlink",
+        "prefix_placeholder": "/Users/runner/miniforge3/conda-bld/bld/rattler-build_libldl_1742288952/host_env_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_place",
+        "sha256": "b6e81a0b5300eb4b4102992c9177e25637a664ab724f0185ff6e8c2a0af431ad",
+        "sha256_in_prefix": "9cd1b4865f2f8f0328740920b7db01524d4bea84d24b61c32b67fbc553e96f2a",
+        "size_in_bytes": 731
+      }
+    ],
+    "paths_version": 1
+  },
+  "requested_spec": "None",
+  "sha256": "2e3cf9fe20d39639320b1c04687b2e9aae695cb2fbaba4f3694f9d80925fe364",
+  "size": 22944,
+  "subdir": "osx-arm64",
+  "timestamp": 1742288952000,
+  "url": "https://conda-forge.fredhutch.org/conda-forge/osx-arm64/libldl-3.3.2-h99b4a89_7100102.conda",
+  "version": "3.3.2"
+}

@@ -1,0 +1,12 @@
+name: nextstrain
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - nextstrain-cli
+  - augur
+  - auspice
+  - snakemake
+  - python=3.11
+

@@ -1,0 +1,10 @@
+prefix=/Users/Carlos/Desktop/Bedford/esm-selection/Flu_Snakemake_Pipeline/.snakemake/conda/c68281f7da3953da89c92cd799f1e235_
+libdir=${prefix}/lib
+includedir=${prefix}/include
+
+Name: qhull_r
+Description: Qhull reentrant shared library
+Version: 8.0.2
+Libs: -L${libdir} -lqhull_r
+Cflags: -I${includedir}
+

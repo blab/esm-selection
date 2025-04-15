@@ -1,0 +1,139 @@
+Metadata-Version: 2.1
+Name: nextstrain-augur
+Version: 11.1.2
+Summary: A bioinformatics toolkit for phylogenetic analysis
+Home-page: https://github.com/nextstrain/augur
+Author: Nextstrain developers
+Author-email: trevor@bedford.io, richard.neher@unibas.ch
+License: UNKNOWN
+Project-URL: Bug Reports, https://github.com/nextstrain/augur/issues
+Project-URL: Change Log, https://github.com/nextstrain/augur/blob/master/CHANGES.md#next
+Project-URL: Source, https://github.com/nextstrain/augur
+Keywords: nextstrain,molecular epidemiology
+Platform: UNKNOWN
+Classifier: Development Status :: 3 - Alpha
+Classifier: Topic :: Scientific/Engineering :: Bio-Informatics
+Classifier: License :: OSI Approved :: GNU Affero General Public License v3
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.6
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+Requires-Dist: bcbio-gff (==0.6.*,>=0.6.0)
+Requires-Dist: biopython (<=1.76,>=1.67)
+Requires-Dist: jsonschema (==3.*,>=3.0.0)
+Requires-Dist: packaging (>=19.2)
+Requires-Dist: pandas (==1.*,>=1.0.0)
+Requires-Dist: phylo-treetime (==0.8.*)
+Provides-Extra: dev
+Requires-Dist: cram (==0.*,>=0.7) ; extra == 'dev'
+Requires-Dist: deepdiff (==4.3.*,>=4.3.2) ; extra == 'dev'
+Requires-Dist: freezegun (==0.3.*,>=0.3.15) ; extra == 'dev'
+Requires-Dist: nextstrain-sphinx-theme (>=2020.3) ; extra == 'dev'
+Requires-Dist: pylint (==1.7.*,>=1.7.6) ; extra == 'dev'
+Requires-Dist: pytest (==5.4.*,>=5.4.1) ; extra == 'dev'
+Requires-Dist: pytest-cov (==2.8.*,>=2.8.1) ; extra == 'dev'
+Requires-Dist: pytest-mock (==2.0.*,>=2.0.0) ; extra == 'dev'
+Requires-Dist: recommonmark (==0.*,>=0.5.0) ; extra == 'dev'
+Requires-Dist: snakemake (<5.27,>=5.4.0) ; extra == 'dev'
+Requires-Dist: Sphinx (==2.*,>=2.0.1) ; extra == 'dev'
+Requires-Dist: sphinx-argparse (==0.*,>=0.2.5) ; extra == 'dev'
+Requires-Dist: sphinx-markdown-tables (>=0.0.9) ; extra == 'dev'
+Requires-Dist: sphinx-rtd-theme (==0.*,>=0.4.3) ; extra == 'dev'
+Requires-Dist: wheel (==0.32.*,>=0.32.3) ; extra == 'dev'
+Requires-Dist: ipdb (==0.*,>=0.10.1) ; extra == 'dev'
+Provides-Extra: full
+Requires-Dist: cvxopt (==1.*,>=1.1.9) ; extra == 'full'
+Requires-Dist: matplotlib (==2.*,>=2.0) ; extra == 'full'
+Requires-Dist: seaborn (==0.9.*,>=0.9.0) ; extra == 'full'
+
+[![Build Status](https://travis-ci.com/nextstrain/augur.svg?branch=master)](https://travis-ci.com/nextstrain/augur)
+[![PyPI version](https://badge.fury.io/py/nextstrain-augur.svg)](https://pypi.org/project/nextstrain-augur/)
+[![install with bioconda](https://img.shields.io/badge/install%20with-bioconda-brightgreen.svg?style=flat)](http://bioconda.github.io/recipes/augur/README.html)
+[![Documentation Status](https://readthedocs.org/projects/nextstrain-augur/badge/?version=latest)](https://nextstrain-augur.readthedocs.io/en/stable/?badge=latest)
+[![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
+[![DOI](https://joss.theoj.org/papers/10.21105/joss.02906/status.svg)](https://doi.org/10.21105/joss.02906)
+
+## About Nextstrain
+
+Nextstrain is an open-source project to harness the scientific and public health potential of pathogen genome data.
+We provide a continually-updated view of publicly available data with powerful analytics and visualizations showing pathogen evolution and epidemic spread.
+Our goal is to aid epidemiological understanding and improve outbreak response.
+
+Resulting data and inferences are available live at the website [nextstrain.org](https://nextstrain.org).
+
+## About Augur
+
+*Definition: One held to foretell events by omens.*
+
+Augur is the bioinformatics toolkit we use to track evolution from sequence and serological data.
+It provides a collection of commands which are designed to be composable into larger processing pipelines.
+
+The output of augur is a series of JSONs that can be used to visualize your results using [Auspice](https://github.com/nextstrain/auspice).
+
+## Documentation
+
+* [Overview of how Augur fits together with other Nextstrain tools](https://nextstrain.org/docs/getting-started/introduction#open-source-tools-for-the-community)
+* [Overview of Augur usage](https://nextstrain.org/docs/bioinformatics/introduction-to-augur)
+* [Technical documentation for Augur](https://nextstrain-augur.readthedocs.io/en/stable/installation/installation.html)
+* [Contributor guide](https://github.com/nextstrain/.github/blob/master/CONTRIBUTING.md)
+* [Project board with available issues](https://github.com/orgs/nextstrain/projects/6)
+* [Developer docs for Augur](./docs/contribute/DEV_DOCS.md)
+
+## Quickstart
+
+[Follow instructions to install augur](https://nextstrain-augur.readthedocs.io/en/stable/installation/installation.html).
+Try out an analysis of real virus data by [completing the Zika tutorial](https://nextstrain.org/docs/tutorials/zika).
+
+## Basic Usage
+
+All of Augur's commands are accessed through the `augur` program.
+For example, to infer ancestral sequences from a tree, you'd run `augur ancestral`.
+If you've installed the `nextstrain-augur` package, you can just run `augur`.
+Otherwise, you can run `./bin/augur` from a copy of the source code.
+
+```
+usage: augur [-h] {parse,filter,mask,align,tree,refine,ancestral,translate,clades,traits,sequence-traits,titers,export,validate,version} ...
+
+Augur: A bioinformatics toolkit for phylogenetic analysis.
+
+positional arguments:
+  {parse,filter,mask,align,tree,refine,ancestral,translate,clades,traits,sequence-traits,titers,export,validate,version}
+    parse               Parse delimited fields from FASTA sequence names into
+                        a TSV and FASTA file.
+    filter              Filter and subsample a sequence set.
+    mask                Mask specified sites from a VCF file.
+    align               Align multiple sequences from FASTA or VCF.
+    tree                Build a tree using a variety of methods.
+    refine              Refine an initial tree using sequence metadata.
+    ancestral           Infer ancestral sequences based on a tree.
+    translate           Translate gene regions from nucleotides to amino
+                        acids.
+    clades              Assign clades to nodes in a tree based on amino-acid
+                        or nucleotide signatures.
+    traits              Infer ancestral traits based on a tree.
+    sequence-traits     Annotate sequences based on amino-acid or nucleotide
+                        signatures.
+    titers              Annotate a tree with actual and inferred titer
+                        measurements.
+    export              Export JSON files suitable for visualization with
+                        auspice.
+    validate            Validate a set of JSON files intended for
+                        visualization in auspice.
+    version             Print the version of augur.
+
+optional arguments:
+  -h, --help            show this help message and exit
+```
+
+For more information on a specific command, you can run it with the `--help` option, for example, `augur tree --help`.
+
+
+## License and copyright
+
+Copyright 2014-2019 Trevor Bedford and Richard Neher.
+
+Source code to Nextstrain is made available under the terms of the [GNU Affero General Public License](LICENSE.txt) (AGPL). Nextstrain is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Affero General Public License for more details.
+
+

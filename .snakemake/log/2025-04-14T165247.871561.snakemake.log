@@ -1,0 +1,50 @@
+Assuming unrestricted shared filesystem usage.
+None
+host: Nicolass-MacBook-Pro-2.local
+Building DAG of jobs...
+Your conda installation is not configured to use strict channel priorities. This is however important for having robust and correct environments (for details, see https://conda-forge.org/docs/user/tipsandtricks.html). Please consider to configure strict priorities by executing 'conda config --set channel_priority strict'.
+Using shell: /bin/bash
+Provided cores: 8
+Rules claiming more threads will be scaled down.
+Job stats:
+job                    count
+-------------------  -------
+extract_node_fastas        1
+total                      1
+
+Select jobs to execute...
+Execute 1 jobs...
+[Mon Apr 14 16:52:48 2025]
+localrule extract_node_fastas:
+    input: nextstrain_trees/flu_seasonal_h3n2_pb2_60y_root-sequence.json, SM_scripts/extract_fasta_nodes.py
+    output: nextstrain_trees/nodeSeqs_PB2.fasta
+    jobid: 0
+    reason: Missing output files: nextstrain_trees/nodeSeqs_PB2.fasta
+    resources: tmpdir=/var/folders/d9/c2g9f9wx3sz_p7hzxj26b9w00000gp/T
+
+Activating conda environment: .snakemake/conda/a08bd16c1f38b56d7a9f1570b29cae19_
+Waiting for more resources.
+Waiting at most 5 seconds for missing files:
+nextstrain_trees/nodeSeqs_PB2.fasta (missing locally)
+MissingOutputException in rule extract_node_fastas in file "/Users/Carlos/Desktop/Bedford/esm-selection/Snakefile", line 17:
+Job 0 completed successfully, but some output files are missing. Missing files after 5 seconds. This might be due to filesystem latency. If that is the case, consider to increase the wait time with --latency-wait:
+nextstrain_trees/nodeSeqs_PB2.fasta (missing locally, parent dir contents: flu_seasonal_h3n2_pb2_60y.json, .DS_Store, flu_seasonal_h3n2_pb2_60y_tip-frequencies.json, flu_seasonal_h3n2_pb2_60y_root-sequence.json)
+Shutting down, this might take some time.
+Exiting because a job execution failed. Look below for error messages
+[Mon Apr 14 16:52:56 2025]
+Error in rule extract_node_fastas:
+    message: None
+    jobid: 0
+    input: nextstrain_trees/flu_seasonal_h3n2_pb2_60y_root-sequence.json, SM_scripts/extract_fasta_nodes.py
+    output: nextstrain_trees/nodeSeqs_PB2.fasta
+    conda-env: /Users/Carlos/Desktop/Bedford/esm-selection/.snakemake/conda/a08bd16c1f38b56d7a9f1570b29cae19_
+    shell:
+        
+        #python SM_scripts/extract_fasta_nodes.py nextstrain_trees/flu_seasonal_h3n2_pb2_60y_root-sequence.json
+        python SM_scripts/extract_fasta_nodes.py
+        #python SM_scripts/extract_fasta_nodes.py nextstrain_trees/flu_seasonal_h3n2_pb2_60y_root-sequence.json
+        
+        (command exited with non-zero exit code)
+Complete log(s): /Users/Carlos/Desktop/Bedford/esm-selection/.snakemake/log/2025-04-14T165247.871561.snakemake.log
+WorkflowError:
+At least one job did not complete successfully.

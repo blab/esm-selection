@@ -1,0 +1,189 @@
+{
+  "build": "h4370aa4_7100102",
+  "build_number": 7100102,
+  "channel": "https://conda-forge.fredhutch.org/conda-forge/osx-arm64",
+  "constrains": [],
+  "depends": [
+    "__osx >=11.0",
+    "llvm-openmp >=18.1.8",
+    "libccolamd >=3.3.4,<4.0a0",
+    "libcamd >=3.3.3,<4.0a0",
+    "libsuitesparseconfig >=7.10.1,<8.0a0",
+    "libcolamd >=3.3.4,<4.0a0",
+    "libbtf >=2.3.2,<3.0a0",
+    "libamd >=3.3.3,<4.0a0",
+    "libcblas >=3.9.0,<4.0a0",
+    "libblas >=3.9.0,<4.0a0",
+    "libcholmod >=5.3.1,<6.0a0",
+    "liblapack >=3.9.0,<4.0a0",
+    "metis >=5.1.0,<5.1.1.0a0"
+  ],
+  "extracted_package_dir": "/Users/Carlos/miniforge3/pkgs/libklu-2.3.5-h4370aa4_7100102",
+  "files": [
+    "include/suitesparse/klu.h",
+    "include/suitesparse/klu_cholmod.h",
+    "lib/cmake/KLU/KLUConfig.cmake",
+    "lib/cmake/KLU/KLUConfigVersion.cmake",
+    "lib/cmake/KLU/KLUTargets-release.cmake",
+    "lib/cmake/KLU/KLUTargets.cmake",
+    "lib/cmake/KLU_CHOLMOD/KLU_CHOLMODConfig.cmake",
+    "lib/cmake/KLU_CHOLMOD/KLU_CHOLMODConfigVersion.cmake",
+    "lib/cmake/KLU_CHOLMOD/KLU_CHOLMODTargets-release.cmake",
+    "lib/cmake/KLU_CHOLMOD/KLU_CHOLMODTargets.cmake",
+    "lib/libklu.2.3.5.dylib",
+    "lib/libklu.2.dylib",
+    "lib/libklu.dylib",
+    "lib/libklu_cholmod.2.3.5.dylib",
+    "lib/libklu_cholmod.2.dylib",
+    "lib/libklu_cholmod.dylib",
+    "lib/pkgconfig/KLU.pc",
+    "lib/pkgconfig/KLU_CHOLMOD.pc"
+  ],
+  "fn": "libklu-2.3.5-h4370aa4_7100102.conda",
+  "license": "LGPL-2.1-or-later",
+  "link": {
+    "source": "/Users/Carlos/miniforge3/pkgs/libklu-2.3.5-h4370aa4_7100102",
+    "type": 1
+  },
+  "md5": "37896b0b2e01cbe2de5f25f645bc881e",
+  "name": "libklu",
+  "package_tarball_full_path": "/Users/Carlos/miniforge3/pkgs/libklu-2.3.5-h4370aa4_7100102",
+  "paths_data": {
+    "paths": [
+      {
+        "_path": "include/suitesparse/klu.h",
+        "path_type": "hardlink",
+        "sha256": "fb92acc4cf9fbc48a07ceaf98de3ad468840649e5f1015d3968b6439b4369c56",
+        "sha256_in_prefix": "fb92acc4cf9fbc48a07ceaf98de3ad468840649e5f1015d3968b6439b4369c56",
+        "size_in_bytes": 30151
+      },
+      {
+        "_path": "include/suitesparse/klu_cholmod.h",
+        "path_type": "hardlink",
+        "sha256": "47a0cb2c50f795dae46c4681a7a0497b4fff14c12e56ecbe3391d6ed3b6f3f60",
+        "sha256_in_prefix": "47a0cb2c50f795dae46c4681a7a0497b4fff14c12e56ecbe3391d6ed3b6f3f60",
+        "size_in_bytes": 720
+      },
+      {
+        "_path": "lib/cmake/KLU/KLUConfig.cmake",
+        "path_type": "hardlink",
+        "sha256": "561d6efb1268385de5f085a9e10b7040aa1f1843637466e8388f18b108e7dbba",
+        "sha256_in_prefix": "561d6efb1268385de5f085a9e10b7040aa1f1843637466e8388f18b108e7dbba",
+        "size_in_bytes": 7776
+      },
+      {
+        "_path": "lib/cmake/KLU/KLUConfigVersion.cmake",
+        "path_type": "hardlink",
+        "sha256": "8309ddc0987e8d315596da2046ceb85ee6b1e88d0c1d8652dc7050185c4d3a42",
+        "sha256_in_prefix": "8309ddc0987e8d315596da2046ceb85ee6b1e88d0c1d8652dc7050185c4d3a42",
+        "size_in_bytes": 2762
+      },
+      {
+        "_path": "lib/cmake/KLU/KLUTargets-release.cmake",
+        "path_type": "hardlink",
+        "sha256": "93db0030271c8a9714a56cdc909f9127829b64e15978436322ba2adbf3dbcb08",
+        "sha256_in_prefix": "93db0030271c8a9714a56cdc909f9127829b64e15978436322ba2adbf3dbcb08",
+        "size_in_bytes": 998
+      },
+      {
+        "_path": "lib/cmake/KLU/KLUTargets.cmake",
+        "path_type": "hardlink",
+        "sha256": "8391f9e5e0d8ee9ee82dc55e87405ab22d4bb3f242bdaf4ada9fad83cc1afc5c",
+        "sha256_in_prefix": "8391f9e5e0d8ee9ee82dc55e87405ab22d4bb3f242bdaf4ada9fad83cc1afc5c",
+        "size_in_bytes": 4393
+      },
+      {
+        "_path": "lib/cmake/KLU_CHOLMOD/KLU_CHOLMODConfig.cmake",
+        "path_type": "hardlink",
+        "sha256": "4ef46d0e0cdecd861b23b5585e1deee08f749ecc1d27118098b57baa19f1c6ef",
+        "sha256_in_prefix": "4ef46d0e0cdecd861b23b5585e1deee08f749ecc1d27118098b57baa19f1c6ef",
+        "size_in_bytes": 7212
+      },
+      {
+        "_path": "lib/cmake/KLU_CHOLMOD/KLU_CHOLMODConfigVersion.cmake",
+        "path_type": "hardlink",
+        "sha256": "8309ddc0987e8d315596da2046ceb85ee6b1e88d0c1d8652dc7050185c4d3a42",
+        "sha256_in_prefix": "8309ddc0987e8d315596da2046ceb85ee6b1e88d0c1d8652dc7050185c4d3a42",
+        "size_in_bytes": 2762
+      },
+      {
+        "_path": "lib/cmake/KLU_CHOLMOD/KLU_CHOLMODTargets-release.cmake",
+        "path_type": "hardlink",
+        "sha256": "f6a639afd9c8acf1b0e420b853bff18101fe15e9b9ff4b98196c459326d8d37a",
+        "sha256_in_prefix": "f6a639afd9c8acf1b0e420b853bff18101fe15e9b9ff4b98196c459326d8d37a",
+        "size_in_bytes": 1015
+      },
+      {
+        "_path": "lib/cmake/KLU_CHOLMOD/KLU_CHOLMODTargets.cmake",
+        "path_type": "hardlink",
+        "sha256": "5c02213951fcd1a5c065f9a010e328988ed887659a8bcdc27d39ff8101fec6ea",
+        "sha256_in_prefix": "5c02213951fcd1a5c065f9a010e328988ed887659a8bcdc27d39ff8101fec6ea",
+        "size_in_bytes": 4237
+      },
+      {
+        "_path": "lib/libklu.2.3.5.dylib",
+        "path_type": "hardlink",
+        "sha256": "e4f548c3a3d9cda07d69799035367bbe3717e44b209c14ec72b81c8db42c8730",
+        "sha256_in_prefix": "e4f548c3a3d9cda07d69799035367bbe3717e44b209c14ec72b81c8db42c8730",
+        "size_in_bytes": 188896
+      },
+      {
+        "_path": "lib/libklu.2.dylib",
+        "path_type": "softlink",
+        "sha256": "e4f548c3a3d9cda07d69799035367bbe3717e44b209c14ec72b81c8db42c8730",
+        "size_in_bytes": 18
+      },
+      {
+        "_path": "lib/libklu.dylib",
+        "path_type": "softlink",
+        "sha256": "e4f548c3a3d9cda07d69799035367bbe3717e44b209c14ec72b81c8db42c8730",
+        "size_in_bytes": 14
+      },
+      {
+        "_path": "lib/libklu_cholmod.2.3.5.dylib",
+        "path_type": "hardlink",
+        "sha256": "9fd3b7e98905fbc2c7cf2c5fa91c491567d15e47da0b14fbc92170fd1bb0afa0",
+        "sha256_in_prefix": "9fd3b7e98905fbc2c7cf2c5fa91c491567d15e47da0b14fbc92170fd1bb0afa0",
+        "size_in_bytes": 52256
+      },
+      {
+        "_path": "lib/libklu_cholmod.2.dylib",
+        "path_type": "softlink",
+        "sha256": "9fd3b7e98905fbc2c7cf2c5fa91c491567d15e47da0b14fbc92170fd1bb0afa0",
+        "size_in_bytes": 26
+      },
+      {
+        "_path": "lib/libklu_cholmod.dylib",
+        "path_type": "softlink",
+        "sha256": "9fd3b7e98905fbc2c7cf2c5fa91c491567d15e47da0b14fbc92170fd1bb0afa0",
+        "size_in_bytes": 22
+      },
+      {
+        "_path": "lib/pkgconfig/KLU.pc",
+        "file_mode": "text",
+        "path_type": "hardlink",
+        "prefix_placeholder": "/Users/runner/miniforge3/conda-bld/bld/rattler-build_libklu_1742288952/host_env_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_place",
+        "sha256": "4725854ee53e124a575bb8cd4464bde879cde22590390d1c85c94ac1e5c8bd25",
+        "sha256_in_prefix": "9a735af607d504c199fe80e062d4daa83da37ae7ecaf4e417044dbf23858ceb2",
+        "size_in_bytes": 753
+      },
+      {
+        "_path": "lib/pkgconfig/KLU_CHOLMOD.pc",
+        "file_mode": "text",
+        "path_type": "hardlink",
+        "prefix_placeholder": "/Users/runner/miniforge3/conda-bld/bld/rattler-build_libklu_1742288952/host_env_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_place",
+        "sha256": "27a65d44d4869806d266800706774323c86f7a496ce7f56e5729abcc5c2801f9",
+        "sha256_in_prefix": "9520ac7d8490759e0efc3a827e07d9f71e047aeaa30ddff8a15a2472fc3cb8e4",
+        "size_in_bytes": 724
+      }
+    ],
+    "paths_version": 1
+  },
+  "requested_spec": "None",
+  "sha256": "b0a2232fe917abcf0f8c7fbb37c8c3783a0580a38f98610c5c20a3a6cb8c12f3",
+  "size": 93667,
+  "subdir": "osx-arm64",
+  "timestamp": 1742288952000,
+  "url": "https://conda-forge.fredhutch.org/conda-forge/osx-arm64/libklu-2.3.5-h4370aa4_7100102.conda",
+  "version": "2.3.5"
+}

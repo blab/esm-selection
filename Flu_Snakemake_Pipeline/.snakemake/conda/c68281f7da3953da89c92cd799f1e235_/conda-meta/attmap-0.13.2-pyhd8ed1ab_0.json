@@ -1,0 +1,204 @@
+{
+  "build": "pyhd8ed1ab_0",
+  "build_number": 0,
+  "channel": "https://conda-forge.fredhutch.org/conda-forge/noarch",
+  "constrains": [],
+  "depends": [
+    "python >=3.6",
+    "ubiquerg >=0.2.1"
+  ],
+  "extracted_package_dir": "/Users/Carlos/miniforge3/pkgs/attmap-0.13.2-pyhd8ed1ab_0",
+  "files": [
+    "lib/python3.11/site-packages/attmap-0.13.2.dist-info/INSTALLER",
+    "lib/python3.11/site-packages/attmap-0.13.2.dist-info/LICENSE.txt",
+    "lib/python3.11/site-packages/attmap-0.13.2.dist-info/METADATA",
+    "lib/python3.11/site-packages/attmap-0.13.2.dist-info/RECORD",
+    "lib/python3.11/site-packages/attmap-0.13.2.dist-info/REQUESTED",
+    "lib/python3.11/site-packages/attmap-0.13.2.dist-info/WHEEL",
+    "lib/python3.11/site-packages/attmap-0.13.2.dist-info/direct_url.json",
+    "lib/python3.11/site-packages/attmap-0.13.2.dist-info/top_level.txt",
+    "lib/python3.11/site-packages/attmap/__init__.py",
+    "lib/python3.11/site-packages/attmap/_att_map_like.py",
+    "lib/python3.11/site-packages/attmap/_version.py",
+    "lib/python3.11/site-packages/attmap/attmap.py",
+    "lib/python3.11/site-packages/attmap/attmap_echo.py",
+    "lib/python3.11/site-packages/attmap/helpers.py",
+    "lib/python3.11/site-packages/attmap/ordattmap.py",
+    "lib/python3.11/site-packages/attmap/pathex_attmap.py",
+    "lib/python3.11/site-packages/attmap/__pycache__/__init__.cpython-311.pyc",
+    "lib/python3.11/site-packages/attmap/__pycache__/_att_map_like.cpython-311.pyc",
+    "lib/python3.11/site-packages/attmap/__pycache__/_version.cpython-311.pyc",
+    "lib/python3.11/site-packages/attmap/__pycache__/attmap.cpython-311.pyc",
+    "lib/python3.11/site-packages/attmap/__pycache__/attmap_echo.cpython-311.pyc",
+    "lib/python3.11/site-packages/attmap/__pycache__/helpers.cpython-311.pyc",
+    "lib/python3.11/site-packages/attmap/__pycache__/ordattmap.cpython-311.pyc",
+    "lib/python3.11/site-packages/attmap/__pycache__/pathex_attmap.cpython-311.pyc"
+  ],
+  "fn": "attmap-0.13.2-pyhd8ed1ab_0.tar.bz2",
+  "license": "BSD-2-Clause",
+  "link": {
+    "source": "/Users/Carlos/miniforge3/pkgs/attmap-0.13.2-pyhd8ed1ab_0",
+    "type": 1
+  },
+  "md5": "f7e348eb6bd53f544fd7cde87a7ba3c8",
+  "name": "attmap",
+  "noarch": "python",
+  "package_tarball_full_path": "/Users/Carlos/miniforge3/pkgs/attmap-0.13.2-pyhd8ed1ab_0.tar.bz2",
+  "package_type": "noarch_python",
+  "paths_data": {
+    "paths": [
+      {
+        "_path": "site-packages/attmap-0.13.2.dist-info/INSTALLER",
+        "path_type": "hardlink",
+        "sha256": "d0edee15f91b406f3f99726e44eb990be6e34fd0345b52b910c568e0eef6a2a8",
+        "sha256_in_prefix": "d0edee15f91b406f3f99726e44eb990be6e34fd0345b52b910c568e0eef6a2a8",
+        "size_in_bytes": 5
+      },
+      {
+        "_path": "site-packages/attmap-0.13.2.dist-info/LICENSE.txt",
+        "path_type": "hardlink",
+        "sha256": "a01e991836b891cce7ce724a26c2cb14570e6728bc63a7b626fd2b268ce0a7e2",
+        "sha256_in_prefix": "a01e991836b891cce7ce724a26c2cb14570e6728bc63a7b626fd2b268ce0a7e2",
+        "size_in_bytes": 1269
+      },
+      {
+        "_path": "site-packages/attmap-0.13.2.dist-info/METADATA",
+        "path_type": "hardlink",
+        "sha256": "38587f661a839c1201ae833dc458f8eca6ef7fdb108ae580b11030e4711c4090",
+        "sha256_in_prefix": "38587f661a839c1201ae833dc458f8eca6ef7fdb108ae580b11030e4711c4090",
+        "size_in_bytes": 1116
+      },
+      {
+        "_path": "site-packages/attmap-0.13.2.dist-info/RECORD",
+        "path_type": "hardlink",
+        "sha256": "879c1def18056a121369de00d1b9bbbd33aa32da4a5f12efbc39ad4945071f74",
+        "sha256_in_prefix": "879c1def18056a121369de00d1b9bbbd33aa32da4a5f12efbc39ad4945071f74",
+        "size_in_bytes": 1669
+      },
+      {
+        "_path": "site-packages/attmap-0.13.2.dist-info/REQUESTED",
+        "path_type": "hardlink",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "sha256_in_prefix": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size_in_bytes": 0
+      },
+      {
+        "_path": "site-packages/attmap-0.13.2.dist-info/WHEEL",
+        "path_type": "hardlink",
+        "sha256": "7b0c04b9e8a8d42d977874ef4f5ee7f1d6542603afc82582b7459534b0a53fda",
+        "sha256_in_prefix": "7b0c04b9e8a8d42d977874ef4f5ee7f1d6542603afc82582b7459534b0a53fda",
+        "size_in_bytes": 92
+      },
+      {
+        "_path": "site-packages/attmap-0.13.2.dist-info/direct_url.json",
+        "path_type": "hardlink",
+        "sha256": "fae0e81dfe8a4a1fae4207cf103d1d194f3b3fb1b6f2a499bd3ae44daffa6c60",
+        "sha256_in_prefix": "fae0e81dfe8a4a1fae4207cf103d1d194f3b3fb1b6f2a499bd3ae44daffa6c60",
+        "size_in_bytes": 102
+      },
+      {
+        "_path": "site-packages/attmap-0.13.2.dist-info/top_level.txt",
+        "path_type": "hardlink",
+        "sha256": "929a0ec4b08e9e5004128f975aef81edd9f77ec41be91dc1e42d44adfef3a7d8",
+        "sha256_in_prefix": "929a0ec4b08e9e5004128f975aef81edd9f77ec41be91dc1e42d44adfef3a7d8",
+        "size_in_bytes": 7
+      },
+      {
+        "_path": "site-packages/attmap/__init__.py",
+        "path_type": "hardlink",
+        "sha256": "324fa4a520e2fc82590c40959aae8c4f0711d3779aea20ee90b21172f16bf67d",
+        "sha256_in_prefix": "324fa4a520e2fc82590c40959aae8c4f0711d3779aea20ee90b21172f16bf67d",
+        "size_in_bytes": 626
+      },
+      {
+        "_path": "site-packages/attmap/_att_map_like.py",
+        "path_type": "hardlink",
+        "sha256": "44e2a102c54c16cca6926a8998e4fa96c37780d2b8c3a588042d8abd280a515e",
+        "sha256_in_prefix": "44e2a102c54c16cca6926a8998e4fa96c37780d2b8c3a588042d8abd280a515e",
+        "size_in_bytes": 8572
+      },
+      {
+        "_path": "site-packages/attmap/_version.py",
+        "path_type": "hardlink",
+        "sha256": "6e5bba99dd9cdcd9e3e600c18bc537eac60ede4f0770d0fcb3b5284018df9f78",
+        "sha256_in_prefix": "6e5bba99dd9cdcd9e3e600c18bc537eac60ede4f0770d0fcb3b5284018df9f78",
+        "size_in_bytes": 23
+      },
+      {
+        "_path": "site-packages/attmap/attmap.py",
+        "path_type": "hardlink",
+        "sha256": "a408d9676ce257b2a2fca82f0da0bd396ef9b937062b68a64c74d2ed04b2cf05",
+        "sha256_in_prefix": "a408d9676ce257b2a2fca82f0da0bd396ef9b937062b68a64c74d2ed04b2cf05",
+        "size_in_bytes": 4424
+      },
+      {
+        "_path": "site-packages/attmap/attmap_echo.py",
+        "path_type": "hardlink",
+        "sha256": "3172f747f3955bbae8946aab73f8481bc91ae374297363895f2e2d2a8a4e9c63",
+        "sha256_in_prefix": "3172f747f3955bbae8946aab73f8481bc91ae374297363895f2e2d2a8a4e9c63",
+        "size_in_bytes": 2012
+      },
+      {
+        "_path": "site-packages/attmap/helpers.py",
+        "path_type": "hardlink",
+        "sha256": "0abae740e1425b69a9dc309787cb37719b96858d9e14ae97224b01ab76f099d1",
+        "sha256_in_prefix": "0abae740e1425b69a9dc309787cb37719b96858d9e14ae97224b01ab76f099d1",
+        "size_in_bytes": 2940
+      },
+      {
+        "_path": "site-packages/attmap/ordattmap.py",
+        "path_type": "hardlink",
+        "sha256": "4d27b20344eb25a374d93bc9e7df2edcbaee5246e52c5014e3494a93df66bdd8",
+        "sha256_in_prefix": "4d27b20344eb25a374d93bc9e7df2edcbaee5246e52c5014e3494a93df66bdd8",
+        "size_in_bytes": 3701
+      },
+      {
+        "_path": "site-packages/attmap/pathex_attmap.py",
+        "path_type": "hardlink",
+        "sha256": "e47822c7bff0c695319fa99c02fe3e47d330a51e26937f5ac5ea1afc55c6f842",
+        "sha256_in_prefix": "e47822c7bff0c695319fa99c02fe3e47d330a51e26937f5ac5ea1afc55c6f842",
+        "size_in_bytes": 4158
+      },
+      {
+        "_path": "lib/python3.11/site-packages/attmap/__pycache__/__init__.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/attmap/__pycache__/_att_map_like.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/attmap/__pycache__/_version.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/attmap/__pycache__/attmap.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/attmap/__pycache__/attmap_echo.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/attmap/__pycache__/helpers.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/attmap/__pycache__/ordattmap.cpython-311.pyc",
+        "path_type": "pyc_file"
+      },
+      {
+        "_path": "lib/python3.11/site-packages/attmap/__pycache__/pathex_attmap.cpython-311.pyc",
+        "path_type": "pyc_file"
+      }
+    ],
+    "paths_version": 1
+  },
+  "requested_spec": "None",
+  "sha256": "571aaeea81effb719738cb5da3929e76e90987571f91e4f69bd252446be4fc61",
+  "size": 13597,
+  "subdir": "noarch",
+  "timestamp": 1636190372000,
+  "url": "https://conda-forge.fredhutch.org/conda-forge/noarch/attmap-0.13.2-pyhd8ed1ab_0.tar.bz2",
+  "version": "0.13.2"
+}
