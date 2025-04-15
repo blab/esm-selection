@@ -1,7 +1,0 @@
-Assuming unrestricted shared filesystem usage.
-None
-host: Nicolass-MacBook-Pro-2.local
-Building DAG of jobs...
-WildcardError in rule extract_node_fastas in file "/Users/Carlos/Desktop/Bedford/esm-selection/Snakefile", line 26:
-Wildcards in input files cannot be determined from output files: (rule extract_node_fastas, line 53, /Users/Carlos/Desktop/Bedford/esm-selection/Snakefile)
-'segment_lower'

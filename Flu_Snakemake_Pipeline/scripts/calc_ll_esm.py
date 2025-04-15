@@ -18,6 +18,8 @@ args = parser.parse_args()
 max_freq_df = pd.read_csv(args.max_freq)
 max_freq_df["log_likelihood"] = 0
 
+max_freq_df["sequence"] = max_freq_df["sequence"].str.rstrip('*')
+
 max_freq_df_unique = max_freq_df.drop_duplicates(subset="sequence", keep="first")
 
 max_freq_df_unique = max_freq_df_unique.reset_index(drop=True)

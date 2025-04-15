@@ -1,7 +1,0 @@
-Assuming unrestricted shared filesystem usage.
-None
-host: Nicolass-MacBook-Pro-2.local
-Building DAG of jobs...
-WildcardError in rule download_nextstrain_data in file "/Users/Carlos/Desktop/Bedford/esm-selection/Snakefile", line 12:
-Wildcards in params cannot be determined from output files. Note that you have to use a function to deactivate automatic wildcard expansion in params strings, e.g., `lambda wildcards: '{test}'`. Also see https://snakemake.readthedocs.io/en/stable/snakefiles/rules.html#non-file-parameters-for-rules: (rule download_nextstrain_data, line 12, /Users/Carlos/Desktop/Bedford/esm-selection/Snakefile)
-'segment'

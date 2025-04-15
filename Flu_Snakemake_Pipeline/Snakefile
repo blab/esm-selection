@@ -3,7 +3,7 @@ SEGMENTS = ["pb2", "pb1", "pa", "np", "na", "mp", "ns", "ha"]
 
 rule all:
     input:
-        expand("max_freqs/Max_Freq_Fasta_{segment}.csv", segment=SEGMENTS),
+        expand("max_freqs_log_likelyhood/Max_Freq_Fasta_LL_{segment}.csv", segment=SEGMENTS),
 
 
 rule translate_nucleotide_json:
@@ -15,6 +15,8 @@ rule translate_nucleotide_json:
         "root_tree_translated/h3n2_60y_{segment}_root-sequence.json",
     conda:
         "envs/nextstrain_env.yaml"
+    container:
+        "envs/nextstrain-base.sif"
     shell:
         """
         mkdir -p root_tree_translated
@@ -31,6 +33,8 @@ rule download_nextstrain_data:
         "nextstrain_trees/flu_seasonal_h3n2_{segment}_60y_root-sequence.json",
     conda:
         "envs/nextstrain_env.yaml"
+    container:
+        "envs/nextstrain-base.sif"
     params:
         url="https://nextstrain.org/groups/blab/flu/seasonal/h3n2/{segment}/60y",
     shell:
@@ -51,6 +55,8 @@ rule extract_node_fastas:
         "node_fastas/nodeSeqs_{segment}.fasta",
     conda:
         "envs/nextstrain_env.yaml"
+    container:
+        "envs/nextstrain-base.sif"
     shell:
         """
         mkdir -p node_fastas
@@ -69,6 +75,8 @@ rule extract_max_freq:
         "max_freqs/Max_Freq_Fasta_{segment}.csv",
     conda:
         "envs/nextstrain_env.yaml"
+    container:
+        "envs/nextstrain-base.sif"
     shell:
         """
         mkdir -p max_freqs
@@ -88,6 +96,6 @@ rule calc_ll_esm:
     shell:
         """
         mkdir -p max_freqs_log_likelyhood
-        python {input.script} --max_freq --segment {wildcards.segment}
+        python {input.script} --max_freq {input.max_freq} --segment {wildcards.segment}
         mv Max_Freq_Fasta_LL_{wildcards.segment}.csv max_freqs_log_likelyhood/Max_Freq_Fasta_LL_{wildcards.segment}.csv
         """
