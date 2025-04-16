@@ -42,7 +42,7 @@ for index, sequence in enumerate(max_freq_df_unique["sequence"]):
         log_probs = torch.log_softmax(results["logits"], dim=-1)
         log_likelihood = log_probs.gather(2, batch_tokens.unsqueeze(-1)).sum().item()
 
-        print(f"Log-Likelihood: {log_likelihood:.2f}")
+        #print(f"Log-Likelihood: {log_likelihood:.2f}")
         max_freq_df_unique.at[index, "log_likelihood"] = log_likelihood
 
 max_freq_df_unique = max_freq_df_unique.drop(columns=["node", "max_frequency"])

@@ -37,7 +37,14 @@ def convert_to_prot(tree_file, root_file, segment):
 
     protein_seq = sub_seq.translate()
 
-    root_file_sequence[segment.upper()] = str(protein_seq)
+    if segment == "mp":
+        root_file_sequence["M1"] = str(protein_seq)
+    
+    elif segment == "ns":
+        root_file_sequence["NS1"] = str(protein_seq)
+    
+    else:
+        root_file_sequence[segment.upper()] = str(protein_seq)
 
     root_json_file_name = os.path.basename(root_file)
 

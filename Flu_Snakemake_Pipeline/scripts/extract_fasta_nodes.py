@@ -50,7 +50,7 @@ def getNodeSequences(gene, local_files, tree_file, root_file):
             root_file, headers={"accept": "application/json"}
         ).json()
         # get the nucleotide sequence of root
-        root_seq_nuc = root_json[gene.upper()]
+        root_seq_nuc = root_json[gene]
 
     # if we are using paths to local JSONs
     elif local_files == "True":
@@ -63,7 +63,7 @@ def getNodeSequences(gene, local_files, tree_file, root_file):
         with open(root_file, "r") as f:
             root_json = json.load(f)
         # get the nucleotide sequence of root
-        root_seq_nuc = root_json[gene.upper()]
+        root_seq_nuc = root_json[gene]
 
     ## Now find the node sequences
 
@@ -85,7 +85,12 @@ def getNodeSequences(gene, local_files, tree_file, root_file):
 
         sequence_records.append(SeqRecord(node_seq, node.name, "", ""))
 
-    SeqIO.write(sequence_records, f"nodeSeqs_{gene.lower()}.fasta", "fasta")
+        if gene == "M1":
+            SeqIO.write(sequence_records, f"nodeSeqs_mp.fasta", "fasta")
+        elif gene == "NS1":
+            SeqIO.write(sequence_records, f"nodeSeqs_ns.fasta", "fasta")
+        else:
+            SeqIO.write(sequence_records, f"nodeSeqs_{gene.lower()}.fasta", "fasta")
 
 
 if __name__ == "__main__":
@@ -117,4 +122,11 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    getNodeSequences(args.gene, args.local_files, args.tree, args.root)
+    if args.gene == "mp":
+        gene = "M1"
+    elif args.gene == "ns":
+        gene = "NS1"
+    else:
+        gene = args.gene.upper()
+
+    getNodeSequences(gene, args.local_files, args.tree, args.root)
