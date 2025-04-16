@@ -94,25 +94,25 @@ if __name__ == "__main__":
         description=__doc__, formatter_class=argparse.ArgumentDefaultsHelpFormatter
     )
     parser.add_argument(
-        "--gene",
-        default="nuc",
-        help="Name of gene to return AA sequences for. 'nuc' will return full geneome nucleotide seq",
+        "--gene"
+        # default="nuc",
+        # help="Name of gene to return AA sequences for. 'nuc' will return full geneome nucleotide seq",
     )
     parser.add_argument(
-        "--local-files",
-        default="False",
-        help="Toggle this on if you are supplying local JSON files for the tree and root sequence."
-        + "Default is to fetch them from a URL",
+        "--local-files"
+        # default="False",
+        # help="Toggle this on if you are supplying local JSON files for the tree and root sequence."
+        # + "Default is to fetch them from a URL",
     )
     parser.add_argument(
-        "--tree",
-        default="https://data.nextstrain.org/ncov_gisaid_global_all-time.json",
-        help="URL for the tree.json file, or path to the local JSON file if --local-files=True",
+        "--tree"
+        # default="https://data.nextstrain.org/ncov_gisaid_global_all-time.json",
+        # help="URL for the tree.json file, or path to the local JSON file if --local-files=True",
     )
     parser.add_argument(
-        "--root",
-        default="https://data.nextstrain.org/ncov_gisaid_global_all-time_root-sequence.json",
-        help="URL for the root-sequence.json file, or path to the local JSON file if --local-files=True",
+        "--root"
+        # default="https://data.nextstrain.org/ncov_gisaid_global_all-time_root-sequence.json",
+        # help="URL for the root-sequence.json file, or path to the local JSON file if --local-files=True",
     )
 
     args = parser.parse_args()
