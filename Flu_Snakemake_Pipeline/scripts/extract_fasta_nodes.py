@@ -126,6 +126,10 @@ if __name__ == "__main__":
         gene = "M1"
     elif args.gene == "ns":
         gene = "NS1"
+    elif args.gene == "ha":
+        getNodeSequences("HA1", args.local_files, args.tree, args.root)
+        getNodeSequences("HA2", args.local_files, args.tree, args.root)
+        getNodeSequences("SigPep", args.local_files, args.tree, args.root)
     else:
         gene = args.gene.upper()
 
