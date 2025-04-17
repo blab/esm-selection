@@ -5,6 +5,8 @@ from augur.utils import json_to_tree
 from Bio import SeqIO
 from Bio.Seq import MutableSeq
 from Bio.SeqRecord import SeqRecord
+from collections import defaultdict
+import os
 
 # Extract fasta for each node
 
@@ -93,6 +95,33 @@ def getNodeSequences(gene, local_files, tree_file, root_file):
             SeqIO.write(sequence_records, f"nodeSeqs_{gene.lower()}.fasta", "fasta")
 
 
+def read_fasta(file):
+    seqs = {}
+    with open(file) as f:
+        header = ""
+        for line in f:
+            line = line.strip()
+            if line.startswith(">"):
+                header = line
+                seqs[header] = ""
+            else:
+                seqs[header] += line
+    return seqs
+
+
+def merge_fastas(files, output):
+    merged = defaultdict(str)
+
+    for file in files:
+        seqs = read_fasta(file)
+        for header, seq in seqs.items():
+            merged[header] += seq
+
+    with open(output, "w") as out:
+        for header, seq in merged.items():
+            out.write(f"{header}\n{seq}\n")
+
+
 if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(
@@ -124,13 +153,29 @@ if __name__ == "__main__":
 
     if args.gene == "mp":
         gene = "M1"
+        getNodeSequences(gene, args.local_files, args.tree, args.root)
+
     elif args.gene == "ns":
         gene = "NS1"
+        getNodeSequences(gene, args.local_files, args.tree, args.root)
+
     elif args.gene == "ha":
         getNodeSequences("HA1", args.local_files, args.tree, args.root)
         getNodeSequences("HA2", args.local_files, args.tree, args.root)
         getNodeSequences("SigPep", args.local_files, args.tree, args.root)
+
+        files = [
+            "nodeSeqs_sigpep.fasta",
+            "nodeSeqs_ha1.fasta",
+            "nodeSeqs_ha2.fasta",
+        ]  # change to your file names
+
+        merge_fastas(files, "nodeSeqs_ha.fasta")
+
+        # Delete the original FASTA files
+        for file in files:
+            os.remove(file)
+
     else:
         gene = args.gene.upper()
-
-    getNodeSequences(gene, args.local_files, args.tree, args.root)
+        getNodeSequences(gene, args.local_files, args.tree, args.root)

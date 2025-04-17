@@ -3,8 +3,10 @@ SEGMENTS = ["pb2", "pb1", "pa", "np", "na", "mp", "ns", "ha"]
 
 rule all:
     input:
-        #expand("max_freqs_log_likelyhood/Max_Freq_Fasta_LL_{segment}.csv", segment=SEGMENTS),
-        expand("max_freqs/Max_Freq_Fasta_{segment}.csv", segment=SEGMENTS),
+        expand(
+            "max_freqs_log_likelyhood/Max_Freq_Fasta_LL_{segment}.csv",
+            segment=SEGMENTS,
+        ),
 
 
 rule translate_nucleotide_json:
