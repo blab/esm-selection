@@ -76,15 +76,18 @@ def get_freq_sum(tip_freq_file, node_terminal_map, node_fasta_file, segment):
 
     # Filter out terminal nodes
 
+    """
     filtered_dict = {
         key: value
         for key, value in summed_frequencies.items()
         if key.startswith("NODE_")
     }
+    """
 
     # Get max frequency for each internal node
 
-    max_values = {key: max(values) for key, values in filtered_dict.items()}
+    max_values = {key: max(values) for key, values in summed_frequencies.items()}
+    #max_values = {key: max(values) for key, values in filtered_dict.items()}
 
     # Path to your multi-FASTA file
     fasta_path = node_fasta_file

@@ -1,4 +1,5 @@
 
 .DS_Store
 Flu_Snakemake_Pipeline/envs/nextstrain-base.sif
+Flu_Snakemake_Pipeline/envs/python-data-stack.sif
 Flu_Snakemake_Pipeline/.snakemake/

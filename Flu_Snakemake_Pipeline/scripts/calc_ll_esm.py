@@ -60,4 +60,7 @@ max_freq_df_unique = max_freq_df_unique.drop(columns=["node", "max_frequency"])
 
 merged = max_freq_df.merge(max_freq_df_unique, on="sequence", how="left")
 
+# Remove log_likelihood_x and rename log_likelihood_y
+merged = merged.drop(columns=["log_likelihood_x"]).rename(columns={"log_likelihood_y": "log_likelihood"})
+
 merged.to_csv(f"Max_Freq_Fasta_LL_{args.segment}.csv", index=False)
