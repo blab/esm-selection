@@ -4,6 +4,7 @@ SEGMENTS = ["pb2", "pb1", "pa", "np", "na", "mp", "ns", "ha"]
 rule all:
     input:
         expand(
+            #"max_freqs_log_likelyhood_plots/Max_Freq_Vs_LL_{segment}.png",
             "max_freqs_log_likelyhood/Max_Freq_Fasta_LL_{segment}.csv",
             segment=SEGMENTS,
         ),
@@ -101,4 +102,20 @@ rule calc_ll_esm:
         mkdir -p max_freqs_log_likelyhood
         python {input.script} --max_freq {input.max_freq} --segment {wildcards.segment}
         mv Max_Freq_Fasta_LL_{wildcards.segment}.csv max_freqs_log_likelyhood/Max_Freq_Fasta_LL_{wildcards.segment}.csv
+    """
+
+
+rule generate_max_freq_v_ll_plots:
+    input:
+        max_freq_ll="max_freqs_log_likelyhood/Max_Freq_Fasta_LL_{segment}.csv",
+        script="scripts/freq_v_ll_plots.py",
+    output:
+        "max_freqs_log_likelyhood_plots/Max_Freq_Vs_LL_{segment}.png",
+    conda:
+        "envs/data_analysis_env.yaml"
+    shell:
+        """
+        mkdir -p max_freqs_vs_log_likelyhood_plots
+        python {input.script} --Max_Freq_LL {input.max_freq_ll} --segment {wildcards.segment}
+        mv Max_Freq_Vs_LL_{wildcards.segment}.png max_freqs_log_likelyhood_plots/Max_Freq_Vs_LL_{wildcards.segment}.png
         """
