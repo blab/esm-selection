@@ -1,0 +1,8 @@
+name: data-analysis-env
+
+dependencies:
+  - python=3.11
+  - pandas
+  - seaborn
+  - matplotlib
+  - scipy
