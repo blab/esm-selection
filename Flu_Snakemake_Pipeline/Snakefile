@@ -5,7 +5,15 @@ SEGMENTS = ["pb2", "pb1", "pa", "np", "na", "mp", "ns", "ha"]
 rule all:
     input:
         expand(
-            "max_freqs_log_likelyhood/Max_Freq_Fasta_LL_{segment}.csv",
+            "max_freqs_log_likelyhood_15B/Max_Freq_Fasta_LL_15B_{segment}.csv",
+            segment=SEGMENTS,
+        ),
+        expand(
+            "max_freqs_log_likelyhood_3B/Max_Freq_Fasta_LL_3B_{segment}.csv",
+            segment=SEGMENTS,
+        ),
+        expand(
+            "max_freqs_log_likelyhood_650M/Max_Freq_Fasta_LL_650M_{segment}.csv",
             segment=SEGMENTS,
         ),
 
@@ -27,28 +35,6 @@ rule translate_nucleotide_json:
         python {input.script} --tree {input.json_tree} --root {input.json_root} --segment {wildcards.segment}
         mv h3n2_60y_{wildcards.segment}_root-sequence.json root_tree_translated/h3n2_60y_{wildcards.segment}_root-sequence.json
         """
-
-
-"""
-rule download_nextstrain_data:
-    output:
-        "nextstrain_trees/flu_seasonal_h3n2_{segment}_60y.json",
-        "nextstrain_trees/flu_seasonal_h3n2_{segment}_60y_tip-frequencies.json",
-        "nextstrain_trees/flu_seasonal_h3n2_{segment}_60y_root-sequence.json",
-    conda:
-        "envs/nextstrain_env.yaml"
-    container:
-        "envs/nextstrain-base.sif"
-    params:
-        url="https://nextstrain.org/groups/blab/flu/seasonal/h3n2/{segment}/60y",
-    shell:
-        
-        mkdir -p nextstrain_trees
-        cd nextstrain_trees
-        nextstrain remote download {params.url}
-        
-"""
-
 
 rule extract_node_fastas:
     input:
@@ -89,29 +75,68 @@ rule extract_max_freq:
         """
 
 
-rule calc_ll_esm:
+rule calc_ll_esm_650M:
     input:
         max_freq="max_freqs/Max_Freq_Fasta_{segment}.csv",
         script="scripts/calc_ll_esm.py",
     output:
-        "max_freqs_log_likelyhood/Max_Freq_Fasta_LL_{segment}.csv",
-    # conda:
-    #    "envs/nextstrain_env.yaml"
+        "max_freqs_log_likelyhood_650M/Max_Freq_Fasta_LL_650M_{segment}.csv",
     shell:
         """
-                mkdir -p max_freqs_log_likelyhood
+        mkdir -p max_freqs_log_likelyhood_650M
         start_time=$(date +%s)
-        python {input.script} --max_freq {input.max_freq} --segment {wildcards.segment}
+        python {input.script} --max_freq {input.max_freq} --segment {wildcards.segment} --model esm2_t33_650M_UR50D
         end_time=$(date +%s)
         runtime=$((end_time - start_time))
         
         # Add runtime as a new column to the output CSV
         awk -v runtime=$runtime 'BEGIN {{FS=OFS=","}} NR==1 {{print $0, "runtime"}} NR>1 {{print $0, runtime}}' \
-            Max_Freq_Fasta_LL_{wildcards.segment}.csv > temp_{wildcards.segment}.csv
+            Max_Freq_Fasta_LL_{wildcards.segment}_esm2_t33_650M_UR50D.csv > temp_{wildcards.segment}.csv
         
-        mv temp_{wildcards.segment}.csv max_freqs_log_likelyhood/Max_Freq_Fasta_LL_{wildcards.segment}.csv
+        mv temp_{wildcards.segment}.csv max_freqs_log_likelyhood_650M/Max_Freq_Fasta_LL_650M_{wildcards.segment}.csv
         """
 
+rule calc_ll_esm_3B:
+    input:
+        max_freq="max_freqs/Max_Freq_Fasta_{segment}.csv",
+        script="scripts/calc_ll_esm.py",
+    output:
+        "max_freqs_log_likelyhood_3B/Max_Freq_Fasta_LL_3B_{segment}.csv",
+    shell:
+        """
+        mkdir -p max_freqs_log_likelyhood_3B
+        start_time=$(date +%s)
+        python {input.script} --max_freq {input.max_freq} --segment {wildcards.segment} --model esm2_t36_3B_UR50D
+        end_time=$(date +%s)
+        runtime=$((end_time - start_time))
+        
+        # Add runtime as a new column to the output CSV
+        awk -v runtime=$runtime 'BEGIN {{FS=OFS=","}} NR==1 {{print $0, "runtime"}} NR>1 {{print $0, runtime}}' \
+            Max_Freq_Fasta_LL_{wildcards.segment}_esm2_t36_3B_UR50D.csv > temp_{wildcards.segment}.csv
+        
+        mv temp_{wildcards.segment}.csv max_freqs_log_likelyhood_3B/Max_Freq_Fasta_LL_3B_{wildcards.segment}.csv
+        """
+
+rule calc_ll_esm_15B:
+    input:
+        max_freq="max_freqs/Max_Freq_Fasta_{segment}.csv",
+        script="scripts/calc_ll_esm.py",
+    output:
+        "max_freqs_log_likelyhood_15B/Max_Freq_Fasta_LL_15B_{segment}.csv",
+    shell:
+        """
+        mkdir -p max_freqs_log_likelyhood_15B
+        start_time=$(date +%s)
+        python {input.script} --max_freq {input.max_freq} --segment {wildcards.segment} --model esm2_t48_15B_UR50D
+        end_time=$(date +%s)
+        runtime=$((end_time - start_time))
+        
+        # Add runtime as a new column to the output CSV
+        awk -v runtime=$runtime 'BEGIN {{FS=OFS=","}} NR==1 {{print $0, "runtime"}} NR>1 {{print $0, runtime}}' \
+            Max_Freq_Fasta_LL_{wildcards.segment}_esm2_t48_15B_UR50D.csv > temp_{wildcards.segment}.csv
+        
+        mv temp_{wildcards.segment}.csv max_freqs_log_likelyhood_15B/Max_Freq_Fasta_LL_15B_{wildcards.segment}.csv
+        """
 
 rule generate_max_freq_v_ll_plots:
     input:

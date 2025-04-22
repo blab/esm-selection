@@ -12,6 +12,7 @@ parser = argparse.ArgumentParser(
 
 parser.add_argument("--max_freq")
 parser.add_argument("--segment")
+parser.add_argument("--model", default="esm2_t33_650M_UR50D", help="ESM model to use")
 
 args = parser.parse_args()
 
@@ -36,12 +37,21 @@ max_freq_df_unique = max_freq_df.drop_duplicates(subset="sequence", keep="first"
 max_freq_df_unique = max_freq_df_unique.reset_index(drop=True)
 
 # 1. Load ESM-2 model
-model, alphabet = esm.pretrained.esm2_t33_650M_UR50D()
+
+if args.model == "esm2_t33_650M_UR50D":
+    model, alphabet = esm.pretrained.esm2_t33_650M_UR50D()
+elif args.model == "esm2_t36_3B_UR50D":
+    model, alphabet = esm.pretrained.esm2_t36_3B_UR50D()
+elif args.model == "esm2_t48_15B_UR50D":
+    model, alphabet = esm.pretrained.esm2_t48_15B_UR50D()
+
 batch_converter = alphabet.get_batch_converter()
 model.eval()  # Disable dropout for evaluation
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 model.to(device)
+
+repr_layer = model.num_layers
 
 for index, sequence in enumerate(max_freq_df_unique["sequence"]):
 
@@ -54,7 +64,8 @@ for index, sequence in enumerate(max_freq_df_unique["sequence"]):
 
     # 4. Compute log-likelihoods
     with torch.no_grad():
-        results = model(batch_tokens, repr_layers=[], return_contacts=False)
+        results = model(batch_tokens, repr_layers=[repr_layer], return_contacts=False)
+        logits = results["logits"]
         log_probs = torch.log_softmax(results["logits"], dim=-1)
         log_likelihood = log_probs.gather(2, batch_tokens.unsqueeze(-1)).sum().item()
 
@@ -66,6 +77,6 @@ max_freq_df_unique = max_freq_df_unique.drop(columns=["node", "max_frequency"])
 merged = max_freq_df.merge(max_freq_df_unique, on="sequence", how="left")
 
 # Remove log_likelihood_x and rename log_likelihood_y
-merged = merged.drop(columns=["log_likelihood_x"]).rename(columns={"log_likelihood_y": "log_likelihood"})
+merged = merged.drop(columns=["log_likelihood_x"]).rename(columns={"log_likelihood_y": "log_likelyhood"})
 
-merged.to_csv(f"Max_Freq_Fasta_LL_{args.segment}.csv", index=False)
+merged.to_csv(f"Max_Freq_Fasta_LL_{args.segment}_{args.model}.csv", index=False)
