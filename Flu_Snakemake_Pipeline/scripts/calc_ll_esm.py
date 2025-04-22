@@ -40,12 +40,17 @@ model, alphabet = esm.pretrained.esm2_t33_650M_UR50D()
 batch_converter = alphabet.get_batch_converter()
 model.eval()  # Disable dropout for evaluation
 
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+model.to(device)
+
 for index, sequence in enumerate(max_freq_df_unique["sequence"]):
 
     data = [(max_freq_df_unique["node"][index], sequence)]
 
     # 3. Tokenize
     batch_labels, batch_strs, batch_tokens = batch_converter(data)
+
+    batch_tokens = batch_tokens.to(device)
 
     # 4. Compute log-likelihoods
     with torch.no_grad():

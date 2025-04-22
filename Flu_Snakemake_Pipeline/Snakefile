@@ -1,4 +1,5 @@
 SEGMENTS = ["pb2", "pb1", "pa", "np", "na", "mp", "ns", "ha"]
+#SEGMENTS = ["pb2", "pb1"]
 
 
 rule all:
@@ -83,7 +84,7 @@ rule extract_max_freq:
     shell:
         """
         mkdir -p max_freqs
-        python {input.script} --segment {wildcards.segment} --tree {input.json_tree} --tip-freq {input.json_tip_freq} --node-fasta {input.node_fastas}
+        time python {input.script} --segment {wildcards.segment} --tree {input.json_tree} --tip-freq {input.json_tip_freq} --node-fasta {input.node_fastas}
         mv Max_Freq_Fasta_{wildcards.segment}.csv max_freqs/Max_Freq_Fasta_{wildcards.segment}.csv
         """
 
@@ -98,10 +99,18 @@ rule calc_ll_esm:
     #    "envs/nextstrain_env.yaml"
     shell:
         """
-        mkdir -p max_freqs_log_likelyhood
+                mkdir -p max_freqs_log_likelyhood
+        start_time=$(date +%s)
         python {input.script} --max_freq {input.max_freq} --segment {wildcards.segment}
-        mv Max_Freq_Fasta_LL_{wildcards.segment}.csv max_freqs_log_likelyhood/Max_Freq_Fasta_LL_{wildcards.segment}.csv
-    """
+        end_time=$(date +%s)
+        runtime=$((end_time - start_time))
+        
+        # Add runtime as a new column to the output CSV
+        awk -v runtime=$runtime 'BEGIN {{FS=OFS=","}} NR==1 {{print $0, "runtime"}} NR>1 {{print $0, runtime}}' \
+            Max_Freq_Fasta_LL_{wildcards.segment}.csv > temp_{wildcards.segment}.csv
+        
+        mv temp_{wildcards.segment}.csv max_freqs_log_likelyhood/Max_Freq_Fasta_LL_{wildcards.segment}.csv
+        """
 
 
 rule generate_max_freq_v_ll_plots:
