@@ -5,6 +5,9 @@ from Bio import SeqIO  # type: ignore
 import pandas as pd  # type: ignore
 from tqdm import tqdm  # type: ignore
 import argparse
+import time
+
+start_time = time.time()
 
 parser = argparse.ArgumentParser(
     description=__doc__, formatter_class=argparse.ArgumentDefaultsHelpFormatter
@@ -79,4 +82,9 @@ merged = max_freq_df.merge(max_freq_df_unique, on="sequence", how="left")
 # Remove log_likelihood_x and rename log_likelihood_y
 merged = merged.drop(columns=["log_likelihood_x"]).rename(columns={"log_likelihood_y": "log_likelyhood"})
 
-merged.to_csv(f"Max_Freq_Fasta_LL_{args.segment}_{args.model}.csv", index=False)
+end_time = time.time()
+runtime = round(end_time - start_time, 3)  # seconds with milliseconds
+
+merged["runtime"] = runtime  # add runtime as a column to all rows
+
+merged.to_csv(f"Max_Freq_Fasta_LL_{args.model}_{args.segment}.csv", index=False)
