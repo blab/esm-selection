@@ -18,7 +18,7 @@ MODEL_NAME = model_map[model_short]
 rule all:
     input:
         expand(
-            [f"max_freqs_log_likelyhood_{MODEL_NAME}/Max_Freq_Fasta_LL_{MODEL_NAME}_{segment}.csv" for segment in SEGMENTS]
+            [f"fine_tune_fastas/fine_tune_fasta_{segment}.fasta" for segment in SEGMENTS]
         ),
 
 
@@ -88,16 +88,28 @@ rule calc_ll_esm:
     shell:
         """
         mkdir -p max_freqs_log_likelyhood_{wildcards.MODEL_NAME}
-        #start_time=$(date +%s)
-        python {input.script} --max_freq {input.max_freq} --segment {wildcards.segment} --model {wildcards.MODEL_NAME}
-        #end_time=$(date +%s)
-        #runtime=$((end_time - start_time))
-        
-        #awk -v runtime=$runtime 'BEGIN {{FS=OFS=","}} NR==1 {{print $0, "runtime"}} NR>1 {{print $0, runtime}}' \
-        #    Max_Freq_Fasta_LL_{wildcards.MODEL_NAME}_{wildcards.segment}.csv > temp_{wildcards.segment}.csv
-        
-        #mv temp_{wildcards.segment}.csv max_freqs_log_likelyhood_{wildcards.MODEL_NAME}/Max_Freq_Fasta_LL_{wildcards.MODEL_NAME}_{wildcards.segment}.csv
+
+        #python {input.script} --max_freq {input.max_freq} --segment {wildcards.segment} --model {wildcards.MODEL_NAME}
         mv Max_Freq_Fasta_LL_{wildcards.MODEL_NAME}_{wildcards.segment}.csv max_freqs_log_likelyhood_{wildcards.MODEL_NAME}/Max_Freq_Fasta_LL_{wildcards.MODEL_NAME}_{wildcards.segment}.csv
+        """
+
+
+rule extract_fine_tune_fasta:
+    input:
+        json_tree="h3n2_Sequences/h3n2_60y_{segment}.json",
+        node_fastas="node_fastas/nodeSeqs_{segment}.fasta",
+        script="scripts/extract_fine_tune_fasta.py",
+    output:
+        "fine_tune_fastas/fine_tune_fasta_{segment}.fasta",
+    conda:
+        "envs/nextstrain_env.yaml"
+    container:
+        "envs/nextstrain-base.sif"
+    shell:
+        """
+        mkdir -p fine_tune_fastas
+        python {input.script} --gene {wildcards.segment} --tree {input.json_tree} --node-fasta {input.node_fastas} 
+        mv fine_tune_fasta_{wildcards.segment}.fasta fine_tune_fastas/fine_tune_fasta_{wildcards.segment}.fasta
         """
 
 rule generate_max_freq_v_ll_plots:
