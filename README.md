@@ -11,7 +11,7 @@ This is a colleciton of scripts and figures that went into the ESM selection pro
   - [Workflow](#workflow)
   - [Example](#example)
   - [Options](#options)
-  - [Output](#ouput)
+  - [Output](#output)
 - [Figures](#figures)
 
 # Flu Snakemake Pipeline
