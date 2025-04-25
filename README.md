@@ -116,7 +116,7 @@ List commands for the pipline:
 │   ├── Max_Freq_Fasta_LL_esm2_t48_15B_UR50D_pa.csv
 │   ├── Max_Freq_Fasta_LL_esm2_t48_15B_UR50D_pb1.csv
 │   └── Max_Freq_Fasta_LL_esm2_t48_15B_UR50D_pb2.csv
-├── node_fastas                                     Extracted Fasta per Node
+├── node_fastas                                     # Extracted Fasta per Node
 │   ├── nodeSeqs_ha.fasta
 │   ├── nodeSeqs_mp.fasta
 │   ├── nodeSeqs_na.fasta
@@ -125,7 +125,7 @@ List commands for the pipline:
 │   ├── nodeSeqs_pa.fasta
 │   ├── nodeSeqs_pb1.fasta
 │   └── nodeSeqs_pb2.fasta
-├── root_tree_translated                            Translated Root Sequences
+├── root_tree_translated                            # Translated Root Sequences
 │   ├── h3n2_60y_ha_root-sequence.json
 │   ├── h3n2_60y_mp_root-sequence.json
 │   ├── h3n2_60y_na_root-sequence.json
