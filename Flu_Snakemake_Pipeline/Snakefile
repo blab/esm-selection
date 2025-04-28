@@ -14,13 +14,23 @@ if model_short not in model_map:
     raise ValueError(f"Invalid model '{model_short}'. Choose from: 650M, 3B, 15B.")
 
 MODEL_NAME = model_map[model_short]
- 
+
+"""
+rule all:
+    #input:
+    output:
+        expand(
+            [f"{MODEL_NAME}_Fine_Tune_Models/{MODEL_NAME}_Fine_Tune_Model_{segment}.bin" for segment in SEGMENTS]
+            #[f"fine_tune_fastas/fine_tune_fasta_{segment}.fasta" for segment in SEGMENTS]
+        ),
+"""
+
 rule all:
     input:
         expand(
-            [f"fine_tune_fastas/fine_tune_fasta_{segment}.fasta" for segment in SEGMENTS]
-        ),
-
+            f"{MODEL_NAME}_Fine_Tune_Models/{MODEL_NAME}_Fine_Tune_Model_{{segment}}.bin",
+            segment=SEGMENTS
+        )
 
 rule translate_nucleotide_json:
     input:
@@ -99,6 +109,7 @@ rule extract_fine_tune_fasta:
         json_tree="h3n2_Sequences/h3n2_60y_{segment}.json",
         node_fastas="node_fastas/nodeSeqs_{segment}.fasta",
         script="scripts/extract_fine_tune_fasta.py",
+        max_freq="max_freqs/Max_Freq_Fasta_{segment}.csv",
     output:
         "fine_tune_fastas/fine_tune_fasta_{segment}.fasta",
     conda:
@@ -108,9 +119,24 @@ rule extract_fine_tune_fasta:
     shell:
         """
         mkdir -p fine_tune_fastas
-        python {input.script} --gene {wildcards.segment} --tree {input.json_tree} --node-fasta {input.node_fastas} 
+        python {input.script} --gene {wildcards.segment} --tree {input.json_tree} --node-fasta {input.node_fastas} --max-freq {input.max_freq}
         mv fine_tune_fasta_{wildcards.segment}.fasta fine_tune_fastas/fine_tune_fasta_{wildcards.segment}.fasta
         """
+
+rule generate_fine_tune_model:
+    input:
+        max_freq="max_freqs/Max_Freq_Fasta_{segment}.csv",
+        fine_tune_fasta="fine_tune_fastas/fine_tune_fasta_{segment}.fasta",
+        script="scripts/calc_ll_esm_fine_tune.py",
+    output:
+        "{MODEL_NAME}_Fine_Tune_Models/{MODEL_NAME}_Fine_Tune_Model_{segment}.bin",
+    shell:
+        """
+        mkdir -p {wildcards.MODEL_NAME}_Fine_Tune_Models
+
+        python {input.script} --model {wildcards.MODEL_NAME} --input {input.fine_tune_fasta} --output {wildcards.MODEL_NAME}_Fine_Tune_Models/{wildcards.MODEL_NAME}_Fine_Tune_Model_{wildcards.segment}.bin
+        """
+
 
 rule generate_max_freq_v_ll_plots:
     input:

@@ -2,7 +2,7 @@ import os
 import json
 import argparse
 from Bio import SeqIO
-
+import pandas as pd
 
 parser = argparse.ArgumentParser(
     description=__doc__, formatter_class=argparse.ArgumentDefaultsHelpFormatter
@@ -11,6 +11,7 @@ parser = argparse.ArgumentParser(
 parser.add_argument("--tree")
 parser.add_argument("--gene")
 parser.add_argument("--node-fasta")
+parser.add_argument("--max-freq")
 
 args = parser.parse_args()
 
@@ -41,4 +42,39 @@ record_dict = SeqIO.to_dict(SeqIO.parse(args.node_fasta, "fasta"))
 
 record_dict_filtered = {k: v for k, v in record_dict.items() if k in node_times_trim}
 
-SeqIO.write(record_dict_filtered.values(), f"fine_tune_fasta_{args.gene}.fasta", "fasta")
+# Fileter for max freq abouve 0.75 and remove duplicates
+
+max_freq_df = pd.read_csv(args.max_freq)
+
+max_freq_df = max_freq_df[max_freq_df['max_frequency'] > 0.75]
+
+max_freq_df = max_freq_df.drop(columns=['sequence'])
+
+max_freq_df = max_freq_df.set_index(max_freq_df.columns[0])
+
+max_freq_dict = max_freq_df.to_dict()['max_frequency']
+
+record_dict_filtered_max = {k: v for k, v in record_dict_filtered.items() if k in max_freq_dict}
+
+unique_seq_record_dict = {}
+seen_sequences = set()
+
+for key, record in record_dict_filtered_max.items():
+    if str(record.seq) not in seen_sequences:
+        unique_seq_record_dict[key] = record
+        seen_sequences.add(str(record.seq))
+
+trimmed_record_dict = {}
+
+#rmv stop codon and following sequence
+
+for key, record in unique_seq_record_dict.items():
+    sequence = str(record.seq)
+    stop_index = sequence.find("*")
+    if stop_index != -1:
+        sequence = sequence[:stop_index]  
+    trimmed_record = record
+    trimmed_record.seq = trimmed_record.seq.__class__(sequence)
+    trimmed_record_dict[key] = trimmed_record
+
+SeqIO.write(trimmed_record_dict.values(), f"fine_tune_fasta_{args.gene}.fasta", "fasta")
