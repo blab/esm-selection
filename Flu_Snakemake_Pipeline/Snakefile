@@ -10,14 +10,6 @@ model_map = {
     "15B": "esm2_t48_15B_UR50D"
 }
 
-if model_short == "esm2_t33_650M_UR50D":
-    batch_size = 8
-elif model_short == "esm2_t36_3B_UR50D":
-    batch_size = 2
-elif model_short == "esm2_t48_15B_UR50D":
-    batch_size = 1
-
-
 if model_short not in model_map:
     raise ValueError(f"Invalid model '{model_short}'. Choose from: 650M, 3B, 15B.")
 
@@ -156,7 +148,7 @@ rule calc_ll_esm_Fine_tune:
     shell:
         """
         mkdir -p max_freqs_log_likelyhood_Fine_Tune_{wildcards.MODEL_NAME} 
-        python {input.script} --max_freq {input.max_freq} --segment {wildcards.segment} --model {wildcards.MODEL_NAME} --fine_tune_model {input.fine_tune_model} --batch-size {wildcards.batch_size} 
+        python {input.script} --max_freq {input.max_freq} --segment {wildcards.segment} --model {wildcards.MODEL_NAME} --fine_tune_model {input.fine_tune_model}
         mv Max_Freq_Fasta_LL_Fine_Tune_{wildcards.MODEL_NAME}_{wildcards.segment}.csv max_freqs_log_likelyhood_Fine_Tune_{wildcards.MODEL_NAME}/Max_Freq_Fasta_LL_Fine_Tune_{wildcards.MODEL_NAME}_{wildcards.segment}.csv
         """
 

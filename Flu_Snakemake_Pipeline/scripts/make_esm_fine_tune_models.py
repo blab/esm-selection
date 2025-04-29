@@ -24,7 +24,7 @@ def parse_arguments():
     parser.add_argument("--input", type=str, default="alignment.fasta", help="Input FASTA file containing training sequences.")
     parser.add_argument("--output", type=str, default="models/esm.bin", help="File path to save the fine-tuned model.")
     parser.add_argument("--epochs", type=int, default=1, help="Number of epochs for fine-tuning.")
-    parser.add_argument("--batch-size", type=int, default=8, help="Batch size for training.")
+    #parser.add_argument("--batch-size", type=int, default=8, help="Batch size for training.")
     parser.add_argument("--learning-rate", type=float, default=5e-5, help="Learning rate for optimizer.")
     parser.add_argument("--model", type=str, choices=["esm2_t33_650M_UR50D", "esm2_t36_3B_UR50D", "esm2_t48_15B_UR50D"],
                         default="esm2_t33_650M_UR50D", help="Specify which ESM-2 model to use.")
@@ -135,9 +135,16 @@ def main():
     print(f"Loading training sequences from {args.input}...")
     sequences = load_sequences(args.input)
 
+    if args.model == "esm2_t33_650M_UR50D":
+        batches = 8
+    elif args.model == "esm2_t36_3B_UR50D":
+        batches = 2
+    elif args.model == "esm2_t48_15B_UR50D":
+        batches = 1
+
     # Prepare dataset and dataloader
     dataset = ProteinDataset(sequences)
-    dataloader = DataLoader(dataset, batch_size=args.batch_size, shuffle=True, collate_fn=lambda x: x)
+    dataloader = DataLoader(dataset, batch_size=batches, shuffle=True, collate_fn=lambda x: x)
 
     # Set up optimizer
     optimizer = torch.optim.AdamW(model.parameters(), lr=args.learning_rate)

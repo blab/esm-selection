@@ -44,17 +44,17 @@ record_dict_filtered = {k: v for k, v in record_dict.items() if k in node_times_
 
 # Fileter for max freq abouve 0.75 and remove duplicates
 
-max_freq_df = pd.read_csv(args.max_freq)
+#max_freq_df = pd.read_csv(args.max_freq)
 
-max_freq_df = max_freq_df[max_freq_df['max_frequency'] > 0.75]
+#max_freq_df = max_freq_df[max_freq_df['max_frequency'] > 0.75]
 
-max_freq_df = max_freq_df.drop(columns=['sequence'])
+#max_freq_df = max_freq_df.drop(columns=['sequence'])
 
-max_freq_df = max_freq_df.set_index(max_freq_df.columns[0])
+#max_freq_df = max_freq_df.set_index(max_freq_df.columns[0])
 
-max_freq_dict = max_freq_df.to_dict()['max_frequency']
+#max_freq_dict = max_freq_df.to_dict()['max_frequency']
 
-record_dict_filtered_max = {k: v for k, v in record_dict_filtered.items() if k in max_freq_dict}
+#record_dict_filtered_max = {k: v for k, v in record_dict_filtered.items() if k in max_freq_dict}
 
 unique_seq_record_dict = {}
 seen_sequences = set()
