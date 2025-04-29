@@ -59,7 +59,7 @@ record_dict_filtered = {k: v for k, v in record_dict.items() if k in node_times_
 unique_seq_record_dict = {}
 seen_sequences = set()
 
-for key, record in record_dict_filtered_max.items():
+for key, record in record_dict_filtered.items():
     if str(record.seq) not in seen_sequences:
         unique_seq_record_dict[key] = record
         seen_sequences.add(str(record.seq))
