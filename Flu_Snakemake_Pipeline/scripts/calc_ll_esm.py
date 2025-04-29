@@ -42,12 +42,18 @@ max_freq_df_unique = max_freq_df_unique.reset_index(drop=True)
 
 # 1. Load ESM-2 model
 
-if args.fine_tune_model:
+if args.fine_tune_model and args.model == "esm2_t33_650M_UR50D":
     from esm.pretrained import esm2_t33_650M_UR50D
     model, alphabet = esm2_t33_650M_UR50D()
-    #model.load_state_dict(torch.load(args.model, map_location="cpu"))
     model.load_state_dict(torch.load(args.fine_tune_model, map_location="cpu"))
-
+elif args.fine_tune_model and args.model == "esm2_t36_3B_UR50D":
+    from esm.pretrained import esm2_t36_3B_UR50D
+    model, alphabet = esm2_t36_3B_UR50D()
+    model.load_state_dict(torch.load(args.fine_tune_model, map_location="cpu"))
+elif args.fine_tune_model and args.model == "esm2_t48_15B_UR50D":
+    from esm.pretrained import esm2_t48_15B_UR50D
+    model, alphabet = esm2_t48_15B_UR50D()
+    model.load_state_dict(torch.load(args.fine_tune_model, map_location="cpu"))
 else:
     if args.model == "esm2_t33_650M_UR50D":
         model, alphabet = esm.pretrained.esm2_t33_650M_UR50D()
