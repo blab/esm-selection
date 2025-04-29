@@ -16,6 +16,7 @@ parser = argparse.ArgumentParser(
 parser.add_argument("--max_freq")
 parser.add_argument("--segment")
 parser.add_argument("--model", default="esm2_t33_650M_UR50D", help="ESM model to use")
+parser.add_argument("--fine_tune_model", default="")
 
 args = parser.parse_args()
 
@@ -41,12 +42,20 @@ max_freq_df_unique = max_freq_df_unique.reset_index(drop=True)
 
 # 1. Load ESM-2 model
 
-if args.model == "esm2_t33_650M_UR50D":
-    model, alphabet = esm.pretrained.esm2_t33_650M_UR50D()
-elif args.model == "esm2_t36_3B_UR50D":
-    model, alphabet = esm.pretrained.esm2_t36_3B_UR50D()
-elif args.model == "esm2_t48_15B_UR50D":
-    model, alphabet = esm.pretrained.esm2_t48_15B_UR50D()
+if args.fine_tune_model:
+    from esm.pretrained import esm2_t33_650M_UR50D
+    model, alphabet = esm2_t33_650M_UR50D()
+    #model.load_state_dict(torch.load(args.model, map_location="cpu"))
+    model.load_state_dict(torch.load(args.fine_tune_model, map_location="cpu"))
+
+else:
+    if args.model == "esm2_t33_650M_UR50D":
+        model, alphabet = esm.pretrained.esm2_t33_650M_UR50D()
+    elif args.model == "esm2_t36_3B_UR50D":
+        model, alphabet = esm.pretrained.esm2_t36_3B_UR50D()
+    elif args.model == "esm2_t48_15B_UR50D":
+        model, alphabet = esm.pretrained.esm2_t48_15B_UR50D()
+
 
 batch_converter = alphabet.get_batch_converter()
 model.eval()  # Disable dropout for evaluation
@@ -87,4 +96,7 @@ runtime = round(end_time - start_time, 3)  # seconds with milliseconds
 
 merged["runtime"] = runtime  # add runtime as a column to all rows
 
-merged.to_csv(f"Max_Freq_Fasta_LL_{args.model}_{args.segment}.csv", index=False)
+if args.fine_tune_model:
+    merged.to_csv(f"Max_Freq_Fasta_LL_Fine_Tune_{args.model}_{args.segment}.csv", index=False)
+else:
+    merged.to_csv(f"Max_Freq_Fasta_LL_{args.model}_{args.segment}.csv", index=False)  

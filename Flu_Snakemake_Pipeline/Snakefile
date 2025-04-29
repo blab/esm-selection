@@ -28,7 +28,8 @@ rule all:
 rule all:
     input:
         expand(
-            f"{MODEL_NAME}_Fine_Tune_Models/{MODEL_NAME}_Fine_Tune_Model_{{segment}}.bin",
+            #f"{MODEL_NAME}_Fine_Tune_Models/{MODEL_NAME}_Fine_Tune_Model_{{segment}}.bin",
+            f"max_freqs_log_likelyhood_Fine_Tune_{MODEL_NAME}/Max_Freq_Fasta_LL_Fine_Tune_{MODEL_NAME}_{{segment}}.csv",
             segment=SEGMENTS
         )
 
@@ -88,7 +89,7 @@ rule extract_max_freq:
         mv Max_Freq_Fasta_{wildcards.segment}.csv max_freqs/Max_Freq_Fasta_{wildcards.segment}.csv
         """
 
-
+"""
 rule calc_ll_esm:
     input:
         max_freq="max_freqs/Max_Freq_Fasta_{segment}.csv",
@@ -96,13 +97,13 @@ rule calc_ll_esm:
     output:
         "max_freqs_log_likelyhood_{MODEL_NAME}/Max_Freq_Fasta_LL_{MODEL_NAME}_{segment}.csv",
     shell:
-        """
+        \"""
         mkdir -p max_freqs_log_likelyhood_{wildcards.MODEL_NAME}
 
         #python {input.script} --max_freq {input.max_freq} --segment {wildcards.segment} --model {wildcards.MODEL_NAME}
         mv Max_Freq_Fasta_LL_{wildcards.MODEL_NAME}_{wildcards.segment}.csv max_freqs_log_likelyhood_{wildcards.MODEL_NAME}/Max_Freq_Fasta_LL_{wildcards.MODEL_NAME}_{wildcards.segment}.csv
-        """
-
+        \"""
+"""
 
 rule extract_fine_tune_fasta:
     input:
@@ -137,18 +138,18 @@ rule generate_fine_tune_model:
         python {input.script} --model {wildcards.MODEL_NAME} --input {input.fine_tune_fasta} --output {wildcards.MODEL_NAME}_Fine_Tune_Models/{wildcards.MODEL_NAME}_Fine_Tune_Model_{wildcards.segment}.bin
         """
 
-
-rule generate_max_freq_v_ll_plots:
+rule calc_ll_esm_Fine_tune:
     input:
-        max_freq_ll="max_freqs_log_likelyhood/Max_Freq_Fasta_LL_{segment}.csv",
-        script="scripts/freq_v_ll_plots.py",
+        max_freq="max_freqs/Max_Freq_Fasta_{segment}.csv",
+        script="scripts/calc_ll_esm.py",
+        fine_tune_model=f"{MODEL_NAME}_Fine_Tune_Models/{MODEL_NAME}_Fine_Tune_Model_{{segment}}.bin",
     output:
-        "max_freqs_log_likelyhood_plots/Max_Freq_Vs_LL_{segment}.png",
-    conda:
-        "envs/data_analysis_env.yaml"
+        "max_freqs_log_likelyhood_Fine_Tune_{MODEL_NAME}/Max_Freq_Fasta_LL_Fine_Tune_{MODEL_NAME}_{segment}.csv",
     shell:
         """
-        mkdir -p max_freqs_vs_log_likelyhood_plots
-        python {input.script} --Max_Freq_LL {input.max_freq_ll} --segment {wildcards.segment}
-        mv Max_Freq_Vs_LL_{wildcards.segment}.png max_freqs_log_likelyhood_plots/Max_Freq_Vs_LL_{wildcards.segment}.png
+        mkdir -p max_freqs_log_likelyhood_Fine_Tune_{wildcards.MODEL_NAME} 
+        python {input.script} --max_freq {input.max_freq} --segment {wildcards.segment} --model {wildcards.MODEL_NAME} --fine_tune_model {input.fine_tune_model} 
+        mv Max_Freq_Fasta_LL_Fine_Tune_{wildcards.MODEL_NAME}_{wildcards.segment}.csv max_freqs_log_likelyhood_Fine_Tune_{wildcards.MODEL_NAME}/Max_Freq_Fasta_LL_Fine_Tune_{wildcards.MODEL_NAME}_{wildcards.segment}.csv
         """
+
+
