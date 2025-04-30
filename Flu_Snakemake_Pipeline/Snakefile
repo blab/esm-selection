@@ -1,7 +1,6 @@
 SEGMENTS = ["pb2", "pb1", "pa", "np", "na", "mp", "ns", "ha"]
 #SEGMENTS = ["pb2", "pb1"]
 
-
 model_short = config.get("model", "650M")  # default to 650M
 
 # Map shorthand to full model names
