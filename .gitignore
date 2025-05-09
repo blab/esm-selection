@@ -5,3 +5,5 @@ Flu_Snakemake_Pipeline/.snakemake/
 Flu_Snakemake_Pipeline/scripts/calc_ll_esm_fine_tune.py
 Flu_Snakemake_Pipeline/Fine_Tune_Models/
 Flu_Trees/
+Flu_Snakemake_Pipeline/fine_tune_fastas/
+Flu_Snakemake_Pipeline/node_fastas/
