@@ -3,9 +3,5 @@ Flu_Snakemake_Pipeline/envs/nextstrain-base.sif
 Flu_Snakemake_Pipeline/envs/python-data-stack.sif
 Flu_Snakemake_Pipeline/.snakemake/
 Flu_Snakemake_Pipeline/scripts/calc_ll_esm_fine_tune.py
-Flu_Snakemake_Pipeline/esm2_t33_650M_UR50D_Fine_Tune_Models/
-Flu_Snakemake_Pipeline/esm2_t48_15B_UR50D_Fine_Tune_Models/
-Flu_Snakemake_Pipeline/esm2_t36_3B_UR50D_Fine_Tune_Models/
-Flu_Snakemake_Pipeline/esm2_t33_650M_UR50D_Epochs_5_Fine_Tune_Models/
-Flu_Snakemake_Pipeline/esm2_t36_3B_UR50D_Epochs_5_Fine_Tune_Models/
+Flu_Snakemake_Pipeline/Fine_Tune_Models/
 Flu_Trees/

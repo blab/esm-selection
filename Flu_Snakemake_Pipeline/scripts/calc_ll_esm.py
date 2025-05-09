@@ -6,6 +6,7 @@ import pandas as pd  # type: ignore
 from tqdm import tqdm  # type: ignore
 import argparse
 import time
+import os
 
 start_time = time.time()
 
@@ -20,6 +21,7 @@ parser.add_argument("--fine_tune_model", default="")
 parser.add_argument(
     "--epochs", type=int, default=1, help="Number of epochs for fine-tuning."
 )
+parser.add_argument("--output_file", default="", help="Custom output file name")
 
 args = parser.parse_args()
 
@@ -111,10 +113,11 @@ runtime = round(end_time - start_time, 3)  # seconds with milliseconds
 
 merged["runtime"] = runtime  # add runtime as a column to all rows
 
-if args.fine_tune_model:
-    merged.to_csv(
-        f"Max_Freq_Fasta_LL_Fine_Tune_Epochs_{args.epochs}_{args.model}_{args.segment}.csv",
-        index=False,
-    )
-else:
-    merged.to_csv(f"Max_Freq_Fasta_LL_{args.model}_{args.segment}.csv", index=False)
+# Ensure the output directory exists
+if args.output_file:
+    output_dir = os.path.dirname(args.output_file)
+    if output_dir and not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+
+# Save the merged DataFrame to the specified output file or default file
+merged.to_csv(args.output_file, index=False)
