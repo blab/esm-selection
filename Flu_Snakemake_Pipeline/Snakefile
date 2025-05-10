@@ -3,6 +3,7 @@ SEGMENTS = ["pb2", "pb1", "pa", "np", "na", "mp", "ns", "ha"]
 model_short = config.get("model", "650M")
 epochs = config.get("epochs", 1)
 learning_rate = config.get("learning_rate", 0.0001)
+time = config.get("time", 1971)
 
 model_map = {
     "650M": "esm2_t33_650M_UR50D",
@@ -15,21 +16,11 @@ if model_short not in model_map:
 
 MODEL_NAME = model_map[model_short]
 
-"""
-rule all:
-    #input:
-    output:
-        expand(
-            [f"{MODEL_NAME}_Fine_Tune_Models/{MODEL_NAME}_Fine_Tune_Model_{segment}.bin" for segment in SEGMENTS]
-            #[f"fine_tune_fastas/fine_tune_fasta_{segment}.fasta" for segment in SEGMENTS]
-        ),
-"""
-
 
 rule all:
     input:
         expand(
-            f"max_freqs_log_likelyhood_Fine_Tune_Epochs_{epochs}_LR_{learning_rate}_{MODEL_NAME}/Max_Freq_Fasta_LL_Fine_Tune_{MODEL_NAME}_{{segment}}.csv",
+            f"max_freqs_log_likelyhood_Fine_Tune_Epochs_{epochs}_LR_{learning_rate}_time_{time}_{MODEL_NAME}/Max_Freq_Fasta_LL_Fine_Tune_{MODEL_NAME}_{{segment}}.csv",
             segment=SEGMENTS,
         ),
 
@@ -100,10 +91,7 @@ rule calc_ll_esm:
         "max_freqs_log_likelyhood_{MODEL_NAME}/Max_Freq_Fasta_LL_{MODEL_NAME}_{segment}.csv",
     shell:
         """
-        #mkdir -p max_freqs_log_likelyhood_{wildcards.MODEL_NAME}
-
         python {input.script} --max_freq {input.max_freq} --segment {wildcards.segment} --model {wildcards.MODEL_NAME} --output_file max_freqs_log_likelyhood_{wildcards.MODEL_NAME}/Max_Freq_Fasta_LL_{wildcards.MODEL_NAME}_{wildcards.segment}.csv
-        #mv Max_Freq_Fasta_LL_{wildcards.MODEL_NAME}_{wildcards.segment}.csv max_freqs_log_likelyhood_{wildcards.MODEL_NAME}/Max_Freq_Fasta_LL_{wildcards.MODEL_NAME}_{wildcards.segment}.csv
         """
 
 
@@ -122,7 +110,7 @@ rule extract_fine_tune_fasta:
     shell:
         """
         mkdir -p fine_tune_fastas
-        python {input.script} --gene {wildcards.segment} --tree {input.json_tree} --node-fasta {input.node_fastas} --max-freq {input.max_freq}
+        python {input.script} --gene {wildcards.segment} --tree {input.json_tree} --node-fasta {input.node_fastas} --max-freq {input.max_freq} --time {time}
         mv fine_tune_fasta_{wildcards.segment}.fasta fine_tune_fastas/fine_tune_fasta_{wildcards.segment}.fasta
         """
 
@@ -133,12 +121,10 @@ rule generate_fine_tune_model:
         fine_tune_fasta="fine_tune_fastas/fine_tune_fasta_{segment}.fasta",
         script="scripts/make_esm_fine_tune_models.py",
     output:
-        "Fine_Tune_Models/{MODEL_NAME}_Epochs_{epochs}_LR_{learning_rate}_Fine_Tune_Models/{MODEL_NAME}_Fine_Tune_Model_{segment}.bin",
+        "Fine_Tune_Models/{MODEL_NAME}_Epochs_{epochs}_LR_{learning_rate}_time_{time}_Fine_Tune_Models/{MODEL_NAME}_Fine_Tune_Model_{segment}.bin",
     shell:
         """
-        #mkdir -p {wildcards.MODEL_NAME}_Epochs_{epochs}_Fine_Tune_Models
-
-        python {input.script} --model {wildcards.MODEL_NAME} --input {input.fine_tune_fasta} --output Fine_Tune_Models/{wildcards.MODEL_NAME}_Epochs_{epochs}_LR_{learning_rate}_Fine_Tune_Models/{wildcards.MODEL_NAME}_Fine_Tune_Model_{wildcards.segment}.bin --epochs {epochs} 
+        python {input.script} --model {wildcards.MODEL_NAME} --input {input.fine_tune_fasta} --output Fine_Tune_Models/{wildcards.MODEL_NAME}_Epochs_{epochs}_LR_{learning_rate}_time_{time}_Fine_Tune_Models/{wildcards.MODEL_NAME}_Fine_Tune_Model_{wildcards.segment}.bin --epochs {epochs} 
         """
 
 
@@ -146,15 +132,10 @@ rule calc_ll_esm_Fine_tune:
     input:
         max_freq="max_freqs/Max_Freq_Fasta_{segment}.csv",
         script="scripts/calc_ll_esm.py",
-        fine_tune_model=f"Fine_Tune_Models/{MODEL_NAME}_Epochs_{epochs}_LR_{learning_rate}_Fine_Tune_Models/{MODEL_NAME}_Fine_Tune_Model_{{segment}}.bin",
+        fine_tune_model=f"Fine_Tune_Models/{MODEL_NAME}_Epochs_{epochs}_LR_{learning_rate}_time_{time}_Fine_Tune_Models/{MODEL_NAME}_Fine_Tune_Model_{{segment}}.bin",
     output:
-        f"max_freqs_log_likelyhood_Fine_Tune_Epochs_{epochs}_LR_{learning_rate}_{MODEL_NAME}/Max_Freq_Fasta_LL_Fine_Tune_{MODEL_NAME}_{{segment}}.csv",
+        f"max_freqs_log_likelyhood_Fine_Tune_Epochs_{epochs}_LR_{learning_rate}_time_{time}_{MODEL_NAME}/Max_Freq_Fasta_LL_Fine_Tune_{MODEL_NAME}_{{segment}}.csv",
     shell:
-        # Use Python f-string formatting for the outer string, then escape inner braces for Snakemake wildcards
         f"""
-        #mkdir -p max_freqs_log_likelyhood_Fine_Tune_Epochs_{epochs}_{MODEL_NAME}
-        
-        python {{input.script}} --max_freq {{input.max_freq}} --segment {{wildcards.segment}} --model {{MODEL_NAME}} --fine_tune_model {{input.fine_tune_model}} --epochs {epochs} --output_file max_freqs_log_likelyhood_Fine_Tune_Epochs_{epochs}_LR_{learning_rate}_{MODEL_NAME}/Max_Freq_Fasta_LL_Fine_Tune_{MODEL_NAME}_{{wildcards.segment}}.csv
-        
-        #mv Max_Freq_Fasta_LL_Fine_Tune_Epochs_{epochs}_{MODEL_NAME}_{{wildcards.segment}}.csv max_freqs_log_likelyhood_Fine_Tune_Epochs_{epochs}_{MODEL_NAME}/Max_Freq_Fasta_LL_Fine_Tune_{MODEL_NAME}_{{wildcards.segment}}.csv
+        python {{input.script}} --max_freq {{input.max_freq}} --segment {{wildcards.segment}} --model {{MODEL_NAME}} --fine_tune_model {{input.fine_tune_model}} --epochs {epochs} --output_file max_freqs_log_likelyhood_Fine_Tune_Epochs_{epochs}_LR_{learning_rate}_time_{time}_{MODEL_NAME}/Max_Freq_Fasta_LL_Fine_Tune_{MODEL_NAME}_{{wildcards.segment}}.csv
         """
