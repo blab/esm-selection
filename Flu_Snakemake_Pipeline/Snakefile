@@ -2,7 +2,7 @@ SEGMENTS = ["pb2", "pb1", "pa", "np", "na", "mp", "ns", "ha"]
 
 model_short = config.get("model", "650M")
 epochs = config.get("epochs", 1)
-learning_rate = config.get("learning_rate", 0.0001)
+learning_rate = config.get("learning_rate", 0.00001)
 time = config.get("time", 1971)
 
 model_map = {
