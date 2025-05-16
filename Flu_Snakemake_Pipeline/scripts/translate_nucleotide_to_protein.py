@@ -10,7 +10,7 @@ from Bio.SeqRecord import SeqRecord
 import os
 
 
-def convert_to_prot(tree_file, root_file, segment):
+def convert_to_prot(tree_file, root_file, segment, output_file):
     tree_file_annotations = open(tree_file, "r")
     tree_file_annotations = json.load(tree_file_annotations)
 
@@ -39,20 +39,20 @@ def convert_to_prot(tree_file, root_file, segment):
 
     if segment == "mp":
         root_file_sequence["M1"] = str(protein_seq)
-    
+
     elif segment == "ns":
         root_file_sequence["NS1"] = str(protein_seq)
-    
+
     else:
         root_file_sequence[segment.upper()] = str(protein_seq)
 
     root_json_file_name = os.path.basename(root_file)
 
-    with open(root_json_file_name, "w") as f:
+    with open(output_file, "w") as f:
         json.dump(root_file_sequence, f, indent=2)
 
 
-def combine_ha_segments(root_file):
+def combine_ha_segments(root_file, output_file):
 
     root_file_sequence = open(root_file, "r")
     root_file_sequence = json.load(root_file_sequence)
@@ -65,7 +65,7 @@ def combine_ha_segments(root_file):
 
     root_json_file_name = os.path.basename(root_file)
 
-    with open(root_json_file_name, "w") as f:
+    with open(output_file, "w") as f:
         json.dump(root_file_sequence, f, indent=2)
 
 
@@ -78,10 +78,11 @@ if __name__ == "__main__":
     parser.add_argument("--tree")
     parser.add_argument("--root")
     parser.add_argument("--segment")
+    parser.add_argument("--output", default="", help="Custom output file name")
 
     args = parser.parse_args()
 
     if args.segment == "ha":
-        combine_ha_segments(args.root)
+        combine_ha_segments(args.root, args.output)
     else:
-        convert_to_prot(args.tree, args.root, args.segment)
+        convert_to_prot(args.tree, args.root, args.segment, args.output)

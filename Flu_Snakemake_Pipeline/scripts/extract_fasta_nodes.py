@@ -36,7 +36,7 @@ def apply_muts_to_root(root_seq, list_of_muts):
     return root_plus_muts
 
 
-def getNodeSequences(gene, local_files, tree_file, root_file):
+def getNodeSequences(gene, local_files, tree_file, root_file, output_file):
     """
     Get the sequence at each node in the given tree and
     save them as a FASTA file
@@ -89,12 +89,13 @@ def getNodeSequences(gene, local_files, tree_file, root_file):
 
         sequence_records.append(SeqRecord(node_seq, node.name, "", ""))
 
-        if gene == "M1":
-            SeqIO.write(sequence_records, f"nodeSeqs_mp.fasta", "fasta")
-        elif gene == "NS1":
-            SeqIO.write(sequence_records, f"nodeSeqs_ns.fasta", "fasta")
-        else:
-            SeqIO.write(sequence_records, f"nodeSeqs_{gene.lower()}.fasta", "fasta")
+        # if gene == "M1":
+        #    SeqIO.write(sequence_records, f"nodeSeqs_mp.fasta", "fasta")
+        # elif gene == "NS1":
+        #    SeqIO.write(sequence_records, f"nodeSeqs_ns.fasta", "fasta")
+        # else:
+        #    SeqIO.write(sequence_records, f"nodeSeqs_{gene.lower()}.fasta", "fasta")
+        SeqIO.write(sequence_records, output_file, "fasta")
 
 
 def read_fasta(file):
@@ -150,34 +151,34 @@ if __name__ == "__main__":
         # default="https://data.nextstrain.org/ncov_gisaid_global_all-time_root-sequence.json",
         # help="URL for the root-sequence.json file, or path to the local JSON file if --local-files=True",
     )
+    parser.add_argument("--output", default="", help="Custom output file name")
 
     args = parser.parse_args()
 
     if args.gene == "mp":
         gene = "M1"
-        getNodeSequences(gene, args.local_files, args.tree, args.root)
+        getNodeSequences(gene, args.local_files, args.tree, args.root, args.output)
 
     elif args.gene == "ns":
         gene = "NS1"
-        getNodeSequences(gene, args.local_files, args.tree, args.root)
+        getNodeSequences(gene, args.local_files, args.tree, args.root, args.output)
 
     elif args.gene == "ha":
-        getNodeSequences("HA1", args.local_files, args.tree, args.root)
-        getNodeSequences("HA2", args.local_files, args.tree, args.root)
-        getNodeSequences("SigPep", args.local_files, args.tree, args.root)
+        getNodeSequences(
+            "HA1", args.local_files, args.tree, args.root, "nodeSeqs_ha1.fasta"
+        )
+        getNodeSequences(
+            "HA2", args.local_files, args.tree, args.root, "nodeSeqs_ha2.fasta"
+        )
+        getNodeSequences(
+            "SigPep", args.local_files, args.tree, args.root, "nodeSeqs_sigpep.fasta"
+        )
+        files = ["nodeSeqs_sigpep.fasta", "nodeSeqs_ha1.fasta", "nodeSeqs_ha2.fasta"]
 
-        files = [
-            "nodeSeqs_sigpep.fasta",
-            "nodeSeqs_ha1.fasta",
-            "nodeSeqs_ha2.fasta",
-        ]  # change to your file names
-
-        merge_fastas(files, "nodeSeqs_ha.fasta")
-
-        # Delete the original FASTA files
+        merge_fastas(files, args.output)
         for file in files:
             os.remove(file)
 
     else:
         gene = args.gene.upper()
-        getNodeSequences(gene, args.local_files, args.tree, args.root)
+        getNodeSequences(gene, args.local_files, args.tree, args.root, args.output)

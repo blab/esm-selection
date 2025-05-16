@@ -21,7 +21,7 @@ parser.add_argument("--fine_tune_model", default="")
 parser.add_argument(
     "--epochs", type=int, default=1, help="Number of epochs for fine-tuning."
 )
-parser.add_argument("--output_file", default="", help="Custom output file name")
+parser.add_argument("--output", default="", help="Custom output file name")
 
 args = parser.parse_args()
 
@@ -114,10 +114,10 @@ runtime = round(end_time - start_time, 3)  # seconds with milliseconds
 merged["runtime"] = runtime  # add runtime as a column to all rows
 
 # Ensure the output directory exists
-if args.output_file:
-    output_dir = os.path.dirname(args.output_file)
+if args.output:
+    output_dir = os.path.dirname(args.output)
     if output_dir and not os.path.exists(output_dir):
         os.makedirs(output_dir)
 
 # Save the merged DataFrame to the specified output file or default file
-merged.to_csv(args.output_file, index=False)
+merged.to_csv(args.output, index=False)

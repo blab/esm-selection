@@ -33,9 +33,7 @@ rule translate_nucleotide_json:
         "envs/nextstrain-base.sif"
     shell:
         """
-        mkdir -p results/root_tree_translated/{wildcards.next_tree}
-        python {input.script} --tree {input.json_tree} --root {input.json_root} --segment {wildcards.segment}
-        mv h3n2_60y_{wildcards.segment}_root-sequence.json {output}
+        python {input.script} --tree {input.json_tree} --root {input.json_root} --segment {wildcards.segment} --output {output}
         """
 
 
@@ -52,9 +50,7 @@ rule extract_node_fastas:
         "envs/nextstrain-base.sif"
     shell:
         """
-        mkdir -p results/node_fastas/{wildcards.next_tree}
-        python {input.script} --gene {wildcards.segment} --local-files True --tree {input.json_tree} --root {input.json_root}
-        mv nodeSeqs_{wildcards.segment}.fasta {output}
+        python {input.script} --gene {wildcards.segment} --local-files True --tree {input.json_tree} --root {input.json_root} --output {output}
         """
 
 
@@ -72,9 +68,7 @@ rule extract_max_freq:
         "envs/nextstrain-base.sif"
     shell:
         """
-        mkdir -p results/max_freqs/{wildcards.next_tree}
-        time python {input.script} --segment {wildcards.segment} --tree {input.json_tree} --tip-freq {input.json_tip_freq} --node-fasta {input.node_fastas}
-        mv Max_Freq_Fasta_{wildcards.segment}.csv {output}
+        time python {input.script} --segment {wildcards.segment} --tree {input.json_tree} --tip-freq {input.json_tip_freq} --node-fasta {input.node_fastas} --output {output}
         """
 
 
@@ -86,7 +80,7 @@ rule calc_ll_esm:
         "results/max_freqs_log_likelyhood_{model}/Max_Freq_Fasta_LL_{model}_{next_tree}_{segment}.csv",
     shell:
         """
-        python {input.script} --max_freq {input.max_freq} --segment {wildcards.segment} --model {wildcards.model} --output_file results/max_freqs_log_likelyhood_{wildcards.model}/Max_Freq_Fasta_LL_{wildcards.model}_{wildcards.segment}.csv
+        python {input.script} --max_freq {input.max_freq} --segment {wildcards.segment} --model {wildcards.model} --output results/max_freqs_log_likelyhood_{wildcards.model}/Max_Freq_Fasta_LL_{wildcards.model}_{wildcards.segment}.csv
         """
 
 
@@ -104,10 +98,7 @@ rule extract_fine_tune_fasta:
         "envs/nextstrain-base.sif"
     shell:
         """
-        mkdir -p results/fine_tune_fastas/{wildcards.next_tree}_{wildcards.time}
-
-        python {input.script} --gene {wildcards.segment} --tree {input.json_tree} --node-fasta {input.node_fastas} --max-freq {input.max_freq} --time {wildcards.time}
-        mv fine_tune_fasta_{wildcards.segment}.fasta {output}
+        python {input.script} --gene {wildcards.segment} --tree {input.json_tree} --node-fasta {input.node_fastas} --max-freq {input.max_freq} --time {wildcards.time} --output {output}
         """
 
 
@@ -132,5 +123,5 @@ rule calc_ll_esm_Fine_tune:
         "results/max_freqs_log_likelyhood_Fine_Tune_Epochs_{epochs}_LR_{learning_rate}_time_{time}_{next_tree}_{model}/Max_Freq_Fasta_LL_Fine_Tune_{model}_{segment}.csv",
     shell:
         """
-        python {input.script} --max_freq {input.max_freq} --segment {wildcards.segment} --model {wildcards.model} --fine_tune_model {input.fine_tune_model} --epochs {wildcards.epochs} --output_file {output}
+        python {input.script} --max_freq {input.max_freq} --segment {wildcards.segment} --model {wildcards.model} --fine_tune_model {input.fine_tune_model} --epochs {wildcards.epochs} --output {output}
         """

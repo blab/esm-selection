@@ -45,7 +45,9 @@ def map_terminal_nodes(node):
         map_terminal_nodes(child)
 
 
-def get_freq_sum(tip_freq_file, node_terminal_map, node_fasta_file, segment):
+def get_freq_sum(
+    tip_freq_file, node_terminal_map, node_fasta_file, segment, output_file
+):
     # import and clean up the frequency JSON
 
     json_fh_frequency = open(tip_freq_file, "r")
@@ -87,7 +89,7 @@ def get_freq_sum(tip_freq_file, node_terminal_map, node_fasta_file, segment):
     # Get max frequency for each internal node
 
     max_values = {key: max(values) for key, values in summed_frequencies.items()}
-    #max_values = {key: max(values) for key, values in filtered_dict.items()}
+    # max_values = {key: max(values) for key, values in filtered_dict.items()}
 
     # Path to your multi-FASTA file
     fasta_path = node_fasta_file
@@ -116,7 +118,7 @@ def get_freq_sum(tip_freq_file, node_terminal_map, node_fasta_file, segment):
     df = df.reset_index()
     df = df.rename(columns={df.columns[0]: "node"})
 
-    df_to_csv = df.to_csv(f"Max_Freq_Fasta_{segment}.csv", index=False)
+    df_to_csv = df.to_csv(output_file, index=False)
 
 
 if __name__ == "__main__":
@@ -129,6 +131,7 @@ if __name__ == "__main__":
     parser.add_argument("--segment")
     parser.add_argument("--tip-freq")
     parser.add_argument("--node-fasta")
+    parser.add_argument("--output", default="", help="Custom output file name")
 
     args = parser.parse_args()
 
@@ -145,4 +148,6 @@ if __name__ == "__main__":
     # Map terminal nodes for each node
     map_terminal_nodes(tree_root)
 
-    get_freq_sum(args.tip_freq, node_terminal_map, args.node_fasta, args.segment)
+    get_freq_sum(
+        args.tip_freq, node_terminal_map, args.node_fasta, args.segment, args.output
+    )

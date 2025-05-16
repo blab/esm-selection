@@ -13,6 +13,7 @@ parser.add_argument("--gene")
 parser.add_argument("--node-fasta")
 parser.add_argument("--max-freq")
 parser.add_argument("--time", default="1991", help="Time to filter sequences")
+parser.add_argument("--output", default="", help="Custom output file name")
 
 args = parser.parse_args()
 
@@ -80,4 +81,4 @@ for key, record in unique_seq_record_dict.items():
     trimmed_record.seq = trimmed_record.seq.__class__(sequence)
     trimmed_record_dict[key] = trimmed_record
 
-SeqIO.write(trimmed_record_dict.values(), f"fine_tune_fasta_{args.gene}.fasta", "fasta")
+SeqIO.write(trimmed_record_dict.values(), args.output, "fasta")
