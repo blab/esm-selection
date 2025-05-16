@@ -73,6 +73,18 @@ rule extract_max_freq:
         """
 
 
+rule calc_ll_esm:
+    input:
+        max_freq="max_freqs/Max_Freq_Fasta_{segment}.csv",
+        script="scripts/calc_ll_esm.py",
+    output:
+        "max_freqs_log_likelyhood_{MODEL_NAME}/Max_Freq_Fasta_LL_{MODEL_NAME}_{segment}.csv",
+    shell:
+        """
+        python {input.script} --max_freq {input.max_freq} --segment {wildcards.segment} --model {wildcards.MODEL_NAME} --output_file max_freqs_log_likelyhood_{wildcards.MODEL_NAME}/Max_Freq_Fasta_LL_{wildcards.MODEL_NAME}_{wildcards.segment}.csv
+        """
+
+
 rule extract_fine_tune_fasta:
     input:
         json_tree=f"trees/{{tree}}/h3n2_60y_{{segment}}.json",
