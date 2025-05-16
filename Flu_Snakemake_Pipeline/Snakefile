@@ -17,8 +17,8 @@ rule all:
 
 rule translate_nucleotide_json:
     input:
-        json_tree=f"h3n2_Sequences/h3n2_60y_{{segment}}.json",
-        json_root=f"h3n2_Sequences/h3n2_60y_{{segment}}_root-sequence.json",
+        json_tree=f"trees/{{tree}}/h3n2_60y_{{segment}}.json",
+        json_root=f"trees/{{tree}}/h3n2_60y_{{segment}}_root-sequence.json",
         script="scripts/translate_nucleotide_to_protein.py",
     output:
         "root_tree_translated/h3n2_60y_{segment}_root-sequence.json",
@@ -36,7 +36,7 @@ rule translate_nucleotide_json:
 
 rule extract_node_fastas:
     input:
-        json_tree=f"h3n2_Sequences/h3n2_60y_{{segment}}.json",
+        json_tree=f"trees/{{tree}}/h3n2_60y_{{segment}}.json",
         json_root="root_tree_translated/h3n2_60y_{segment}_root-sequence.json",
         script="scripts/extract_fasta_nodes.py",
     output:
@@ -55,9 +55,9 @@ rule extract_node_fastas:
 
 rule extract_max_freq:
     input:
-        json_tree=f"h3n2_Sequences/h3n2_60y_{{segment}}.json",
+        json_tree=f"trees/{{tree}}/h3n2_60y_{{segment}}.json",
         node_fastas="node_fastas/nodeSeqs_{segment}.fasta",
-        json_tip_freq=f"h3n2_Sequences/h3n2_60y_{{segment}}_tip-frequencies.json",
+        json_tip_freq=f"trees/{{tree}}/h3n2_60y_{{segment}}_tip-frequencies.json",
         script="scripts/extract_max_freq.py",
     output:
         "max_freqs/Max_Freq_Fasta_{segment}.csv",
@@ -75,7 +75,7 @@ rule extract_max_freq:
 
 rule extract_fine_tune_fasta:
     input:
-        json_tree=f"h3n2_Sequences/h3n2_60y_{{segment}}.json",
+        json_tree=f"trees/{{tree}}/h3n2_60y_{{segment}}.json",
         node_fastas="node_fastas/nodeSeqs_{segment}.fasta",
         script="scripts/extract_fine_tune_fasta.py",
         max_freq="max_freqs/Max_Freq_Fasta_{segment}.csv",
