@@ -80,7 +80,7 @@ rule calc_ll_esm:
         "results/max_freqs_log_likelyhood_{model}/Max_Freq_Fasta_LL_{model}_{next_tree}_{segment}.csv",
     shell:
         """
-        python {input.script} --max_freq {input.max_freq} --segment {wildcards.segment} --model {wildcards.model} --output results/max_freqs_log_likelyhood_{wildcards.model}/Max_Freq_Fasta_LL_{wildcards.model}_{wildcards.segment}.csv
+        python {input.script} --max_freq {input.max_freq} --segment {wildcards.segment} --model {wildcards.model} --output {output} 
         """
 
 
