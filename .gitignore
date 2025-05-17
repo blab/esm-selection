@@ -8,6 +8,8 @@ Flu_Snakemake_Pipeline/fine_tune_fastas/
 Flu_Snakemake_Pipeline/node_fastas/
 Flu_Trees/
 Flu_Snakemake_Pipeline/old/Fine_Tune_Models/
+Flu_Snakemake_Pipeline/old/Fine_Tune_Models/
 Flu_Snakemake_Pipeline/results/fine_tune_fastas/
 Flu_Snakemake_Pipeline/results/node_fastas/
 Flu_Snakemake_Pipeline/results/Fine_Tune_Models/
+Flu_Snakemake_Pipeline/results/fine_tune_models/
