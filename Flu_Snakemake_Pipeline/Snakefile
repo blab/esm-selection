@@ -4,25 +4,21 @@ import pandas as pd
 SEGMENTS = ["pb2", "pb1", "pa", "np", "na", "mp", "ns", "ha"]
 
 paramspace = Paramspace(pd.read_csv("input/params.csv"))
-
-df = paramspace.dataframe
-
-ALL_FINE_TUNE = [
-    f"results/max_freqs_log_likelyhood_Fine_Tune_Epochs_{row.epochs}_LR_{row.learning_rate}_time_{row.time}_{row.next_tree}_{row.model}/Max_Freq_Fasta_LL_Fine_Tune_{row.model}_{segment}.csv"
-    for _, row in df.iterrows()
-    for segment in SEGMENTS
-]
-
-ALL_BASE = [
-    f"results/max_freqs_log_likelyhood_{row.model}/Max_Freq_Fasta_LL_{row.model}_{row.next_tree}_{segment}.csv"
-    for _, row in df.iterrows()
-    for segment in SEGMENTS
-]
+PS_WC = paramspace.wildcard_pattern
 
 
 rule all:
     input:
-        ALL_FINE_TUNE + ALL_BASE,
+        expand(
+            "results/max_freqs_log_likelyhood/{ps}/Max_Freq_Fasta_LL_{segment}.csv",
+            ps=paramspace.instance_patterns,
+            segment=SEGMENTS,
+        ),
+        expand(
+            "results/max_freqs_log_likelyhood_Fine_Tune/{ps}/Max_Freq_Fasta_LL_Fine_Tune_{segment}.csv",
+            ps=paramspace.instance_patterns,
+            segment=SEGMENTS,
+        ),
 
 
 rule translate_nucleotide_json:
@@ -82,7 +78,7 @@ rule calc_ll_esm:
         max_freq="results/max_freqs/{next_tree}/Max_Freq_Fasta_{segment}.csv",
         script="scripts/calc_ll_esm.py",
     output:
-        "results/max_freqs_log_likelyhood_{model}/Max_Freq_Fasta_LL_{model}_{next_tree}_{segment}.csv",
+        f"results/max_freqs_log_likelyhood/{PS_WC}/Max_Freq_Fasta_LL_{{segment}}.csv",
     shell:
         """
         python {input.script} --max_freq {input.max_freq} --segment {wildcards.segment} --model {wildcards.model} --output {output} 
@@ -96,7 +92,7 @@ rule extract_fine_tune_fasta:
         script="scripts/extract_fine_tune_fasta.py",
         max_freq="results/max_freqs/{next_tree}/Max_Freq_Fasta_{segment}.csv",
     output:
-        "results/fine_tune_fastas/{next_tree}_{time}/fine_tune_fasta_{segment}.fasta",
+        f"results/fine_tune_fastas/{PS_WC}/fine_tune_fasta_{{segment}}.fasta",
     conda:
         "envs/nextstrain_env.yaml"
     container:
@@ -109,10 +105,10 @@ rule extract_fine_tune_fasta:
 
 rule generate_fine_tune_model:
     input:
-        fine_tune_fasta="results/fine_tune_fastas/{next_tree}_{time}/fine_tune_fasta_{segment}.fasta",
+        fine_tune_fasta=f"results/fine_tune_fastas/{PS_WC}/fine_tune_fasta_{{segment}}.fasta",
         script="scripts/make_esm_fine_tune_models.py",
     output:
-        "results/fine_tune_models/{model}_Epochs_{epochs}_LR_{learning_rate}_time_{time}_{next_tree}_fine_tune_models/{model}_Fine_Tune_Model_{segment}.bin",
+        f"results/fine_tune_models/{PS_WC}/Fine_Tune_Model_{{segment}}.bin",
     shell:
         """
         python {input.script} --model {wildcards.model} --input {input.fine_tune_fasta} --output {output} --epochs {wildcards.epochs}
@@ -123,9 +119,9 @@ rule calc_ll_esm_Fine_tune:
     input:
         max_freq="results/max_freqs/{next_tree}/Max_Freq_Fasta_{segment}.csv",
         script="scripts/calc_ll_esm.py",
-        fine_tune_model="results/fine_tune_models/{model}_Epochs_{epochs}_LR_{learning_rate}_time_{time}_{next_tree}_fine_tune_models/{model}_Fine_Tune_Model_{segment}.bin",
+        fine_tune_model=f"results/fine_tune_models/{PS_WC}/Fine_Tune_Model_{{segment}}.bin",
     output:
-        "results/max_freqs_log_likelyhood_Fine_Tune_Epochs_{epochs}_LR_{learning_rate}_time_{time}_{next_tree}_{model}/Max_Freq_Fasta_LL_Fine_Tune_{model}_{segment}.csv",
+        f"results/max_freqs_log_likelyhood_Fine_Tune/{PS_WC}/Max_Freq_Fasta_LL_Fine_Tune_{{segment}}.csv",
     shell:
         """
         python {input.script} --max_freq {input.max_freq} --segment {wildcards.segment} --model {wildcards.model} --fine_tune_model {input.fine_tune_model} --epochs {wildcards.epochs} --output {output}
