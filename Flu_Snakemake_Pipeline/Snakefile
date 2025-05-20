@@ -10,11 +10,13 @@ rule all:
     input:
         expand(
             "results/max_freqs_log_likelyhood_Fine_Tune_Epochs_{epochs}_LR_{learning_rate}_time_{time}_{next_tree}_{model}/Max_Freq_Fasta_LL_Fine_Tune_{model}_{segment}.csv",
+            zip=True,
             **paramspace,
             segment=SEGMENTS,
         ),
         expand(
             "results/max_freqs_log_likelyhood_{model}/Max_Freq_Fasta_LL_{model}_{next_tree}_{segment}.csv",
+            zip=True,
             **paramspace,
             segment=SEGMENTS,
         ),
