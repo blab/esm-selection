@@ -5,21 +5,24 @@ SEGMENTS = ["pb2", "pb1", "pa", "np", "na", "mp", "ns", "ha"]
 
 paramspace = Paramspace(pd.read_csv("input/params.csv"))
 
+df = paramspace.dataframe
+
+ALL_FINE_TUNE = [
+    f"results/max_freqs_log_likelyhood_Fine_Tune_Epochs_{row.epochs}_LR_{row.learning_rate}_time_{row.time}_{row.next_tree}_{row.model}/Max_Freq_Fasta_LL_Fine_Tune_{row.model}_{segment}.csv"
+    for _, row in df.iterrows()
+    for segment in SEGMENTS
+]
+
+ALL_BASE = [
+    f"results/max_freqs_log_likelyhood_{row.model}/Max_Freq_Fasta_LL_{row.model}_{row.next_tree}_{segment}.csv"
+    for _, row in df.iterrows()
+    for segment in SEGMENTS
+]
+
 
 rule all:
     input:
-        expand(
-            "results/max_freqs_log_likelyhood_Fine_Tune_Epochs_{epochs}_LR_{learning_rate}_time_{time}_{next_tree}_{model}/Max_Freq_Fasta_LL_Fine_Tune_{model}_{segment}.csv",
-            zip=True,
-            **paramspace,
-            segment=SEGMENTS,
-        ),
-        expand(
-            "results/max_freqs_log_likelyhood_{model}/Max_Freq_Fasta_LL_{model}_{next_tree}_{segment}.csv",
-            zip=True,
-            **paramspace,
-            segment=SEGMENTS,
-        ),
+        ALL_FINE_TUNE + ALL_BASE,
 
 
 rule translate_nucleotide_json:
