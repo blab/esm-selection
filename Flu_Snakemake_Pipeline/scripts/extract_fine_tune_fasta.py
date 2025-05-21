@@ -17,6 +17,9 @@ parser.add_argument("--output", default="", help="Custom output file name")
 
 args = parser.parse_args()
 
+if (args.time == "All") or (args.time == "all"):
+    args.time = 9999
+
 
 def extract_node_times(node):
     name = node.get("name")
