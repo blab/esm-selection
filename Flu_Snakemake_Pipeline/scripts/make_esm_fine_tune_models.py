@@ -5,8 +5,8 @@ import argparse
 from Bio import SeqIO
 from torch.utils.data import DataLoader, Dataset
 import os
-
-
+import numpy as np
+import random
 class ProteinDataset(Dataset):
     """Dataset class for protein sequences."""
     def __init__(self, sequences):
@@ -18,6 +18,12 @@ class ProteinDataset(Dataset):
     def __getitem__(self, idx):
         return self.sequences[idx]
 
+randseed = 12
+torch.backends.cudnn.deterministic = True
+random.seed(randseed)
+torch.manual_seed(randseed)
+torch.cuda.manual_seed(randseed)
+np.random.seed(randseed)
 
 def parse_arguments():
     parser = argparse.ArgumentParser(description="Fine-tune ESM-2 on protein sequences.")
