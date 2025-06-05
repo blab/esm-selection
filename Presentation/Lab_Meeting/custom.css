@@ -7,5 +7,10 @@
   .reveal h6,
   .reveal p,
   .reveal section {
-      font-family: Helvetica, Arial, sans-serif !important;
+    font-family: Helvetica, Arial, sans-serif !important;
+  }
+
+  .fit-image {
+    max-width: 100%;
+    max-height: 100%;
   }
