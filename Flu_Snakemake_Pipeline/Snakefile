@@ -3,20 +3,27 @@ import pandas as pd
 
 SEGMENTS = ["pb2", "pb1", "pa", "np", "na", "mp", "ns", "ha"]
 
-paramspace = Paramspace(pd.read_csv("input/params.csv"))
+df = pd.read_csv("input/params.csv")
+
+paramspace = Paramspace(df)  # all params
+paramspace_ft = Paramspace(df[~df["model"].str.contains("15B")])  # fine-tune-eligible
+
 PS_WC = paramspace.wildcard_pattern
+PS_WC_FT = paramspace_ft.wildcard_pattern
 
 
 rule all:
     input:
+        # always compute base log-likelihoods
         expand(
             "results/max_freqs_log_likelyhood/{ps}/Max_Freq_Fasta_LL_{segment}.csv",
             ps=paramspace.instance_patterns,
             segment=SEGMENTS,
         ),
+        # only compute fine-tune outputs for non-15B runs
         expand(
             "results/max_freqs_log_likelyhood_Fine_Tune/{ps}/Max_Freq_Fasta_LL_Fine_Tune_{segment}.csv",
-            ps=paramspace.instance_patterns,
+            ps=paramspace_ft.instance_patterns,
             segment=SEGMENTS,
         ),
 
@@ -92,7 +99,7 @@ rule extract_fine_tune_fasta:
         script="scripts/extract_fine_tune_fasta.py",
         max_freq="results/max_freqs/{next_tree}/Max_Freq_Fasta_{segment}.csv",
     output:
-        f"results/fine_tune_fastas/{PS_WC}/fine_tune_fasta_{{segment}}.fasta",
+        f"results/fine_tune_fastas/{PS_WC_FT}/fine_tune_fasta_{{segment}}.fasta",
     conda:
         "envs/nextstrain_env.yaml"
     container:
@@ -105,10 +112,10 @@ rule extract_fine_tune_fasta:
 
 rule generate_fine_tune_model:
     input:
-        fine_tune_fasta=f"results/fine_tune_fastas/{PS_WC}/fine_tune_fasta_{{segment}}.fasta",
+        fine_tune_fasta=f"results/fine_tune_fastas/{PS_WC_FT}/fine_tune_fasta_{{segment}}.fasta",
         script="scripts/make_esm_fine_tune_models.py",
     output:
-        f"results/fine_tune_models/{PS_WC}/Fine_Tune_Model_{{segment}}.bin",
+        f"results/fine_tune_models/{PS_WC_FT}/Fine_Tune_Model_{{segment}}.bin",
     shell:
         """
         python {input.script} --model {wildcards.model} --input {input.fine_tune_fasta} --output {output} --epochs {wildcards.epochs}
@@ -119,9 +126,9 @@ rule calc_ll_esm_Fine_tune:
     input:
         max_freq="results/max_freqs/{next_tree}/Max_Freq_Fasta_{segment}.csv",
         script="scripts/calc_ll_esm.py",
-        fine_tune_model=f"results/fine_tune_models/{PS_WC}/Fine_Tune_Model_{{segment}}.bin",
+        fine_tune_model=f"results/fine_tune_models/{PS_WC_FT}/Fine_Tune_Model_{{segment}}.bin",
     output:
-        f"results/max_freqs_log_likelyhood_Fine_Tune/{PS_WC}/Max_Freq_Fasta_LL_Fine_Tune_{{segment}}.csv",
+        f"results/max_freqs_log_likelyhood_Fine_Tune/{PS_WC_FT}/Max_Freq_Fasta_LL_Fine_Tune_{{segment}}.csv",
     shell:
         """
         python {input.script} --max_freq {input.max_freq} --segment {wildcards.segment} --model {wildcards.model} --fine_tune_model {input.fine_tune_model} --epochs {wildcards.epochs} --output {output}
