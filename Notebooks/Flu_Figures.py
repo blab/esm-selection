@@ -11,7 +11,7 @@ def _(mo):
 
 
 @app.cell
-def importlibraries():
+def _():
     import marimo as mo
     import pandas as pd
     from pathlib import Path
@@ -35,7 +35,22 @@ def importlibraries():
     import numpy as np
     import glob
     import re 
-    return Path, glob, gridspec, json, mo, os, pd, plt, sns, spearmanr
+    return (
+        Path,
+        cm,
+        colorsys,
+        glob,
+        gridspec,
+        json,
+        mo,
+        np,
+        os,
+        pd,
+        plt,
+        re,
+        sns,
+        spearmanr,
+    )
 
 
 @app.cell
@@ -46,6 +61,7 @@ def _(mo):
 
 @app.cell
 def _(os):
+    os.chdir("/Users/Carlos/Desktop/Bedford/esm-selection/Notebooks")
     os.chdir("..")
     return
 
@@ -666,11 +682,1496 @@ def _(load_fine_tune_results):
         "model~esm2_t36_3B_UR50D",
         "time~1990",
     )
+    return (
+        df_3B_FT_DF_Time_1990,
+        df_3B_FT_DF_Time_1990_EP_5,
+        df_3B_FT_DF_Time_1990_LR_1e_05,
+        df_3B_FT_DF_Time_1990_LR_2_5e_05,
+        df_3B_FT_DF_Time_1990_LR_5e_06,
+        df_650_FT_DF_Time_1990,
+        df_650_FT_DF_Time_1990_EP_5,
+        df_650_FT_DF_Time_1990_LR_1e_05,
+        df_650_FT_DF_Time_1990_LR_2_5e_05,
+        df_650_FT_DF_Time_1990_LR_5e_06,
+    )
+
+
+@app.cell
+def _(mo):
+    mo.md(r"""### Add Time to dataframes functions""")
     return
 
 
 @app.cell
-def _():
+def _(json, os, pd):
+    #Add time to Model dfs
+
+    def extract_node_times(tree_data, segment):
+        node_list = []
+
+        def recurse_nodes(node):
+            name = node.get('name')
+            num_date = node.get('node_attrs', {}).get('num_date', {}).get('value')
+            if name and num_date is not None:
+                node_list.append({'Segment': segment, 'node': name, 'time': num_date})
+            for child in node.get('children', []):
+                recurse_nodes(child)
+
+        root = tree_data.get('tree', tree_data)
+        recurse_nodes(root)
+        return node_list
+
+
+    def process_directory(directory):
+
+        all_data = []
+
+        for filename in os.listdir(directory):
+
+            segment = filename[:-5]  # remove the '.json' suffix
+            if (filename == f"{filename[:-5]}.json"):
+                file_path = os.path.join(directory, filename)
+                with open(file_path, 'r') as f:
+                    tree_data = json.load(f)
+
+            segment_data = extract_node_times(tree_data, segment)
+            all_data.extend(segment_data)
+        return pd.DataFrame(all_data)
+
+    def merge_time(models_df, tree):
+        directory = f"Flu_Snakemake_Pipeline/input/trees/{tree}/"
+        df = process_directory(directory)
+        df['Segment'] = df['Segment'].str.upper()
+        models_df = models_df.merge(df, on=['Segment', 'node'], how='left')
+        #models_df = models_df[models_df['time'] >= 1991]
+        return models_df
+    return (merge_time,)
+
+
+@app.cell
+def _(mo):
+    mo.md(r"""### Rename model names in dataframes function""")
+    return
+
+
+@app.cell
+def _(pd):
+    def rename_model_dataframes(df: pd.DataFrame) -> pd.DataFrame:
+        df = df.copy()
+        df['Model'] = df['Model'].replace({
+            'Fine_Tune_esm2_t36_3B_UR50D': 'Fine_Tune_3B',
+            'Fine_Tune_esm2_t33_650M_UR50D': 'Fine_Tune_650M',
+            'Base_esm2_t36_3B_UR50D': '3B',
+            'Base_esm2_t33_650M_UR50D': '650M',
+        })
+        return df   
+    return (rename_model_dataframes,)
+
+
+@app.cell
+def _(mo):
+    mo.md(r"""### Combine Fine Tune With Base function""")
+    return
+
+
+@app.cell
+def _(df_3B_Base, df_650_Base, pd, rename_model_dataframes):
+    def concat_with_base(df, model):
+        if(model == "3B"):
+            df = pd.concat([df, df_3B_Base], ignore_index=True)
+        if(model == "650M"):
+            df = pd.concat([df, df_650_Base], ignore_index=True)
+        df = rename_model_dataframes(df)
+
+        return df
+    return (concat_with_base,)
+
+
+@app.cell
+def _(mo):
+    mo.md(r"""### Combine dataframes fine tune and base""")
+    return
+
+
+@app.cell
+def _(
+    concat_with_base,
+    df_3B_FT_DF_Time_1990,
+    df_3B_FT_DF_Time_1990_EP_5,
+    df_3B_FT_DF_Time_1990_LR_1e_05,
+    df_3B_FT_DF_Time_1990_LR_2_5e_05,
+    df_3B_FT_DF_Time_1990_LR_5e_06,
+    df_650_FT_DF_Time_1990,
+    df_650_FT_DF_Time_1990_EP_5,
+    df_650_FT_DF_Time_1990_LR_1e_05,
+    df_650_FT_DF_Time_1990_LR_2_5e_05,
+    df_650_FT_DF_Time_1990_LR_5e_06,
+):
+    # ───── 1. Default Fine-Tune (Epoch 1, LR 5e-05) ─────
+    df_3B_FT_DF_Time_1990_Combined   = concat_with_base(df_3B_FT_DF_Time_1990, "3B")
+    df_650_FT_DF_Time_1990_Combined  = concat_with_base(df_650_FT_DF_Time_1990, "650M")
+
+    # ───── 2. Epochs = 5 ─────
+    df_3B_FT_EP_5_DF_Time_Combined   = concat_with_base(df_3B_FT_DF_Time_1990_EP_5, "3B")
+    df_650_FT_EP_5_DF_Time_Combined  = concat_with_base(df_650_FT_DF_Time_1990_EP_5, "650M")
+
+    # ───── 3. Learning Rate Adjustments (Epoch 1) ─────
+
+    # LR = 2.5e-05
+    df_3B_FT_EP_1_LR_2_5e_05_DF_Time_Combined  = concat_with_base(df_3B_FT_DF_Time_1990_LR_2_5e_05, "3B")
+    df_650_FT_EP_1_LR_2_5e_05_DF_Time_Combined = concat_with_base(df_650_FT_DF_Time_1990_LR_2_5e_05, "650M")
+
+    # LR = 1e-05
+    df_3B_FT_EP_1_LR_1e_05_DF_Time_Combined  = concat_with_base(df_3B_FT_DF_Time_1990_LR_1e_05, "3B")
+    df_650_FT_EP_1_LR_1e_05_DF_Time_Combined = concat_with_base(df_650_FT_DF_Time_1990_LR_1e_05, "650M")
+
+    # LR = 5e-06
+    df_3B_FT_EP_1_LR_5e_06_DF_Time_Combined  = concat_with_base(df_3B_FT_DF_Time_1990_LR_5e_06, "3B")
+    df_650_FT_EP_1_LR_5e_06_DF_Time_Combined = concat_with_base(df_650_FT_DF_Time_1990_LR_5e_06, "650M")
+
+    return (
+        df_3B_FT_DF_Time_1990_Combined,
+        df_3B_FT_EP_1_LR_1e_05_DF_Time_Combined,
+        df_3B_FT_EP_1_LR_2_5e_05_DF_Time_Combined,
+        df_3B_FT_EP_1_LR_5e_06_DF_Time_Combined,
+        df_3B_FT_EP_5_DF_Time_Combined,
+        df_650_FT_DF_Time_1990_Combined,
+        df_650_FT_EP_1_LR_1e_05_DF_Time_Combined,
+        df_650_FT_EP_1_LR_2_5e_05_DF_Time_Combined,
+        df_650_FT_EP_1_LR_5e_06_DF_Time_Combined,
+        df_650_FT_EP_5_DF_Time_Combined,
+    )
+
+
+@app.cell
+def _(mo):
+    mo.md(r"""### Add time to dataframes""")
+    return
+
+
+@app.cell
+def _(
+    df_3B_FT_DF_Time_1990_Combined,
+    df_3B_FT_EP_1_LR_1e_05_DF_Time_Combined,
+    df_3B_FT_EP_1_LR_2_5e_05_DF_Time_Combined,
+    df_3B_FT_EP_1_LR_5e_06_DF_Time_Combined,
+    df_3B_FT_EP_5_DF_Time_Combined,
+    df_650_FT_DF_Time_1990_Combined,
+    df_650_FT_EP_1_LR_1e_05_DF_Time_Combined,
+    df_650_FT_EP_1_LR_2_5e_05_DF_Time_Combined,
+    df_650_FT_EP_1_LR_5e_06_DF_Time_Combined,
+    df_650_FT_EP_5_DF_Time_Combined,
+    merge_time,
+):
+    #no inputs fine tune
+    df_3B_FT_DF_Time = merge_time(df_3B_FT_DF_Time_1990_Combined, "h3n2")
+    df_650_FT_DF_Time = merge_time(df_650_FT_DF_Time_1990_Combined, "h3n2")
+
+    #epochs > 5
+    df_3B_FT_EP_5_DF_Time = merge_time(df_3B_FT_EP_5_DF_Time_Combined, "h3n2")
+    df_650_FT_EP_5_DF_Time = merge_time(df_650_FT_EP_5_DF_Time_Combined, "h3n2")
+
+    #learning rate adjustments
+    df_650_FT_EP_1_LR_2_5e_05_DF_Time = merge_time(df_650_FT_EP_1_LR_2_5e_05_DF_Time_Combined, "h3n2")
+    df_650_FT_EP_1_LR_1e_05_DF_Time = merge_time(df_650_FT_EP_1_LR_1e_05_DF_Time_Combined, "h3n2")
+    df_650_FT_EP_1_LR_5e_06_DF_Time = merge_time(df_650_FT_EP_1_LR_5e_06_DF_Time_Combined, "h3n2")
+
+    df_3B_FT_EP_1_LR_2_5e_05_DF_Time = merge_time(df_3B_FT_EP_1_LR_2_5e_05_DF_Time_Combined, "h3n2")
+    df_3B_FT_EP_1_LR_1e_05_DF_Time = merge_time(df_3B_FT_EP_1_LR_1e_05_DF_Time_Combined, "h3n2")
+    df_3B_FT_EP_1_LR_5e_06_DF_Time = merge_time(df_3B_FT_EP_1_LR_5e_06_DF_Time_Combined, "h3n2")
+
+    #filter above 1990
+    df_3B_FT_DF_Time_Above_1990 = df_3B_FT_DF_Time[df_3B_FT_DF_Time['time'] >= 1991]
+    df_650_FT_DF_Time_Above_1990 = df_650_FT_DF_Time[df_650_FT_DF_Time['time'] >= 1991]
+
+    df_3B_FT_DF_Time_Below_1990 = df_3B_FT_DF_Time[df_3B_FT_DF_Time['time'] <= 1990]
+    df_650_FT_DF_Time_Below_1990 = df_650_FT_DF_Time[df_650_FT_DF_Time['time'] <= 1990]
+
+    df_3B_FT_EP_5_DF_Time_Above_1990 = df_3B_FT_EP_5_DF_Time[df_3B_FT_EP_5_DF_Time['time'] >= 1991]
+    df_650_FT_EP_5_DF_Time_Above_1990 = df_650_FT_EP_5_DF_Time[df_650_FT_EP_5_DF_Time['time'] >= 1991]
+
+    df_3B_FT_EP_5_DF_Time_Below_1990 = df_3B_FT_EP_5_DF_Time[df_3B_FT_EP_5_DF_Time['time'] <= 1990]
+    df_650_FT_EP_5_DF_Time_Below_1990 = df_650_FT_EP_5_DF_Time[df_650_FT_EP_5_DF_Time['time'] <= 1990]
+    return (
+        df_3B_FT_DF_Time,
+        df_3B_FT_DF_Time_Above_1990,
+        df_3B_FT_DF_Time_Below_1990,
+        df_3B_FT_EP_5_DF_Time,
+        df_650_FT_DF_Time,
+        df_650_FT_DF_Time_Above_1990,
+        df_650_FT_DF_Time_Below_1990,
+        df_650_FT_EP_1_LR_1e_05_DF_Time,
+        df_650_FT_EP_1_LR_2_5e_05_DF_Time,
+        df_650_FT_EP_1_LR_5e_06_DF_Time,
+        df_650_FT_EP_5_DF_Time,
+    )
+
+
+@app.cell
+def _(mo):
+    mo.md(r"""### Pre vs post 1990 figure, fine tuning vs base""")
+    return
+
+
+@app.cell
+def _(
+    df_3B_FT_DF_Time_Above_1990,
+    df_3B_FT_DF_Time_Below_1990,
+    df_650_FT_DF_Time_Above_1990,
+    df_650_FT_DF_Time_Below_1990,
+):
+    # Pre post 1990 fine tune vs base figures
+
+    def make_max_freq_LL_figures(dataset, model, pre_1990_dataset):
+        import matplotlib.pyplot as plt
+        import seaborn as sns
+        import os
+        import pandas as pd
+        from scipy.stats import spearmanr
+        from matplotlib import gridspec
+
+        sns.set_theme(style="whitegrid")
+        sns.set_style("ticks")
+
+        output_dir = os.path.join(f"Flu_Figures/ESM_vs_Max_Freq_Plots_Fine_Tune_{model}")
+        os.makedirs(output_dir, exist_ok=True)
+
+        def plot_regression(ax, data, x_col, y_col, title, ylabel="", color="#0a2463"):
+            sns.regplot(data=data, y=y_col, x=x_col, ax=ax, scatter_kws={'s': 50, 'alpha': 0.35, 'color': color}, line_kws={'color': 'black'})
+            ax.set_title(title)
+            ax.set_xlabel("")
+            spearman_corr, p_value = spearmanr(data[y_col], data[x_col])
+            textstr = f'ρ = {spearman_corr:.2f}\nP < {p_value:.2f}\n'
+            ax.text(0.05, 0.95, textstr, transform=ax.transAxes, fontsize=12, verticalalignment='top', bbox=dict(boxstyle='round', facecolor='white', alpha=0.0))
+            ax.set_ylabel(ylabel, weight='bold')
+            #ax.set_xlim(data[x_col].min(), data[x_col].max())
+            ax.set_ylim(0, 1.1)
+
+        def plot_histogram(ax, data, mean_value, title, xlabel="", color="#0a2463"):
+            sns.histplot(data=data, x="log_likelyhood", ax=ax, color=color)
+            ax.set_title(title)
+            ax.axvline(mean_value, color='black', linestyle='-', linewidth=1.5, ymax=0.9)
+            ax.set_ylabel("")
+            ax.set_xlabel(xlabel, weight='bold' if xlabel else 'normal')
+
+        for segment, group in dataset.groupby('Segment'):
+            fig = plt.figure(figsize=(5 * 4, 8))  # Four plots in a row
+            gs_main = gridspec.GridSpec(3, 4, height_ratios=[1, 0.4, 0.4])
+
+            df = dataset[dataset['Segment'] == segment]
+        
+            df_pre = pre_1990_dataset[pre_1990_dataset['Segment'] == segment]
+
+            if segment == "PA":
+                df = df[df['node'] != 'A/Viamao/LACENRS-974/2015']
+
+            df_650 = df[df['Model'] == model]
+            df_650_Fine_Tune = df[df['Model'] == ("Fine_Tune_" + model)]
+            df_below_1_650 = df_650[df_650['max_frequency'] < 0.1]
+            df_above_1_650 = df_650[df_650['max_frequency'] >= 0.99]
+            df_below_1_Fine_Tune = df_650_Fine_Tune[df_650_Fine_Tune['max_frequency'] < 0.1]
+            df_above_1_Fine_Tune = df_650_Fine_Tune[df_650_Fine_Tune['max_frequency'] >= 0.99]
+
+            df_pre_650 = df_pre[df_pre['Model'] == model]
+            df_pre_Fine_Tune = df_pre[df_pre['Model'] == ("Fine_Tune_" + model)]
+            df_below_1_pre_650 = df_pre_650[df_pre_650['max_frequency'] < 0.1]
+            df_above_1_pre_650 = df_pre_650[df_pre_650['max_frequency'] >= 0.99]
+            df_below_1_pre_Fine_Tune = df_pre_Fine_Tune[df_pre_Fine_Tune['max_frequency'] < 0.1]
+            df_above_1_pre_Fine_Tune = df_pre_Fine_Tune[df_pre_Fine_Tune['max_frequency'] >= 0.99]
+
+            ax = fig.add_subplot(gs_main[0, 0])
+            ax_1 = fig.add_subplot(gs_main[0, 1])
+            ax_pre = fig.add_subplot(gs_main[0, 2])
+            ax_pre_1 = fig.add_subplot(gs_main[0, 3])
+
+            plot_regression(ax, df_650, "log_likelyhood", "max_frequency", f"{segment.upper()} - {model} Model - Post 1990", ylabel="Max Frequency")
+            plot_regression(ax_1, df_650_Fine_Tune, "log_likelyhood", "max_frequency", f"{segment.upper()} - {model} Fine Tune Model - Post 1990", color='#f4d35e')
+            plot_regression(ax_pre, df_pre_650, "log_likelyhood", "max_frequency", f"{segment.upper()} - {model} - Pre-1990")
+            plot_regression(ax_pre_1, df_pre_Fine_Tune, "log_likelyhood", "max_frequency", f"{segment.upper()} - Fine Tune - Pre-1990", color="#f4d35e")
+
+            ax1 = fig.add_subplot(gs_main[1, 0])
+            ax1_1 = fig.add_subplot(gs_main[1, 1])
+            ax1_2 = fig.add_subplot(gs_main[1, 2])
+            ax1_3 = fig.add_subplot(gs_main[1, 3])
+
+            plot_histogram(ax1, df_below_1_650, df_below_1_650['log_likelyhood'].mean(), "max. freq. (0.0, 0.1)")
+            plot_histogram(ax1_1, df_below_1_Fine_Tune, df_below_1_Fine_Tune['log_likelyhood'].mean(), "max. freq. (0.0, 0.1)", color='#f4d35e')
+            plot_histogram(ax1_2, df_below_1_pre_650, df_below_1_pre_650['log_likelyhood'].mean(), "max. freq. (0.0, 0.1)")
+            plot_histogram(ax1_3, df_below_1_pre_Fine_Tune, df_below_1_pre_Fine_Tune['log_likelyhood'].mean(), "max. freq. (0.0, 0.1)", color="#f4d35e")
+
+            ax2 = fig.add_subplot(gs_main[2, 0])
+            ax2_1 = fig.add_subplot(gs_main[2, 1])
+            ax2_2 = fig.add_subplot(gs_main[2, 2])
+            ax2_3 = fig.add_subplot(gs_main[2, 3])
+
+            plot_histogram(ax2, df_above_1_650, df_above_1_650['log_likelyhood'].mean(), "max. freq. (0.99, 1.0)", xlabel="Log Likelyhood")
+            plot_histogram(ax2_1, df_above_1_Fine_Tune, df_above_1_Fine_Tune['log_likelyhood'].mean(), "max. freq. (0.99, 1.0)", xlabel="Log Likelyhood", color='#f4d35e')
+            plot_histogram(ax2_2, df_above_1_pre_650, df_above_1_pre_650['log_likelyhood'].mean(), "max. freq. (0.99, 1.0)", xlabel="Log Likelyhood")
+            plot_histogram(ax2_3, df_above_1_pre_Fine_Tune, df_above_1_pre_Fine_Tune['log_likelyhood'].mean(), "max. freq. (0.99, 1.0)", xlabel="Log Likelyhood", color="#f4d35e")
+
+            for axis in [ax, ax_1, ax_pre, ax_pre_1, ax1, ax1_1, ax1_2, ax1_3, ax2, ax2_1, ax2_2, ax2_3]:
+                axis.spines[['right', 'top']].set_visible(False)
+
+            fig.text(0.01, 0.3, 'Count', va='center', rotation='vertical', fontsize=12, weight='bold')
+            plt.tight_layout()
+            plt.savefig(f"{output_dir}/{segment}_LL_vs_Max_Frequency_Fine_Tune_{model}.png", dpi=300)
+            plt.show()
+
+    make_max_freq_LL_figures(df_3B_FT_DF_Time_Above_1990, "3B", df_3B_FT_DF_Time_Below_1990)
+    make_max_freq_LL_figures(df_650_FT_DF_Time_Above_1990, "650M", df_650_FT_DF_Time_Below_1990)
+
+    return
+
+
+@app.cell
+def _(mo):
+    mo.md(r"""### Calculate Summary Statistics for Models""")
+    return
+
+
+@app.cell
+def _(
+    df_3B_FT_DF_Time_Above_1990,
+    df_3B_FT_DF_Time_Below_1990,
+    df_650_FT_DF_Time_Above_1990,
+    df_650_FT_DF_Time_Below_1990,
+    pd,
+    spearmanr,
+):
+    #calculate summary statistics for fine-tune models
+
+    def summary_stats(model_df, base_name, time_frame):
+      results = []
+
+      for model, group in model_df.groupby('Model'):
+        for segment, group in model_df.groupby('Segment'):
+
+          df = model_df[model_df['Segment'] == segment]
+          df = df[df['Model'] == model]
+
+          if base_name == "PA":
+            df = df[df['node'] != 'A/Viamao/LACENRS-974/2015']
+
+          df_below_01 = df[df['max_frequency'] < 0.1]
+          df_above_1 = df[df['max_frequency'] >= 0.99]
+      
+          spearman_corr, p_value = spearmanr(df['max_frequency'], df['log_likelyhood'])
+
+          results.append({
+              "Model": model,
+              "Segment": segment,
+              "Spearman Correlation Coefficient between Max Frequency and LL": spearman_corr,
+              "P-value": p_value,
+              "Mean ESM LL below 0.1": df_below_01['log_likelyhood'].mean(),
+              "Mean ESM LL above 0.99": df_above_1['log_likelyhood'].mean(),
+              "Difference in LL ESM Means": df_above_1['log_likelyhood'].mean() - df_below_01['log_likelyhood'].mean(),
+              "Time Frame": time_frame
+          })
+
+          results_df = pd.DataFrame(results)
+  
+      print("____________________________")
+      print(f"Summary Statistics for {base_name} Model - {time_frame}")
+      print(results_df.groupby('Model')['Spearman Correlation Coefficient between Max Frequency and LL'].mean())
+
+      #results_df.to_csv(f"Flu_Summary_Statistics/ESM_vs_Max_Freq_Summary_Fine_Tune_{base_name}_Statistics.csv", index=False)
+      return results_df
+
+    df_3B_FT_DF_Time_Above_1990_Results_DF = summary_stats(df_3B_FT_DF_Time_Above_1990, "3B", "Post 1990")
+    df_650_FT_DF_Time_Above_1990_Results_DF = summary_stats(df_650_FT_DF_Time_Above_1990, "650M", "Post 1990")
+    df_3B_FT_DF_Time_Below_1990_Results_DF = summary_stats(df_3B_FT_DF_Time_Below_1990, "3B", "Pre 1990")
+    df_650_FT_DF_Time_Below_1990_Results_DF = summary_stats(df_650_FT_DF_Time_Below_1990, "650M", "Pre 1990")
+
+    # Combine all results into a single DataFrame
+    combined_results = pd.concat([df_3B_FT_DF_Time_Above_1990_Results_DF, df_650_FT_DF_Time_Above_1990_Results_DF, df_3B_FT_DF_Time_Below_1990_Results_DF, df_650_FT_DF_Time_Below_1990_Results_DF], ignore_index=True)
+    # Save the combined results to a CSV file
+    combined_results.to_csv("Flu_Summary_Statistics/ESM_vs_Max_Freq_Summary_Fine_Tune_Statistics.csv", index=False)
+
+    return (
+        df_3B_FT_DF_Time_Above_1990_Results_DF,
+        df_3B_FT_DF_Time_Below_1990_Results_DF,
+        df_650_FT_DF_Time_Above_1990_Results_DF,
+        df_650_FT_DF_Time_Below_1990_Results_DF,
+    )
+
+
+@app.cell
+def _(mo):
+    mo.md(r"""### Create fine tune spearman comparisons""")
+    return
+
+
+@app.cell
+def _(
+    df_3B_FT_DF_Time_Above_1990_Results_DF,
+    df_650_FT_DF_Time_Above_1990_Results_DF,
+    pd,
+    plt,
+    sns,
+):
+    #crete fine-tune model comparison figures spearman averages
+    def average_spearman_fine_tune_compare(results_df, base_name):
+
+        model_order = [base_name, f'Fine_Tune_{base_name}']
+
+        palette = {
+            base_name: '#0a2463',
+            f'Fine_Tune_{base_name}': '#f4d35e',
+        }
+
+        results_df['Model'] = pd.Categorical(
+            results_df['Model'], 
+            categories=model_order, 
+            ordered=True
+        )
+
+        results_df = results_df.sort_values('Model')
+
+        #sns.color_palette("pastel")
+
+        sns.barplot(
+            data=results_df, 
+            x='Segment', 
+            y='Spearman Correlation Coefficient between Max Frequency and LL', 
+            hue='Model', 
+            hue_order=model_order,  
+            errorbar=None,
+            palette=palette
+        )
+
+        plt.title(f"Spearman Correlation Coefficient compairing {base_name} fo Fine Tune {base_name}")
+        plt.xlabel("Segment")
+        plt.ylabel("Spearman CC (between Max Freq. and LL)")
+        plt.legend(title="Model",frameon=False, loc='lower left')
+        plt.tight_layout()
+
+        #plt.show()
+        plt.savefig(f"Flu_Figures/Spearman_Summary_Fine_Tune_{base_name}.png", dpi=300)
+        #plt.close()
+        plt.show()
+
+
+    average_spearman_fine_tune_compare(df_3B_FT_DF_Time_Above_1990_Results_DF, "3B")
+    average_spearman_fine_tune_compare(df_650_FT_DF_Time_Above_1990_Results_DF, "650M")
+    return
+
+
+@app.cell
+def _(mo):
+    mo.md(r"""### Spearman Fine Tune Compare 4x4 figure""")
+    return
+
+
+@app.cell
+def _(
+    df_3B_FT_DF_Time_Above_1990_Results_DF,
+    df_3B_FT_DF_Time_Below_1990_Results_DF,
+    df_650_FT_DF_Time_Above_1990_Results_DF,
+    df_650_FT_DF_Time_Below_1990_Results_DF,
+    pd,
+    plt,
+    sns,
+):
+    # Combine all result plots into one 4x4 figure, easier to view
+
+    def plot_spearman_barplot(ax, df, model_order, palette, title, xaxis=""):
+        df['Model'] = pd.Categorical(df['Model'], categories=model_order, ordered=True)
+        df = df.sort_values('Model')
+    
+        sns.barplot(
+            data=df,
+            x='Segment',
+            y='Spearman Correlation Coefficient between Max Frequency and LL',
+            hue='Model',
+            hue_order=model_order,
+            errorbar=None,
+            palette=palette,
+            ax=ax
+        )
+        ax.set_title(title)
+        ax.set_xlabel(xaxis, weight='bold')
+        ax.set_ylabel("Spearman CC (Max Freq. vs LL)", weight='bold')
+        ax.legend(title="Model", frameon=False, loc='lower left')
+
+    def combined_average_spearman_fine_tune_compare(df_3B, df_650M, df_3B_FT, df_650M_FT):
+        model_order_3B = ['3B', 'Fine_Tune_3B']
+        model_order_650M = ['650M', 'Fine_Tune_650M']
+
+        palette_3B = {
+            '3B': '#0a2463',
+            'Fine_Tune_3B': '#f4d35e',
+        }
+
+        palette_650M = {
+            '650M': '#0a2463',
+            'Fine_Tune_650M': '#f4d35e',
+        }
+
+        fig, axes = plt.subplots(2, 2, figsize=(10, 10), sharey=True)
+
+        plot_spearman_barplot(axes[0, 0], df_3B, model_order_3B, palette_3B, "3B vs Fine Tune 3B (Post-1990)", xaxis="")
+        plot_spearman_barplot(axes[0, 1], df_650M, model_order_650M, palette_650M, "650M vs Fine Tune 650M (Post-1990)", xaxis="")
+        plot_spearman_barplot(axes[1, 0], df_3B_FT, model_order_3B, palette_3B, "3B vs Fine Tune 3B (Pre-1990)", xaxis="Segment")
+        plot_spearman_barplot(axes[1, 1], df_650M_FT, model_order_650M, palette_650M, "650M vs Fine Tune 650M (Pre-1990)", xaxis="Segment")
+
+        plt.tight_layout()
+        plt.savefig("Flu_Figures/Combined_Spearman_Fine_Tune_Comparison.png", dpi=300)
+        plt.show()
+
+    combined_average_spearman_fine_tune_compare(df_3B_FT_DF_Time_Above_1990_Results_DF, df_650_FT_DF_Time_Above_1990_Results_DF, df_3B_FT_DF_Time_Below_1990_Results_DF, df_650_FT_DF_Time_Below_1990_Results_DF)
+    return
+
+
+@app.cell
+def _(mo):
+    mo.md(r"""### Calculate spearman CC for each time frame""")
+    return
+
+
+@app.cell
+def _(
+    df_3B_FT_DF_Time,
+    df_3B_FT_EP_5_DF_Time,
+    df_650_FT_DF_Time,
+    df_650_FT_EP_1_LR_1e_05_DF_Time,
+    df_650_FT_EP_1_LR_2_5e_05_DF_Time,
+    df_650_FT_EP_1_LR_5e_06_DF_Time,
+    df_650_FT_EP_5_DF_Time,
+    pd,
+    spearmanr,
+):
+    # calculate spearman cc for each time frame
+
+    def spearman_correlation_calculation(df, x_col, y_col, model_name, segment, time_label):
+        spearman_corr, p_value = spearmanr(df[x_col], df[y_col])
+        return {
+            "Model": model_name,
+            "Segment": segment,
+            "Time_Range": time_label,
+            "Spearman_Correlation": spearman_corr,
+            "P_Value": p_value
+        }
+
+    def spearman_correlation(df, model):
+        results = []
+
+        for segment, group in df.groupby('Segment'):
+            df_segment = df[df['Segment'] == segment]
+
+            if segment == "PA":
+                df_segment = df_segment[df_segment['node'] != 'A/Viamao/LACENRS-974/2015']
+
+            df_segment_FT = df_segment[df_segment["Model"] == f"Fine_Tune_{model}"]
+            df_segment_BS = df_segment[df_segment["Model"] == f"{model}"]
+
+            time_ranges = [
+                (1970, 1990, "1980"),
+                (1980, 2000, "1990"),
+                (1990, 2010, "2000"),
+                (2000, 2020, "2010"),
+                (2010, None, "2020"),
+            ]
+
+            for start, end, label in time_ranges:
+                if end is None:
+                    df_segment_FT_label = df_segment_FT[df_segment_FT['time'] >= start]
+                    df_segment_BS_label = df_segment_BS[df_segment_BS['time'] >= start]
+                else:
+                    df_segment_FT_label = df_segment_FT[(df_segment_FT['time'] >= start) & (df_segment_FT['time'] <= end)]
+                    df_segment_BS_label = df_segment_BS[(df_segment_BS['time'] >= start) & (df_segment_BS['time'] <= end)]
+
+                results.append(spearman_correlation_calculation(df_segment_FT_label, "max_frequency", "log_likelyhood", f"Fine_Tune_{model}", segment, label))
+                results.append(spearman_correlation_calculation(df_segment_BS_label, "max_frequency", "log_likelyhood", model, segment, label))
+
+        return pd.DataFrame(results)
+
+
+    df_3B_FT_DF_Time_spearman = spearman_correlation(df_3B_FT_DF_Time, "3B")
+    df_650_FT_DF_Time_spearman = spearman_correlation(df_650_FT_DF_Time, "650M")
+
+    df_3B_FT_EP_5_DF_Time_spearman = spearman_correlation(df_3B_FT_EP_5_DF_Time, "3B")
+    df_650_FT_EP_5_DF_Time_spearman = spearman_correlation(df_650_FT_EP_5_DF_Time, "650M")
+
+    df_650_FT_EP_1_LR_2_5e_05_DF_Time_spearman = spearman_correlation(df_650_FT_EP_1_LR_2_5e_05_DF_Time, "650M")
+    df_650_FT_EP_1_LR_1e_05_DF_Time_spearman = spearman_correlation(df_650_FT_EP_1_LR_1e_05_DF_Time, "650M")
+    df_650_FT_EP_1_LR_5e_06_DF_Time_spearman = spearman_correlation(df_650_FT_EP_1_LR_5e_06_DF_Time, "650M")
+
+    return (
+        df_3B_FT_DF_Time_spearman,
+        df_3B_FT_EP_5_DF_Time_spearman,
+        df_650_FT_DF_Time_spearman,
+        df_650_FT_EP_1_LR_1e_05_DF_Time_spearman,
+        df_650_FT_EP_1_LR_2_5e_05_DF_Time_spearman,
+        df_650_FT_EP_1_LR_5e_06_DF_Time_spearman,
+        df_650_FT_EP_5_DF_Time_spearman,
+    )
+
+
+@app.cell
+def _(mo):
+    mo.md(r"""### Split base and fine tune dataframes""")
+    return
+
+
+@app.cell
+def _(
+    df_3B_FT_DF_Time_spearman,
+    df_3B_FT_EP_5_DF_Time_spearman,
+    df_650_FT_DF_Time_spearman,
+    df_650_FT_EP_1_LR_1e_05_DF_Time_spearman,
+    df_650_FT_EP_1_LR_2_5e_05_DF_Time_spearman,
+    df_650_FT_EP_1_LR_5e_06_DF_Time_spearman,
+    df_650_FT_EP_5_DF_Time_spearman,
+):
+    df_650_FT_DF_Time_spearman_Base = df_650_FT_DF_Time_spearman[df_650_FT_DF_Time_spearman['Model'] == '650M']
+    df_650_FT_DF_Time_spearman_Fine_Tune = df_650_FT_DF_Time_spearman[df_650_FT_DF_Time_spearman['Model'] == 'Fine_Tune_650M']
+    df_3B_FT_DF_Time_spearman_Base = df_3B_FT_DF_Time_spearman[df_3B_FT_DF_Time_spearman['Model'] == '3B']
+    df_3B_FT_DF_Time_spearman_Fine_Tune = df_3B_FT_DF_Time_spearman[df_3B_FT_DF_Time_spearman['Model'] == 'Fine_Tune_3B']
+
+    df_650_FT_EP_5_DF_Time_spearman_Base = df_650_FT_EP_5_DF_Time_spearman[df_650_FT_EP_5_DF_Time_spearman['Model'] == '650M']
+    df_650_FT_EP_5_DF_Time_spearman_Fine_Tune = df_650_FT_EP_5_DF_Time_spearman[df_650_FT_EP_5_DF_Time_spearman['Model'] == 'Fine_Tune_650M']
+    df_3B_FT_EP_5_DF_Time_spearman_Base = df_3B_FT_EP_5_DF_Time_spearman[df_3B_FT_EP_5_DF_Time_spearman['Model'] == '3B']
+    df_3B_FT_EP_5_DF_Time_spearman_Fine_Tune = df_3B_FT_EP_5_DF_Time_spearman[df_3B_FT_EP_5_DF_Time_spearman['Model'] == 'Fine_Tune_3B']
+
+
+    df_650_FT_EP_1_LR_2_5e_05_DF_Time_spearman_Base = df_650_FT_EP_1_LR_2_5e_05_DF_Time_spearman[df_650_FT_EP_1_LR_2_5e_05_DF_Time_spearman['Model'] == '650M']
+    df_650_FT_EP_1_LR_2_5e_05_DF_Time_spearman_Fine_Tune = df_650_FT_EP_1_LR_2_5e_05_DF_Time_spearman[df_650_FT_EP_1_LR_2_5e_05_DF_Time_spearman['Model'] == 'Fine_Tune_650M']
+    df_650_FT_EP_1_LR_1e_05_DF_Time_spearman_Base = df_650_FT_EP_1_LR_1e_05_DF_Time_spearman[df_650_FT_EP_1_LR_1e_05_DF_Time_spearman['Model'] == '650M']
+    df_650_FT_EP_1_LR_1e_05_DF_Time_spearman_Fine_Tune = df_650_FT_EP_1_LR_1e_05_DF_Time_spearman[df_650_FT_EP_1_LR_1e_05_DF_Time_spearman['Model'] == 'Fine_Tune_650M']
+    df_650_FT_EP_1_LR_5e_06_DF_Time_spearman_Base = df_650_FT_EP_1_LR_5e_06_DF_Time_spearman[df_650_FT_EP_1_LR_5e_06_DF_Time_spearman['Model'] == '650M']
+    df_650_FT_EP_1_LR_5e_06_DF_Time_spearman_Fine_Tune = df_650_FT_EP_1_LR_5e_06_DF_Time_spearman[df_650_FT_EP_1_LR_5e_06_DF_Time_spearman['Model'] == 'Fine_Tune_650M']
+
+    return (
+        df_3B_FT_DF_Time_spearman_Base,
+        df_3B_FT_DF_Time_spearman_Fine_Tune,
+        df_3B_FT_EP_5_DF_Time_spearman_Fine_Tune,
+        df_650_FT_DF_Time_spearman_Base,
+        df_650_FT_DF_Time_spearman_Fine_Tune,
+        df_650_FT_EP_1_LR_1e_05_DF_Time_spearman_Fine_Tune,
+        df_650_FT_EP_1_LR_2_5e_05_DF_Time_spearman_Fine_Tune,
+        df_650_FT_EP_1_LR_5e_06_DF_Time_spearman_Fine_Tune,
+        df_650_FT_EP_5_DF_Time_spearman_Fine_Tune,
+    )
+
+
+@app.cell
+def _(mo):
+    mo.md(r"""### Create spearman CC lineplots base vs ft for 650M and 3B""")
+    return
+
+
+@app.cell
+def _(
+    df_3B_FT_DF_Time_spearman_Base,
+    df_3B_FT_DF_Time_spearman_Fine_Tune,
+    df_3B_FT_EP_5_DF_Time_spearman_Fine_Tune,
+    df_650_FT_DF_Time_spearman_Base,
+    df_650_FT_DF_Time_spearman_Fine_Tune,
+    df_650_FT_EP_5_DF_Time_spearman_Fine_Tune,
+    np,
+    plt,
+    sns,
+):
+    def create_spearman_lineplots():
+        def plot_spearman_lineplot(df, model_name, ax, xaxis):
+
+            sns.set_style("whitegrid")
+            custom_params = {"axes.spines.right": False, "axes.spines.top": False}
+            sns.set_theme(style="ticks", rc=custom_params)
+            #sns.set_palette("pastel")
+        
+            lineplot = sns.lineplot(
+                data=df,
+                x='Time_Range',
+                y='Spearman_Correlation',
+                hue='Segment',
+                ax=ax,
+                marker="o",
+                legend=False,
+                zorder=1
+            )
+
+            ax.set_title(model_name)
+            ax.set_xlabel("")
+            ax.set_ylabel("")
+
+            label_positions = []  
+            pos = 0
+
+            for line, segment in zip(ax.lines, df['Segment'].unique()):
+
+                if pos == 0:
+                    y = line.get_ydata()[-2]
+                    x = line.get_xdata()[-2]
+                    pos = 1
+                elif pos == 1:
+                    y = line.get_ydata()[-1]
+                    x = line.get_xdata()[-1]
+                    pos = 0
+
+                #x = line.get_xdata()[-1]
+                if not np.isfinite(y) or not np.isfinite(x):
+                    continue
+
+                while any(abs(y - pos) < 0.025 for pos in label_positions):  
+                    y += 0.007  
+
+                label_positions.append(y)  
+
+                ax.annotate(
+                    segment,
+                    xy=(x, y),
+                    xytext=(5, 0),  
+                    textcoords="offset points",
+                    color=line.get_color(),
+                    fontsize=12,
+                    weight='bold',
+                    ha='left',  
+                    va='center',
+                    zorder=2,
+                )
+
+
+
+        fig, axes = plt.subplots(2, 2, figsize=(10, 10), sharey=True)
+
+        fig.text(0.5, 0.05, "Time Range", ha='center', va="top", fontsize=12, weight='bold')
+        fig.text(0.05, 0.57, "Spearman Correlation", ha='center', va="top", rotation='vertical', fontsize=12, weight='bold')
+
+        fig.suptitle('Spearman Correlation Coefficient for 30 Year Sliding Window Incrementing By 10 Years', fontsize=14, weight='bold',  y=0.95)
+
+        plot_spearman_lineplot(df_650_FT_DF_Time_spearman_Base, " Base - 650M Model", axes[0,0], xaxis="")
+        plot_spearman_lineplot(df_650_FT_DF_Time_spearman_Fine_Tune, "Fine Tune Before 1990 - 650M Model", axes[1,0], xaxis="Time Range")
+        plot_spearman_lineplot(df_3B_FT_DF_Time_spearman_Base, "Base - 3B Model", axes[0,1], xaxis="")
+        plot_spearman_lineplot(df_3B_FT_DF_Time_spearman_Fine_Tune, "Fine Tune Before 1990 - 3B Model", axes[1,1], xaxis="Time Range")
+
+        #plt.tight_layout()
+        #plt.subplots_adjust(left=0.1, right=0.95, top=0.9, bottom=0.15)
+        plt.savefig("Flu_Figures/Spearman_Correlation_Comparison_Fine_Tune_time_range.png", dpi=300)
+        plt.show()
+
+        fig, axes = plt.subplots(2, 2, figsize=(10, 10), sharey=True)
+
+        fig.text(0.5, 0.05, "Time Range", ha='center', va="top", fontsize=12, weight='bold')
+        fig.text(0.05, 0.57, "Spearman Correlation", ha='center', va="top", rotation='vertical', fontsize=12, weight='bold')
+
+        fig.suptitle('Spearman CC 30 Year Sliding Window - Comparing 1 vs 5 Epochs Fine Tune Models', fontsize=14, weight='bold',  y=0.95)
+
+        plot_spearman_lineplot(df_650_FT_DF_Time_spearman_Fine_Tune, "Fine Tune Before 1990 - 650M Model - Epochs 1", axes[0,0], xaxis="Time Range")
+        plot_spearman_lineplot(df_650_FT_EP_5_DF_Time_spearman_Fine_Tune, "Fine Tune Before 1990 - 650M Model - Epochs 5", axes[1,0], xaxis="Time Range")
+        plot_spearman_lineplot(df_3B_FT_DF_Time_spearman_Fine_Tune, "Fine Tune Before 1990 - 3B Model - Epochs 1", axes[0,1], xaxis="Time Range")
+        plot_spearman_lineplot(df_3B_FT_EP_5_DF_Time_spearman_Fine_Tune, "Fine Tune Before 1990 - 3B Model - Epochs 5", axes[1,1], xaxis="Time Range")
+
+        plt.show()
+    
+        return plt.savefig("Flu_Figures/Spearman_Correlation_Comparison_Fine_Tune_time_range_Epoch_5.png", dpi=300)
+
+
+    create_spearman_lineplots()
+    return
+
+
+@app.cell
+def _(mo):
+    mo.md(r"""### Combined Spearman Summary""")
+    return
+
+
+@app.cell
+def _(
+    df_3B_FT_DF_Time_spearman_Base,
+    df_3B_FT_DF_Time_spearman_Fine_Tune,
+    df_3B_FT_EP_5_DF_Time_spearman_Fine_Tune,
+    df_650_FT_DF_Time_spearman_Base,
+    df_650_FT_DF_Time_spearman_Fine_Tune,
+    df_650_FT_EP_1_LR_1e_05_DF_Time_spearman_Fine_Tune,
+    df_650_FT_EP_1_LR_2_5e_05_DF_Time_spearman_Fine_Tune,
+    df_650_FT_EP_1_LR_5e_06_DF_Time_spearman_Fine_Tune,
+    df_650_FT_EP_5_DF_Time_spearman_Fine_Tune,
+    pd,
+):
+    def mean_spearman_segments(df, model_name):
+        df_Fine_Tune_Summary = df.groupby('Time_Range', as_index=False)['Spearman_Correlation'].mean()
+        df_Fine_Tune_Summary["Model"] = model_name 
+
+        return df_Fine_Tune_Summary
+
+    df_3B_FT_DF_Time_spearman_Fine_Tune_Summary = mean_spearman_segments(df_3B_FT_DF_Time_spearman_Fine_Tune, "Fine Tune - 3B Model")
+    df_650_FT_DF_Time_spearman_Fine_Tune_Summary = mean_spearman_segments(df_650_FT_DF_Time_spearman_Fine_Tune, "Fine Tune - 650M Model")
+    df_3B_FT_EP_5_DF_Time_spearman_Fine_Tune_Summary = mean_spearman_segments(df_3B_FT_EP_5_DF_Time_spearman_Fine_Tune, "Fine Tune - 3B Model - Epochs 5")
+    df_650_FT_EP_5_DF_Time_spearman_Fine_Tune_Summary = mean_spearman_segments(df_650_FT_EP_5_DF_Time_spearman_Fine_Tune, "Fine Tune - 650M Model - Epochs 5")
+    df_3B_DF_Time_Spearman_Summary = mean_spearman_segments(df_3B_FT_DF_Time_spearman_Base, "Base - 3B Model")
+    df_650_DF_Time_Spearman_Summary = mean_spearman_segments(df_650_FT_DF_Time_spearman_Base, "Base - 650M Model")
+
+    df_650_FT_EP_1_LR_2_5e_05_DF_Time_spearman_Fine_Tune_Summary = mean_spearman_segments(df_650_FT_EP_1_LR_2_5e_05_DF_Time_spearman_Fine_Tune, "Fine Tune - 650M Model - LR 2.5e-05")
+    df_650_FT_EP_1_LR_1e_05_DF_Time_spearman_Fine_Tune_Summary = mean_spearman_segments(df_650_FT_EP_1_LR_1e_05_DF_Time_spearman_Fine_Tune, "Fine Tune - 650M Model - LR 1e-05")
+    df_650_FT_EP_1_LR_5e_06_DF_Time_spearman_Fine_Tune_Summary = mean_spearman_segments(df_650_FT_EP_1_LR_5e_06_DF_Time_spearman_Fine_Tune, "Fine Tune - 650M Model - LR 1e-06")
+
+    combined_spearman_summary = pd.concat([
+        df_3B_FT_DF_Time_spearman_Fine_Tune_Summary,
+        df_650_FT_DF_Time_spearman_Fine_Tune_Summary,
+        df_3B_FT_EP_5_DF_Time_spearman_Fine_Tune_Summary,
+        df_650_FT_EP_5_DF_Time_spearman_Fine_Tune_Summary,
+        df_3B_DF_Time_Spearman_Summary,
+        df_650_DF_Time_Spearman_Summary,
+        df_650_FT_EP_1_LR_2_5e_05_DF_Time_spearman_Fine_Tune_Summary,
+        df_650_FT_EP_1_LR_1e_05_DF_Time_spearman_Fine_Tune_Summary,
+        df_650_FT_EP_1_LR_5e_06_DF_Time_spearman_Fine_Tune_Summary
+    ], ignore_index=True)
+
+    combined_spearman_summary
+    return (combined_spearman_summary,)
+
+
+@app.cell
+def _(mo):
+    mo.md(r"""### Combined spearman summary plot""")
+    return
+
+
+@app.cell
+def _(combined_spearman_summary, np, plt, sns):
+    def create_spearman_summary_plot():
+        sns.set_style("whitegrid")
+        custom_params = {"axes.spines.right": False, "axes.spines.top": False}
+        sns.set_theme(style="ticks", rc=custom_params)
+
+        fig, ax = plt.subplots(figsize=(10, 5))
+
+        ax = sns.lineplot(
+            data=combined_spearman_summary,
+            x='Time_Range',
+            y='Spearman_Correlation',
+            hue='Model',
+            marker="o",
+            legend=False,
+            zorder=1,
+            ax=ax
+        )
+
+        ax.set_title("Spearman CC Summary All Models")
+        ax.set_xlabel("Time Range")
+        ax.set_ylabel("Spearman CC")
+
+        label_positions = []  
+        pos = 0
+
+        for line, model in zip(ax.lines, combined_spearman_summary['Model'].unique()):
+
+            y = line.get_ydata()[-1]
+            x = line.get_xdata()[-1]
+
+            if not np.isfinite(y) or not np.isfinite(x):
+                continue
+
+            if(model == "Base - 3B Model" or model == "Base - 650M Model"):
+                y = line.get_ydata()[-4]
+                x = line.get_xdata()[-4]
+            if(model == "Fine Tune - 650M Model - LR 2.5e-05" or model == "Fine Tune - 650M Model - LR 1e-05" or model == "Fine Tune - 650M Model - LR 1e-06"):
+                y = line.get_ydata()[-3]
+                x = line.get_xdata()[-3]
+            else:
+                while any(abs(y - pos) < 0.025 for pos in label_positions):  
+                    y += 0.007  
+
+            label_positions.append(y)  
+
+            ax.annotate(
+                model,
+                xy=(x, y),
+                xytext=(5, 0),  
+                textcoords="offset points",
+                color=line.get_color(),
+                fontsize=12,
+                weight='bold',
+                ha='left',  
+                va='center',
+                zorder=2,
+            )
+
+        plt.tight_layout()
+        plt.show()
+    
+        return plt.savefig("Flu_Figures/Spearman_Correlation_Comparison_All_Models.png", dpi=300, bbox_inches='tight')
+
+
+    create_spearman_summary_plot()
+    return
+
+
+@app.cell
+def _(mo):
+    mo.md(r"""### Individual ESM vs Time Scatterplot""")
+    return
+
+
+@app.cell
+def _(cm, colorsys, df_3B_FT_DF_Time, df_650_FT_DF_Time, os, plt):
+    def esm_vs_time_scatterplot_seperate(model_df, model_name):
+        for segment, group in model_df.groupby('Segment'):
+
+                def darken_color(rgb, factor=0.7):
+                    h, l, s = colorsys.rgb_to_hls(*rgb)
+                    r, g, b = colorsys.hls_to_rgb(h, max(0, l * factor), s)
+                    return (r, g, b, 1.0)
+
+                def plot_esm_score(ax, df, title, Fine_Tune=False):
+                    norm = plt.Normalize(df["log_likelyhood"].min(), df["log_likelyhood"].max())
+                    cmap = plt.get_cmap("viridis")
+                    colors = cmap(norm(df["log_likelyhood"]))
+                    edgecolors = [darken_color(c[:3], factor=0.7) for c in colors]
+                    sc = ax.scatter(
+                        df["time"],
+                        df["log_likelyhood"],
+                        c=colors,
+                        edgecolors=edgecolors,
+                        linewidths=0.5,
+                        alpha=0.7,
+                        zorder=1
+                    )
+
+                    high_freq_df = df[df["max_frequency"] >= 1].sort_values("time")
+                    ax.plot(
+                        high_freq_df["time"],
+                        high_freq_df["log_likelyhood"],
+                        linestyle='-',
+                        color='black',
+                        linewidth=3,
+                        alpha=0.6,
+                        label='Max Freq ≥ 0.99',
+                        zorder=2
+                    )
+
+                    sm = cm.ScalarMappable(cmap=cmap, norm=norm)
+                    sm.set_array([])
+                    cbar = plt.colorbar(sm, ax=ax, orientation='vertical')
+                    ax.set_title(title)
+                    if Fine_Tune:
+                        ax.axvline(1990, color='gray', linestyle='--', linewidth=1.5)
+                    ax.set_ylabel("ESM Score")
+                    ax.grid(True, color='lightgray', linestyle='-', linewidth=0.75)
+                    ax.spines[['right', 'top']].set_visible(False)
+                    return ax
+
+                df1 = model_df[model_df['Model'] == f"Fine_Tune_{model_name}"]
+                df1 = df1[df1['Segment'] == segment]
+                if segment == "PA":
+                    df1 = df1[df1['node'] != 'A/Viamao/LACENRS-974/2015']
+
+                df2 = model_df[model_df['Model'] == model_name]
+                df2 = df2[df2['Segment'] == segment]
+
+                if segment == "PA":
+                    df2 = df2[df2['node'] != 'A/Viamao/LACENRS-974/2015']
+
+                fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(10, 12), sharex=True)
+                plot_esm_score(ax1, df1, f"{segment.upper()} - 3B Fine Tune Model", Fine_Tune=True)
+                plot_esm_score(ax2, df2, f"{segment.upper()} - 3B Base Model")
+                ax2.set_xlabel("Date")
+
+                os.makedirs(f"Flu_Figures/Combined_{model_name}_v_{model_name}_TN_Scatterplots/", exist_ok=True)
+                plt.savefig(f"Flu_Figures/Combined_{model_name}_v_{model_name}_TN_Scatterplots/{segment}_{model_name}_v_{model_name}_TN_Scatterplots.png", dpi=300)
+
+                plt.tight_layout()
+                plt.show()
+
+    esm_vs_time_scatterplot_seperate(df_3B_FT_DF_Time, "3B")
+    esm_vs_time_scatterplot_seperate(df_650_FT_DF_Time, "650M")
+    return
+
+
+@app.cell
+def _(mo):
+    mo.md(r"""### Combined ESM vs TIme Scatterplot""")
+    return
+
+
+@app.cell
+def _(cm, colorsys, df_3B_FT_DF_Time, df_650_FT_DF_Time, plt):
+    #combine exm v time into 4x4 grid
+
+    def darken_color(rgb, factor=0.7):
+        h, l, s = colorsys.rgb_to_hls(*rgb)
+        r, g, b = colorsys.hls_to_rgb(h, max(0, l * factor), s)
+        return (r, g, b, 1.0)
+
+    def plot_esm_score(ax, df, title, Fine_Tune=False):
+        norm = plt.Normalize(df["log_likelyhood"].min(), df["log_likelyhood"].max())
+        cmap = plt.get_cmap("viridis")
+        colors = cmap(norm(df["log_likelyhood"]))
+        edgecolors = [darken_color(c[:3], factor=0.7) for c in colors]
+        sc = ax.scatter(
+            df["time"],
+            df["log_likelyhood"],
+            c=colors,
+            edgecolors=edgecolors,
+            linewidths=0.5,
+            alpha=0.7,
+            zorder=1
+        )
+        high_freq_df = df[df["max_frequency"] >= 1].sort_values("time")
+        ax.plot(
+            high_freq_df["time"],
+            high_freq_df["log_likelyhood"],
+            linestyle='-',
+            color='black',
+            linewidth=3,
+            alpha=0.6,
+            label='Max Freq ≥ 0.99',
+            zorder=2
+        )
+        sm = cm.ScalarMappable(cmap=cmap, norm=norm)
+        sm.set_array([])
+        plt.colorbar(sm, ax=ax, orientation='vertical')
+        ax.set_title(title)
+        if Fine_Tune:
+            ax.axvline(1990, color='gray', linestyle='--', linewidth=1.5)
+        ax.set_ylabel("ESM Score")
+        ax.grid(True, color='lightgray', linestyle='-', linewidth=0.75)
+        ax.spines[['right', 'top']].set_visible(False)
+        return ax
+
+    def esm_vs_time_4x4_grid(model_df, model_name):
+        segments = sorted(model_df['Segment'].unique())
+        fig, axs = plt.subplots(4, 4, figsize=(20, 13), sharex=True)
+        axs = axs.flatten()
+
+        for i, segment in enumerate(segments):
+            df1 = model_df[(model_df['Model'] == f"Fine_Tune_{model_name}") & (model_df['Segment'] == segment)]
+            df2 = model_df[(model_df['Model'] == model_name) & (model_df['Segment'] == segment)]
+
+            if segment == "PA":
+                df1 = df1[df1['node'] != 'A/Viamao/LACENRS-974/2015']
+                df2 = df2[df2['node'] != 'A/Viamao/LACENRS-974/2015']
+
+            ax1 = axs[2*i]
+            ax2 = axs[2*i + 1]
+            plot_esm_score(ax1, df1, f"{segment.upper()} - {model_name} Fine Tune", Fine_Tune=True)
+            plot_esm_score(ax2, df2, f"{segment.upper()} - {model_name} Base")
+
+            if i >= 6:  
+                ax2.set_xlabel("Date")
+
+        plt.tight_layout()
+        #os.makedirs(f"Flu_Figures/Combined_{model_name}_Grid/", exist_ok=True)
+        #plt.savefig(f"Flu_Figures/Combined_{model_name}_Grid/{model_name}_4x4_grid.png", dpi=300)
+        plt.savefig(f"Flu_Figures/{model_name}_4x4_grid.png", dpi=300)
+        plt.show()
+
+    esm_vs_time_4x4_grid(df_3B_FT_DF_Time, "3B")
+    esm_vs_time_4x4_grid(df_650_FT_DF_Time, "650M")
+
+    return
+
+
+@app.cell
+def _(mo):
+    mo.md(r"""### Create time series dataframes""")
+    return
+
+
+@app.cell
+def _(load_fine_tune_results):
+    df_650M_FT_DF_Time_1990_LR_5e_05 = load_fine_tune_results(
+        "next_tree~h3n2",
+        "epochs~1",
+        "learning_rate~5e-05",
+        "model~esm2_t33_650M_UR50D",
+        "time~1990",
+    )
+
+    df_650M_FT_DF_Time_1995_LR_5e_05 = load_fine_tune_results(
+        "next_tree~h3n2",
+        "epochs~1",
+        "learning_rate~5e-05",
+        "model~esm2_t33_650M_UR50D",
+        "time~1995",
+    )
+
+    df_650M_FT_DF_Time_2000_LR_5e_05 = load_fine_tune_results(
+        "next_tree~h3n2",
+        "epochs~1",
+        "learning_rate~5e-05",
+        "model~esm2_t33_650M_UR50D",
+        "time~2000",
+    )
+
+    df_650M_FT_DF_Time_2005_LR_5e_05 = load_fine_tune_results(
+        "next_tree~h3n2",
+        "epochs~1",
+        "learning_rate~5e-05",
+        "model~esm2_t33_650M_UR50D",
+        "time~2005",
+    )
+
+    df_650M_FT_DF_Time_2010_LR_5e_05 = load_fine_tune_results(
+        "next_tree~h3n2",
+        "epochs~1",
+        "learning_rate~5e-05",
+        "model~esm2_t33_650M_UR50D",
+        "time~2010",
+    )
+
+    return (
+        df_650M_FT_DF_Time_1990_LR_5e_05,
+        df_650M_FT_DF_Time_1995_LR_5e_05,
+        df_650M_FT_DF_Time_2000_LR_5e_05,
+        df_650M_FT_DF_Time_2005_LR_5e_05,
+        df_650M_FT_DF_Time_2010_LR_5e_05,
+    )
+
+
+@app.cell
+def _(mo):
+    mo.md(r"""### Combine time series dataframes""")
+    return
+
+
+@app.cell
+def _(
+    df_650M_FT_DF_Time_1990_LR_5e_05,
+    df_650M_FT_DF_Time_1995_LR_5e_05,
+    df_650M_FT_DF_Time_2000_LR_5e_05,
+    df_650M_FT_DF_Time_2005_LR_5e_05,
+    df_650M_FT_DF_Time_2010_LR_5e_05,
+    pd,
+):
+    df_650M_FT_DF_Time_1990_LR_5e_05["Model_training_time"] = 1990
+    df_650M_FT_DF_Time_1995_LR_5e_05["Model_training_time"] = 1995
+    df_650M_FT_DF_Time_2000_LR_5e_05["Model_training_time"] = 2000
+    df_650M_FT_DF_Time_2005_LR_5e_05["Model_training_time"] = 2005
+    df_650M_FT_DF_Time_2010_LR_5e_05["Model_training_time"] = 2010
+
+    df_650_FT_DF_Time_Series_Validation = pd.concat([
+        df_650M_FT_DF_Time_1990_LR_5e_05,
+        df_650M_FT_DF_Time_1995_LR_5e_05,
+        df_650M_FT_DF_Time_2000_LR_5e_05,
+        df_650M_FT_DF_Time_2005_LR_5e_05,
+        df_650M_FT_DF_Time_2010_LR_5e_05,
+    ], ignore_index=True)
+    return (df_650_FT_DF_Time_Series_Validation,)
+
+
+@app.cell
+def _(mo):
+    mo.md(r"""### Add time to time series dataframe""")
+    return
+
+
+@app.cell
+def _(df_650_FT_DF_Time_Series_Validation, merge_time):
+    df_650_FT_DF_Time_Series_Validation_Time = merge_time(df_650_FT_DF_Time_Series_Validation, "h3n2")
+    return (df_650_FT_DF_Time_Series_Validation_Time,)
+
+
+@app.cell
+def _(mo):
+    mo.md(r"""### Separate and filter time series dataframe""")
+    return
+
+
+@app.cell
+def _(df_650_FT_DF_Time_Series_Validation_Time):
+    df_650_FT_DF_Time_Series_Validation_Time_1991_1 = df_650_FT_DF_Time_Series_Validation_Time[(df_650_FT_DF_Time_Series_Validation_Time['time'] >= 1991) & (df_650_FT_DF_Time_Series_Validation_Time['time'] <= 2001) & (df_650_FT_DF_Time_Series_Validation_Time['Model_training_time'] == 1991)]
+    df_650_FT_DF_Time_Series_Validation_Time_1991_2 = df_650_FT_DF_Time_Series_Validation_Time[(df_650_FT_DF_Time_Series_Validation_Time['time'] >= 2001) & (df_650_FT_DF_Time_Series_Validation_Time['time'] <= 2011) & (df_650_FT_DF_Time_Series_Validation_Time['Model_training_time'] == 1991)]
+    df_650_FT_DF_Time_Series_Validation_Time_1991_3 = df_650_FT_DF_Time_Series_Validation_Time[(df_650_FT_DF_Time_Series_Validation_Time['time'] >= 2011) & (df_650_FT_DF_Time_Series_Validation_Time['time'] <= 2021) & (df_650_FT_DF_Time_Series_Validation_Time['Model_training_time'] == 1991)]
+
+    df_650_FT_DF_Time_Series_Validation_Time_1996_1 = df_650_FT_DF_Time_Series_Validation_Time[(df_650_FT_DF_Time_Series_Validation_Time['time'] >= 1996) & (df_650_FT_DF_Time_Series_Validation_Time['time'] <= 2006) & (df_650_FT_DF_Time_Series_Validation_Time['Model_training_time'] == 1996)]
+    df_650_FT_DF_Time_Series_Validation_Time_1996_2 = df_650_FT_DF_Time_Series_Validation_Time[(df_650_FT_DF_Time_Series_Validation_Time['time'] >= 2006) & (df_650_FT_DF_Time_Series_Validation_Time['time'] <= 2016) & (df_650_FT_DF_Time_Series_Validation_Time['Model_training_time'] == 1996)]
+    df_650_FT_DF_Time_Series_Validation_Time_1996_3 = df_650_FT_DF_Time_Series_Validation_Time[(df_650_FT_DF_Time_Series_Validation_Time['time'] >= 2016) & (df_650_FT_DF_Time_Series_Validation_Time['Model_training_time'] == 1996)]
+
+    df_650_FT_DF_Time_Series_Validation_Time_2001_1 = df_650_FT_DF_Time_Series_Validation_Time[(df_650_FT_DF_Time_Series_Validation_Time['time'] >= 2001) & (df_650_FT_DF_Time_Series_Validation_Time['time'] <= 2011) & (df_650_FT_DF_Time_Series_Validation_Time['Model_training_time'] == 2001)]
+    df_650_FT_DF_Time_Series_Validation_Time_2001_2 = df_650_FT_DF_Time_Series_Validation_Time[(df_650_FT_DF_Time_Series_Validation_Time['time'] >= 2011) & (df_650_FT_DF_Time_Series_Validation_Time['time'] <= 2021) & (df_650_FT_DF_Time_Series_Validation_Time['Model_training_time'] == 2001)]
+    df_650_FT_DF_Time_Series_Validation_Time_2001_3 = df_650_FT_DF_Time_Series_Validation_Time[(df_650_FT_DF_Time_Series_Validation_Time['time'] >= 2021) & (df_650_FT_DF_Time_Series_Validation_Time['Model_training_time'] == 2001)]
+
+    df_650_FT_DF_Time_Series_Validation_Time_2006_1 = df_650_FT_DF_Time_Series_Validation_Time[(df_650_FT_DF_Time_Series_Validation_Time['time'] >= 2006) & (df_650_FT_DF_Time_Series_Validation_Time['time'] <= 2016) & (df_650_FT_DF_Time_Series_Validation_Time['Model_training_time'] == 2006)]
+    df_650_FT_DF_Time_Series_Validation_Time_2006_2 = df_650_FT_DF_Time_Series_Validation_Time[(df_650_FT_DF_Time_Series_Validation_Time['time'] >= 2016) & (df_650_FT_DF_Time_Series_Validation_Time['Model_training_time'] == 2006)]
+
+    df_650_FT_DF_Time_Series_Validation_Time_2011_1 = df_650_FT_DF_Time_Series_Validation_Time[(df_650_FT_DF_Time_Series_Validation_Time['time'] >= 2011) & (df_650_FT_DF_Time_Series_Validation_Time['time'] <= 2021) & (df_650_FT_DF_Time_Series_Validation_Time['Model_training_time'] == 2011)]
+    df_650_FT_DF_Time_Series_Validation_Time_2011_2 = df_650_FT_DF_Time_Series_Validation_Time[(df_650_FT_DF_Time_Series_Validation_Time['time'] >= 2021) & (df_650_FT_DF_Time_Series_Validation_Time['Model_training_time'] == 2011)]
+    return
+
+
+@app.cell
+def _(mo):
+    mo.md(r"""### Calculate spearman CC for each time frame """)
+    return
+
+
+@app.cell
+def _(df_650_FT_DF_Time_Series_Validation_Time, pd, spearmanr):
+    def calculate_time_series_cross_df():
+        time_bins = {
+            "1990": [(1990, 2000), (2000, 2010), (2010, 2020)],
+            "1995": [(1995, 2005), (2005, 2015), (2015, None)],
+            "2000": [(2000, 2010), (2010, 2020), (2020, None)],
+            "2005": [(2005, 2015), (2015, None)],
+            "2010": [(2010, 2020), (2020, None)]
+        }
+
+        results = []
+
+        for start_year, ranges in time_bins.items():
+            for idx, (start, end) in enumerate(ranges, 1):
+                if end is None:
+                    df_bin = df_650_FT_DF_Time_Series_Validation_Time[
+                    (df_650_FT_DF_Time_Series_Validation_Time['time'] >= start) &
+                    (df_650_FT_DF_Time_Series_Validation_Time['Model_training_time'] == int(start_year))
+                    ]
+                else:
+                    df_bin = df_650_FT_DF_Time_Series_Validation_Time[
+                        (df_650_FT_DF_Time_Series_Validation_Time['time'] >= start) &
+                        (df_650_FT_DF_Time_Series_Validation_Time['time'] <= end) &
+                        (df_650_FT_DF_Time_Series_Validation_Time['Model_training_time'] == int(start_year))
+                    ]
+
+
+                corr, _ = spearmanr(df_bin['max_frequency'], df_bin['log_likelyhood'])
+
+
+                results.append({
+                    "start_year": start_year,
+                    "bin_index": idx,
+                    "range": f"{start}-{end if end else '2025'}",
+                    "spearman_corr": corr
+                })
+
+        spearman_df = pd.DataFrame(results)
+        return spearman_df
+
+
+    spearman_df = calculate_time_series_cross_df()
+    return (spearman_df,)
+
+
+@app.cell
+def _(spearman_df):
+    spearman_df
+    return
+
+
+@app.cell
+def _(mo):
+    mo.md(r"""### Create time series cross validation plot""")
+    return
+
+
+@app.cell
+def _(plt, sns, spearman_df):
+    def create_time_series_plot():
+        unique_years = spearman_df['start_year'].unique()
+        n_years = len(unique_years)
+
+        fig, axes = plt.subplots(1, n_years, figsize=(5 * n_years, 5), sharey=True)
+
+        if n_years == 1:
+            axes = [axes]
+
+        for ax, year in zip(axes, unique_years):
+            subset = spearman_df[spearman_df['start_year'] == year]
+            sns.barplot(data=subset, x='range', y='spearman_corr', hue='range', palette="viridis", errorbar=None, ax=ax)
+            ax.set_title(f"Model Trained up to: {int(year)}")
+            ax.set_xlabel("Time Range")
+            ax.set_ylabel("Spearman Correlation Coefficient")
+
+        plt.tight_layout()
+    
+        plt.show()
+    
+        return plt.savefig("Flu_Figures/Spearman_Correlation_Comparison_Fine_Tune_time_series_cross_validation.png", dpi=300, bbox_inches='tight')
+
+
+    create_time_series_plot()
+    return
+
+
+@app.cell
+def _(mo):
+    mo.md(r"""### Load small and large fine tune trees trained on 2005 and 2020""")
+    return
+
+
+@app.cell
+def _(load_fine_tune_results, pd):
+    df_SM_Tree_2005 = load_fine_tune_results(
+        "next_tree~h3n2",
+        "epochs~1",
+        "learning_rate~5e-05",
+        "model~esm2_t33_650M_UR50D",
+        "time~2005",
+    )
+
+    df_LG_Tree_2005 = load_fine_tune_results(
+        "next_tree~h3n2-Large",
+        "epochs~1",
+        "learning_rate~5e-05",
+        "model~esm2_t33_650M_UR50D",
+        "time~2005",
+    )
+
+    df_SM_Tree_2020 = load_fine_tune_results(
+        "next_tree~h3n2",
+        "epochs~1",
+        "learning_rate~5e-05",
+        "model~esm2_t33_650M_UR50D",
+        "time~2020",
+    )
+
+    df_LG_Tree_2020 = load_fine_tune_results(
+        "next_tree~h3n2-Large",
+        "epochs~1",
+        "learning_rate~5e-05",
+        "model~esm2_t33_650M_UR50D",
+        "time~2020",
+    )
+
+    df_both_trees_2005 = pd.concat([df_SM_Tree_2005, df_LG_Tree_2005], ignore_index=True)
+    df_both_trees_2020 = pd.concat([df_SM_Tree_2020, df_LG_Tree_2020], ignore_index=True)
+    return df_both_trees_2005, df_both_trees_2020
+
+
+@app.cell
+def _(mo):
+    mo.md(r"""### Add time to small and large trees""")
+    return
+
+
+@app.cell
+def _(df_both_trees_2005, df_both_trees_2020, merge_time, pd):
+    df_SM_Tree_Time_2005 = merge_time(df_both_trees_2005, "h3n2")
+    df_LG_Tree_Time_2005 = merge_time(df_both_trees_2005, "h3n2-Large")
+    df_SM_Tree_Time_2020 = merge_time(df_both_trees_2020, "h3n2")
+    df_LG_Tree_Time_2020 = merge_time(df_both_trees_2020, "h3n2-Large")
+
+    df_both_trees_Time_2005 = pd.concat([df_SM_Tree_Time_2005, df_LG_Tree_Time_2005], ignore_index=True)
+    df_both_trees_Time_2020 = pd.concat([df_SM_Tree_Time_2020, df_LG_Tree_Time_2020], ignore_index=True)
+    return df_both_trees_Time_2005, df_both_trees_Time_2020
+
+
+@app.cell
+def _(mo):
+    mo.md(r"""### Create small and large tree plots for 2005 and 2020""")
+    return
+
+
+@app.cell
+def _(
+    df_both_trees_Time_2005,
+    df_both_trees_Time_2020,
+    gridspec,
+    os,
+    plt,
+    re,
+    sns,
+    spearmanr,
+):
+    #Create fine tune vs base model figures
+
+    def max_freq_LL_figures_small_vs_large_tree(dataset, model, time):
+
+        sns.set_theme(style="whitegrid")
+        sns.set_style("ticks")
+
+        output_dir = os.path.join(f"Flu_Figures/ESM_vs_Max_Freq_Plots_Fine_Tune_Large_V_Small_Tree_{model}_{time}")
+
+        os.makedirs(output_dir, exist_ok=True)
+
+        def plot_regression(ax, data, x_col, y_col, title, ylabel="", color="#0a2463"):
+
+            old_mask = data["time"] < int(time)
+            recent_mask = ~old_mask
+
+            ax.scatter(data.loc[old_mask, x_col], data.loc[old_mask, y_col],
+                       s=50, alpha=0.35, color="lightgray", label="< int(time)")
+
+            ax.scatter(data.loc[recent_mask, x_col], data.loc[recent_mask, y_col],
+                       s=50, alpha=0.35, color=color, label="≥ int(time)")
+
+            light_recent = sns.desaturate(color, 0.5)
+
+            if old_mask.sum() >= 2:
+                sns.regplot(data=data.loc[old_mask], x=x_col, y=y_col, ax=ax,
+                            scatter=False,
+                            line_kws={"color": "gray", "linestyle": "--"}, ci=None)
+            if recent_mask.sum() >= 2:
+                sns.regplot(data=data.loc[recent_mask], x=x_col, y=y_col, ax=ax,
+                            scatter=False,
+                            line_kws={"color": light_recent}, ci=None)
+
+
+            rho_all, p_all = spearmanr(data[y_col], data[x_col])
+            rho_old, p_old = spearmanr(data.loc[old_mask, y_col], data.loc[old_mask, x_col])
+            rho_recent, p_recent = spearmanr(data.loc[recent_mask, y_col], data.loc[recent_mask, x_col])
+
+            textstr = (
+                f"ρ(<{time}) = {rho_old:.2f}")
+
+            ax.text(0.05, 0.95, textstr, transform=ax.transAxes, fontsize=10, color="gray",
+                    verticalalignment="top", bbox=dict(boxstyle="round", facecolor="white", alpha=0.0))
+
+            textstr = (
+                f"ρ(≥{time}) = {rho_recent:.2f}")
+
+            ax.text(0.05, 0.85, textstr, transform=ax.transAxes, fontsize=10, color=light_recent,
+                    verticalalignment="top", bbox=dict(boxstyle="round", facecolor="white", alpha=0.0))
+        
+            ax.set_title(title)
+            ax.set_xlabel(" ", weight="bold")
+            ax.set_ylabel(ylabel, weight="bold")
+            ax.set_xlim(data[x_col].min(), data[x_col].max())
+            ax.set_ylim(0, 1.1)
+            #ax.legend(frameon=False)
+
+        for segment, group in dataset.groupby('Segment'):
+
+            fig = plt.figure(figsize=(4 * 2, 4))
+
+            df = dataset[dataset['Segment'] == segment]
+
+            if segment == "PA":
+                df = df[df['node'] != 'A/Viamao/LACENRS-974/2015']
+        
+            df = df[df["log_likelyhood"] > -200]
+
+            df_650 = df[df['tree'] == "h3n2"]
+            df_650_Fine_Tune = df[df['tree'] == "h3n2-Large"]
+
+
+            gs_main = gridspec.GridSpec(1, 2)  
+
+            ax = fig.add_subplot(gs_main[0, 0])       
+            ax2 = fig.add_subplot(gs_main[0, 1])     
+
+            rmv_uns = re.sub(r'_+', ' ', model) 
+
+            #blue_small_tree = r"$\bf{\color{blue}{Small\ Tree}}$"
+            #title_small = f"{segment.upper()} - {rmv_uns} Model - {blue_small_tree}"
+
+            base_title = f"{segment.upper()} – {rmv_uns} Model –           "
+            ax.set_title(base_title, fontweight="bold")          
+
+            ax.text(0.93, 1.03, "Small Tree", transform=ax.transAxes,
+            ha="center", color="#0a2463", fontweight="bold")
+
+            ax2.text(0.93, 1.03, "Large Tree", transform=ax2.transAxes,
+            ha="center", color="#f4d35e", fontweight="bold")
+
+            plot_regression(ax, df_650, "log_likelyhood", "max_frequency", base_title, ylabel="Max Frequency")
+            plot_regression(ax2, df_650_Fine_Tune, "log_likelyhood", "max_frequency", base_title, color='#f4d35e')
+
+            fig.text(0.53, 0.048, 'Log Likelihood', va='bottom', ha='center', fontsize=12, weight='bold')
+
+            ax.spines[['right', 'top']].set_visible(False)
+            ax2.spines[['right', 'top']].set_visible(False)
+
+            plt.tight_layout()
+
+            plt.savefig(f"{output_dir}/{segment}_LL_vs_Max_Frequency_Fine_Tune_{model}.png", dpi=300)
+
+            plt.show()
+
+    max_freq_LL_figures_small_vs_large_tree(df_both_trees_Time_2005, "Fine_Tune_650M", "2005")
+    max_freq_LL_figures_small_vs_large_tree(df_both_trees_Time_2020, "Fine_Tune_650M", "2020")
     return
 
 
