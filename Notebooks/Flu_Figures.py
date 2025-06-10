@@ -61,7 +61,8 @@ def _(mo):
 
 @app.cell
 def _(os):
-    os.chdir("/Users/Carlos/Desktop/Bedford/esm-selection/Notebooks")
+    current_directory = os.path.dirname(os.path.abspath(__file__))
+    os.chdir(current_directory)
     os.chdir("..")
     return
 
@@ -270,7 +271,7 @@ def _(df_all_base, gridspec, newpath, os, plt, sns, spearmanr):
         df_650 = df[df['Model'] == "Base_esm2_t33_650M_UR50D"]
         df_3B = df[df['Model'] == "Base_esm2_t36_3B_UR50D"]
         df_15B = df[df['Model'] == "Base_esm2_t48_15B_UR50D"]
-    
+
         df_below_1_650 = df_650[df_650['max_frequency'] < 0.1]
         df_above_1_650 = df_650[df_650['max_frequency'] >= 0.99]
         df_below_1_3B = df_3B[df_3B['max_frequency'] < 0.1]
@@ -340,7 +341,7 @@ def _(df_all_base, newpath, os, pd, spearmanr):
 
     for model, group_all_base in df_all_base.groupby('Model'):
       for segment_all_base, group_all_base in df_all_base.groupby('Segment'):
-    
+
         df_all_base_filtered = df_all_base[df_all_base['Segment'] == segment_all_base]
         df_all_base_filtered = df_all_base_filtered[df_all_base_filtered['Model'] == model]
 
@@ -349,7 +350,7 @@ def _(df_all_base, newpath, os, pd, spearmanr):
 
         df_below_01 = df_all_base_filtered[df_all_base_filtered['max_frequency'] < 0.1]
         df_above_1 = df_all_base_filtered[df_all_base_filtered['max_frequency'] >= 0.99]
-    
+
         spearman_corr, p_value = spearmanr(df_all_base_filtered['max_frequency'], df_all_base_filtered['log_likelyhood'])
 
         results.append({
@@ -422,7 +423,7 @@ def _(model_order_short, palette_short, pd, plt, results_df, short_names, sns):
         plt.legend(title="Model Size", frameon=False, loc='lower left')
         plt.tight_layout()
         plt.savefig("Flu_Figures/Spearman_Correlation_Comparision_Base_Model.png", dpi=300)
-    
+
         return plt.show()
 
     make_base_speareman_summary_figure(results_df)
@@ -477,7 +478,7 @@ def _(json, os, pd):
               dataset['meta']["colorings"].insert(0, {"key": "ESM_score", "title": "esm scores", "type": "continuous"})
 
               os.makedirs(output_dir, exist_ok=True)
-          
+
               with open(f"{output_dir}/{segment}_ESM_Tree.json", 'w') as fh:
                 json.dump(dataset, fh, indent=2)
     return (add_ESM_LL_to_Nextstrain_Tree,)
@@ -558,7 +559,7 @@ def _(Path, glob, pd):
         *subfolders,
         base_dir: str = "Flu_Snakemake_Pipeline/results/max_freqs_log_likelyhood_Fine_Tune",
     ) -> pd.DataFrame:
-    
+
         full_path = Path(base_dir, *subfolders)
         glob_pattern = str(full_path / "*.csv")
         csv_files = glob.glob(glob_pattern)
@@ -959,7 +960,7 @@ def _(
             gs_main = gridspec.GridSpec(3, 4, height_ratios=[1, 0.4, 0.4])
 
             df = dataset[dataset['Segment'] == segment]
-        
+
             df_pre = pre_1990_dataset[pre_1990_dataset['Segment'] == segment]
 
             if segment == "PA":
@@ -1054,7 +1055,7 @@ def _(
 
           df_below_01 = df[df['max_frequency'] < 0.1]
           df_above_1 = df[df['max_frequency'] >= 0.99]
-      
+
           spearman_corr, p_value = spearmanr(df['max_frequency'], df['log_likelyhood'])
 
           results.append({
@@ -1069,7 +1070,7 @@ def _(
           })
 
           results_df = pd.DataFrame(results)
-  
+
       print("____________________________")
       print(f"Summary Statistics for {base_name} Model - {time_frame}")
       print(results_df.groupby('Model')['Spearman Correlation Coefficient between Max Frequency and LL'].mean())
@@ -1177,7 +1178,7 @@ def _(
     def plot_spearman_barplot(ax, df, model_order, palette, title, xaxis=""):
         df['Model'] = pd.Categorical(df['Model'], categories=model_order, ordered=True)
         df = df.sort_values('Model')
-    
+
         sns.barplot(
             data=df,
             x='Segment',
@@ -1304,6 +1305,7 @@ def _(
         df_650_FT_EP_1_LR_2_5e_05_DF_Time_spearman,
         df_650_FT_EP_1_LR_5e_06_DF_Time_spearman,
         df_650_FT_EP_5_DF_Time_spearman,
+        spearman_correlation,
     )
 
 
@@ -1379,7 +1381,7 @@ def _(
             custom_params = {"axes.spines.right": False, "axes.spines.top": False}
             sns.set_theme(style="ticks", rc=custom_params)
             #sns.set_palette("pastel")
-        
+
             lineplot = sns.lineplot(
                 data=df,
                 x='Time_Range',
@@ -1463,7 +1465,7 @@ def _(
         plot_spearman_lineplot(df_3B_FT_EP_5_DF_Time_spearman_Fine_Tune, "Fine Tune Before 1990 - 3B Model - Epochs 5", axes[1,1], xaxis="Time Range")
 
         plt.show()
-    
+
         return plt.savefig("Flu_Figures/Spearman_Correlation_Comparison_Fine_Tune_time_range_Epoch_5.png", dpi=300)
 
 
@@ -1520,7 +1522,7 @@ def _(
     ], ignore_index=True)
 
     combined_spearman_summary
-    return (combined_spearman_summary,)
+    return combined_spearman_summary, mean_spearman_segments
 
 
 @app.cell
@@ -1591,11 +1593,255 @@ def _(combined_spearman_summary, np, plt, sns):
 
         plt.tight_layout()
         plt.show()
-    
+
         return plt.savefig("Flu_Figures/Spearman_Correlation_Comparison_All_Models.png", dpi=300, bbox_inches='tight')
 
 
     create_spearman_summary_plot()
+    return
+
+
+@app.cell
+def _(mo):
+    mo.md(r"""### Make all time dataframes and dataframes for larger tree""")
+    return
+
+
+@app.cell
+def _(load_fine_tune_results):
+    df_650_FT_DF_All = load_fine_tune_results(
+        "next_tree~h3n2",
+        "epochs~1",
+        "learning_rate~5e-05",
+        "model~esm2_t33_650M_UR50D",
+        "time~All",
+    )
+
+    df_650_FT_DF_2020_Lg_tree = load_fine_tune_results(
+        "next_tree~h3n2-Large",
+        "epochs~1",
+        "learning_rate~5e-05",
+        "model~esm2_t33_650M_UR50D",
+        "time~2020",
+    )
+
+    df_650_FT_DF_1990_Lg_tree = load_fine_tune_results(
+        "next_tree~h3n2-Large",
+        "epochs~1",
+        "learning_rate~5e-05",
+        "model~esm2_t33_650M_UR50D",
+        "time~1990",
+    )
+    return (
+        df_650_FT_DF_1990_Lg_tree,
+        df_650_FT_DF_2020_Lg_tree,
+        df_650_FT_DF_All,
+    )
+
+
+@app.cell
+def _(mo):
+    mo.md(r"""### Add time to trees""")
+    return
+
+
+@app.cell
+def _(
+    df_650_FT_DF_1990_Lg_tree,
+    df_650_FT_DF_2020_Lg_tree,
+    df_650_FT_DF_All,
+    merge_time,
+):
+    df_650_FT_DF_All_Time = merge_time(df_650_FT_DF_All, "h3n2")
+    df_650_FT_DF_2020_Lg_tree_Time = merge_time(df_650_FT_DF_2020_Lg_tree, "h3n2-Large")
+    df_650_FT_DF_1990_Lg_tree_Time = merge_time(df_650_FT_DF_1990_Lg_tree, "h3n2-Large")
+    return (
+        df_650_FT_DF_1990_Lg_tree_Time,
+        df_650_FT_DF_2020_Lg_tree_Time,
+        df_650_FT_DF_All_Time,
+    )
+
+
+@app.cell
+def _(mo):
+    mo.md(r"""### Calculate spearman CC for lg trees""")
+    return
+
+
+@app.cell
+def _(
+    df_650_FT_DF_1990_Lg_tree_Time,
+    df_650_FT_DF_2020_Lg_tree_Time,
+    df_650_FT_DF_All_Time,
+    spearman_correlation,
+):
+    def cal_spearman_cc(df):
+        df['Model'] = df['Model'].str.replace('Fine_Tune_esm2_t33_650M_UR50D', 'Fine_Tune_650M')
+        df_spear = spearman_correlation(df, "650M")
+        df_spear = df_spear[df_spear['Model'] != '650M']
+
+        return df_spear
+
+    df_650_FT_DF_All_Time_spearman = cal_spearman_cc(df_650_FT_DF_All_Time)
+    df_650_FT_DF_2020_Lg_tree_Time_spearman = cal_spearman_cc(df_650_FT_DF_2020_Lg_tree_Time)
+    df_650_FT_DF_1990_Lg_tree_Time_spearman = cal_spearman_cc(df_650_FT_DF_1990_Lg_tree_Time)
+    return (
+        df_650_FT_DF_1990_Lg_tree_Time_spearman,
+        df_650_FT_DF_2020_Lg_tree_Time_spearman,
+        df_650_FT_DF_All_Time_spearman,
+    )
+
+
+@app.cell
+def _(mo):
+    mo.md(r"""### Get spearman fine tune summary""")
+    return
+
+
+@app.cell
+def _(
+    df_650_FT_DF_1990_Lg_tree_Time_spearman,
+    df_650_FT_DF_2020_Lg_tree_Time_spearman,
+    df_650_FT_DF_All_Time_spearman,
+    mean_spearman_segments,
+):
+    df_650_FT_DF_All_Time_spearman_mean = mean_spearman_segments(df_650_FT_DF_All_Time_spearman, "Fine Tune - 650M Model - Trained on all")
+    df_650_FT_DF_2020_Lg_tree_Time_spearman_mean = mean_spearman_segments(df_650_FT_DF_2020_Lg_tree_Time_spearman, "Fine Tune - 650M Model - Trained up to 2020, LG Tree")
+    df_650_FT_DF_1990_Lg_tree_Time_spearman_mean = mean_spearman_segments(df_650_FT_DF_1990_Lg_tree_Time_spearman, "Fine Tune - 650M Model - Trained up to 1990, LG Tree")
+    return (
+        df_650_FT_DF_1990_Lg_tree_Time_spearman_mean,
+        df_650_FT_DF_2020_Lg_tree_Time_spearman_mean,
+        df_650_FT_DF_All_Time_spearman_mean,
+    )
+
+
+@app.cell
+def _(mo):
+    mo.md(r"""### Generate spearman fine tune comparison continuation""")
+    return
+
+
+@app.cell
+def _(
+    df_650_FT_DF_1990_Lg_tree_Time_spearman_mean,
+    df_650_FT_DF_2020_Lg_tree_Time_spearman_mean,
+    df_650_FT_DF_All_Time_spearman_mean,
+    plt,
+    sns,
+):
+    def create_spearman_summary_plot_2(
+        df,
+        title="Spearman CC Summary All Models",
+        xlabel="Time Range",
+        ylabel="Spearman CC",
+        save_path="Spearman_Correlation_Comparison.png"
+    ):
+
+        # Apply Seaborn theme and style:
+        sns.set_style("whitegrid")
+        custom_params = {"axes.spines.right": False, "axes.spines.top": False}
+        sns.set_theme(style="ticks", rc=custom_params)
+
+        # Create the figure and axis:
+        fig, ax = plt.subplots(figsize=(10, 5))
+
+        # Draw the line plot:
+        ax = sns.lineplot(
+            data=df,
+            x="Time_Range",
+            y="Spearman_Correlation",
+            hue="Model",
+            marker="o",
+            legend=False,
+            zorder=1,
+            ax=ax
+        )
+
+        # Set titles and labels:
+        ax.set_title(title)
+        ax.set_xlabel(xlabel)
+        ax.set_ylabel(ylabel)
+
+        # Annotate the last point of each line with its Model name:
+        label_positions = []
+        for line, model in zip(ax.lines, df["Model"].unique()):
+            # Get the x,y coordinates of the last point on this line:
+            x_data = line.get_xdata()
+            y_data = line.get_ydata()
+            if len(x_data) == 0 or len(y_data) == 0:
+                continue
+
+            # By default, annotate the final point:
+            x = x_data[-1]
+            y = y_data[-1]
+
+            # Handle special cases (if you have specific offset logic for certain model names):
+            if model in ("Base - 3B Model", "Base - 650M Model"):
+                # Use the 4th-from-last point instead:
+                if len(x_data) >= 4:
+                    x = x_data[-4]
+                    y = y_data[-4]
+            elif model in (
+                "Fine Tune - 650M Model - LR 2.5e-05",
+                "Fine Tune - 650M Model - LR 1e-05",
+                "Fine Tune - 650M Model - LR 1e-06"
+            ):
+                # Use the 3rd-from-last point instead:
+                if len(x_data) >= 3:
+                    x = x_data[-3]
+                    y = y_data[-3]
+            else:
+                # Adjust y if it's too close to an existing label
+                while any(abs(y - pos) < 0.025 for pos in label_positions):
+                    y += 0.007
+
+            label_positions.append(y)
+
+            ax.annotate(
+                model,
+                xy=(x, y),
+                xytext=(5, 0),           # offset the text slightly to the right
+                textcoords="offset points",
+                color=line.get_color(),
+                fontsize=12,
+                weight="bold",
+                ha="left",
+                va="center",
+                zorder=2,
+            )
+
+        plt.tight_layout()
+
+        # Save the figure to the specified path:
+        plt.savefig(save_path, dpi=300, bbox_inches="tight")
+        plt.show()
+        #plt.close(fig)
+
+        return save_path
+
+    create_spearman_summary_plot_2(
+        df_650_FT_DF_All_Time_spearman_mean,
+        title="Spearman CC Summary All Time",
+        xlabel="Time Range",
+        ylabel="Spearman CC",
+        save_path="Spearman_Correlation_Comparison_All_Time.png"
+    )
+
+    create_spearman_summary_plot_2(
+        df_650_FT_DF_2020_Lg_tree_Time_spearman_mean,
+        title="Spearman CC Summary LG Tree 2020",
+        xlabel="Time Range",
+        ylabel="Spearman CC",
+        save_path="Spearman_Correlation_Comparison_LG_Tree_2020.png"
+    )
+
+    create_spearman_summary_plot_2(
+        df_650_FT_DF_1990_Lg_tree_Time_spearman_mean,
+        title="Spearman CC Summary LG Tree 1990",
+        xlabel="Time Range",
+        ylabel="Spearman CC",
+        save_path="Spearman_Correlation_Comparison_LG_Tree_1990.png"
+    )
     return
 
 
@@ -1894,7 +2140,7 @@ def _(df_650_FT_DF_Time_Series_Validation_Time):
 
 @app.cell
 def _(mo):
-    mo.md(r"""### Calculate spearman CC for each time frame """)
+    mo.md(r"""### Calculate spearman CC for each time frame""")
     return
 
 
@@ -1945,12 +2191,6 @@ def _(df_650_FT_DF_Time_Series_Validation_Time, pd, spearmanr):
 
 
 @app.cell
-def _(spearman_df):
-    spearman_df
-    return
-
-
-@app.cell
 def _(mo):
     mo.md(r"""### Create time series cross validation plot""")
     return
@@ -1975,9 +2215,9 @@ def _(plt, sns, spearman_df):
             ax.set_ylabel("Spearman Correlation Coefficient")
 
         plt.tight_layout()
-    
+
         plt.show()
-    
+
         return plt.savefig("Flu_Figures/Spearman_Correlation_Comparison_Fine_Tune_time_series_cross_validation.png", dpi=300, bbox_inches='tight')
 
 
@@ -2114,7 +2354,7 @@ def _(
 
             ax.text(0.05, 0.85, textstr, transform=ax.transAxes, fontsize=10, color=light_recent,
                     verticalalignment="top", bbox=dict(boxstyle="round", facecolor="white", alpha=0.0))
-        
+
             ax.set_title(title)
             ax.set_xlabel(" ", weight="bold")
             ax.set_ylabel(ylabel, weight="bold")
@@ -2130,7 +2370,7 @@ def _(
 
             if segment == "PA":
                 df = df[df['node'] != 'A/Viamao/LACENRS-974/2015']
-        
+
             df = df[df["log_likelyhood"] > -200]
 
             df_650 = df[df['tree'] == "h3n2"]
