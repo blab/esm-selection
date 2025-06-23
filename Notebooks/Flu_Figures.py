@@ -18,7 +18,6 @@ def _():
     import os
     import seaborn as sns
     import matplotlib.pyplot as plt
-    import pandas as pd
     from scipy import stats
     from matplotlib import gridspec
     from scipy.stats import spearmanr
@@ -35,7 +34,9 @@ def _():
     import numpy as np
     import glob
     import re 
+    from matplotlib.lines import Line2D
     return (
+        Line2D,
         Path,
         cm,
         colorsys,
@@ -1449,6 +1450,7 @@ def _(
 
         #plt.tight_layout()
         #plt.subplots_adjust(left=0.1, right=0.95, top=0.9, bottom=0.15)
+    
         plt.savefig("Flu_Figures/Spearman_Correlation_Comparison_Fine_Tune_time_range.png", dpi=300)
         plt.show()
 
@@ -1464,10 +1466,8 @@ def _(
         plot_spearman_lineplot(df_3B_FT_DF_Time_spearman_Fine_Tune, "Fine Tune Before 1990 - 3B Model - Epochs 1", axes[0,1], xaxis="Time Range")
         plot_spearman_lineplot(df_3B_FT_EP_5_DF_Time_spearman_Fine_Tune, "Fine Tune Before 1990 - 3B Model - Epochs 5", axes[1,1], xaxis="Time Range")
 
+        plt.savefig("Flu_Figures/Spearman_Correlation_Comparison_Fine_Tune_time_range_Epoch_5.png", dpi=300)
         plt.show()
-
-        return plt.savefig("Flu_Figures/Spearman_Correlation_Comparison_Fine_Tune_time_range_Epoch_5.png", dpi=300)
-
 
     create_spearman_lineplots()
     return
@@ -1625,6 +1625,14 @@ def _(load_fine_tune_results):
         "time~2020",
     )
 
+    df_650_FT_DF_2005_Lg_tree = load_fine_tune_results(
+        "next_tree~h3n2-Large",
+        "epochs~1",
+        "learning_rate~5e-05",
+        "model~esm2_t33_650M_UR50D",
+        "time~2005",
+    )
+
     df_650_FT_DF_1990_Lg_tree = load_fine_tune_results(
         "next_tree~h3n2-Large",
         "epochs~1",
@@ -1634,8 +1642,82 @@ def _(load_fine_tune_results):
     )
     return (
         df_650_FT_DF_1990_Lg_tree,
+        df_650_FT_DF_2005_Lg_tree,
         df_650_FT_DF_2020_Lg_tree,
         df_650_FT_DF_All,
+    )
+
+
+@app.cell
+def _(mo):
+    mo.md(r"""### Create time series dataframes""")
+    return
+
+
+@app.cell
+def _(load_fine_tune_results):
+    df_650M_FT_DF_Time_1990_LR_5e_05 = load_fine_tune_results(
+        "next_tree~h3n2",
+        "epochs~1",
+        "learning_rate~5e-05",
+        "model~esm2_t33_650M_UR50D",
+        "time~1990",
+    )
+
+    df_650M_FT_DF_Time_1995_LR_5e_05 = load_fine_tune_results(
+        "next_tree~h3n2",
+        "epochs~1",
+        "learning_rate~5e-05",
+        "model~esm2_t33_650M_UR50D",
+        "time~1995",
+    )
+
+    df_650M_FT_DF_Time_2000_LR_5e_05 = load_fine_tune_results(
+        "next_tree~h3n2",
+        "epochs~1",
+        "learning_rate~5e-05",
+        "model~esm2_t33_650M_UR50D",
+        "time~2000",
+    )
+
+    df_650M_FT_DF_Time_2005_LR_5e_05 = load_fine_tune_results(
+        "next_tree~h3n2",
+        "epochs~1",
+        "learning_rate~5e-05",
+        "model~esm2_t33_650M_UR50D",
+        "time~2005",
+    )
+
+    df_650M_FT_DF_Time_2010_LR_5e_05 = load_fine_tune_results(
+        "next_tree~h3n2",
+        "epochs~1",
+        "learning_rate~5e-05",
+        "model~esm2_t33_650M_UR50D",
+        "time~2010",
+    )
+
+    df_650M_FT_DF_Time_2010_LR_5e_05 = load_fine_tune_results(
+        "next_tree~h3n2",
+        "epochs~1",
+        "learning_rate~5e-05",
+        "model~esm2_t33_650M_UR50D",
+        "time~2010",
+    )
+
+    df_650M_FT_DF_Time_2020_LR_5e_05 = load_fine_tune_results(
+        "next_tree~h3n2",
+        "epochs~1",
+        "learning_rate~5e-05",
+        "model~esm2_t33_650M_UR50D",
+        "time~2020",
+    )
+    return (
+        df_650M_FT_DF_Time_1990_LR_5e_05,
+        df_650M_FT_DF_Time_1995_LR_5e_05,
+        df_650M_FT_DF_Time_2000_LR_5e_05,
+        df_650M_FT_DF_Time_2005_LR_5e_05,
+        df_650M_FT_DF_Time_2010_LR_5e_05,
+        df_650M_FT_DF_Time_2020_LR_5e_05,
     )
 
 
@@ -1647,17 +1729,39 @@ def _(mo):
 
 @app.cell
 def _(
+    df_650M_FT_DF_Time_1990_LR_5e_05,
+    df_650M_FT_DF_Time_1995_LR_5e_05,
+    df_650M_FT_DF_Time_2000_LR_5e_05,
+    df_650M_FT_DF_Time_2005_LR_5e_05,
+    df_650M_FT_DF_Time_2010_LR_5e_05,
+    df_650M_FT_DF_Time_2020_LR_5e_05,
     df_650_FT_DF_1990_Lg_tree,
+    df_650_FT_DF_2005_Lg_tree,
     df_650_FT_DF_2020_Lg_tree,
     df_650_FT_DF_All,
     merge_time,
 ):
     df_650_FT_DF_All_Time = merge_time(df_650_FT_DF_All, "h3n2")
+    df_650_FT_DF_1990_Time = merge_time(df_650M_FT_DF_Time_1990_LR_5e_05, "h3n2")
+    df_650_FT_DF_1995_Time = merge_time(df_650M_FT_DF_Time_1995_LR_5e_05, "h3n2")
+    df_650_FT_DF_2000_Time = merge_time(df_650M_FT_DF_Time_2000_LR_5e_05, "h3n2")
+    df_650_FT_DF_2005_Time = merge_time(df_650M_FT_DF_Time_2005_LR_5e_05, "h3n2")
+    df_650_FT_DF_2010_Time = merge_time(df_650M_FT_DF_Time_2010_LR_5e_05, "h3n2")
+    df_650_FT_DF_2020_Time = merge_time(df_650M_FT_DF_Time_2020_LR_5e_05, "h3n2")
+
     df_650_FT_DF_2020_Lg_tree_Time = merge_time(df_650_FT_DF_2020_Lg_tree, "h3n2-Large")
+    df_650_FT_DF_2005_Lg_tree_Time = merge_time(df_650_FT_DF_2005_Lg_tree, "h3n2-Large")
     df_650_FT_DF_1990_Lg_tree_Time = merge_time(df_650_FT_DF_1990_Lg_tree, "h3n2-Large")
     return (
         df_650_FT_DF_1990_Lg_tree_Time,
+        df_650_FT_DF_1990_Time,
+        df_650_FT_DF_1995_Time,
+        df_650_FT_DF_2000_Time,
+        df_650_FT_DF_2005_Lg_tree_Time,
+        df_650_FT_DF_2005_Time,
+        df_650_FT_DF_2010_Time,
         df_650_FT_DF_2020_Lg_tree_Time,
+        df_650_FT_DF_2020_Time,
         df_650_FT_DF_All_Time,
     )
 
@@ -1671,7 +1775,14 @@ def _(mo):
 @app.cell
 def _(
     df_650_FT_DF_1990_Lg_tree_Time,
+    df_650_FT_DF_1990_Time,
+    df_650_FT_DF_1995_Time,
+    df_650_FT_DF_2000_Time,
+    df_650_FT_DF_2005_Lg_tree_Time,
+    df_650_FT_DF_2005_Time,
+    df_650_FT_DF_2010_Time,
     df_650_FT_DF_2020_Lg_tree_Time,
+    df_650_FT_DF_2020_Time,
     df_650_FT_DF_All_Time,
     spearman_correlation,
 ):
@@ -1683,11 +1794,27 @@ def _(
         return df_spear
 
     df_650_FT_DF_All_Time_spearman = cal_spearman_cc(df_650_FT_DF_All_Time)
+
+    df_650_FT_DF_1990_Time_spearman = cal_spearman_cc(df_650_FT_DF_1990_Time)
+    df_650_FT_DF_1995_Time_spearman = cal_spearman_cc(df_650_FT_DF_1995_Time)
+    df_650_FT_DF_2000_Time_spearman = cal_spearman_cc(df_650_FT_DF_2000_Time)
+    df_650_FT_DF_2005_Time_spearman = cal_spearman_cc(df_650_FT_DF_2005_Time)
+    df_650_FT_DF_2010_Time_spearman = cal_spearman_cc(df_650_FT_DF_2010_Time)
+    df_650_FT_DF_2020_Time_spearman = cal_spearman_cc(df_650_FT_DF_2020_Time)
+
     df_650_FT_DF_2020_Lg_tree_Time_spearman = cal_spearman_cc(df_650_FT_DF_2020_Lg_tree_Time)
+    df_650_FT_DF_2005_Lg_tree_Time_spearman = cal_spearman_cc(df_650_FT_DF_2005_Lg_tree_Time)
     df_650_FT_DF_1990_Lg_tree_Time_spearman = cal_spearman_cc(df_650_FT_DF_1990_Lg_tree_Time)
     return (
         df_650_FT_DF_1990_Lg_tree_Time_spearman,
+        df_650_FT_DF_1990_Time_spearman,
+        df_650_FT_DF_1995_Time_spearman,
+        df_650_FT_DF_2000_Time_spearman,
+        df_650_FT_DF_2005_Lg_tree_Time_spearman,
+        df_650_FT_DF_2005_Time_spearman,
+        df_650_FT_DF_2010_Time_spearman,
         df_650_FT_DF_2020_Lg_tree_Time_spearman,
+        df_650_FT_DF_2020_Time_spearman,
         df_650_FT_DF_All_Time_spearman,
     )
 
@@ -1701,16 +1828,39 @@ def _(mo):
 @app.cell
 def _(
     df_650_FT_DF_1990_Lg_tree_Time_spearman,
+    df_650_FT_DF_1990_Time_spearman,
+    df_650_FT_DF_1995_Time_spearman,
+    df_650_FT_DF_2000_Time_spearman,
+    df_650_FT_DF_2005_Lg_tree_Time_spearman,
+    df_650_FT_DF_2005_Time_spearman,
+    df_650_FT_DF_2010_Time_spearman,
     df_650_FT_DF_2020_Lg_tree_Time_spearman,
+    df_650_FT_DF_2020_Time_spearman,
     df_650_FT_DF_All_Time_spearman,
     mean_spearman_segments,
 ):
     df_650_FT_DF_All_Time_spearman_mean = mean_spearman_segments(df_650_FT_DF_All_Time_spearman, "Fine Tune - 650M Model - Trained on all")
+
+    df_650_FT_DF_1990_Time_spearman_mean = mean_spearman_segments(df_650_FT_DF_1990_Time_spearman, "Fine Tune - 650M Model - Trained on all")
+    df_650_FT_DF_1995_Time_spearman_mean = mean_spearman_segments(df_650_FT_DF_1995_Time_spearman, "Fine Tune - 650M Model - Trained on all")
+    df_650_FT_DF_2000_Time_spearman_mean = mean_spearman_segments(df_650_FT_DF_2000_Time_spearman, "Fine Tune - 650M Model - Trained on all")
+    df_650_FT_DF_2005_Time_spearman_mean = mean_spearman_segments(df_650_FT_DF_2005_Time_spearman, "Fine Tune - 650M Model - Trained on all")
+    df_650_FT_DF_2010_Time_spearman_mean = mean_spearman_segments(df_650_FT_DF_2010_Time_spearman, "Fine Tune - 650M Model - Trained on all")
+    df_650_FT_DF_2020_Time_spearman_mean = mean_spearman_segments(df_650_FT_DF_2020_Time_spearman, "Fine Tune - 650M Model - Trained on all")
+
     df_650_FT_DF_2020_Lg_tree_Time_spearman_mean = mean_spearman_segments(df_650_FT_DF_2020_Lg_tree_Time_spearman, "Fine Tune - 650M Model - Trained up to 2020, LG Tree")
+    df_650_FT_DF_2005_Lg_tree_Time_spearman_mean = mean_spearman_segments(df_650_FT_DF_2005_Lg_tree_Time_spearman, "Fine Tune - 650M Model - Trained up to 2020, LG Tree")
     df_650_FT_DF_1990_Lg_tree_Time_spearman_mean = mean_spearman_segments(df_650_FT_DF_1990_Lg_tree_Time_spearman, "Fine Tune - 650M Model - Trained up to 1990, LG Tree")
     return (
         df_650_FT_DF_1990_Lg_tree_Time_spearman_mean,
+        df_650_FT_DF_1990_Time_spearman_mean,
+        df_650_FT_DF_1995_Time_spearman_mean,
+        df_650_FT_DF_2000_Time_spearman_mean,
+        df_650_FT_DF_2005_Lg_tree_Time_spearman_mean,
+        df_650_FT_DF_2005_Time_spearman_mean,
+        df_650_FT_DF_2010_Time_spearman_mean,
         df_650_FT_DF_2020_Lg_tree_Time_spearman_mean,
+        df_650_FT_DF_2020_Time_spearman_mean,
         df_650_FT_DF_All_Time_spearman_mean,
     )
 
@@ -1724,7 +1874,14 @@ def _(mo):
 @app.cell
 def _(
     df_650_FT_DF_1990_Lg_tree_Time_spearman_mean,
+    df_650_FT_DF_1990_Time_spearman_mean,
+    df_650_FT_DF_1995_Time_spearman_mean,
+    df_650_FT_DF_2000_Time_spearman_mean,
+    df_650_FT_DF_2005_Lg_tree_Time_spearman_mean,
+    df_650_FT_DF_2005_Time_spearman_mean,
+    df_650_FT_DF_2010_Time_spearman_mean,
     df_650_FT_DF_2020_Lg_tree_Time_spearman_mean,
+    df_650_FT_DF_2020_Time_spearman_mean,
     df_650_FT_DF_All_Time_spearman_mean,
     plt,
     sns,
@@ -1762,58 +1919,10 @@ def _(
         ax.set_xlabel(xlabel)
         ax.set_ylabel(ylabel)
 
-        # Annotate the last point of each line with its Model name:
-        label_positions = []
-        for line, model in zip(ax.lines, df["Model"].unique()):
-            # Get the x,y coordinates of the last point on this line:
-            x_data = line.get_xdata()
-            y_data = line.get_ydata()
-            if len(x_data) == 0 or len(y_data) == 0:
-                continue
-
-            # By default, annotate the final point:
-            x = x_data[-1]
-            y = y_data[-1]
-
-            # Handle special cases (if you have specific offset logic for certain model names):
-            if model in ("Base - 3B Model", "Base - 650M Model"):
-                # Use the 4th-from-last point instead:
-                if len(x_data) >= 4:
-                    x = x_data[-4]
-                    y = y_data[-4]
-            elif model in (
-                "Fine Tune - 650M Model - LR 2.5e-05",
-                "Fine Tune - 650M Model - LR 1e-05",
-                "Fine Tune - 650M Model - LR 1e-06"
-            ):
-                # Use the 3rd-from-last point instead:
-                if len(x_data) >= 3:
-                    x = x_data[-3]
-                    y = y_data[-3]
-            else:
-                # Adjust y if it's too close to an existing label
-                while any(abs(y - pos) < 0.025 for pos in label_positions):
-                    y += 0.007
-
-            label_positions.append(y)
-
-            ax.annotate(
-                model,
-                xy=(x, y),
-                xytext=(5, 0),           # offset the text slightly to the right
-                textcoords="offset points",
-                color=line.get_color(),
-                fontsize=12,
-                weight="bold",
-                ha="left",
-                va="center",
-                zorder=2,
-            )
-
         plt.tight_layout()
 
         # Save the figure to the specified path:
-        plt.savefig(save_path, dpi=300, bbox_inches="tight")
+        plt.savefig(f"Flu_Figures/{save_path}", dpi=300, bbox_inches="tight")
         plt.show()
         #plt.close(fig)
 
@@ -1828,11 +1937,51 @@ def _(
     )
 
     create_spearman_summary_plot_2(
-        df_650_FT_DF_2020_Lg_tree_Time_spearman_mean,
-        title="Spearman CC Summary LG Tree 2020",
+        df_650_FT_DF_1990_Time_spearman_mean,
+        title="Spearman CC Summary 1990 Time",
         xlabel="Time Range",
         ylabel="Spearman CC",
-        save_path="Spearman_Correlation_Comparison_LG_Tree_2020.png"
+        save_path="Spearman_Correlation_Comparison_1990_Time.png"
+    )
+
+    create_spearman_summary_plot_2(
+        df_650_FT_DF_1995_Time_spearman_mean,
+        title="Spearman CC Summary 1995 Time",
+        xlabel="Time Range",
+        ylabel="Spearman CC",
+        save_path="Spearman_Correlation_Comparison_1995_Time.png"
+    )
+
+    create_spearman_summary_plot_2(
+        df_650_FT_DF_2000_Time_spearman_mean,
+        title="Spearman CC Summary 2000 Time",
+        xlabel="Time Range",
+        ylabel="Spearman CC",
+        save_path="Spearman_Correlation_Comparison_2000_Time.png"
+    )
+
+    create_spearman_summary_plot_2(
+        df_650_FT_DF_2005_Time_spearman_mean,
+        title="Spearman CC Summary 2005 Time",
+        xlabel="Time Range",
+        ylabel="Spearman CC",
+        save_path="Spearman_Correlation_Comparison_2005_Time.png"
+    )
+
+    create_spearman_summary_plot_2(
+        df_650_FT_DF_2010_Time_spearman_mean,
+        title="Spearman CC Summary 2010 Time",
+        xlabel="Time Range",
+        ylabel="Spearman CC",
+        save_path="Spearman_Correlation_Comparison_2010_Time.png"
+    )
+
+    create_spearman_summary_plot_2(
+        df_650_FT_DF_2020_Time_spearman_mean,
+        title="Spearman CC Summary 2020 Time",
+        xlabel="Time Range",
+        ylabel="Spearman CC",
+        save_path="Spearman_Correlation_Comparison_2020_Time.png"
     )
 
     create_spearman_summary_plot_2(
@@ -1841,6 +1990,134 @@ def _(
         xlabel="Time Range",
         ylabel="Spearman CC",
         save_path="Spearman_Correlation_Comparison_LG_Tree_1990.png"
+    )
+
+    create_spearman_summary_plot_2(
+        df_650_FT_DF_2005_Lg_tree_Time_spearman_mean,
+        title="Spearman CC Summary LG Tree 2005",
+        xlabel="Time Range",
+        ylabel="Spearman CC",
+        save_path="Spearman_Correlation_Comparison_LG_Tree_2005.png"
+    )
+
+    create_spearman_summary_plot_2(
+        df_650_FT_DF_2020_Lg_tree_Time_spearman_mean,
+        title="Spearman CC Summary LG Tree 2020",
+        xlabel="Time Range",
+        ylabel="Spearman CC",
+        save_path="Spearman_Correlation_Comparison_LG_Tree_2020.png"
+    )
+    return
+
+
+@app.cell
+def _(mo):
+    mo.md(r"""### Combine spearman CC comparison plots""")
+    return
+
+
+@app.cell
+def _(Line2D, pd, plt, sns):
+    def create_combined_spearman_overlay_plot(
+        df_list,
+        labels,
+        title="Combined Spearman CC Summary",
+        xlabel="Time Range",
+        ylabel="Spearman CC",
+        save_path="Combined_Spearman_Correlation_Overlay.png"
+    ):
+        # Add source labels
+        for df, label in zip(df_list, labels):
+            df["Source"] = label
+
+        # Combine into one DataFrame
+        combined_df = pd.concat(df_list, ignore_index=True)
+
+        # Set Seaborn theme
+        sns.set_style("whitegrid")
+        custom_params = {"axes.spines.right": False, "axes.spines.top": False}
+        sns.set_theme(style="ticks", rc=custom_params)
+
+        # Set up figure
+        plt.figure(figsize=(10, 6))
+        ax = plt.gca()
+
+        # Custom colors and linestyles
+        color_map = {
+            "1990 Small Tree": "#1f77b4",  # blue
+            "2005 Small Tree": "#1f77b4",
+            "1990 Large Tree": "#ff7f0e",  # orange
+            "2005 Large Tree": "#ff7f0e",
+        }
+
+        linestyle_map = {
+            "1990 Small Tree": "solid",
+            "2005 Small Tree": "dashed",
+            "1990 Large Tree": "solid",
+            "2005 Large Tree": "dashed",
+        }
+
+        # Plot each line manually with markers, but legend will use line-only handles
+        for label in labels:
+            subset = combined_df[combined_df["Source"] == label]
+            sns.lineplot(
+                data=subset,
+                x="Time_Range",
+                y="Spearman_Correlation",
+                label=None,  # prevent automatic legend entry
+                marker="o",
+                ax=ax,
+                color=color_map[label],
+                linestyle=linestyle_map[label]
+            )
+
+        # Custom legend with no markers
+        legend_handles = [
+            Line2D(
+                [0], [0],
+                color=color_map[label],
+                linestyle=linestyle_map[label],
+                linewidth=2,
+                label=label
+            )
+            for label in labels
+        ]
+        ax.legend(handles=legend_handles, title="Tree & Year")
+
+        # Final formatting
+        ax.set_title(title)
+        ax.set_xlabel(xlabel)
+        ax.set_ylabel(ylabel)
+        plt.tight_layout()
+        plt.savefig(f"Flu_Figures/{save_path}", dpi=300, bbox_inches="tight")
+        plt.show()
+
+    return (create_combined_spearman_overlay_plot,)
+
+
+@app.cell
+def _(
+    create_combined_spearman_overlay_plot,
+    df_650_FT_DF_1990_Lg_tree_Time_spearman_mean,
+    df_650_FT_DF_1990_Time_spearman_mean,
+    df_650_FT_DF_2005_Lg_tree_Time_spearman_mean,
+    df_650_FT_DF_2005_Time_spearman_mean,
+):
+    create_combined_spearman_overlay_plot(
+        df_list=[
+            df_650_FT_DF_1990_Time_spearman_mean,
+            df_650_FT_DF_2005_Time_spearman_mean,
+            df_650_FT_DF_1990_Lg_tree_Time_spearman_mean,
+            df_650_FT_DF_2005_Lg_tree_Time_spearman_mean
+        ],
+        labels=[
+            "1990 Small Tree",
+            "2005 Small Tree",
+            "1990 Large Tree",
+            "2005 Large Tree"
+        ],
+        title="Spearman CC 1990, 2005 for large and small H3N2 trees",
+        save_path="Spearman_Correlation_Overlay_1990_to_2000.png"
     )
     return
 
@@ -1928,7 +2205,7 @@ def _(cm, colorsys, df_3B_FT_DF_Time, df_650_FT_DF_Time, os, plt):
 
 @app.cell
 def _(mo):
-    mo.md(r"""### Combined ESM vs TIme Scatterplot""")
+    mo.md(r"""### Combined ESM vs Time Scatterplot""")
     return
 
 
@@ -2008,63 +2285,6 @@ def _(cm, colorsys, df_3B_FT_DF_Time, df_650_FT_DF_Time, plt):
     esm_vs_time_4x4_grid(df_650_FT_DF_Time, "650M")
 
     return
-
-
-@app.cell
-def _(mo):
-    mo.md(r"""### Create time series dataframes""")
-    return
-
-
-@app.cell
-def _(load_fine_tune_results):
-    df_650M_FT_DF_Time_1990_LR_5e_05 = load_fine_tune_results(
-        "next_tree~h3n2",
-        "epochs~1",
-        "learning_rate~5e-05",
-        "model~esm2_t33_650M_UR50D",
-        "time~1990",
-    )
-
-    df_650M_FT_DF_Time_1995_LR_5e_05 = load_fine_tune_results(
-        "next_tree~h3n2",
-        "epochs~1",
-        "learning_rate~5e-05",
-        "model~esm2_t33_650M_UR50D",
-        "time~1995",
-    )
-
-    df_650M_FT_DF_Time_2000_LR_5e_05 = load_fine_tune_results(
-        "next_tree~h3n2",
-        "epochs~1",
-        "learning_rate~5e-05",
-        "model~esm2_t33_650M_UR50D",
-        "time~2000",
-    )
-
-    df_650M_FT_DF_Time_2005_LR_5e_05 = load_fine_tune_results(
-        "next_tree~h3n2",
-        "epochs~1",
-        "learning_rate~5e-05",
-        "model~esm2_t33_650M_UR50D",
-        "time~2005",
-    )
-
-    df_650M_FT_DF_Time_2010_LR_5e_05 = load_fine_tune_results(
-        "next_tree~h3n2",
-        "epochs~1",
-        "learning_rate~5e-05",
-        "model~esm2_t33_650M_UR50D",
-        "time~2010",
-    )
-
-    return (
-        df_650M_FT_DF_Time_1990_LR_5e_05,
-        df_650M_FT_DF_Time_1995_LR_5e_05,
-        df_650M_FT_DF_Time_2000_LR_5e_05,
-        df_650M_FT_DF_Time_2005_LR_5e_05,
-        df_650M_FT_DF_Time_2010_LR_5e_05,
-    )
 
 
 @app.cell
@@ -2191,6 +2411,12 @@ def _(df_650_FT_DF_Time_Series_Validation_Time, pd, spearmanr):
 
 
 @app.cell
+def _(spearman_df):
+    spearman_df
+    return
+
+
+@app.cell
 def _(mo):
     mo.md(r"""### Create time series cross validation plot""")
     return
@@ -2198,7 +2424,7 @@ def _(mo):
 
 @app.cell
 def _(plt, sns, spearman_df):
-    def create_time_series_plot():
+    def create_time_series_plot(spearman_df, name):
         unique_years = spearman_df['start_year'].unique()
         n_years = len(unique_years)
 
@@ -2216,12 +2442,69 @@ def _(plt, sns, spearman_df):
 
         plt.tight_layout()
 
+        plt.savefig(f"Flu_Figures/{name}", dpi=300, bbox_inches='tight')
+
         plt.show()
 
-        return plt.savefig("Flu_Figures/Spearman_Correlation_Comparison_Fine_Tune_time_series_cross_validation.png", dpi=300, bbox_inches='tight')
+
+    create_time_series_plot(spearman_df, "Spearman_Correlation_Comparison_Fine_Tune_time_series_cross_validation.png")
+    return (create_time_series_plot,)
 
 
-    create_time_series_plot()
+@app.cell
+def _(mo):
+    mo.md(r"""### Time series cross validation dummy plot""")
+    return
+
+
+@app.cell
+def _(spearman_df):
+    spearman_df
+    return
+
+
+@app.cell
+def _(pd):
+    data = {
+        "start_year": [
+            1990, 1990, 1990,
+            1995, 1995, 1995,
+            2000, 2000, 2000,
+            2005, 2005,
+            2010, 2010
+        ],
+        "bin_index": [
+            1, 2, 3,
+            1, 2, 3,
+            1, 2, 3,
+            1, 2,
+            1, 2
+        ],
+        "range": [
+            "1990-2000", "2000-2010", "2010-2020",
+            "1995-2005", "2005-2015", "2015-2025",
+            "2000-2010", "2010-2020", "2020-2025",
+            "2005-2015", "2015-2025",
+            "2010-2020", "2020-2025"
+        ],
+        "spearman_corr": [
+            0.2, 0.1, 0.05,  
+            0.35, 0.25, 0.15, 
+            0.4, 0.3, 0.2,  
+            0.45, 0.35,  
+            0.5, 0.45
+        ]
+    }
+
+    spearman_df_dummy = pd.DataFrame(data)
+    print(spearman_df_dummy)
+
+    return (spearman_df_dummy,)
+
+
+@app.cell
+def _(create_time_series_plot, spearman_df_dummy):
+    create_time_series_plot(spearman_df_dummy, "Spearman_Correlation_Comparison_Fine_Tune_time_series_cross_validation_dummy.png")
     return
 
 
@@ -2285,7 +2568,11 @@ def _(df_both_trees_2005, df_both_trees_2020, merge_time, pd):
 
     df_both_trees_Time_2005 = pd.concat([df_SM_Tree_Time_2005, df_LG_Tree_Time_2005], ignore_index=True)
     df_both_trees_Time_2020 = pd.concat([df_SM_Tree_Time_2020, df_LG_Tree_Time_2020], ignore_index=True)
-    return df_both_trees_Time_2005, df_both_trees_Time_2020
+    return (
+        df_LG_Tree_Time_2005,
+        df_both_trees_Time_2005,
+        df_both_trees_Time_2020,
+    )
 
 
 @app.cell
@@ -2412,6 +2699,433 @@ def _(
 
     max_freq_LL_figures_small_vs_large_tree(df_both_trees_Time_2005, "Fine_Tune_650M", "2005")
     max_freq_LL_figures_small_vs_large_tree(df_both_trees_Time_2020, "Fine_Tune_650M", "2020")
+    return
+
+
+@app.cell
+def _(mo):
+    mo.md(r"""### Summary spearman large tree""")
+    return
+
+
+@app.cell
+def _(df_LG_Tree_Time_2005, df_both_trees_Time_2005):
+    df_LG_Tree_Time_2005
+
+    #filter above 1990
+    df_both_trees_Above_2005 = df_both_trees_Time_2005[df_both_trees_Time_2005['time'] >= 2005]
+    df_both_trees_below_2005 = df_both_trees_Time_2005[df_both_trees_Time_2005['time'] < 2005]
+    return (df_both_trees_below_2005,)
+
+
+@app.cell
+def _(df_both_trees_below_2005):
+    df_both_trees_below_2005
+    return
+
+
+@app.cell
+def _(mo):
+    mo.md(r"""### LOESS Fit""")
+    return
+
+
+@app.cell
+def _(mo):
+    mo.md(r"""#### Recreating Trevor's fix""")
+    return
+
+
+@app.cell
+def _(np, plt):
+    # Set random seed for reproducibility
+    np.random.seed(42)
+
+    # Parameters for the binormal distribution
+    mean = [-100, 0.5]
+    var1 = 1
+    var2 = 0.5
+    corr = 0.9
+    cov = corr * np.sqrt(var1 * var2)
+
+    # Covariance matrix
+    cov_matrix = [[var1, cov],
+                  [cov, var2]]
+
+    # Generate 1000 samples from the bivariate normal distribution
+    data_fake = np.random.multivariate_normal(mean, cov_matrix, size=1000)
+
+    # Clip the second dimension values to the range [0, 1]
+    data_fake[:, 1] = np.clip(data_fake[:, 1], 0, 1)
+
+    # Separate the dimensions for plotting
+    esm_scores = data_fake[:, 0]
+    max_freq = data_fake[:, 1]
+
+    # Plotting
+    plt.figure()
+    plt.scatter(esm_scores, max_freq, s=10)
+    plt.xlabel("ESM score")
+    plt.ylabel("max freq")
+    plt.title("Bivariate Normal Samples with Clipped max freq")
+    plt.grid(True)
+    plt.show()
+
+    return data_fake, esm_scores, max_freq
+
+
+@app.cell
+def _(esm_scores, max_freq, spearmanr):
+    print(spearmanr(esm_scores, max_freq))
+    return
+
+
+@app.cell
+def _(data_fake):
+    data_fake
+    return
+
+
+@app.cell
+def _(esm_scores, max_freq, np, plt):
+    # Add a secular trend to the ESM score based on a random year between 1970 and 2020
+    years = np.random.uniform(1970, 2020, size=1000)
+    adjusted_esm_scores = esm_scores + 0.25 * (years - 1970)
+
+    # Combine into adjusted data format: (ESM, max_freq, year)
+    adj_data = list(zip(adjusted_esm_scores, max_freq, years))
+
+    # Separate trunk (max_freq == 1) and side branches (max_freq < 1)
+    # Since values were clipped to [0, 1], equality check works
+    sidebranch_points = [(year, esm) for esm, freq, year in adj_data if freq < 1]
+    trunk_points = [(year, esm) for esm, freq, year in adj_data if freq == 1]
+
+    # Plot the points
+    plt.figure(figsize=(10, 6))
+    if sidebranch_points:
+        plt.scatter(*zip(*sidebranch_points), color='gray', s=10, label='Side branches')
+    if trunk_points:
+        plt.scatter(*zip(*trunk_points), color='red', s=10, label='Trunk')
+    plt.xlabel("Year")
+    plt.ylabel("Adjusted ESM score")
+    plt.title("ESM Score with Secular Trend (Trunk vs. Side Branches)")
+    plt.legend()
+    plt.grid(True)
+    plt.show()
+    return (adj_data,)
+
+
+@app.cell
+def _(adj_data, pd):
+    # Convert to Pandas DataFrame
+    df_fake = pd.DataFrame(adj_data, columns=["esm_score", "max_freq", "year"])
+
+    # Optionally, mark whether each point is trunk or side branch
+    df_fake["branch_type"] = df_fake["max_freq"].apply(lambda x: "trunk" if x == 1 else "side")
+
+    df_fake
+    return (df_fake,)
+
+
+@app.cell
+def _(df_fake, spearmanr):
+    print(spearmanr(df_fake["esm_score"], df_fake["max_freq"]))
+    return
+
+
+@app.cell
+def _(df_fake, plt):
+    plt.figure()
+    plt.scatter(df_fake["esm_score"], df_fake["max_freq"], s=10)
+    plt.xlabel("ESM score")
+    plt.ylabel("max freq")
+    plt.title("Bivariate Normal Samples with Clipped max freq")
+    plt.grid(True)
+    plt.show()
+    return
+
+
+@app.cell
+def _(np):
+    def tricube_weight(x):
+        """Tricube kernel function"""
+        x = np.abs(x)
+        return np.where(x < 1, (1 - x ** 3) ** 3, 0)
+
+    def loess_distance(x0, x, alpha):
+        """Distance scale factor for LOESS"""
+        n = len(x)
+        span = max(1, int(np.ceil(alpha * n)))
+        distances = np.abs(x - x0)
+        sorted_distances = np.sort(distances)
+        return sorted_distances[span - 1]  # the span-th smallest distance
+
+    def loess_weights(x0, x, alpha):
+        """Tricube weights based on scaled distances"""
+        d = loess_distance(x0, x, alpha)
+        if d == 0:
+            # Avoid divide-by-zero when all x == x0
+            return np.where(x == x0, 1.0, 0.0)
+        scaled = (x - x0) / d
+        return tricube_weight(scaled)
+
+    def weighted_least_squares(x, y, w, degree=1):
+        """Weighted polynomial fit at a single x0"""
+        X = np.vstack([x ** i for i in range(degree + 1)]).T  # Design matrix
+        W = np.diag(w)
+        beta = np.linalg.pinv(X.T @ W @ X) @ (X.T @ W @ y)
+        return beta
+
+    def loess_single(x0, x, y, alpha=0.75, degree=1):
+        """Compute LOESS estimate at a single point x0"""
+        w = loess_weights(x0, x, alpha)
+        beta = weighted_least_squares(x, y, w, degree)
+        X0 = np.array([x0 ** i for i in range(degree + 1)])
+        return X0 @ beta
+
+    def loess_fit(x_values, data_x, data_y, alpha=0.75, degree=1):
+        """Full LOESS curve"""
+        return np.array([loess_single(x0, data_x, data_y, alpha, degree) for x0 in x_values])
+
+    return (loess_fit,)
+
+
+@app.cell
+def _(df_fake, loess_fit, np, plt):
+    # x and y data
+    x_data = df_fake["year"].values
+    y_data = df_fake["esm_score"].values
+
+    # X values where we want the smoothed curve
+    x_fit = np.linspace(1970, 2020, 300)
+    y_fit = loess_fit(x_fit, x_data, y_data, alpha=0.15, degree=1)
+
+    # Plotting
+    plt.figure(figsize=(10, 6))
+
+    # Scatter trunk/side points
+    side = df_fake[df_fake["branch_type"] == "side"]
+    trunk = df_fake[df_fake["branch_type"] == "trunk"]
+    plt.scatter(side["year"], side["esm_score"], color='gray', s=10, label="Side branches")
+    plt.scatter(trunk["year"], trunk["esm_score"], color='red', s=10, label="Trunk")
+
+    # LOESS line
+    plt.plot(x_fit, y_fit, color='black', linewidth=2, label="Custom LOESS")
+
+    plt.xlabel("Year")
+    plt.ylabel("Adjusted ESM score")
+    plt.title("ESM Score with Custom LOESS Fit")
+    plt.legend()
+    plt.grid(True)
+    plt.show()
+    return
+
+
+@app.cell
+def _(df_fake, loess_fit, plt):
+    # Compute LOESS-smoothed values for each year in the data
+    loess_smoothed = loess_fit(df_fake["year"].values, df_fake["year"].values, df_fake["esm_score"].values, alpha=0.15, degree=1)
+
+    # Compute residuals: corrected ESM score = original - LOESS-smoothed
+    df_fake["corrected_esm_score"] = df_fake["esm_score"] - loess_smoothed
+
+    # Extract corrected sidebranch and trunk points
+    side_corr = df_fake[df_fake["branch_type"] == "side"]
+    trunk_corr = df_fake[df_fake["branch_type"] == "trunk"]
+
+    # Plot the corrected residuals
+    plt.figure(figsize=(10, 6))
+    plt.scatter(side_corr["year"], side_corr["corrected_esm_score"], color='gray', s=10, label='Side branches')
+    plt.scatter(trunk_corr["year"], trunk_corr["corrected_esm_score"], color='red', s=10, label='Trunk')
+
+    plt.xlabel("Year")
+    plt.ylabel("Corrected ESM score")
+    plt.title("ESM Residuals After Regressing Out LOESS Trend")
+    plt.legend()
+    plt.grid(True)
+    plt.show()
+
+    return
+
+
+@app.cell
+def _(df_fake, plt):
+    plt.figure(figsize=(8, 6))
+    plt.scatter(df_fake["corrected_esm_score"], df_fake["max_freq"], s=10)
+    plt.xlabel("Corrected ESM score")
+    plt.ylabel("Max freq")
+    plt.title("Corrected ESM vs Max Frequency")
+    plt.grid(True)
+    plt.show()
+    return
+
+
+@app.cell
+def _(df_fake, spearmanr):
+    print(spearmanr(df_fake["corrected_esm_score"], df_fake["max_freq"]))
+    return
+
+
+@app.cell
+def _(mo):
+    mo.md(r"""### LOESS Function fix""")
+    return
+
+
+@app.cell
+def _(df_650_FT_DF_Time):
+    df_650_FT_DF_Time_ONLY_FT_HA = df_650_FT_DF_Time[(df_650_FT_DF_Time['Segment'] == 'HA') & (df_650_FT_DF_Time['Model'] == 'Fine_Tune_650M')]
+    return (df_650_FT_DF_Time_ONLY_FT_HA,)
+
+
+@app.cell
+def _(df_650_FT_DF_Time):
+    df_650_FT_DF_Time.to_csv("Notebooks/650M_Fine_Tune_Up_To_1990.csv")
+    return
+
+
+@app.cell
+def _(df_650_FT_DF_Time_ONLY_FT_HA):
+    df_650_FT_DF_Time_ONLY_FT_HA
+    return
+
+
+@app.cell
+def _(plt, sns, spearmanr):
+    def plot_regression_corr(data, x_col, y_col, title, time, ylabel="", color="#0a2463", ax=None):
+    
+        if ax is None:
+            fig, ax = plt.subplots(figsize=(8, 6))
+
+        old_mask = data["time"] < int(time)
+        recent_mask = ~old_mask
+
+        # Scatter plots
+        ax.scatter(data.loc[old_mask, x_col], data.loc[old_mask, y_col],
+                   s=50, alpha=0.35, color="lightgray", label=f"< {int(time)}")
+    
+        ax.scatter(data.loc[recent_mask, x_col], data.loc[recent_mask, y_col],
+                   s=50, alpha=0.35, color=color, label=f"≥ {int(time)}")
+
+        light_recent = sns.desaturate(color, 0.5)
+
+        # Regression lines
+        if old_mask.sum() >= 2:
+            sns.regplot(data=data.loc[old_mask], x=x_col, y=y_col, ax=ax,
+                        scatter=False,
+                        line_kws={"color": "gray", "linestyle": "--"}, ci=None)
+        if recent_mask.sum() >= 2:
+            sns.regplot(data=data.loc[recent_mask], x=x_col, y=y_col, ax=ax,
+                        scatter=False,
+                        line_kws={"color": light_recent}, ci=None)
+
+        # Correlations
+        rho_old, _ = spearmanr(data.loc[old_mask, y_col], data.loc[old_mask, x_col])
+        rho_recent, _ = spearmanr(data.loc[recent_mask, y_col], data.loc[recent_mask, x_col])
+
+        ax.text(0.05, 0.95, f"ρ(<{int(time)}) = {rho_old:.2f}", transform=ax.transAxes, fontsize=10, color="gray",
+                verticalalignment="top", bbox=dict(boxstyle="round", facecolor="white", alpha=0.0))
+    
+        ax.text(0.05, 0.85, f"ρ(≥{int(time)}) = {rho_recent:.2f}", transform=ax.transAxes, fontsize=10, color=light_recent,
+                verticalalignment="top", bbox=dict(boxstyle="round", facecolor="white", alpha=0.0))
+
+        # Axes labels and limits
+        ax.set_title(title)
+        ax.set_xlabel(" ", weight="bold")
+        ax.set_ylabel(ylabel, weight="bold")
+        ax.set_xlim(data[x_col].min(), data[x_col].max())
+        ax.set_ylim(0, 1.1)
+        ax.legend()
+
+        return ax
+    return (plot_regression_corr,)
+
+
+@app.cell
+def _(df_650_FT_DF_Time_ONLY_FT_HA, plot_regression_corr, plt):
+    plot_regression_corr(df_650_FT_DF_Time_ONLY_FT_HA, x_col="log_likelyhood", y_col="max_frequency", title="Spearman CC 650M Fine Tune for HA (Trained up to 1990)", ylabel="", color="#0a2463", time=1990)
+
+    plt.show()
+    return
+
+
+@app.cell
+def _(df_650_FT_DF_Time_ONLY_FT_HA, loess_fit):
+    def loess_smoothing(df):
+        loess_smoothed = loess_fit(df["time"].values, df["time"].values, df["log_likelyhood"].values, alpha=0.15, degree=1)
+    
+        return loess_smoothed
+
+    # Compute residuals: corrected ESM score = original - LOESS-smoothed
+
+    loess_smoothing_HA = loess_smoothing(df_650_FT_DF_Time_ONLY_FT_HA)
+    return (loess_smoothing_HA,)
+
+
+@app.cell
+def _(loess_smoothing_HA):
+    loess_smoothing_HA
+    return
+
+
+@app.cell
+def _(df_650_FT_DF_Time_ONLY_FT_HA, loess_smoothing_HA):
+    df_650_FT_DF_Time_ONLY_FT_HA["corrected_esm_score"] = df_650_FT_DF_Time_ONLY_FT_HA["log_likelyhood"] - loess_smoothing_HA
+    return
+
+
+@app.cell
+def _(df_650_FT_DF_Time_ONLY_FT_HA, sns):
+    sns.scatterplot(data = df_650_FT_DF_Time_ONLY_FT_HA, x = "time", y = "log_likelyhood", s=50, alpha=0.35, label="Data")
+    return
+
+
+@app.cell
+def _(df_650_FT_DF_Time_ONLY_FT_HA, sns):
+    sns.scatterplot(data = df_650_FT_DF_Time_ONLY_FT_HA, x = "time", y = "corrected_esm_score", s=50, alpha=0.35, label="Data")
+    return
+
+
+@app.cell
+def _(plt, sns, spearmanr):
+    def plot_regression_corr_no_time(data, x_col, y_col, title, color="#0a2463", ax=None):
+        if ax is None:
+            fig, ax = plt.subplots(figsize=(8, 6))
+
+        # Scatter plot
+        ax.scatter(data[x_col], data[y_col], s=50, alpha=0.35, color=color, label="Data")
+
+        # Regression line
+        sns.regplot(data=data, x=x_col, y=y_col, ax=ax,
+                    scatter=False, line_kws={"color": color}, ci=None)
+
+        # Correlation
+        rho, _ = spearmanr(data[y_col], data[x_col])
+        ax.text(0.05, 0.95, f"ρ = {rho:.2f}", transform=ax.transAxes, fontsize=10, color=color,
+                verticalalignment="top", bbox=dict(boxstyle="round", facecolor="white", alpha=0.0))
+
+        # Axes labels and limits
+        ax.set_title(title)
+        ax.set_xlabel(x_col, weight="bold")
+        ax.set_ylabel(y_col, weight="bold")
+        ax.set_xlim(data[x_col].min(), data[x_col].max())
+        ax.set_ylim(0, 1.1)
+        ax.legend()
+
+        return ax
+
+    return (plot_regression_corr_no_time,)
+
+
+@app.cell
+def _(df_650_FT_DF_Time_ONLY_FT_HA, plot_regression_corr_no_time):
+    plot_regression_corr_no_time(df_650_FT_DF_Time_ONLY_FT_HA, x_col="log_likelyhood", y_col="max_frequency", title="Spearman CC 650M Fine Tune for HA (Trained up to 1990)", color="#0a2463")
+    return
+
+
+@app.cell
+def _(df_650_FT_DF_Time_ONLY_FT_HA, plot_regression_corr_no_time):
+    plot_regression_corr_no_time(df_650_FT_DF_Time_ONLY_FT_HA, x_col="corrected_esm_score", y_col="max_frequency", title="Spearman CC 650M Fine Tune for HA (Trained up to 1990)", color="#0a2463")
     return
 
 
