@@ -1,6 +1,6 @@
 import marimo
 
-__generated_with = "0.13.6"
+__generated_with = "0.14.7"
 app = marimo.App(width="medium")
 
 
@@ -1450,7 +1450,7 @@ def _(
 
         #plt.tight_layout()
         #plt.subplots_adjust(left=0.1, right=0.95, top=0.9, bottom=0.15)
-    
+
         plt.savefig("Flu_Figures/Spearman_Correlation_Comparison_Fine_Tune_time_range.png", dpi=300)
         plt.show()
 
@@ -2980,7 +2980,8 @@ def _(df_650_FT_DF_Time):
 
 @app.cell
 def _(df_650_FT_DF_Time):
-    df_650_FT_DF_Time.to_csv("Notebooks/650M_Fine_Tune_Up_To_1990.csv")
+    df_650_FT_DF_Time_export = df_650_FT_DF_Time.rename(columns={'log_likelyhood': 'log_likelihood'})
+    df_650_FT_DF_Time_export.to_csv("Notebooks/650M_Fine_Tune_Up_To_1990.csv", index = 0)
     return
 
 
@@ -2993,7 +2994,7 @@ def _(df_650_FT_DF_Time_ONLY_FT_HA):
 @app.cell
 def _(plt, sns, spearmanr):
     def plot_regression_corr(data, x_col, y_col, title, time, ylabel="", color="#0a2463", ax=None):
-    
+
         if ax is None:
             fig, ax = plt.subplots(figsize=(8, 6))
 
@@ -3003,7 +3004,7 @@ def _(plt, sns, spearmanr):
         # Scatter plots
         ax.scatter(data.loc[old_mask, x_col], data.loc[old_mask, y_col],
                    s=50, alpha=0.35, color="lightgray", label=f"< {int(time)}")
-    
+
         ax.scatter(data.loc[recent_mask, x_col], data.loc[recent_mask, y_col],
                    s=50, alpha=0.35, color=color, label=f"≥ {int(time)}")
 
@@ -3025,7 +3026,7 @@ def _(plt, sns, spearmanr):
 
         ax.text(0.05, 0.95, f"ρ(<{int(time)}) = {rho_old:.2f}", transform=ax.transAxes, fontsize=10, color="gray",
                 verticalalignment="top", bbox=dict(boxstyle="round", facecolor="white", alpha=0.0))
-    
+
         ax.text(0.05, 0.85, f"ρ(≥{int(time)}) = {rho_recent:.2f}", transform=ax.transAxes, fontsize=10, color=light_recent,
                 verticalalignment="top", bbox=dict(boxstyle="round", facecolor="white", alpha=0.0))
 
@@ -3053,7 +3054,7 @@ def _(df_650_FT_DF_Time_ONLY_FT_HA, plot_regression_corr, plt):
 def _(df_650_FT_DF_Time_ONLY_FT_HA, loess_fit):
     def loess_smoothing(df):
         loess_smoothed = loess_fit(df["time"].values, df["time"].values, df["log_likelyhood"].values, alpha=0.15, degree=1)
-    
+
         return loess_smoothed
 
     # Compute residuals: corrected ESM score = original - LOESS-smoothed

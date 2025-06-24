@@ -1,6 +1,6 @@
 import marimo
 
-__generated_with = "0.13.15"
+__generated_with = "0.14.7"
 app = marimo.App(width="medium")
 
 
@@ -31,8 +31,8 @@ def _():
     import os
     import seaborn as sns
     from scipy.stats import spearmanr
-    from loess.loess_1d import loess_1d
-    return loess_1d, mo, np, pd, plt, sns, spearmanr
+    #from loess.loess_1d import loess_1d
+    return mo, np, pd, plt, sns, spearmanr
 
 
 @app.cell
@@ -54,6 +54,174 @@ def _(mo):
     """
     )
     return
+
+
+@app.cell
+def _(mo):
+    mo.md(r"""### Patch to fix LOESS package for data similarity (division by zero error)""")
+    return
+
+
+@app.cell
+def _(np):
+    class polyfit1d:
+
+        def __init__(self, x, y, degree, weights):
+            """
+            Fit a univariate polynomial of given DEGREE to a set of points
+            (X, Y), assuming errors in the Y variable only and weights=1/sigy^2.
+
+            For example with DEGREE=1 this function fits a straight line
+
+               y = a + b*x
+
+            while with DEGREE=2 the function fits a parabola
+
+               y = a + b*x + c*x^2
+
+            """
+            sqw = np.sqrt(weights)
+            a = x[:, None]**np.arange(degree + 1)
+            self.degree = degree
+            self.coeff = np.linalg.lstsq(a*sqw[:, None], y*sqw, rcond=None)[0]
+            self.yfit = a @ self.coeff
+
+
+        def eval(self, x):
+            """Evaluate at the coordinate x the polynomial previously fitted"""
+
+            a = x**np.arange(self.degree + 1)
+            yout = a @ self.coeff
+
+            return yout
+
+
+    ################################################################################
+
+
+    def biweight_sigma(y, zero=False):
+        """
+        Biweight estimate of the scale (standard deviation).
+        Implements the approach described in
+        "Understanding Robust and Exploratory Data Analysis"
+        Hoaglin, Mosteller, Tukey ed., 1983, Chapter 12B, pg. 417
+
+        """
+        y = np.ravel(y)
+        if zero:
+            d = y
+        else:
+            d = y - np.median(y)
+
+        mad = np.median(np.abs(d))
+        u2 = (d / (9.*mad))**2  # c = 9
+        good = u2 < 1.
+        u1 = 1. - u2[good]
+        num = y.size * ((d[good]*u1**2)**2).sum()
+        den = (u1*(1. - 5.*u2[good])).sum()
+        sigma = np.sqrt(num/(den*(den - 1.)))  # see note in above reference
+
+        return sigma
+
+
+    ################################################################################
+
+
+    def rotate_points(x, y, ang):
+        """
+        Rotates points counter-clockwise by an angle ANG in degrees.
+        Michele cappellari, Paranal, 10 November 2013
+
+        """
+        theta = np.radians(ang)
+        xNew = x*np.cos(theta) - y*np.sin(theta)
+        yNew = x*np.sin(theta) + y*np.cos(theta)
+
+        return xNew, yNew
+
+
+    ################################################################################
+
+
+    def loess_1d(x, y, xnew=None, degree=1, frac=0.5, npoints=None, rotate=False, sigy=None):
+
+        if frac == 0:
+            return y, np.ones_like(y)
+
+        assert x.size == y.size, 'Input vectors (X, Y) must have the same size'
+
+        if npoints is None:
+            npoints = int(np.ceil(frac*x.size))
+
+        if rotate:
+
+            assert xnew is None, "`rotate` not supported with `xnew`"
+
+            # Robust calculation of the axis of maximum variance
+            #
+            nsteps = 180
+            angles = np.arange(nsteps)
+            sig = np.zeros(nsteps)
+            for j, ang in enumerate(angles):
+                x2, y2 = rotate_points(x, y, ang)
+                sig[j] = biweight_sigma(x2)
+            k = np.argmax(sig)  # Find index of max value
+            x, y = rotate_points(x, y, angles[k])
+
+        if xnew is None:
+        
+            xnew = x
+
+        ynew = np.empty_like(xnew, dtype=float)
+        wout = np.empty_like(ynew)
+
+        for j, xj in enumerate(xnew):
+
+            dist = np.abs(x - xj)
+            w = np.argsort(dist)[:npoints]
+            dist_weights = (1 - (dist[w]/dist[w[-1]])**3)**3  # tricube function distance weights
+            yfit = polyfit1d(x[w], y[w], degree, dist_weights).yfit
+
+            # Robust fit from Sec.2 of Cleveland (1979)
+            # Use errors if those are known.
+            #
+            bad = None
+            for p in range(10):  # do at most 10 iterations
+        
+                if sigy is None:                # Errors are unknown
+                    aerr = np.abs(yfit - y[w])  # Note ABS()
+                    mad = np.median(aerr)       # Characteristic scale
+
+                    if mad == 0:
+                        mad = np.finfo(float).tiny
+                    uu = (aerr/(6*mad))**2      # For a Gaussian: sigma=1.4826*MAD
+                else:                           # Errors are assumed known
+                    uu = ((yfit - y[w])/(4*sigy[w]))**2  # 4*sig ~ 6*mad
+
+                uu = uu.clip(0, 1)
+                biweights = (1 - uu)**2
+                tot_weights = dist_weights*biweights
+                poly = polyfit1d(x[w], y[w], degree, tot_weights)
+                yfit = poly.yfit
+                badOld = bad
+                bad = biweights < 0.34    # 99% confidence outliers
+                if np.array_equal(badOld, bad):
+                    break
+
+            if np.array_equal(x, xnew):
+                ynew[j] = yfit[0]
+                wout[j] = biweights[0]
+            else:
+                ynew[j] = poly.eval(xj)
+                wout[j] = 1
+
+        if rotate:
+            xnew, ynew = rotate_points(xnew, ynew, -angles[k])
+            j = np.argsort(xnew)
+            xnew, ynew = xnew[j], ynew[j]
+
+        return xnew, ynew, wout
+    return (loess_1d,)
 
 
 @app.cell
@@ -437,7 +605,7 @@ def _(pd, segment_dfs, spearmanr):
         for seg, df in segment_dfs.items():
             spearman, p = spearmanr(df["log_likelihood"], df["max_frequency"])
             results.append({"segment": seg, "spearman_cc": spearman, "p_value": p})
-    
+
         return pd.DataFrame(results)
 
     spearman_df = compute_spearman()
@@ -521,6 +689,7 @@ def _(loess_1d, segment_dfs):
 
         df.loc[:, f"{y_col}_LOESS"] = yout
         df.loc[:, "loess_weight"] = wout
+
         return df
 
     for seg_1, df_1 in segment_dfs.items():
@@ -541,20 +710,9 @@ def _(plt, segment_dfs):
     def plot_year_v_ESM_LOESS():
         for seg, df in segment_dfs.items():
             if "log_likelihood_LOESS" in df.columns:
-            
-                #plot_branch_vs_trunk(
-                #    df,
-                #    x_col="time",
-                    #y_col="log_likelihood_LOESS",
-                #    y_col="log_likelihood",
-                #    filter_col="max_frequency",
-                #    xlabel="Year",
-                #    ylabel="ESM score",
-                #    title=f"ESM Score vs Time with LOESS ({seg})"
-                #)
-            
+
                 is_freq_one = df["max_frequency"] >= 0.99
-            
+
                 plt.scatter(df["time"][~is_freq_one], df["log_likelihood"][~is_freq_one],
                             color="grey", s=5)
 
@@ -568,7 +726,7 @@ def _(plt, segment_dfs):
                 plt.title(f"ESM Score vs Time with LOESS: {seg}")
 
                 plt.show()
-            
+
             else:
                 print(f"Skipping {seg} — no LOESS column found.")
 
@@ -588,11 +746,11 @@ def _(plt, segment_dfs):
     def plot_year_v_ESM_LOESS_corrected():
         for seg, df in segment_dfs.items():
             if "log_likelihood_LOESS" in df.columns:
-            
+
                 is_freq_one = df["max_frequency"] >= 0.99
 
                 df["corrected_log_likelihood"] = df["log_likelihood"] - df["log_likelihood_LOESS"]
-            
+
                 plt.scatter(df["time"][~is_freq_one], df["corrected_log_likelihood"][~is_freq_one],
                             color="grey", s=5)
 
@@ -604,7 +762,7 @@ def _(plt, segment_dfs):
                 plt.title(f"ESM Score vs Time with LOESS: {seg}")
 
                 plt.show()
-            
+
             else:
                 print(f"Skipping {seg} — no LOESS column found.")
 
@@ -615,7 +773,7 @@ def _(plt, segment_dfs):
 
 @app.cell
 def _(mo):
-    mo.md(r"""### ESM score with LOESS Correction vs maximum frequency """)
+    mo.md(r"""### ESM score with LOESS Correction vs maximum frequency""")
     return
 
 
@@ -660,23 +818,21 @@ def _(df_loess, pd, spearman_df):
 @app.cell
 def _(plt, sns, spearmanr):
     def plot_regression_corr(data, x_col, y_col, title, time, ylabel="", xlabel="", color="#0a2463", ax=None):
-    
+
         if ax is None:
             fig, ax = plt.subplots(figsize=(8, 6))
 
         old_mask = data["time"] < int(time)
         recent_mask = ~old_mask
 
-        # Scatter plots
         ax.scatter(data.loc[old_mask, x_col], data.loc[old_mask, y_col],
                    s=50, alpha=0.35, color="lightgray", label=f"< {int(time)}")
-    
+
         ax.scatter(data.loc[recent_mask, x_col], data.loc[recent_mask, y_col],
                    s=50, alpha=0.35, color=color, label=f"≥ {int(time)}")
 
         light_recent = sns.desaturate(color, 0.5)
 
-        # Regression lines
         if old_mask.sum() >= 2:
             sns.regplot(data=data.loc[old_mask], x=x_col, y=y_col, ax=ax,
                         scatter=False,
@@ -686,17 +842,15 @@ def _(plt, sns, spearmanr):
                         scatter=False,
                         line_kws={"color": light_recent}, ci=None)
 
-        # Correlations
         rho_old, _ = spearmanr(data.loc[old_mask, y_col], data.loc[old_mask, x_col])
         rho_recent, _ = spearmanr(data.loc[recent_mask, y_col], data.loc[recent_mask, x_col])
 
         ax.text(0.05, 0.95, f"ρ(<{int(time)}) = {rho_old:.2f}", transform=ax.transAxes, fontsize=10, color="gray",
                 verticalalignment="top", bbox=dict(boxstyle="round", facecolor="white", alpha=0.0))
-    
+
         ax.text(0.05, 0.85, f"ρ(≥{int(time)}) = {rho_recent:.2f}", transform=ax.transAxes, fontsize=10, color=light_recent,
                 verticalalignment="top", bbox=dict(boxstyle="round", facecolor="white", alpha=0.0))
 
-        # Axes labels and limits
         ax.set_title(title)
         ax.set_xlabel(xlabel, weight="bold")
         ax.set_ylabel(ylabel, weight="bold")
@@ -717,9 +871,9 @@ def _(mo):
 @app.cell
 def _(plot_regression_corr, plt, segment_dfs):
     for seg_2, df_2 in segment_dfs.items():
-        if(seg_2 != "PB1" and seg_2 != "MP"):
+        #if(seg_2 != "PB1" and seg_2 != "MP"):
             #print(seg_2)
-            plot_regression_corr(df_2, x_col="log_likelihood", y_col="max_frequency", title="Spearman CC 650M Fine Tune for HA (Trained up to 1990)", ylabel="Maximum Frequency", xlabel="ESM Score", color="#0a2463", time=1990)
+        plot_regression_corr(df_2, x_col="log_likelihood", y_col="max_frequency", title=f"Spearman CC 650M Fine Tune for {seg_2} (Trained up to 1990)", ylabel="Maximum Frequency", xlabel="ESM Score", color="#0a2463", time=1990)
 
         plt.show()
     return
@@ -736,7 +890,7 @@ def _(plot_regression_corr, plt, segment_dfs):
     for seg_3, df_3 in segment_dfs.items():
         if(seg_3 != "PB1" and seg_3 != "MP"):
             #print(seg_2)
-            plot_regression_corr(df_3, x_col="corrected_log_likelihood", y_col="max_frequency", title="Spearman CC 650M Fine Tune for HA (Trained up to 1990) with LOESS Correction", ylabel="Maximum Frequency", xlabel="ESM Score", color="#0a2463", time=1990)
+            plot_regression_corr(df_3, x_col="corrected_log_likelihood", y_col="max_frequency", title=f"Spearman CC 650M Fine Tune for {seg_3} (Trained up to 1990) with LOESS Correction", ylabel="Maximum Frequency", xlabel="ESM Score", color="#0a2463", time=1990)
 
         plt.show()
     return
@@ -752,15 +906,15 @@ def _(mo):
 def _(pd, segment_dfs, spearmanr):
     def compute_spearman_full():
         for seg_4, df_4 in segment_dfs.items():
-            
+
                 results = []
-            
+
                 for seg, df in segment_dfs.items():
                     if "log_likelihood_LOESS" in df.columns:
-                    
+
                         df_before_1990 = df[df["time"] < 1990]
                         df_after_1990 = df[df["time"] >= 1990]
-                    
+
                         spearman, p = spearmanr(df["log_likelihood"], df["max_frequency"])
                         spearman_LOESS, p = spearmanr(df["corrected_log_likelihood"], df["max_frequency"])
 
@@ -769,10 +923,10 @@ def _(pd, segment_dfs, spearmanr):
 
                         spearman_after_1990, p = spearmanr(df_after_1990["log_likelihood"], df_after_1990["max_frequency"])
                         spearman_LOESS_after_1990, p = spearmanr(df_after_1990["corrected_log_likelihood"], df_after_1990["max_frequency"])
-                    
+
                         results.append({"segment": seg, "spearman_cc_ALL_TIME": spearman, "spearman_cc_LOESS_ALL_TIME": spearman_LOESS, "spearman_cc_Before_1990": spearman_before_1990, "spearman_cc_After_1990": spearman_after_1990, "spearman_cc_LOESS_Before_1990": spearman_LOESS_before_1990, "spearman_cc_LOESS_After_1990": spearman_after_1990, "spearman_cc_LOESS_After_1990": spearman_LOESS_after_1990})
-                    
-            
+
+
                 return pd.DataFrame(results)
 
     spearman_df_full = compute_spearman_full()
