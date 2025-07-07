@@ -1,6 +1,6 @@
 import marimo
 
-__generated_with = "0.14.7"
+__generated_with = "0.14.9"
 app = marimo.App(width="medium")
 
 
@@ -2272,7 +2272,8 @@ def _(cm, colorsys, df_3B_FT_DF_Time, df_650_FT_DF_Time, plt):
             plot_esm_score(ax1, df1, f"{segment.upper()} - {model_name} Fine Tune", Fine_Tune=True)
             plot_esm_score(ax2, df2, f"{segment.upper()} - {model_name} Base")
 
-            if i >= 6:  
+            if i >= 6: 
+                ax1.set_xlabel("Date")
                 ax2.set_xlabel("Date")
 
         plt.tight_layout()
@@ -2283,7 +2284,6 @@ def _(cm, colorsys, df_3B_FT_DF_Time, df_650_FT_DF_Time, plt):
 
     esm_vs_time_4x4_grid(df_3B_FT_DF_Time, "3B")
     esm_vs_time_4x4_grid(df_650_FT_DF_Time, "650M")
-
     return
 
 
@@ -2979,9 +2979,12 @@ def _(df_650_FT_DF_Time):
 
 
 @app.cell
-def _(df_650_FT_DF_Time):
+def _(df_3B_FT_DF_Time, df_650_FT_DF_Time):
     df_650_FT_DF_Time_export = df_650_FT_DF_Time.rename(columns={'log_likelyhood': 'log_likelihood'})
     df_650_FT_DF_Time_export.to_csv("Notebooks/650M_Fine_Tune_Up_To_1990.csv", index = 0)
+
+    df_3B_FT_DF_Time_export = df_3B_FT_DF_Time.rename(columns={'log_likelyhood': 'log_likelihood'})
+    df_3B_FT_DF_Time_export.to_csv("Notebooks/3B_Fine_Tune_Up_To_1990.csv", index = 0)
     return
 
 

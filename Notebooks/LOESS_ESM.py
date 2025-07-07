@@ -694,8 +694,8 @@ def _(loess_1d, segment_dfs):
 
     for seg_1, df_1 in segment_dfs.items():
         print(seg_1)
-        if(seg_1 != "PB1" and seg_1 != "MP"):
-            segment_dfs[seg_1] = apply_loess_to_segment(df_1)
+        #if(seg_1 != "PB1" and seg_1 != "MP"):
+        segment_dfs[seg_1] = apply_loess_to_segment(df_1)
     return
 
 
@@ -996,6 +996,11 @@ def _(mo):
     - Spearman CC is >0 and positive on training dataset (before 1990).
     """
     )
+    return
+
+
+@app.cell
+def _():
     return
 
 
