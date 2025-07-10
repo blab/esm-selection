@@ -1,6 +1,6 @@
 import marimo
 
-__generated_with = "0.14.7"
+__generated_with = "0.14.10"
 app = marimo.App(width="medium")
 
 
@@ -169,7 +169,7 @@ def _(np):
             x, y = rotate_points(x, y, angles[k])
 
         if xnew is None:
-        
+
             xnew = x
 
         ynew = np.empty_like(xnew, dtype=float)
@@ -187,7 +187,7 @@ def _(np):
             #
             bad = None
             for p in range(10):  # do at most 10 iterations
-        
+
                 if sigy is None:                # Errors are unknown
                     aerr = np.abs(yfit - y[w])  # Note ABS()
                     mad = np.median(aerr)       # Characteristic scale
@@ -984,6 +984,9 @@ def _(np, plt, spearman_df_full):
         plt.tight_layout()
         plt.show()
 
+        print()
+    
+
     spearman_total_figure()
     return
 
@@ -996,11 +999,6 @@ def _(mo):
     - Spearman CC is >0 and positive on training dataset (before 1990).
     """
     )
-    return
-
-
-@app.cell
-def _():
     return
 
 

@@ -1,6 +1,6 @@
 import marimo
 
-__generated_with = "0.14.9"
+__generated_with = "0.14.10"
 app = marimo.App(width="medium")
 
 
@@ -1767,6 +1767,12 @@ def _(
 
 
 @app.cell
+def _(df_650_FT_DF_2020_Lg_tree_Time):
+    df_650_FT_DF_2020_Lg_tree_Time
+    return
+
+
+@app.cell
 def _(mo):
     mo.md(r"""### Calculate spearman CC for lg trees""")
     return
@@ -1817,6 +1823,19 @@ def _(
         df_650_FT_DF_2020_Time_spearman,
         df_650_FT_DF_All_Time_spearman,
     )
+
+
+@app.cell
+def _(df_650_FT_DF_1990_Lg_tree_Time):
+    #df_650_FT_DF_1990_Lg_tree_Time_spearman
+    df_650_FT_DF_1990_Lg_tree_Time.describe()
+    return
+
+
+@app.cell
+def _(df_650_FT_DF_1990_Lg_tree_Time):
+    df_650_FT_DF_1990_Lg_tree_Time
+    return
 
 
 @app.cell
@@ -2359,6 +2378,12 @@ def _(df_650_FT_DF_Time_Series_Validation_Time):
 
 
 @app.cell
+def _(df_650_FT_DF_Time_Series_Validation_Time):
+    df_650_FT_DF_Time_Series_Validation_Time
+    return
+
+
+@app.cell
 def _(mo):
     mo.md(r"""### Calculate spearman CC for each time frame""")
     return
@@ -2550,6 +2575,7 @@ def _(load_fine_tune_results, pd):
 
     df_both_trees_2005 = pd.concat([df_SM_Tree_2005, df_LG_Tree_2005], ignore_index=True)
     df_both_trees_2020 = pd.concat([df_SM_Tree_2020, df_LG_Tree_2020], ignore_index=True)
+    #df_both_trees_1990 = pd.concat([df_SM_Tree_1990, df_LG_Tree_1990], ignore_index=True)
     return df_both_trees_2005, df_both_trees_2020
 
 
@@ -2565,7 +2591,10 @@ def _(df_both_trees_2005, df_both_trees_2020, merge_time, pd):
     df_LG_Tree_Time_2005 = merge_time(df_both_trees_2005, "h3n2-Large")
     df_SM_Tree_Time_2020 = merge_time(df_both_trees_2020, "h3n2")
     df_LG_Tree_Time_2020 = merge_time(df_both_trees_2020, "h3n2-Large")
+    #df_SM_Tree_Time_1990 = merge_time(df_both_trees_1990, "h3n2")
+    #df_LG_Tree_Time_1990 = merge_time(df_both_trees_1990, "h3n2-Large")
 
+    #df_both_trees_Time_1990 = pd.concat([df_SM_Tree_Time_1990, df_LG_Tree_Time_1990], ignore_index=True)
     df_both_trees_Time_2005 = pd.concat([df_SM_Tree_Time_2005, df_LG_Tree_Time_2005], ignore_index=True)
     df_both_trees_Time_2020 = pd.concat([df_SM_Tree_Time_2020, df_LG_Tree_Time_2020], ignore_index=True)
     return (
@@ -2979,18 +3008,35 @@ def _(df_650_FT_DF_Time):
 
 
 @app.cell
-def _(df_3B_FT_DF_Time, df_650_FT_DF_Time):
-    df_650_FT_DF_Time_export = df_650_FT_DF_Time.rename(columns={'log_likelyhood': 'log_likelihood'})
-    df_650_FT_DF_Time_export.to_csv("Notebooks/650M_Fine_Tune_Up_To_1990.csv", index = 0)
-
-    df_3B_FT_DF_Time_export = df_3B_FT_DF_Time.rename(columns={'log_likelyhood': 'log_likelihood'})
-    df_3B_FT_DF_Time_export.to_csv("Notebooks/3B_Fine_Tune_Up_To_1990.csv", index = 0)
-    return
+def _(
+    df_650_FT_DF_1990_Lg_tree_Time,
+    df_650_FT_DF_1990_Time,
+    df_650_FT_DF_2005_Lg_tree_Time,
+    df_650_FT_DF_2005_Time,
+    pd,
+):
+    combined_LG_SM_1990_2005 = pd.concat([df_650_FT_DF_1990_Time, df_650_FT_DF_2005_Time, df_650_FT_DF_1990_Lg_tree_Time, df_650_FT_DF_2005_Lg_tree_Time], ignore_index=True)
+    return (combined_LG_SM_1990_2005,)
 
 
 @app.cell
-def _(df_650_FT_DF_Time_ONLY_FT_HA):
-    df_650_FT_DF_Time_ONLY_FT_HA
+def _(
+    combined_LG_SM_1990_2005,
+    df_3B_FT_DF_Time,
+    df_650_FT_DF_Time,
+    df_650_FT_DF_Time_Series_Validation_Time,
+):
+    df_650_FT_DF_Time_export = df_650_FT_DF_Time.rename(columns={'log_likelyhood': 'log_likelihood'})
+    df_650_FT_DF_Time_export.to_csv("Notebooks/Dataframes/650M_Fine_Tune_Up_To_1990.csv", index = 0)
+
+    df_3B_FT_DF_Time_export = df_3B_FT_DF_Time.rename(columns={'log_likelyhood': 'log_likelihood'})
+    df_3B_FT_DF_Time_export.to_csv("Notebooks/Dataframes/3B_Fine_Tune_Up_To_1990.csv", index = 0)
+
+    combined_LG_SM_1990_2005_export = combined_LG_SM_1990_2005.rename(columns={'log_likelyhood': 'log_likelihood'})
+    combined_LG_SM_1990_2005_export.to_csv("Notebooks/Dataframes/LG_SM_1990_2005.csv", index = 0)
+
+    df_650_FT_DF_Time_Series_Validation_Time_export = df_650_FT_DF_Time_Series_Validation_Time.rename(columns={'log_likelyhood': 'log_likelihood'})
+    df_650_FT_DF_Time_Series_Validation_Time_export.to_csv("Notebooks/Dataframes/df_650_FT_DF_Time_Series_Validation.csv", index = 0)
     return
 
 
@@ -3130,11 +3176,6 @@ def _(df_650_FT_DF_Time_ONLY_FT_HA, plot_regression_corr_no_time):
 @app.cell
 def _(df_650_FT_DF_Time_ONLY_FT_HA, plot_regression_corr_no_time):
     plot_regression_corr_no_time(df_650_FT_DF_Time_ONLY_FT_HA, x_col="corrected_esm_score", y_col="max_frequency", title="Spearman CC 650M Fine Tune for HA (Trained up to 1990)", color="#0a2463")
-    return
-
-
-@app.cell
-def _():
     return
 
 
