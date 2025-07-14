@@ -16,7 +16,7 @@ def _(mo):
         r"""
     In this notebook I will be reproducing some of my previous work I presented at lab meeting with LOESS correction applied, to remove the negative trend of ESM score vs Time.
 
-    All code is included in this notebook,but I collapsed it for cleanliness.
+    All code is included in this notebook, but I collapsed it for cleanliness.
     """
     )
     return
@@ -69,9 +69,9 @@ def _(mo):
         r"""
     ### Patch to fix LOESS package 
 
-    There was an issue previously why some flu segments with a general flat slope, broke the LOESS library. This is because areas where data similarity is high causes division by zero error. I fixed this by manually installing the library and changing is there is every division by a zero to use a really small number instead.
+    There was an issue previously where some flu segments with a general flat slope, broke the LOESS library. This was due to areas high data similarity causing a division by zero error. I fixed this by manually installing the library and changing instances where there would be a division by a zero to division of really small number instead.
 
-    This allows areas of a flu segment that have a relativley flat slope to remain unchanged, but we can 
+    This allows areas of a flu segment that have a relativley flat slope to remain unchanged, but we can apply LOESS to the rest of the points.
     """
     )
     return
@@ -225,6 +225,11 @@ def _(pd):
         "Dataframes/3B_Fine_Tune_Up_To_1990.csv", keep_default_na=False
     )
     return df_3B_FT_DF, df_650_FT_DF
+
+
+@app.cell
+def _():
+    return
 
 
 @app.cell(hide_code=True)
@@ -467,7 +472,9 @@ def _(mo):
         r"""
     _In this figure column 1 are the ESM scores generated from the base 650M parameter model. Column 2 is the 650M model fine tuned to each individual segement. Column 3 is the same fine tuned results with LOESS correction applied._
 
-    Shows us that the LOESS correction is working properly as each segment, the ESM score is now relatively the same across time. For some segments, such as MP, which were relatively flat before LOESS correction, there is little difference between the  fine tune and LOESS corrected fine tune plots, but average ESM score is now much closer to zero. Points that fall before 1990, the training period are less impacted by LOESS corrected than test period points - post 1990.
+    This figure shows us that the LOESS correction is working correctly. For each segment, there is no longer a droppout of ESM score over time. 
+
+    For some segments, such as MP, which were relatively flat before LOESS correction, there is little difference between the fine tune and LOESS corrected fine tune plots in terms of general trend, but average ESM score is now much closer to zero. Points that fall before 1990, the training period are less impacted by LOESS corrected than test period points - post 1990.
     """
     )
     return
@@ -482,6 +489,12 @@ def _(mo):
 @app.cell(hide_code=True)
 def _(df_3B_FT_DF_with_loess, esm_vs_time_3x8_grid):
     esm_vs_time_3x8_grid(df_3B_FT_DF_with_loess, "3B")
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""There is not a major difference with the 650M and 3B parameter model figures, and we see here that the trend removal also is working for the 3B model segements too.""")
     return
 
 
@@ -644,6 +657,18 @@ def _(
 
 @app.cell(hide_code=True)
 def _(mo):
+    mo.md(
+        r"""
+    _These figure show Spearman CC between Maximum frequency and Log Likelyhood for both the 3B and 650M models before and after the training period of 1990. Show here are the base model in blue, the fine tune model in yellow, and the fine tune model with LOESS in red._
+
+    We see that for the both the base and fine tune models have a much higher spearman CC for after the training period (post 1990) than before (per 1990). However this trend is reversed after LOESS correction is applied where the LOESS corrected fine tune models have a much higher spearman CC for training data than for test data where spearman CC is nearly zero.
+    """
+    )
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
     mo.md(r"""## Comparing maximum frequency to time""")
     return
 
@@ -651,17 +676,17 @@ def _(mo):
 @app.cell(hide_code=True)
 def _(LinearRegression, df_650_FT_DF_with_loess, np, pd, plt, sns, spearmanr):
     def time_maxfreq_spear(model_df):
-    
+
         for segment, group in model_df.groupby('Segment'):
-        
+
             df = model_df[model_df['Segment'] == segment]
 
             #df = df[df["time"] > 1990]
-        
+
             rho, pval = spearmanr(df["time"], 
                                  df["max_frequency"])
             print(f"Spearman ρ = {rho:.3f}, p = {pval:.3g}")
-        
+
             df = df.copy()
             df["time_rank"] = df["time"].rank()
             df["freq_rank"] = df["max_frequency"].rank()
@@ -669,20 +694,20 @@ def _(LinearRegression, df_650_FT_DF_with_loess, np, pd, plt, sns, spearmanr):
             X = df[["time_rank"]].values
             y = df["freq_rank"].values
             lm = LinearRegression().fit(X, y)
-        
+
             sns.scatterplot(x="time", y="max_frequency", data=df)
-        
+
             x_line = np.linspace(df["time"].min(), df["time"].max(), 100)
             x_line_rank = pd.Series(x_line).rank(method="first", pct=False).values
             y_line_rank = lm.predict(x_line_rank.reshape(-1, 1))
             y_line = np.percentile(df["max_frequency"], 100 * (y_line_rank - 1) / (len(df) - 1))
-        
+
             plt.plot(x_line, y_line, color="red", linestyle="--",
                      label=f"Spearman fit (ρ={rho:.2f})")
             plt.legend()
-        
+
             plt.title(f"{segment} time vs maximum frequency")
-        
+
             plt.show()
 
     time_maxfreq_spear(df_650_FT_DF_with_loess)
@@ -691,7 +716,25 @@ def _(LinearRegression, df_650_FT_DF_with_loess, np, pd, plt, sns, spearmanr):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""explains why spearman higher with post training dataset""")
+    mo.md(
+        r"""
+    _These figures plot maximum frequency against time for each flu segment, each point is a node on the tree._
+
+    These figures show us that over time there is a moderate decrease in maximum frequency scores over time, with the majority of points and the points with lowests maximum frequencies concentrated the furthest in time, at the bottom right of all plots.
+    """
+    )
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""## Recreating sliding window spearman CC plots """)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""### Calculate spearman CC for each 20 year time window""")
     return
 
 
@@ -809,6 +852,12 @@ def _(
 
 
 @app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""### Create time window figures""")
+    return
+
+
+@app.cell(hide_code=True)
 def _(np, plt, sns):
     def create_spearman_summary_plot(df):
         sns.set_style("whitegrid")
@@ -881,10 +930,33 @@ def _(combined_spearman_summary, create_spearman_summary_plot):
     return
 
 
+@app.cell
+def _():
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(
+        r"""
+    ### Import larger flu tree 
+
+    Here we will compare the larger flu tree with ~1000 more nodes to the base flu tree I was working with, I'll compare a training window of 1990 to a training window of 2005 as well as I did in my presentation.
+    """
+    )
+    return
+
+
 @app.cell(hide_code=True)
 def _(pd):
     combined_LG_SM_1990_2005 = pd.read_csv('Dataframes/LG_SM_1990_2005.csv', keep_default_na=False)
     return (combined_LG_SM_1990_2005,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""### Apply LOESS correction to larger tree""")
+    return
 
 
 @app.cell(hide_code=True)
@@ -908,6 +980,12 @@ def _(LG_1990, LG_2005, SM_1990, SM_2005, apply_loess_to_finetune_models):
         SM_1990_with_loess,
         SM_2005_with_loess,
     )
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""### Calculate spearman CC for large and small trees for each testing period""")
+    return
 
 
 @app.cell(hide_code=True)
@@ -960,6 +1038,12 @@ def _(
     )
 
 
+@app.cell
+def _(mo):
+    mo.md(r"""### Generate Large tree LOESS Comparison for 1990 and 2005""")
+    return
+
+
 @app.cell(hide_code=True)
 def _(
     LG_1990_spearman_FT,
@@ -1007,8 +1091,20 @@ def _(LG_combined_spearman_summary, create_spearman_summary_plot):
 
 
 @app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""### Generate Small tree LOESS Comparison for 1990 and 2005""")
+    return
+
+
+@app.cell(hide_code=True)
 def _(SM_combined_spearman_summary, create_spearman_summary_plot):
     create_spearman_summary_plot(SM_combined_spearman_summary)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""## Calculate time series cross Validation""")
     return
 
 
@@ -1087,6 +1183,12 @@ def _(
 
 
 @app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""### Generate time series cross validation for fine tune models no LOESS""")
+    return
+
+
+@app.cell(hide_code=True)
 def _(plt, sns):
     def create_time_series_plot(spearman_df):
         unique_years = spearman_df['start_year'].unique()
@@ -1113,6 +1215,12 @@ def _(plt, sns):
 @app.cell(hide_code=True)
 def _(create_time_series_plot, spearman_df):
     create_time_series_plot(spearman_df)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""### Generate time series cross validation for fine tune models with LOESS correction""")
     return
 
 
