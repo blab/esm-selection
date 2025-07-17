@@ -1,7 +1,30 @@
+# /// script
+# requires-python = ">=3.9"
+# dependencies = [
+#     "altair==5.5.0",
+#     "duckdb==1.3.2",
+#     "ipython==8.18.1",
+#     "marimo",
+#     "matplotlib==3.9.4",
+#     "nbformat==5.10.4",
+#     "numpy==2.0.2",
+#     "openai==1.95.1",
+#     "pandas==2.3.1",
+#     "polars[pyarrow]==1.31.0",
+#     "pytest==8.4.1",
+#     "scikit-learn==1.6.1",
+#     "scipy==1.13.1",
+#     "seaborn==0.13.2",
+#     "sqlglot==27.0.0",
+#     "vegafusion==2.0.2",
+#     "vl-convert-python==1.8.0",
+# ]
+# ///
+
 import marimo
 
 __generated_with = "0.14.10"
-app = marimo.App(width="medium")
+app = marimo.App(width="medium", app_title="LOESS Updates")
 
 
 @app.cell(hide_code=True)
@@ -39,6 +62,7 @@ def _():
     import marimo as mo
     import pandas as pd
     import matplotlib.pyplot as plt
+    import matplotlib as mpl
     import numpy as np
     import os
     import seaborn as sns
@@ -49,12 +73,15 @@ def _():
     from matplotlib.ticker import FormatStrFormatter
     from mpl_toolkits.axes_grid1 import make_axes_locatable
     from sklearn.linear_model import LinearRegression
+    import warnings
+    warnings.filterwarnings("ignore", category=RuntimeWarning)
     return (
         LinearRegression,
         ScalarFormatter,
         cm,
         colorsys,
         mo,
+        mpl,
         np,
         pd,
         plt,
@@ -221,15 +248,11 @@ def _(pd):
     df_650_FT_DF = pd.read_csv(
         "Dataframes/650M_Fine_Tune_Up_To_1990.csv", keep_default_na=False
     )
+
     df_3B_FT_DF = pd.read_csv(
         "Dataframes/3B_Fine_Tune_Up_To_1990.csv", keep_default_na=False
     )
     return df_3B_FT_DF, df_650_FT_DF
-
-
-@app.cell
-def _():
-    return
 
 
 @app.cell(hide_code=True)
@@ -330,7 +353,17 @@ def _(mo):
 def _(apply_loess_to_finetune_models, df_3B_FT_DF, df_650_FT_DF):
     df_650_FT_DF_with_loess = apply_loess_to_finetune_models(df_650_FT_DF)
     df_3B_FT_DF_with_loess = apply_loess_to_finetune_models(df_3B_FT_DF)
+
+    df_650_FT_DF_with_loess.to_csv('Dataframes/df_650_FT_DF_with_loess.csv', index=False)
+    df_3B_FT_DF_with_loess.to_csv('Dataframes/df_3B_FT_DF_with_loess.csv', index=False)
     return df_3B_FT_DF_with_loess, df_650_FT_DF_with_loess
+
+
+@app.cell
+def _(df_3B_FT_DF_with_loess, df_650_FT_DF_with_loess):
+    df_650_FT_DF_with_loess_FT = df_650_FT_DF_with_loess[df_650_FT_DF_with_loess['Model'] == 'Fine_Tune_650M']
+    df_3B_FT_DF_with_loess_FT = df_3B_FT_DF_with_loess[df_3B_FT_DF_with_loess['Model'] == 'Fine_Tune_3B']
+    return df_3B_FT_DF_with_loess_FT, df_650_FT_DF_with_loess_FT
 
 
 @app.cell(hide_code=True)
@@ -340,10 +373,26 @@ def _(mo):
 
 
 @app.cell(hide_code=True)
-def _(ScalarFormatter, cm, colorsys, np, plt, sns):
-    plt.style.use("seaborn-v0_8-whitegrid")
-    sns.set(style='ticks', palette='Set2')
+def _(mpl, plt, sns):
+    mpl.rcParams.update({
+        "figure.facecolor":   "white",  
+        "axes.facecolor":     "white",   
+        "savefig.facecolor":  "white",   
+        "axes.edgecolor":     "black",
+        "axes.labelcolor":    "black",
+        "xtick.color":        "black",
+        "ytick.color":        "black",
+        "text.color":         "black",
+    })
 
+    sns.set(style="white", palette="Set2")
+    sns.set(style='ticks', palette='Set2')
+    plt.style.use("seaborn-v0_8-whitegrid")
+    return
+
+
+@app.cell(hide_code=True)
+def _(ScalarFormatter, cm, colorsys, np, plt):
     def darken_color(rgb, factor=0.7):
         h, l, s = colorsys.rgb_to_hls(*rgb)
         r, g, b = colorsys.hls_to_rgb(h, max(0, l * factor), s)
@@ -451,7 +500,7 @@ def _(ScalarFormatter, cm, colorsys, np, plt, sns):
         #plt.show()
 
         return plt.gcf() 
-    return (esm_vs_time_3x8_grid,)
+    return darken_color, esm_vs_time_3x8_grid
 
 
 @app.cell(hide_code=True)
@@ -495,6 +544,276 @@ def _(df_3B_FT_DF_with_loess, esm_vs_time_3x8_grid):
 @app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""There is not a major difference with the 650M and 3B parameter model figures, and we see here that the trend removal also is working for the 3B model segements too.""")
+    return
+
+
+@app.cell(hide_code=True)
+def _(ScalarFormatter, cm, darken_color, np, plt):
+    def plot_loess_finetune(ax, df, title):
+        ll_col = "corrected_log_likelihood"
+
+        norm = plt.Normalize(df[ll_col].min(), df[ll_col].max())
+        cmap = plt.get_cmap("viridis")
+        colors = cmap(norm(df[ll_col]))
+        edgecolors = [darken_color(c[:3], factor=0.7) for c in colors]
+
+        ax.scatter(
+            df["time"], df[ll_col], c=colors,
+            edgecolors=edgecolors, linewidths=0.5, alpha=0.7, zorder=1
+        )
+
+        high_freq = df[df["max_frequency"] >= 1].sort_values("time")
+        ax.plot(
+            high_freq["time"], high_freq[ll_col],
+            linestyle='-', color='black', linewidth=3, alpha=0.6,
+            label='Max Freq ≥ 1', zorder=2
+        )
+
+        ax.yaxis.offsetText.set_visible(False)
+        sm = cm.ScalarMappable(cmap=cmap, norm=norm)
+        cbar = plt.colorbar(sm, ax=ax, orientation='vertical', pad=0.02, extend='both')
+        cbar.ax.yaxis.offsetText.set_visible(False)
+
+        ax.set_title(title, fontsize=10)
+        ax.axvline(1990, color='gray', linestyle='--', linewidth=1.5)
+        ax.set_ylabel("ESM Score", fontsize=8)
+        ax.grid(True, color='lightgray', linestyle='-', linewidth=0.75)
+        ax.spines[['right', 'top']].set_visible(False)
+        ax.xaxis.set_major_formatter(ScalarFormatter(useOffset=False))
+        ax.ticklabel_format(style='plain', axis='x')
+        ax.set_xlim(1965, 2025)
+        y_min, y_max = df[ll_col].min(), df[ll_col].max()
+        pad = (y_max - y_min) * 0.05 if y_max != y_min else 1.0
+        ax.set_ylim(y_min - pad, y_max + pad)
+        return ax
+
+    def two_col_loess_finetune(df_left, df_right, model_name_left, model_name_right):
+
+        segments = sorted(df_left['Segment'].unique())
+        fig, axs = plt.subplots(len(segments), 2, figsize=(12, 4 * len(segments)), sharex=True)
+
+        for i, seg in enumerate(segments):
+            # Filter only fine-tune LOESS data
+            df_left_ft  = df_left[(df_left['Model'] == f"Fine_Tune_{model_name_left}") & (df_left['Segment'] == seg)]
+            df_right_ft = df_right[(df_right['Model'] == f"Fine_Tune_{model_name_right}") & (df_right['Segment'] == seg)]
+
+            if seg == "PA":
+                df_left_ft = df_left_ft[df_left_ft['node'] != 'A/Viamao/LACENRS-974/2015']
+                df_right_ft = df_right_ft[df_right_ft['node'] != 'A/Viamao/LACENRS-974/2015']
+
+            ax_left, ax_right = axs[i, 0], axs[i, 1]
+            plot_loess_finetune(ax_left,  df_left_ft,  f"{seg} • Fine_Tune_{model_name_left}")
+            plot_loess_finetune(ax_right, df_right_ft, f"{seg} • Fine_Tune_{model_name_right}")
+
+            # X-axis and ticks
+            if i == len(segments) - 1:
+                ax_left.set_xlabel("Year", fontsize=8)
+                ax_right.set_xlabel("Year", fontsize=8)
+
+            years = np.arange(1960, 2021, 20)
+            for ax in (ax_left, ax_right):
+                ax.set_xticks(years)
+                ax.set_xticklabels(years, rotation=0, ha='right', fontsize=10)
+
+        plt.tight_layout(h_pad=2, w_pad=1)
+        return plt.gcf()
+
+    return (two_col_loess_finetune,)
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""### ESM with LOESS correction vs Maximum Frequency""")
+    return
+
+
+@app.cell(hide_code=True)
+def _(df_3B_FT_DF_with_loess, df_650_FT_DF_with_loess, two_col_loess_finetune):
+    two_col_loess_finetune(df_650_FT_DF_with_loess, df_3B_FT_DF_with_loess, "650M", "3B")
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""Per TB's suggestion I removed the first two columns of my figures with the base dataset and finetune without LOESS.""")
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""## Find position of trunk along time""")
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(
+        rf"""
+    ### Calculate nearest neighbors 
+
+    For every node with a maximum frequency of greater than 1 find the 10 nearest points. Get the minimum a maximum of those 10 points and see where our trunk node sites among its neighbors.
+    """
+    )
+    return
+
+
+@app.cell(hide_code=True)
+def _(List, np, pd):
+    def neighbor_likelihood_extremes_by_segment(
+        df: pd.DataFrame,
+        n_neighbors: int = 10,
+        freq_threshold: float = 1.0,
+    ) -> pd.DataFrame:
+
+        required = {
+            "Segment",
+            "node",
+            "max_frequency",
+            "corrected_log_likelihood",
+            "time",
+        }
+        missing = required.difference(df.columns)
+        if missing:
+            raise ValueError(f"DataFrame missing columns: {', '.join(missing)}")
+
+        summaries: List[dict] = []
+
+        for seg, seg_df in df.groupby("Segment"):
+            node_max = seg_df.groupby("node")["max_frequency"].max()
+
+            eligible_nodes = node_max[node_max >= freq_threshold].index
+
+            # Vectorised arrays for quick slicing
+            seg_idx      = seg_df.index.to_numpy()
+            times        = seg_df["time"].to_numpy()
+            log_ll       = seg_df["corrected_log_likelihood"].to_numpy()
+            nodes_arr    = seg_df["node"].to_numpy()
+            max_freq_arr = seg_df["max_frequency"].to_numpy()
+
+            for node in eligible_nodes:
+                node_max_freq = node_max[node]
+
+                rep_mask = (nodes_arr == node) & (max_freq_arr == node_max_freq)
+                if not rep_mask.any():
+                    continue
+
+                rep_i  = np.where(rep_mask)[0][0]
+                t0     = times[rep_i]
+                node_ll = log_ll[rep_i]
+
+                deltas    = np.abs(times - t0)
+                other_idx = np.where(nodes_arr != node)[0]
+
+                if other_idx.size:
+                    nearest   = other_idx[np.argsort(deltas[other_idx])[:n_neighbors]]
+                    neigh_ll  = log_ll[nearest]
+                    best, worst = neigh_ll.max(), neigh_ll.min()
+                else:
+                    best = worst = np.nan
+
+                if np.isnan(best) or np.isnan(worst) or best == worst:
+                    trunk_position = np.nan
+                else:
+                    trunk_position = (node_ll - worst) / (best - worst)
+                    trunk_position = np.clip(trunk_position, 0.0, 1.0)
+
+                summaries.append(
+                    {
+                        "Segment": seg,
+                        "node": node,
+                        "node_time": t0,
+                        "max_frequency": node_max_freq,
+                        "node_log_likelihood": node_ll,
+                        "best_neighbor_ll": best,
+                        "worst_neighbor_ll": worst,
+                        "trunk_position": trunk_position,
+                    }
+                )
+
+        return pd.DataFrame(summaries)
+
+    return (neighbor_likelihood_extremes_by_segment,)
+
+
+@app.cell(hide_code=True)
+def _(
+    df_3B_FT_DF_with_loess_FT,
+    df_650_FT_DF_with_loess_FT,
+    neighbor_likelihood_extremes_by_segment,
+):
+    df_650_NN = neighbor_likelihood_extremes_by_segment(df_650_FT_DF_with_loess_FT, n_neighbors=10)
+    df_3B_NN = neighbor_likelihood_extremes_by_segment(df_3B_FT_DF_with_loess_FT, n_neighbors=10)
+    return df_3B_NN, df_650_NN
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""### Plot position of trunk over time""")
+    return
+
+
+@app.cell
+def _(LinearRegression, np, pd, plt, sns, spearmanr):
+    def trunk_time_split(model_df, split_year=1990):
+        for segment, group in model_df.groupby("Segment"):
+            fig, axes = plt.subplots(1, 2, figsize=(14, 5), sharey=True)
+            subsets = {
+                f"≤ {split_year}": group[group["node_time"] <= split_year],
+                f"> {split_year}":  group[group["node_time"] >  split_year]
+            }
+
+            for ax, (label, df) in zip(axes, subsets.items()):
+                if df.empty:
+                    ax.set_visible(False)
+                    continue
+
+                rho, pval = spearmanr(df["node_time"], df["trunk_position"])
+                df = df.copy()
+                df["time_rank"] = df["node_time"].rank()
+                df["freq_rank"] = df["trunk_position"].rank()
+
+                # Fit on a DataFrame so the model “knows” the feature name
+                lm = LinearRegression().fit(
+                    df[["time_rank"]], df["freq_rank"]
+                )
+
+                sns.scatterplot(x="node_time", y="trunk_position", data=df, ax=ax)
+
+                # Create a DataFrame for prediction, with the same column name
+                x_line = np.linspace(df["node_time"].min(),
+                                     df["node_time"].max(), 100)
+                x_line_df = pd.DataFrame({"time_rank": pd.Series(x_line).rank()})
+
+                # No warning now—X has valid feature names
+                y_line_rank = lm.predict(x_line_df)
+
+                # Map predicted ranks back to trunk_position values
+                y_line = np.interp(
+                    y_line_rank,
+                    np.arange(1, len(df) + 1),
+                    np.sort(df["trunk_position"].values)
+                )
+
+                ax.plot(x_line, y_line, "--", label=f"ρ={rho:.2f}, p={pval:.2g}")
+                ax.set_title(f"{segment} — {label}")
+                ax.set_xlabel("node_time")
+                ax.legend()
+
+            axes[0].set_ylabel("trunk_position")
+            plt.tight_layout()
+            plt.show()
+    return (trunk_time_split,)
+
+
+@app.cell
+def _(df_650_NN, trunk_time_split):
+    trunk_time_split(df_650_NN)   # your DataFrame
+    return
+
+
+@app.cell
+def _(df_3B_NN, trunk_time_split):
+    trunk_time_split(df_3B_NN) 
     return
 
 
@@ -561,9 +880,9 @@ def _(df_3B_FT_DF_with_loess, df_650_FT_DF_with_loess, pd, spearmanr):
 
               results_df = pd.DataFrame(results)
 
-      print("____________________________")
-      print(f"Summary Statistics for {base_name} Model - {time_frame}")
-      print(results_df.groupby('Model')['Spearman Correlation Coefficient between Max Frequency and LL'].mean())
+      #print("____________________________")
+      #print(f"Summary Statistics for {base_name} Model - {time_frame}")
+      #print(results_df.groupby('Model')['Spearman Correlation Coefficient between Max Frequency and LL'].mean())
 
       #results_df.to_csv(f"Flu_Summary_Statistics/ESM_vs_Max_Freq_Summary_Fine_Tune_{base_name}_Statistics.csv", index=False)
       return results_df
@@ -604,8 +923,6 @@ def _(
     plt,
     sns,
 ):
-    # Combine all result plots into one 4x4 figure, easier to view
-
     def plot_spearman_barplot(ax, df, model_order, palette, title, xaxis=""):
         df['Model'] = pd.Categorical(df['Model'], categories=model_order, ordered=True)
         df = df.sort_values('Model')
@@ -720,7 +1037,9 @@ def _(mo):
         r"""
     _These figures plot maximum frequency against time for each flu segment, each point is a node on the tree._
 
-    These figures show us that over time there is a moderate decrease in maximum frequency scores over time, with the majority of points and the points with lowests maximum frequencies concentrated the furthest in time, at the bottom right of all plots.
+    These figures show us that over time there is a moderate decrease in maximum frequency scores over time, with the majority of points and the points with lowests maximum frequencies concentrated the furthest in time, at the bottom right of all plots. 
+
+    This helps explain why before LOESS correction there is an increase in spearman CC between maximum frequency and log likelihood when using the test dataset, as data post 1990 showed a decrease in ESM log likelihood score over time/
     """
     )
     return
@@ -728,7 +1047,7 @@ def _(mo):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""## Recreating sliding window spearman CC plots """)
+    mo.md(r"""## Recreating sliding window spearman CC plots""")
     return
 
 
@@ -930,8 +1249,15 @@ def _(combined_spearman_summary, create_spearman_summary_plot):
     return
 
 
-@app.cell
-def _():
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(
+        r"""
+    _This figure shows spearman CC between the 650M and 3B parameters models before and after LOESS correction, spearman CC is calculated 10 years before and after each timepoint. IE 2000 would be spearman CC between 1990-2010_
+
+    With LOESS correction spearman CC drops off after training dataset (1990) and remains relatively flat.
+    """
+    )
     return
 
 
@@ -969,17 +1295,27 @@ def _(combined_LG_SM_1990_2005):
 
 
 @app.cell(hide_code=True)
-def _(LG_1990, LG_2005, SM_1990, SM_2005, apply_loess_to_finetune_models):
+def _(LG_1990, apply_loess_to_finetune_models):
     LG_1990_with_loess = apply_loess_to_finetune_models(LG_1990)
+    return (LG_1990_with_loess,)
+
+
+@app.cell(hide_code=True)
+def _(LG_2005, apply_loess_to_finetune_models):
     LG_2005_with_loess = apply_loess_to_finetune_models(LG_2005)
+    return (LG_2005_with_loess,)
+
+
+@app.cell(hide_code=True)
+def _(SM_1990, apply_loess_to_finetune_models):
     SM_1990_with_loess = apply_loess_to_finetune_models(SM_1990)
+    return (SM_1990_with_loess,)
+
+
+@app.cell(hide_code=True)
+def _(SM_2005, apply_loess_to_finetune_models):
     SM_2005_with_loess = apply_loess_to_finetune_models(SM_2005)
-    return (
-        LG_1990_with_loess,
-        LG_2005_with_loess,
-        SM_1990_with_loess,
-        SM_2005_with_loess,
-    )
+    return (SM_2005_with_loess,)
 
 
 @app.cell(hide_code=True)
@@ -1038,7 +1374,7 @@ def _(
     )
 
 
-@app.cell
+@app.cell(hide_code=True)
 def _(mo):
     mo.md(r"""### Generate Large tree LOESS Comparison for 1990 and 2005""")
     return
@@ -1092,6 +1428,18 @@ def _(LG_combined_spearman_summary, create_spearman_summary_plot):
 
 @app.cell(hide_code=True)
 def _(mo):
+    mo.md(
+        r"""
+    _This figure is a sliding window comparision of the larger flu tree, which added an additional ~1000 samples, with models trained up to 1990 and 2005 before and after LOESS correction._
+
+    For the larger tree we still see a rise of spearman CC at 1990, but there is more of a gradual rise vs large spike. For the large tree with a model trained up to 1990 spearman CC drops off sharply after 1990, for the model trained up to 2005 spearman CC drops off at 2000 before flattening out.
+    """
+    )
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
     mo.md(r"""### Generate Small tree LOESS Comparison for 1990 and 2005""")
     return
 
@@ -1099,6 +1447,18 @@ def _(mo):
 @app.cell(hide_code=True)
 def _(SM_combined_spearman_summary, create_spearman_summary_plot):
     create_spearman_summary_plot(SM_combined_spearman_summary)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(
+        r"""
+    _This figure shows a sliding window comparision of spearman CC's between training the model up 1990 and up to 2005. This figure features the datasets with and without LOESS correction. Small tree is the base tree that was used for earlier parts of this project and notebook._
+
+    With LOESS correction we no longer see the large increase in spearman CC at 2010 and instead a constant decrease in spearman CC. The dataset trained up to 2005 has a spearman CC higher than the dataset trained up to 1990 across all points.
+    """
+    )
     return
 
 
@@ -1220,6 +1580,18 @@ def _(create_time_series_plot, spearman_df):
 
 @app.cell(hide_code=True)
 def _(mo):
+    mo.md(
+        r"""
+    _This figure is a time series cross validation for the smaller (base tree) with no LOESS correction applied. EX for the first box, a model was trained up to 1990, then spearman CC was calculated for small windows after the training period._
+
+    We would expect spearman CC to drop off over time past the training period, where is this figure it looks more sporadic and it is difficult to discern a pattern.
+    """
+    )
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
     mo.md(r"""### Generate time series cross validation for fine tune models with LOESS correction""")
     return
 
@@ -1227,6 +1599,18 @@ def _(mo):
 @app.cell(hide_code=True)
 def _(create_time_series_plot, spearman_df_LOESS):
     create_time_series_plot(spearman_df_LOESS)
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(
+        r"""
+    _This figure takes the same dataset from the previous time series plot and adds LOESS correction before binning and calculating spearman CC_
+
+    Here we see spearman CC drop off over time the futher past the data window is from the training dataset.
+    """
+    )
     return
 
 
