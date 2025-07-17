@@ -359,7 +359,7 @@ def _(apply_loess_to_finetune_models, df_3B_FT_DF, df_650_FT_DF):
     return df_3B_FT_DF_with_loess, df_650_FT_DF_with_loess
 
 
-@app.cell
+@app.cell(hide_code=True)
 def _(df_3B_FT_DF_with_loess, df_650_FT_DF_with_loess):
     df_650_FT_DF_with_loess_FT = df_650_FT_DF_with_loess[df_650_FT_DF_with_loess['Model'] == 'Fine_Tune_650M']
     df_3B_FT_DF_with_loess_FT = df_3B_FT_DF_with_loess[df_3B_FT_DF_with_loess['Model'] == 'Fine_Tune_3B']
@@ -652,6 +652,8 @@ def _(mo):
     ### Calculate nearest neighbors 
 
     For every node with a maximum frequency of greater than 1 find the 10 nearest points. Get the minimum a maximum of those 10 points and see where our trunk node sites among its neighbors.
+
+    This shows use where the trunk of the tree sits relative to the points around it.
     """
     )
     return
@@ -752,7 +754,35 @@ def _(mo):
     return
 
 
-@app.cell
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(
+        r"""
+    To calculate trunk position each node with a maximum frequency of 1. Found the 10 points nearest in time to that given node. Found the maximum and minimum log-likelihoods for these 10 neighbor nodes. Then I found where proportionally our maximum frequency node of 1 sits between the maximum and minimum nodes for log-likelihood.
+
+    Ex: 
+
+    *b* = Max LL of -5
+
+    *a* = Min LL of 5
+
+    *x* = Node with max frequency of 1 of -1
+
+    < -5 - - -2 - - - - - - 5 >
+
+    -1 sits at the lower 40% of between the maximum and minimum of the nearest neighbors.
+
+    Or can written as the equation:
+
+    $`P = \frac{x - a}{b - a}`$
+
+    These plots below use the LOESS normalized log-likelihoods. For any point with a calculated proportional position above 1 I set to 1, and below 0 to 0.
+    """
+    )
+    return
+
+
+@app.cell(hide_code=True)
 def _(LinearRegression, np, pd, plt, sns, spearmanr):
     def trunk_time_split(model_df, split_year=1990):
         for segment, group in model_df.groupby("Segment"):
@@ -772,22 +802,18 @@ def _(LinearRegression, np, pd, plt, sns, spearmanr):
                 df["time_rank"] = df["node_time"].rank()
                 df["freq_rank"] = df["trunk_position"].rank()
 
-                # Fit on a DataFrame so the model “knows” the feature name
                 lm = LinearRegression().fit(
                     df[["time_rank"]], df["freq_rank"]
                 )
 
                 sns.scatterplot(x="node_time", y="trunk_position", data=df, ax=ax)
 
-                # Create a DataFrame for prediction, with the same column name
                 x_line = np.linspace(df["node_time"].min(),
                                      df["node_time"].max(), 100)
                 x_line_df = pd.DataFrame({"time_rank": pd.Series(x_line).rank()})
 
-                # No warning now—X has valid feature names
                 y_line_rank = lm.predict(x_line_df)
 
-                # Map predicted ranks back to trunk_position values
                 y_line = np.interp(
                     y_line_rank,
                     np.arange(1, len(df) + 1),
@@ -795,25 +821,43 @@ def _(LinearRegression, np, pd, plt, sns, spearmanr):
                 )
 
                 ax.plot(x_line, y_line, "--", label=f"ρ={rho:.2f}, p={pval:.2g}")
-                ax.set_title(f"{segment} — {label}")
-                ax.set_xlabel("node_time")
+                ax.set_title(f"{segment} Trunk position over time {label}")
+                ax.set_xlabel("Time")
                 ax.legend()
 
-            axes[0].set_ylabel("trunk_position")
+            axes[0].set_ylabel("trunk position")
             plt.tight_layout()
             plt.show()
     return (trunk_time_split,)
 
 
-@app.cell
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""#### Trunk position over time for 650M parameter model""")
+    return
+
+
+@app.cell(hide_code=True)
 def _(df_650_NN, trunk_time_split):
     trunk_time_split(df_650_NN)   # your DataFrame
     return
 
 
-@app.cell
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""####Trunk position over time for 3B parameter model""")
+    return
+
+
+@app.cell(hide_code=True)
 def _(df_3B_NN, trunk_time_split):
     trunk_time_split(df_3B_NN) 
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""For these plots I separated them between the testing and training datasets, spearman correlation is included to help show a trend of where the Trunk is moving, as points are scattered.""")
     return
 
 

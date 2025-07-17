@@ -24,12 +24,13 @@ def _():
     import json
     import sys
     import argparse
-    from augur.utils import annotate_parents_for_tree
+    #from augur.utils import annotate_parents_for_tree
     import Bio.Phylo
     from Bio import Phylo
     import matplotlib.colors as mcolors
     from matplotlib import colormaps
     import colorsys
+    import matplotlib as mpl
     import matplotlib.cm as cm
     import numpy as np
     import glob
@@ -44,6 +45,7 @@ def _():
         gridspec,
         json,
         mo,
+        mpl,
         np,
         os,
         pd,
@@ -66,6 +68,13 @@ def _(os):
     os.chdir(current_directory)
     os.chdir("..")
     return
+
+
+@app.cell
+def _(os):
+    cwd = os.getcwd()
+    print(cwd)
+    return (cwd,)
 
 
 @app.cell
@@ -157,8 +166,27 @@ def _(df_15B_Base, df_3B_Base, df_650_Base, pd):
 
 
 @app.cell
-def _():
-    ### Create Runtime Figure
+def _(mo):
+    mo.md(r"""### Create Runtime Figure""")
+    return
+
+
+@app.cell
+def _(mpl, plt, sns):
+    mpl.rcParams.update({
+        "figure.facecolor":   "white",  
+        "axes.facecolor":     "white",   
+        "savefig.facecolor":  "white",   
+        "axes.edgecolor":     "black",
+        "axes.labelcolor":    "black",
+        "xtick.color":        "black",
+        "ytick.color":        "black",
+        "text.color":         "black",
+    })
+
+    sns.set(style="white", palette="Set2")
+    sns.set(style='ticks', palette='Set2')
+    plt.style.use("seaborn-v0_8-whitegrid")
     return
 
 
@@ -438,7 +466,7 @@ def _(mo):
 
 
 @app.cell
-def _(json, os, pd):
+def _(cwd, json, os, pd):
     #Add ESM LL to Nextstrain Tree
 
     def add_ESM_LL_to_Nextstrain_Tree(directory, output_dir):
@@ -460,7 +488,7 @@ def _(json, os, pd):
                   }
               }
 
-              with open(f"/Users/Carlos/Desktop/Bedford/esm-selection/Flu_Snakemake_Pipeline/input/trees/h3n2/{segment}.json", 'r') as fh:
+              with open(f"{cwd}/Flu_Snakemake_Pipeline/input/trees/h3n2/{segment}.json", 'r') as fh:
               #with open(f"Flu_Snakemake_Pipeline/h3n2_Sequences/h3n2_60y_{segment}.json", 'r') as fh:
                 dataset = json.load(fh)
 
@@ -507,7 +535,7 @@ def _(add_ESM_LL_to_Nextstrain_Tree, os):
             folder_path_650M,
             f"Flu_Trees/ESM_Trees_650M_base"
         )
-    return
+    return (folder_path_650M,)
 
 
 @app.cell
@@ -518,7 +546,7 @@ def _(mo):
 
 @app.cell
 def _(add_ESM_LL_to_Nextstrain_Tree, os):
-    folder_path_3B = "/Users/Carlos/Desktop/Bedford/esm-selection/Flu_Snakemake_Pipeline/results/max_freqs_log_likelyhood/next_tree~h3n2/epochs~1/learning_rate~5e-05/model~esm2_t36_3B_UR50D/time~1990"
+    folder_path_3B = "Flu_Snakemake_Pipeline/results/max_freqs_log_likelyhood/next_tree~h3n2/epochs~1/learning_rate~5e-05/model~esm2_t36_3B_UR50D/time~1990"
 
     if os.path.isdir(folder_path_3B):
 
@@ -537,13 +565,32 @@ def _(mo):
 
 @app.cell
 def _(add_ESM_LL_to_Nextstrain_Tree, os):
-    folder_path_15B = "/Users/Carlos/Desktop/Bedford/esm-selection/Flu_Snakemake_Pipeline/results/max_freqs_log_likelyhood/next_tree~h3n2/epochs~1/learning_rate~5e-05/model~esm2_t48_15B_UR50D/time~All"
+    folder_path_15B = "Flu_Snakemake_Pipeline/results/max_freqs_log_likelyhood/next_tree~h3n2/epochs~1/learning_rate~5e-05/model~esm2_t48_15B_UR50D/time~All"
 
     if os.path.isdir(folder_path_15B):
 
         add_ESM_LL_to_Nextstrain_Tree(
             folder_path_15B,
             f"Flu_Trees/ESM_Trees_15B_base"
+        )
+    return
+
+
+@app.cell
+def _(mo):
+    mo.md(r"""#### 650M Fine tune""")
+    return
+
+
+@app.cell
+def _(add_ESM_LL_to_Nextstrain_Tree, folder_path_650M, os):
+    folder_path_650M_FT = "Flu_Snakemake_Pipeline/results/max_freqs_log_likelyhood_Fine_Tune/next_tree~h3n2/epochs~1/learning_rate~5e-05/model~esm2_t33_650M_UR50D/time~1990"
+
+    if os.path.isdir(folder_path_650M):
+
+        add_ESM_LL_to_Nextstrain_Tree(
+            folder_path_650M_FT,
+            f"Flu_Trees/ESM_Trees_650M_Fine_Tune"
         )
     return
 
@@ -1596,7 +1643,6 @@ def _(combined_spearman_summary, np, plt, sns):
 
         return plt.savefig("Flu_Figures/Spearman_Correlation_Comparison_All_Models.png", dpi=300, bbox_inches='tight')
 
-
     create_spearman_summary_plot()
     return
 
@@ -2471,7 +2517,6 @@ def _(plt, sns, spearman_df):
 
         plt.show()
 
-
     create_time_series_plot(spearman_df, "Spearman_Correlation_Comparison_Fine_Tune_time_series_cross_validation.png")
     return (create_time_series_plot,)
 
@@ -2755,256 +2800,20 @@ def _(df_both_trees_below_2005):
 
 @app.cell
 def _(mo):
-    mo.md(r"""### LOESS Fit""")
-    return
+    mo.md(
+        r"""
+    ### LOESS Function fix
 
-
-@app.cell
-def _(mo):
-    mo.md(r"""#### Recreating Trevor's fix""")
-    return
-
-
-@app.cell
-def _(np, plt):
-    # Set random seed for reproducibility
-    np.random.seed(42)
-
-    # Parameters for the binormal distribution
-    mean = [-100, 0.5]
-    var1 = 1
-    var2 = 0.5
-    corr = 0.9
-    cov = corr * np.sqrt(var1 * var2)
-
-    # Covariance matrix
-    cov_matrix = [[var1, cov],
-                  [cov, var2]]
-
-    # Generate 1000 samples from the bivariate normal distribution
-    data_fake = np.random.multivariate_normal(mean, cov_matrix, size=1000)
-
-    # Clip the second dimension values to the range [0, 1]
-    data_fake[:, 1] = np.clip(data_fake[:, 1], 0, 1)
-
-    # Separate the dimensions for plotting
-    esm_scores = data_fake[:, 0]
-    max_freq = data_fake[:, 1]
-
-    # Plotting
-    plt.figure()
-    plt.scatter(esm_scores, max_freq, s=10)
-    plt.xlabel("ESM score")
-    plt.ylabel("max freq")
-    plt.title("Bivariate Normal Samples with Clipped max freq")
-    plt.grid(True)
-    plt.show()
-
-    return data_fake, esm_scores, max_freq
-
-
-@app.cell
-def _(esm_scores, max_freq, spearmanr):
-    print(spearmanr(esm_scores, max_freq))
-    return
-
-
-@app.cell
-def _(data_fake):
-    data_fake
-    return
-
-
-@app.cell
-def _(esm_scores, max_freq, np, plt):
-    # Add a secular trend to the ESM score based on a random year between 1970 and 2020
-    years = np.random.uniform(1970, 2020, size=1000)
-    adjusted_esm_scores = esm_scores + 0.25 * (years - 1970)
-
-    # Combine into adjusted data format: (ESM, max_freq, year)
-    adj_data = list(zip(adjusted_esm_scores, max_freq, years))
-
-    # Separate trunk (max_freq == 1) and side branches (max_freq < 1)
-    # Since values were clipped to [0, 1], equality check works
-    sidebranch_points = [(year, esm) for esm, freq, year in adj_data if freq < 1]
-    trunk_points = [(year, esm) for esm, freq, year in adj_data if freq == 1]
-
-    # Plot the points
-    plt.figure(figsize=(10, 6))
-    if sidebranch_points:
-        plt.scatter(*zip(*sidebranch_points), color='gray', s=10, label='Side branches')
-    if trunk_points:
-        plt.scatter(*zip(*trunk_points), color='red', s=10, label='Trunk')
-    plt.xlabel("Year")
-    plt.ylabel("Adjusted ESM score")
-    plt.title("ESM Score with Secular Trend (Trunk vs. Side Branches)")
-    plt.legend()
-    plt.grid(True)
-    plt.show()
-    return (adj_data,)
-
-
-@app.cell
-def _(adj_data, pd):
-    # Convert to Pandas DataFrame
-    df_fake = pd.DataFrame(adj_data, columns=["esm_score", "max_freq", "year"])
-
-    # Optionally, mark whether each point is trunk or side branch
-    df_fake["branch_type"] = df_fake["max_freq"].apply(lambda x: "trunk" if x == 1 else "side")
-
-    df_fake
-    return (df_fake,)
-
-
-@app.cell
-def _(df_fake, spearmanr):
-    print(spearmanr(df_fake["esm_score"], df_fake["max_freq"]))
-    return
-
-
-@app.cell
-def _(df_fake, plt):
-    plt.figure()
-    plt.scatter(df_fake["esm_score"], df_fake["max_freq"], s=10)
-    plt.xlabel("ESM score")
-    plt.ylabel("max freq")
-    plt.title("Bivariate Normal Samples with Clipped max freq")
-    plt.grid(True)
-    plt.show()
-    return
-
-
-@app.cell
-def _(np):
-    def tricube_weight(x):
-        """Tricube kernel function"""
-        x = np.abs(x)
-        return np.where(x < 1, (1 - x ** 3) ** 3, 0)
-
-    def loess_distance(x0, x, alpha):
-        """Distance scale factor for LOESS"""
-        n = len(x)
-        span = max(1, int(np.ceil(alpha * n)))
-        distances = np.abs(x - x0)
-        sorted_distances = np.sort(distances)
-        return sorted_distances[span - 1]  # the span-th smallest distance
-
-    def loess_weights(x0, x, alpha):
-        """Tricube weights based on scaled distances"""
-        d = loess_distance(x0, x, alpha)
-        if d == 0:
-            # Avoid divide-by-zero when all x == x0
-            return np.where(x == x0, 1.0, 0.0)
-        scaled = (x - x0) / d
-        return tricube_weight(scaled)
-
-    def weighted_least_squares(x, y, w, degree=1):
-        """Weighted polynomial fit at a single x0"""
-        X = np.vstack([x ** i for i in range(degree + 1)]).T  # Design matrix
-        W = np.diag(w)
-        beta = np.linalg.pinv(X.T @ W @ X) @ (X.T @ W @ y)
-        return beta
-
-    def loess_single(x0, x, y, alpha=0.75, degree=1):
-        """Compute LOESS estimate at a single point x0"""
-        w = loess_weights(x0, x, alpha)
-        beta = weighted_least_squares(x, y, w, degree)
-        X0 = np.array([x0 ** i for i in range(degree + 1)])
-        return X0 @ beta
-
-    def loess_fit(x_values, data_x, data_y, alpha=0.75, degree=1):
-        """Full LOESS curve"""
-        return np.array([loess_single(x0, data_x, data_y, alpha, degree) for x0 in x_values])
-
-    return (loess_fit,)
-
-
-@app.cell
-def _(df_fake, loess_fit, np, plt):
-    # x and y data
-    x_data = df_fake["year"].values
-    y_data = df_fake["esm_score"].values
-
-    # X values where we want the smoothed curve
-    x_fit = np.linspace(1970, 2020, 300)
-    y_fit = loess_fit(x_fit, x_data, y_data, alpha=0.15, degree=1)
-
-    # Plotting
-    plt.figure(figsize=(10, 6))
-
-    # Scatter trunk/side points
-    side = df_fake[df_fake["branch_type"] == "side"]
-    trunk = df_fake[df_fake["branch_type"] == "trunk"]
-    plt.scatter(side["year"], side["esm_score"], color='gray', s=10, label="Side branches")
-    plt.scatter(trunk["year"], trunk["esm_score"], color='red', s=10, label="Trunk")
-
-    # LOESS line
-    plt.plot(x_fit, y_fit, color='black', linewidth=2, label="Custom LOESS")
-
-    plt.xlabel("Year")
-    plt.ylabel("Adjusted ESM score")
-    plt.title("ESM Score with Custom LOESS Fit")
-    plt.legend()
-    plt.grid(True)
-    plt.show()
-    return
-
-
-@app.cell
-def _(df_fake, loess_fit, plt):
-    # Compute LOESS-smoothed values for each year in the data
-    loess_smoothed = loess_fit(df_fake["year"].values, df_fake["year"].values, df_fake["esm_score"].values, alpha=0.15, degree=1)
-
-    # Compute residuals: corrected ESM score = original - LOESS-smoothed
-    df_fake["corrected_esm_score"] = df_fake["esm_score"] - loess_smoothed
-
-    # Extract corrected sidebranch and trunk points
-    side_corr = df_fake[df_fake["branch_type"] == "side"]
-    trunk_corr = df_fake[df_fake["branch_type"] == "trunk"]
-
-    # Plot the corrected residuals
-    plt.figure(figsize=(10, 6))
-    plt.scatter(side_corr["year"], side_corr["corrected_esm_score"], color='gray', s=10, label='Side branches')
-    plt.scatter(trunk_corr["year"], trunk_corr["corrected_esm_score"], color='red', s=10, label='Trunk')
-
-    plt.xlabel("Year")
-    plt.ylabel("Corrected ESM score")
-    plt.title("ESM Residuals After Regressing Out LOESS Trend")
-    plt.legend()
-    plt.grid(True)
-    plt.show()
-
-    return
-
-
-@app.cell
-def _(df_fake, plt):
-    plt.figure(figsize=(8, 6))
-    plt.scatter(df_fake["corrected_esm_score"], df_fake["max_freq"], s=10)
-    plt.xlabel("Corrected ESM score")
-    plt.ylabel("Max freq")
-    plt.title("Corrected ESM vs Max Frequency")
-    plt.grid(True)
-    plt.show()
-    return
-
-
-@app.cell
-def _(df_fake, spearmanr):
-    print(spearmanr(df_fake["corrected_esm_score"], df_fake["max_freq"]))
-    return
-
-
-@app.cell
-def _(mo):
-    mo.md(r"""### LOESS Function fix""")
+    Moved to a new notebook
+    """
+    )
     return
 
 
 @app.cell
 def _(df_650_FT_DF_Time):
     df_650_FT_DF_Time_ONLY_FT_HA = df_650_FT_DF_Time[(df_650_FT_DF_Time['Segment'] == 'HA') & (df_650_FT_DF_Time['Model'] == 'Fine_Tune_650M')]
-    return (df_650_FT_DF_Time_ONLY_FT_HA,)
+    return
 
 
 @app.cell
@@ -3037,145 +2846,6 @@ def _(
 
     df_650_FT_DF_Time_Series_Validation_Time_export = df_650_FT_DF_Time_Series_Validation_Time.rename(columns={'log_likelyhood': 'log_likelihood'})
     df_650_FT_DF_Time_Series_Validation_Time_export.to_csv("Notebooks/Dataframes/df_650_FT_DF_Time_Series_Validation.csv", index = 0)
-    return
-
-
-@app.cell
-def _(plt, sns, spearmanr):
-    def plot_regression_corr(data, x_col, y_col, title, time, ylabel="", color="#0a2463", ax=None):
-
-        if ax is None:
-            fig, ax = plt.subplots(figsize=(8, 6))
-
-        old_mask = data["time"] < int(time)
-        recent_mask = ~old_mask
-
-        # Scatter plots
-        ax.scatter(data.loc[old_mask, x_col], data.loc[old_mask, y_col],
-                   s=50, alpha=0.35, color="lightgray", label=f"< {int(time)}")
-
-        ax.scatter(data.loc[recent_mask, x_col], data.loc[recent_mask, y_col],
-                   s=50, alpha=0.35, color=color, label=f"≥ {int(time)}")
-
-        light_recent = sns.desaturate(color, 0.5)
-
-        # Regression lines
-        if old_mask.sum() >= 2:
-            sns.regplot(data=data.loc[old_mask], x=x_col, y=y_col, ax=ax,
-                        scatter=False,
-                        line_kws={"color": "gray", "linestyle": "--"}, ci=None)
-        if recent_mask.sum() >= 2:
-            sns.regplot(data=data.loc[recent_mask], x=x_col, y=y_col, ax=ax,
-                        scatter=False,
-                        line_kws={"color": light_recent}, ci=None)
-
-        # Correlations
-        rho_old, _ = spearmanr(data.loc[old_mask, y_col], data.loc[old_mask, x_col])
-        rho_recent, _ = spearmanr(data.loc[recent_mask, y_col], data.loc[recent_mask, x_col])
-
-        ax.text(0.05, 0.95, f"ρ(<{int(time)}) = {rho_old:.2f}", transform=ax.transAxes, fontsize=10, color="gray",
-                verticalalignment="top", bbox=dict(boxstyle="round", facecolor="white", alpha=0.0))
-
-        ax.text(0.05, 0.85, f"ρ(≥{int(time)}) = {rho_recent:.2f}", transform=ax.transAxes, fontsize=10, color=light_recent,
-                verticalalignment="top", bbox=dict(boxstyle="round", facecolor="white", alpha=0.0))
-
-        # Axes labels and limits
-        ax.set_title(title)
-        ax.set_xlabel(" ", weight="bold")
-        ax.set_ylabel(ylabel, weight="bold")
-        ax.set_xlim(data[x_col].min(), data[x_col].max())
-        ax.set_ylim(0, 1.1)
-        ax.legend()
-
-        return ax
-    return (plot_regression_corr,)
-
-
-@app.cell
-def _(df_650_FT_DF_Time_ONLY_FT_HA, plot_regression_corr, plt):
-    plot_regression_corr(df_650_FT_DF_Time_ONLY_FT_HA, x_col="log_likelyhood", y_col="max_frequency", title="Spearman CC 650M Fine Tune for HA (Trained up to 1990)", ylabel="", color="#0a2463", time=1990)
-
-    plt.show()
-    return
-
-
-@app.cell
-def _(df_650_FT_DF_Time_ONLY_FT_HA, loess_fit):
-    def loess_smoothing(df):
-        loess_smoothed = loess_fit(df["time"].values, df["time"].values, df["log_likelyhood"].values, alpha=0.15, degree=1)
-
-        return loess_smoothed
-
-    # Compute residuals: corrected ESM score = original - LOESS-smoothed
-
-    loess_smoothing_HA = loess_smoothing(df_650_FT_DF_Time_ONLY_FT_HA)
-    return (loess_smoothing_HA,)
-
-
-@app.cell
-def _(loess_smoothing_HA):
-    loess_smoothing_HA
-    return
-
-
-@app.cell
-def _(df_650_FT_DF_Time_ONLY_FT_HA, loess_smoothing_HA):
-    df_650_FT_DF_Time_ONLY_FT_HA["corrected_esm_score"] = df_650_FT_DF_Time_ONLY_FT_HA["log_likelyhood"] - loess_smoothing_HA
-    return
-
-
-@app.cell
-def _(df_650_FT_DF_Time_ONLY_FT_HA, sns):
-    sns.scatterplot(data = df_650_FT_DF_Time_ONLY_FT_HA, x = "time", y = "log_likelyhood", s=50, alpha=0.35, label="Data")
-    return
-
-
-@app.cell
-def _(df_650_FT_DF_Time_ONLY_FT_HA, sns):
-    sns.scatterplot(data = df_650_FT_DF_Time_ONLY_FT_HA, x = "time", y = "corrected_esm_score", s=50, alpha=0.35, label="Data")
-    return
-
-
-@app.cell
-def _(plt, sns, spearmanr):
-    def plot_regression_corr_no_time(data, x_col, y_col, title, color="#0a2463", ax=None):
-        if ax is None:
-            fig, ax = plt.subplots(figsize=(8, 6))
-
-        # Scatter plot
-        ax.scatter(data[x_col], data[y_col], s=50, alpha=0.35, color=color, label="Data")
-
-        # Regression line
-        sns.regplot(data=data, x=x_col, y=y_col, ax=ax,
-                    scatter=False, line_kws={"color": color}, ci=None)
-
-        # Correlation
-        rho, _ = spearmanr(data[y_col], data[x_col])
-        ax.text(0.05, 0.95, f"ρ = {rho:.2f}", transform=ax.transAxes, fontsize=10, color=color,
-                verticalalignment="top", bbox=dict(boxstyle="round", facecolor="white", alpha=0.0))
-
-        # Axes labels and limits
-        ax.set_title(title)
-        ax.set_xlabel(x_col, weight="bold")
-        ax.set_ylabel(y_col, weight="bold")
-        ax.set_xlim(data[x_col].min(), data[x_col].max())
-        ax.set_ylim(0, 1.1)
-        ax.legend()
-
-        return ax
-
-    return (plot_regression_corr_no_time,)
-
-
-@app.cell
-def _(df_650_FT_DF_Time_ONLY_FT_HA, plot_regression_corr_no_time):
-    plot_regression_corr_no_time(df_650_FT_DF_Time_ONLY_FT_HA, x_col="log_likelyhood", y_col="max_frequency", title="Spearman CC 650M Fine Tune for HA (Trained up to 1990)", color="#0a2463")
-    return
-
-
-@app.cell
-def _(df_650_FT_DF_Time_ONLY_FT_HA, plot_regression_corr_no_time):
-    plot_regression_corr_no_time(df_650_FT_DF_Time_ONLY_FT_HA, x_col="corrected_esm_score", y_col="max_frequency", title="Spearman CC 650M Fine Tune for HA (Trained up to 1990)", color="#0a2463")
     return
 
 
