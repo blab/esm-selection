@@ -16,6 +16,7 @@
 #     "scipy==1.13.1",
 #     "seaborn==0.13.2",
 #     "sqlglot==27.0.0",
+#     "ty==0.0.1a15",
 #     "vegafusion==2.0.2",
 #     "vl-convert-python==1.8.0",
 # ]
@@ -23,7 +24,7 @@
 
 import marimo
 
-__generated_with = "0.14.10"
+__generated_with = "0.14.12"
 app = marimo.App(width="medium", app_title="LOESS Updates")
 
 
@@ -71,10 +72,12 @@ def _():
     import matplotlib.cm as cm
     from matplotlib.ticker import ScalarFormatter
     from matplotlib.ticker import FormatStrFormatter
-    from mpl_toolkits.axes_grid1 import make_axes_locatable
+    #from mpl_toolkits.axes_grid1 import make_axes_locatable
     from sklearn.linear_model import LinearRegression
     import warnings
     warnings.filterwarnings("ignore", category=RuntimeWarning)
+    np.seterr(divide='ignore', over='ignore', invalid='ignore')
+    import ty
     return (
         LinearRegression,
         ScalarFormatter,
@@ -96,7 +99,7 @@ def _(mo):
         r"""
     ### Patch to fix LOESS package 
 
-    There was an issue previously where some flu segments with a general flat slope, broke the LOESS library. This was due to areas high data similarity causing a division by zero error. I fixed this by manually installing the library and changing instances where there would be a division by a zero to division of really small number instead.
+    There was an issue previously where some flu segments with a generally flat slope, broke the LOESS library. This was due to areas high data similarity causing a division by zero error. I fixed this by manually installing the library and changing instances where there would be a division by a zero to division of really small number instead.
 
     This allows areas of a flu segment that have a relativley flat slope to remain unchanged, but we can apply LOESS to the rest of the points.
     """
@@ -420,7 +423,13 @@ def _(ScalarFormatter, cm, colorsys, np, plt):
             zorder=1
         )
 
-        high_freq_df = df[df["max_frequency"] >= 1].sort_values("time")
+        high_freq_df = (
+            df[
+                (df["max_frequency"] > 1) &
+                (df["node"].str.contains("NODE_"))
+            ]
+            .sort_values("time")
+        )
         ax.plot(
             high_freq_df["time"],
             high_freq_df[ll_col],
@@ -428,7 +437,7 @@ def _(ScalarFormatter, cm, colorsys, np, plt):
             color='black',
             linewidth=3,
             alpha=0.6,
-            label='Max Freq ≥ 0.99',
+            label='Max Freq = 1 & NODE_',
             zorder=2
         )
 
@@ -523,7 +532,7 @@ def _(mo):
 
     This figure shows us that the LOESS correction is working correctly. For each segment, there is no longer a droppout of ESM score over time. 
 
-    For some segments, such as MP, which were relatively flat before LOESS correction, there is little difference between the fine tune and LOESS corrected fine tune plots in terms of general trend, but average ESM score is now much closer to zero. Points that fall before 1990, the training period are less impacted by LOESS corrected than test period points - post 1990.
+    For some segments, such as MP, which were relatively flat before LOESS correction, there is little difference between the fine tune and LOESS corrected fine tune plots in terms of general trend, but average ESM score is now much closer to zero. Points that fall before 1990 (the training period), are less impacted by LOESS corrected than test period points - post 1990.
     """
     )
     return
@@ -651,9 +660,7 @@ def _(mo):
         rf"""
     ### Calculate nearest neighbors 
 
-    For every node with a maximum frequency of greater than 1 find the 10 nearest points. Get the minimum a maximum of those 10 points and see where our trunk node sites among its neighbors.
-
-    This shows use where the trunk of the tree sits relative to the points around it.
+    For every internal node with a maximum frequency of  1, I found the 10 nearest terminal nodes. From there I got the minimum a maximum of those 10 neighbor nodes. This is a method I thought of to quantify where trunk of the tree sits relative to the points around it.
     """
     )
     return
@@ -682,10 +689,8 @@ def _(List, np, pd):
 
         for seg, seg_df in df.groupby("Segment"):
             node_max = seg_df.groupby("node")["max_frequency"].max()
-
             eligible_nodes = node_max[node_max >= freq_threshold].index
 
-            # Vectorised arrays for quick slicing
             seg_idx      = seg_df.index.to_numpy()
             times        = seg_df["time"].to_numpy()
             log_ll       = seg_df["corrected_log_likelihood"].to_numpy()
@@ -699,16 +704,21 @@ def _(List, np, pd):
                 if not rep_mask.any():
                     continue
 
-                rep_i  = np.where(rep_mask)[0][0]
-                t0     = times[rep_i]
+                rep_i = np.where(rep_mask)[0][0]
+                t0 = times[rep_i]
                 node_ll = log_ll[rep_i]
 
-                deltas    = np.abs(times - t0)
+                if node_max_freq == freq_threshold == 1.0:
+                    node_label = f"NODE_{node}"
+                else:
+                    node_label = node
+
+                deltas = np.abs(times - t0)
                 other_idx = np.where(nodes_arr != node)[0]
 
                 if other_idx.size:
-                    nearest   = other_idx[np.argsort(deltas[other_idx])[:n_neighbors]]
-                    neigh_ll  = log_ll[nearest]
+                    nearest  = other_idx[np.argsort(deltas[other_idx])[:n_neighbors]]
+                    neigh_ll = log_ll[nearest]
                     best, worst = neigh_ll.max(), neigh_ll.min()
                 else:
                     best = worst = np.nan
@@ -719,18 +729,16 @@ def _(List, np, pd):
                     trunk_position = (node_ll - worst) / (best - worst)
                     trunk_position = np.clip(trunk_position, 0.0, 1.0)
 
-                summaries.append(
-                    {
-                        "Segment": seg,
-                        "node": node,
-                        "node_time": t0,
-                        "max_frequency": node_max_freq,
-                        "node_log_likelihood": node_ll,
-                        "best_neighbor_ll": best,
-                        "worst_neighbor_ll": worst,
-                        "trunk_position": trunk_position,
-                    }
-                )
+                summaries.append({
+                    "Segment": seg,
+                    "node": node_label,
+                    "node_time": t0,
+                    "max_frequency": node_max_freq,
+                    "node_log_likelihood": node_ll,
+                    "best_neighbor_ll": best,
+                    "worst_neighbor_ll": worst,
+                    "trunk_position": trunk_position,
+                })
 
         return pd.DataFrame(summaries)
 
@@ -758,17 +766,17 @@ def _(mo):
 def _(mo):
     mo.md(
         r"""
-    To calculate trunk position each node with a maximum frequency of 1. Found the 10 points nearest in time to that given node. Found the maximum and minimum log-likelihoods for these 10 neighbor nodes. Then I found where proportionally our maximum frequency node of 1 sits between the maximum and minimum nodes for log-likelihood.
+    To calculate trunk position for each node with a maximum frequency of 1, I found the 10 points nearest in time to that given node. I found the maximum and minimum log-likelihoods for these 10 neighbor nodes. Then I found where the log-likelihood for our trunk node (node with a maximum frequency of 1) sits between the maximum and minimum log-likelihoods for the neighbor nodes.
 
     Ex: 
 
-    *b* = Max LL of -5
+    *b* = Max LL of neighbor nodes: 5
 
-    *a* = Min LL of 5
+    *a* = Min LL of neighbor nodes: -5
 
-    *x* = Node with max frequency of 1 of -1
+    *x* = Internal node with max frequency of 1 of -1
 
-    < -5 - - -2 - - - - - - 5 >
+    < -5 - - - [-1] - - - - - 5 >
 
     -1 sits at the lower 40% of between the maximum and minimum of the nearest neighbors.
 
@@ -776,14 +784,14 @@ def _(mo):
 
     $`P = \frac{x - a}{b - a}`$
 
-    These plots below use the LOESS normalized log-likelihoods. For any point with a calculated proportional position above 1 I set to 1, and below 0 to 0.
+    These plots below use the LOESS normalized log-likelihoods. I clipped the data so any point with a calculated proportional position above 1 was set to 1, and any point below 0 to 0.
     """
     )
     return
 
 
 @app.cell(hide_code=True)
-def _(LinearRegression, np, pd, plt, sns, spearmanr):
+def _(plt, sns, spearmanr):
     def trunk_time_split(model_df, split_year=1990):
         for segment, group in model_df.groupby("Segment"):
             fig, axes = plt.subplots(1, 2, figsize=(14, 5), sharey=True)
@@ -802,28 +810,28 @@ def _(LinearRegression, np, pd, plt, sns, spearmanr):
                 df["time_rank"] = df["node_time"].rank()
                 df["freq_rank"] = df["trunk_position"].rank()
 
-                lm = LinearRegression().fit(
-                    df[["time_rank"]], df["freq_rank"]
-                )
+                #lm = LinearRegression().fit(
+                #    df[["time_rank"]], df["freq_rank"]
+                #)
 
                 sns.scatterplot(x="node_time", y="trunk_position", data=df, ax=ax)
 
-                x_line = np.linspace(df["node_time"].min(),
-                                     df["node_time"].max(), 100)
-                x_line_df = pd.DataFrame({"time_rank": pd.Series(x_line).rank()})
+                #x_line = np.linspace(df["node_time"].min(),
+                #                     df["node_time"].max(), 100)
+                #x_line_df = pd.DataFrame({"time_rank": pd.Series(x_line).rank()})
 
-                y_line_rank = lm.predict(x_line_df)
+                #y_line_rank = lm.predict(x_line_df)
 
-                y_line = np.interp(
-                    y_line_rank,
-                    np.arange(1, len(df) + 1),
-                    np.sort(df["trunk_position"].values)
-                )
+                #y_line = np.interp(
+                #    y_line_rank,
+                #    np.arange(1, len(df) + 1),
+                #    np.sort(df["trunk_position"].values)
+                #)
 
-                ax.plot(x_line, y_line, "--", label=f"ρ={rho:.2f}, p={pval:.2g}")
+                #ax.plot(x_line, y_line, "--", label=f"ρ={rho:.2f}, p={pval:.2g}")
                 ax.set_title(f"{segment} Trunk position over time {label}")
                 ax.set_xlabel("Time")
-                ax.legend()
+                #ax.legend()
 
             axes[0].set_ylabel("trunk position")
             plt.tight_layout()
@@ -839,7 +847,7 @@ def _(mo):
 
 @app.cell(hide_code=True)
 def _(df_650_NN, trunk_time_split):
-    trunk_time_split(df_650_NN)   # your DataFrame
+    trunk_time_split(df_650_NN) 
     return
 
 
@@ -857,7 +865,25 @@ def _(df_3B_NN, trunk_time_split):
 
 @app.cell(hide_code=True)
 def _(mo):
-    mo.md(r"""For these plots I separated them between the testing and training datasets, spearman correlation is included to help show a trend of where the Trunk is moving, as points are scattered.""")
+    mo.md(
+        r"""
+    _For these plots I separated them between the testing and training datasets_
+
+    One thing I notice is that for both HA and NA, in the training dataset, the relative position of the trunk drops off right at 1990. ESM scores these nodes higher than the maximum frequency of the tree. We don't see this same pattern with the test data, which is relatively scatttered.
+    """
+    )
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.image(src="Images/HA_ESM_vs_Time.png")
+    return
+
+
+@app.cell(hide_code=True)
+def _(mo):
+    mo.md(r"""Plotting ESM score over time we can see this pattern more clearly - slightly before and after 1990, terminal nodes are scored higher than the trunk.""")
     return
 
 
@@ -1020,9 +1046,9 @@ def _(
 def _(mo):
     mo.md(
         r"""
-    _These figure show Spearman CC between Maximum frequency and Log Likelyhood for both the 3B and 650M models before and after the training period of 1990. Show here are the base model in blue, the fine tune model in yellow, and the fine tune model with LOESS in red._
+    _These figure show Spearman CC between Maximum frequency and Log Likelyhood for both the 3B and 650M models before and after the training period of 1990. Shown here are the base model in blue, the fine tune model in yellow, and the fine tune model with LOESS in red._
 
-    We see that for the both the base and fine tune models have a much higher spearman CC for after the training period (post 1990) than before (per 1990). However this trend is reversed after LOESS correction is applied where the LOESS corrected fine tune models have a much higher spearman CC for training data than for test data where spearman CC is nearly zero.
+    We see that both the base and fine tune models have a much higher spearman CC in the testing dataset (post 1990) than in the training dataset (pre 1990). However this trend is reversed after LOESS correction is applied where the LOESS corrected fine tune models have a much higher spearman CC for training data than for test data - where spearman CC is nearly zero.
     """
     )
     return
@@ -1081,9 +1107,9 @@ def _(mo):
         r"""
     _These figures plot maximum frequency against time for each flu segment, each point is a node on the tree._
 
-    These figures show us that over time there is a moderate decrease in maximum frequency scores over time, with the majority of points and the points with lowests maximum frequencies concentrated the furthest in time, at the bottom right of all plots. 
+    These figures show us that over time there is a moderate decrease in maximum frequency scores over time, with the majority of points and the points with lowest maximum frequencies concentrated the furthest in time, at the bottom right of all plots. 
 
-    This helps explain why before LOESS correction there is an increase in spearman CC between maximum frequency and log likelihood when using the test dataset, as data post 1990 showed a decrease in ESM log likelihood score over time/
+    This helps explain why before LOESS correction there is an increase in spearman CC (between maximum frequency and log likelihood) when running ESM on the test dataset.
     """
     )
     return
@@ -1476,7 +1502,7 @@ def _(mo):
         r"""
     _This figure is a sliding window comparision of the larger flu tree, which added an additional ~1000 samples, with models trained up to 1990 and 2005 before and after LOESS correction._
 
-    For the larger tree we still see a rise of spearman CC at 1990, but there is more of a gradual rise vs large spike. For the large tree with a model trained up to 1990 spearman CC drops off sharply after 1990, for the model trained up to 2005 spearman CC drops off at 2000 before flattening out.
+    For the larger tree before LOESS correction we see a rise of spearman CC after 1990, with spearman CC peaking at 2010. After LOESS we no longer see this spike at 2010.
     """
     )
     return
@@ -1500,7 +1526,7 @@ def _(mo):
         r"""
     _This figure shows a sliding window comparision of spearman CC's between training the model up 1990 and up to 2005. This figure features the datasets with and without LOESS correction. Small tree is the base tree that was used for earlier parts of this project and notebook._
 
-    With LOESS correction we no longer see the large increase in spearman CC at 2010 and instead a constant decrease in spearman CC. The dataset trained up to 2005 has a spearman CC higher than the dataset trained up to 1990 across all points.
+    With LOESS correction we no longer see the large increase in spearman CC at 2010 and instead a constant decrease in spearman CC. The dataset trained up to 2005 has a higher spearman CC than the dataset trained up to 1990 across all points.
     """
     )
     return
@@ -1628,7 +1654,7 @@ def _(mo):
         r"""
     _This figure is a time series cross validation for the smaller (base tree) with no LOESS correction applied. EX for the first box, a model was trained up to 1990, then spearman CC was calculated for small windows after the training period._
 
-    We would expect spearman CC to drop off over time past the training period, where is this figure it looks more sporadic and it is difficult to discern a pattern.
+    We would expect spearman CC to drop off over time past the training period, where in this figure it looks more sporadic and it is difficult to discern a pattern.
     """
     )
     return
@@ -1650,9 +1676,9 @@ def _(create_time_series_plot, spearman_df_LOESS):
 def _(mo):
     mo.md(
         r"""
-    _This figure takes the same dataset from the previous time series plot and adds LOESS correction before binning and calculating spearman CC_
+    _This figure takes the same dataset from the previous time series plot and adds LOESS correction before binning and calculating spearman CC._
 
-    Here we see spearman CC drop off over time the futher past the data window is from the training dataset.
+    Here we see spearman CC drop off over time the futher the time window is from the training dataset.
     """
     )
     return
