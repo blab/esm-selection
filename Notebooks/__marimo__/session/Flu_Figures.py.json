@@ -28,7 +28,23 @@
           }
         }
       ],
-      "console": []
+      "console": [
+        {
+          "type": "stream",
+          "name": "stderr",
+          "text": "Error trying to reload module marimo._ast.app_config: cannot import name 'ExportType' from 'marimo._config.config' (/Users/cavendan/Library/Python/3.9/lib/python/site-packages/marimo/_config/config.py) \n"
+        },
+        {
+          "type": "stream",
+          "name": "stderr",
+          "text": "<span class=\"codehilite\"><div class=\"highlight\"><pre><span></span><span class=\"gt\">Traceback (most recent call last):</span>\n  File <span class=\"nb\">&quot;/Users/cavendan/Library/Python/3.9/lib/python/site-packages/marimo/_runtime/reload/autoreload.py&quot;</span>, line <span class=\"m\">442</span>, in <span class=\"n\">superreload</span>\n<span class=\"w\">    </span><span class=\"n\">module</span> <span class=\"o\">=</span> <span class=\"n\">reload</span><span class=\"p\">(</span><span class=\"n\">module</span><span class=\"p\">)</span>\n  File <span class=\"nb\">&quot;/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/importlib/__init__.py&quot;</span>, line <span class=\"m\">169</span>, in <span class=\"n\">reload</span>\n<span class=\"w\">    </span><span class=\"n\">_bootstrap</span><span class=\"o\">.</span><span class=\"n\">_exec</span><span class=\"p\">(</span><span class=\"n\">spec</span><span class=\"p\">,</span> <span class=\"n\">module</span><span class=\"p\">)</span>\n  File <span class=\"nb\">&quot;&lt;frozen importlib._bootstrap&gt;&quot;</span>, line <span class=\"m\">613</span>, in <span class=\"n\">_exec</span>\n  File <span class=\"nb\">&quot;&lt;frozen importlib._bootstrap_external&gt;&quot;</span>, line <span class=\"m\">850</span>, in <span class=\"n\">exec_module</span>\n  File <span class=\"nb\">&quot;&lt;frozen importlib._bootstrap&gt;&quot;</span>, line <span class=\"m\">228</span>, in <span class=\"n\">_call_with_frames_removed</span>\n  File <span class=\"nb\">&quot;/Users/cavendan/Library/Python/3.9/lib/python/site-packages/marimo/_ast/app_config.py&quot;</span>, line <span class=\"m\">8</span>, in <span class=\"n\">&lt;module&gt;</span>\n<span class=\"w\">    </span><span class=\"kn\">from</span><span class=\"w\"> </span><span class=\"nn\">marimo._config.config</span><span class=\"w\"> </span><span class=\"kn\">import</span> <span class=\"n\">ExportType</span><span class=\"p\">,</span> <span class=\"n\">SqlOutputType</span><span class=\"p\">,</span> <span class=\"n\">WidthType</span>\n<span class=\"gr\">ImportError</span>: <span class=\"n\">cannot import name &#39;ExportType&#39; from &#39;marimo._config.config&#39; (/Users/cavendan/Library/Python/3.9/lib/python/site-packages/marimo/_config/config.py)</span>\n</pre></div>\n</span>"
+        },
+        {
+          "type": "stream",
+          "name": "stderr",
+          "text": "Exception in thread Thread-4:\nTraceback (most recent call last):\n  File \"/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/threading.py\", line 973, in _bootstrap_inner\n    self.run()\n  File \"/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/threading.py\", line 910, in run\n"
+        }
+      ]
     },
     {
       "id": "vblA",

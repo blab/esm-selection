@@ -367,10 +367,5 @@ def _(create_spearman_summary_plot, df_3B_FT_DF_HA_FT_time_series):
     return
 
 
-@app.cell
-def _():
-    return
-
-
 if __name__ == "__main__":
     app.run()
