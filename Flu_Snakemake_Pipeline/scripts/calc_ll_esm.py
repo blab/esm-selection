@@ -105,7 +105,7 @@ merged = max_freq_df.merge(max_freq_df_unique, on="sequence", how="left")
 
 # Remove log_likelihood_x and rename log_likelihood_y
 merged = merged.drop(columns=["log_likelihood_x"]).rename(
-    columns={"log_likelihood_y": "log_likelyhood"}
+    columns={"log_likelihood_y": "log_likelihood"}
 )
 
 end_time = time.time()

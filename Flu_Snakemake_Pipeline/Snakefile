@@ -3,7 +3,8 @@ import pandas as pd
 
 SEGMENTS = ["pb2", "pb1", "pa", "np", "na", "mp", "ns", "ha"]
 
-df = pd.read_csv("input/params.csv")
+#df = pd.read_csv("input/params.csv")
+df = pd.read_csv("input/params_learning_rate_compare.csv")
 
 paramspace = Paramspace(df)  # all params
 paramspace_ft = Paramspace(df[~df["model"].str.contains("15B")])  # fine-tune-eligible
