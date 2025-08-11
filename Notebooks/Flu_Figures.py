@@ -1,6 +1,19 @@
+# /// script
+# requires-python = ">=3.9"
+# dependencies = [
+#     "bio==1.6.2",
+#     "marimo",
+#     "matplotlib==3.9.4",
+#     "numpy==2.0.2",
+#     "pandas==2.3.1",
+#     "scipy==1.13.1",
+#     "seaborn==0.13.2",
+# ]
+# ///
+
 import marimo
 
-__generated_with = "0.14.10"
+__generated_with = "0.14.16"
 app = marimo.App(width="medium")
 
 
@@ -18,17 +31,17 @@ def _():
     import os
     import seaborn as sns
     import matplotlib.pyplot as plt
-    from scipy import stats
+    #from scipy import stats
     from matplotlib import gridspec
     from scipy.stats import spearmanr
     import json
-    import sys
-    import argparse
+    #import sys
+    #import argparse
     #from augur.utils import annotate_parents_for_tree
-    import Bio.Phylo
-    from Bio import Phylo
-    import matplotlib.colors as mcolors
-    from matplotlib import colormaps
+    #import Bio.Phylo
+    #from Bio import Phylo
+    #import matplotlib.colors as mcolors
+    #from matplotlib import colormaps
     import colorsys
     import matplotlib as mpl
     import matplotlib.cm as cm
@@ -2852,11 +2865,6 @@ def _(
 @app.cell
 def _(df_650_FT_DF_Time):
     df_650_FT_DF_Time
-    return
-
-
-@app.cell
-def _():
     return
 
 
