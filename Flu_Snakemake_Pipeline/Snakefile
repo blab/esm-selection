@@ -12,13 +12,20 @@ paramspace_ft = Paramspace(df[~df["model"].str.contains("15B")])  # fine-tune-el
 PS_WC = paramspace.wildcard_pattern
 PS_WC_FT = paramspace_ft.wildcard_pattern
 
+BASE_MODELS = sorted(df["model"].unique())
+
+if "next_tree" in df.columns:
+    TREES = sorted(df["next_tree"].dropna().unique())
+else:
+    TREES = sorted([d.name for d in Path("input/trees").iterdir() if d.is_dir()])
 
 rule all:
     input:
         # always compute base log-likelihoods
         expand(
-            "results/max_freqs_log_likelyhood/{ps}/Max_Freq_Fasta_LL_{segment}.csv",
-            ps=paramspace.instance_patterns,
+            "results/max_freqs_log_likelyhood/{next_tree}/Max_Freq_Fasta_LL_{model}_{segment}.csv",
+            next_tree=TREES,
+            model=BASE_MODELS,
             segment=SEGMENTS,
         ),
         # only compute fine-tune outputs for non-15B runs
@@ -86,7 +93,7 @@ rule calc_ll_esm:
         max_freq="results/max_freqs/{next_tree}/Max_Freq_Fasta_{segment}.csv",
         script="scripts/calc_ll_esm.py",
     output:
-        f"results/max_freqs_log_likelyhood/{PS_WC}/Max_Freq_Fasta_LL_{{segment}}.csv",
+        "results/max_freqs_log_likelyhood/{next_tree}/Max_Freq_Fasta_LL_{model}_{segment}.csv"
     shell:
         """
         python {input.script} --max_freq {input.max_freq} --segment {wildcards.segment} --model {wildcards.model} --output {output} 
@@ -119,7 +126,7 @@ rule generate_fine_tune_model:
         f"results/fine_tune_models/{PS_WC_FT}/Fine_Tune_Model_{{segment}}.bin",
     shell:
         """
-        python {input.script} --model {wildcards.model} --input {input.fine_tune_fasta} --output {output} --epochs {wildcards.epochs}
+        python {input.script} --model {wildcards.model} --input {input.fine_tune_fasta} --output {output} --epochs {wildcards.epochs} --learning-rate {wildcards.learning_rate}
         """
 
 

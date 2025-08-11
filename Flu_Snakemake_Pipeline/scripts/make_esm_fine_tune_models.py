@@ -31,7 +31,7 @@ def parse_arguments():
     parser.add_argument("--output", type=str, default="models/esm.bin", help="File path to save the fine-tuned model.")
     parser.add_argument("--epochs", type=int, default=1, help="Number of epochs for fine-tuning.")
     #parser.add_argument("--batch-size", type=int, default=8, help="Batch size for training.")
-    parser.add_argument("--learning-rate", type=float, default=5e-5, help="Learning rate for optimizer.")
+    parser.add_argument("--learning-rate")
     parser.add_argument("--model", type=str, choices=["esm2_t33_650M_UR50D", "esm2_t36_3B_UR50D", "esm2_t48_15B_UR50D"],
                         default="esm2_t33_650M_UR50D", help="Specify which ESM-2 model to use.")
     return parser.parse_args()
