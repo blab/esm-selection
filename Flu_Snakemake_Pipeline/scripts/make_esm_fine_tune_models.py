@@ -6,13 +6,16 @@ from torch.utils.data import DataLoader, Dataset
 import os
 import numpy as np
 import random
-import json  # <-- added
+import json
 
-# ---- NEW: PEFT / LoRA ----
-#try:
-from peft import LoraConfig, get_peft_model, PeftModel
-#except Exception as e:
-#    get_peft_model = None  # we'll sanity-check later
+# ---- PEFT / LoRA (optional) ----
+try:
+    from peft import LoraConfig, get_peft_model, PeftModel  # noqa: F401
+except Exception:
+    LoraConfig = None
+    get_peft_model = None
+    PeftModel = None
+
 
 class ProteinDataset(Dataset):
     """Dataset class for protein sequences."""
@@ -25,6 +28,7 @@ class ProteinDataset(Dataset):
     def __getitem__(self, idx):
         return self.sequences[idx]
 
+
 randseed = 12
 torch.backends.cudnn.deterministic = True
 random.seed(randseed)
@@ -32,14 +36,21 @@ torch.manual_seed(randseed)
 torch.cuda.manual_seed(randseed)
 np.random.seed(randseed)
 
+
 def parse_arguments():
-    parser = argparse.ArgumentParser(description="Fine-tune ESM-2 on protein sequences (with LoRA for 15B).")
+    parser = argparse.ArgumentParser(
+        description="Fine-tune ESM-2 on protein sequences with optional LoRA adapters."
+    )
     parser.add_argument("--input", type=str, default="alignment.fasta",
                         help="Input FASTA file containing training sequences.")
     parser.add_argument("--output", type=str, default="models/esm.bin",
-                        help="File path to save the full fine-tuned model (non-LoRA path) or pointer JSON (LoRA).")
-    parser.add_argument("--peft-output", type=str, default="adapters/esm2_15b_lora",
-                        help="Directory to save LoRA adapters if 15B model is used.")
+                        help="If LoRA: JSON pointer path. If non-LoRA: full model state_dict path.")
+    parser.add_argument(
+        "--peft-output",
+        type=str,
+        default=None,
+        help="Directory to save LoRA adapters (when LoRA is enabled). If omitted and --lora=auto, LoRA stays off."
+    )
     parser.add_argument("--epochs", type=int, default=1, help="Number of epochs for fine-tuning.")
     parser.add_argument("--learning-rate", type=float, default=5e-5, help="Learning rate.")
     parser.add_argument("--model", type=str,
@@ -47,11 +58,18 @@ def parse_arguments():
                         default="esm2_t33_650M_UR50D", help="Specify which ESM-2 model to use.")
     parser.add_argument("--use-amp", action="store_true",
                         help="Use mixed precision (recommended on CUDA for less memory).")
-    # LoRA hyperparams (used only for 15B)
-    parser.add_argument("--lora-r", type=int, default=8, help="LoRA rank (15B only).")
-    parser.add_argument("--lora-alpha", type=int, default=16, help="LoRA alpha (15B only).")
-    parser.add_argument("--lora-dropout", type=float, default=0.05, help="LoRA dropout (15B only).")
+    # LoRA control & hyperparams (apply to any model when enabled)
+    parser.add_argument(
+        "--lora",
+        choices=["on", "off", "auto"],
+        default="auto",
+        help="Enable LoRA. 'auto' enables LoRA iff --peft-output is provided (good for Snakemake)."
+    )
+    parser.add_argument("--lora-r", type=int, default=8, help="LoRA rank.")
+    parser.add_argument("--lora-alpha", type=int, default=16, help="LoRA alpha.")
+    parser.add_argument("--lora-dropout", type=float, default=0.05, help="LoRA dropout.")
     return parser.parse_args()
+
 
 def load_sequences(fasta_file):
     """Load sequences from a FASTA file."""
@@ -59,6 +77,7 @@ def load_sequences(fasta_file):
     for record in SeqIO.parse(fasta_file, "fasta"):
         sequences.append((record.id, str(record.seq)))
     return sequences
+
 
 def mask_tokens(tokens, mask_token_idx, vocab_size, device, special_token_idxs=None):
     """Apply masking to input tokens (avoid masking special tokens if provided)."""
@@ -83,6 +102,7 @@ def mask_tokens(tokens, mask_token_idx, vocab_size, device, special_token_idxs=N
 
     # 10%: keep original
     return tokens, labels
+
 
 def train_model(model, dataloader, batch_converter, optimizer, device, epochs,
                 mask_token_idx, vocab_size, repr_layer, use_amp=False, special_token_idxs=None):
@@ -129,16 +149,17 @@ def train_model(model, dataloader, batch_converter, optimizer, device, epochs,
         avg = total_loss / max(1, len(dataloader))
         print(f"Epoch {epoch + 1} completed. Average Loss: {avg:.4f}")
 
+
 def save_model(model, output_file, used_lora=False, peft_output_dir=None, base_model_name=None, extra_meta=None):
     """
     Save model or adapters.
 
     - Non-LoRA: writes a full state_dict to `output_file`.
-    - LoRA: saves adapters to `peft_output_dir` AND writes a small JSON pointer to `output_file`
-      so workflows (Snakemake) have a concrete file to depend on.
+    - LoRA: saves adapters to `peft_output_dir` AND writes a small JSON pointer to `output_file`.
     """
     if used_lora:
-        assert hasattr(model, "save_pretrained"), "PEFT model expected when used_lora=True."
+        if not hasattr(model, "save_pretrained"):
+            raise RuntimeError("PEFT model expected when used_lora=True (missing save_pretrained).")
         outdir = peft_output_dir or "adapters/esm_lora"
         os.makedirs(outdir, exist_ok=True)
         # Save adapters (PEFT will create adapter_model.* and config)
@@ -165,19 +186,34 @@ def save_model(model, output_file, used_lora=False, peft_output_dir=None, base_m
         torch.save(model.state_dict(), output_file)
         print(f"Model saved to {output_file}")
 
-def maybe_wrap_with_lora(model, args):
+
+def decide_lora_enabled(args):
     """
-    If using the 15B model, wrap attention and MLP Linear layers with LoRA.
+    Decide whether to enable LoRA based on CLI switches.
+
+    Priority:
+      1) --lora on/off (explicit)
+      2) --lora auto -> enable only if --peft-output is provided (fits Snakemake toggle)
+    """
+    if args.lora == "on":
+        return True
+    if args.lora == "off":
+        return False
+    # auto
+    return args.peft_output is not None and str(args.peft_output).strip() != ""
+
+
+def maybe_wrap_with_lora(model, args, enable_lora):
+    """
+    When enable_lora=True, wrap attention and MLP Linear layers with LoRA.
     Targets are matched by module name substrings.
     """
-    is_15b = args.model == "esm2_t48_15B_UR50D"
-    if not is_15b:
+    if not enable_lora:
         return model, False
 
-    if get_peft_model is None:
+    if get_peft_model is None or LoraConfig is None:
         raise RuntimeError(
-            "peft is not installed, but LoRA is required for the 15B model. "
-            "Install with: pip install peft"
+            "peft is not installed, but LoRA was requested. Install with: pip install peft"
         )
 
     # ESM2 uses q_proj, k_proj, v_proj, out_proj in attention and fc1/fc2 in MLPs.
@@ -189,7 +225,7 @@ def maybe_wrap_with_lora(model, args):
         lora_dropout=args.lora_dropout,
         bias="none",
         target_modules=target_modules,
-        task_type=None  # non-HF forward; PEFT will wrap Linear layers it finds
+        task_type=None  # non-HF forward; PEFT will wrap nn.Linear modules
     )
 
     peft_model = get_peft_model(model, lora_config)
@@ -203,6 +239,7 @@ def maybe_wrap_with_lora(model, args):
         print(f"Trainable params: {trainables:,} / {total:,}")
 
     return peft_model, True
+
 
 def main():
     args = parse_arguments()
@@ -224,7 +261,7 @@ def main():
     mask_token_idx = getattr(alphabet, "mask_idx", None)
     vocab_size = len(alphabet)
 
-    # --- PATCH: support both 'pad_idx' (older esm) and 'padding_idx' (newer fair-esm)
+    # Support both 'pad_idx' (older esm) and 'padding_idx' (newer fair-esm)
     pad_idx = getattr(alphabet, "pad_idx", getattr(alphabet, "padding_idx", None))
 
     special_token_idxs = {
@@ -238,8 +275,12 @@ def main():
 
     model = model.to(device)
 
-    # ---- NEW: Wrap with LoRA for 15B (massive memory reduction) ----
-    model, used_lora = maybe_wrap_with_lora(model, args)
+    # Decide LoRA based on flags (Snakemake passes --peft-output for LoRA rows)
+    enable_lora = decide_lora_enabled(args)
+    print(f"LoRA enabled: {enable_lora}")
+
+    # Wrap with LoRA if requested
+    model, used_lora = maybe_wrap_with_lora(model, args, enable_lora)
 
     model.train()
 
@@ -247,18 +288,18 @@ def main():
     print(f"Loading training sequences from {args.input}...")
     sequences = load_sequences(args.input)
 
-    # Heuristic batch sizes (you can still tune these)
+    # Heuristic batch sizes (tune as needed)
     if args.model == "esm2_t33_650M_UR50D":
         batches = 8
     elif args.model == "esm2_t36_3B_UR50D":
         batches = 2
     else:  # 15B
-        batches = 1  # with LoRA + AMP you might push this up depending on GPU
+        batches = 1  # with LoRA + AMP you might increase depending on GPU
 
     dataset = ProteinDataset(sequences)
     dataloader = DataLoader(dataset, batch_size=batches, shuffle=True, collate_fn=lambda x: x)
 
-    # Optimizer only over trainable (i.e., LoRA) params if used_lora
+    # Optimizer only over trainable params (LoRA trains adapters; non-LoRA trains full model)
     params = [p for p in model.parameters() if p.requires_grad]
     optimizer = torch.optim.AdamW(params, lr=args.learning_rate)
 
@@ -271,17 +312,19 @@ def main():
 
     # Save
     if used_lora:
-        print(f"Saving LoRA adapters to {args.peft_output}...")
+        outdir = args.peft_output or f"adapters/{args.model}_lora"
+        print(f"Saving LoRA adapters to {outdir}...")
         save_model(
             model, args.output,
             used_lora=True,
-            peft_output_dir=args.peft_output,
+            peft_output_dir=outdir,
             base_model_name=args.model,
             extra_meta={"epochs": args.epochs, "learning_rate": args.learning_rate}
         )
     else:
         print(f"Saving full fine-tuned model to {args.output}...")
         save_model(model, args.output, used_lora=False)
+
 
 if __name__ == "__main__":
     main()

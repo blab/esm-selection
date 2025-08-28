@@ -1,19 +1,25 @@
 from snakemake.utils import Paramspace
+from pathlib import Path
 import pandas as pd
 
 SEGMENTS = ["pb2", "pb1", "pa", "np", "na", "mp", "ns", "ha"]
 
-#df = pd.read_csv("input/params.csv")
-#df = pd.read_csv("input/params_learning_rate_compare.csv")
+# Update this path to your desired params file
 df = pd.read_csv("input/params_lora.csv")
 
-paramspace = Paramspace(df)  # all params
-#paramspace_ft = Paramspace(df[~df["model"].str.contains("15B")])  # fine-tune-eligible
+# Ensure 'lora' column exists; default to 'lora' if missing
+if "lora" not in df.columns:
+    df["lora"] = "lora"
 
+paramspace = Paramspace(df)  # all params
 PS_WC = paramspace.wildcard_pattern
-#PS_WC_FT = paramspace_ft.wildcard_pattern
 
 BASE_MODELS = sorted(df["model"].unique())
+
+# Subset for the comparison you asked for: 15B and 650M only
+# (If you want to fine-tune ALL models present in the CSV, just set paramspace_cmp = paramspace)
+df_cmp = df[df["model"].str.contains("15B|650M", regex=True, na=False)]
+paramspace_cmp = Paramspace(df_cmp)
 
 if "next_tree" in df.columns:
     TREES = sorted(df["next_tree"].dropna().unique())
@@ -22,17 +28,17 @@ else:
 
 rule all:
     input:
-        # always compute base log-likelihoods
+        # Always compute base log-likelihoods for all models present
         expand(
             "results/max_freqs_log_likelyhood/{next_tree}/Max_Freq_Fasta_LL_{model}_{segment}.csv",
             next_tree=TREES,
             model=BASE_MODELS,
             segment=SEGMENTS,
         ),
-        # only compute fine-tune outputs for non-15B runs
+        # Only compute fine-tune outputs for the 650M/15B rows to compare LoRA vs non-LoRA
         expand(
             "results/max_freqs_log_likelyhood_Fine_Tune/{ps}/Max_Freq_Fasta_LL_Fine_Tune_{segment}.csv",
-            ps=paramspace.instance_patterns,
+            ps=paramspace_cmp.instance_patterns,
             segment=SEGMENTS,
         ),
 
@@ -97,7 +103,7 @@ rule calc_ll_esm:
         "results/max_freqs_log_likelyhood/{next_tree}/Max_Freq_Fasta_LL_{model}_{segment}.csv"
     shell:
         """
-        python {input.script} --max_freq {input.max_freq} --segment {wildcards.segment} --model {wildcards.model} --output {output} 
+        python {input.script} --max_freq {input.max_freq} --segment {wildcards.segment} --model {wildcards.model} --output {output}
         """
 
 
@@ -128,13 +134,19 @@ rule generate_fine_tune_model:
     shell:
         r"""
         outdir="$(dirname {output})/adapters_{wildcards.segment}"
+        # Treat any of lora/true/1/True as "use LoRA"
+        case "{wildcards.lora}" in
+          lora|LORA|true|True|1) extra="--peft-output $outdir" ;;
+          *) extra="" ;;
+        esac
+
         python {input.script} \
           --model {wildcards.model} \
           --input {input.fine_tune_fasta} \
           --output {output} \
           --epochs {wildcards.epochs} \
           --learning-rate {wildcards.learning_rate} \
-          --peft-output "$outdir"
+          $extra
         """
 
 

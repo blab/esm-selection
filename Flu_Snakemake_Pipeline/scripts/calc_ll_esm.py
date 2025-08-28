@@ -33,38 +33,22 @@ args = parser.parse_args()
 max_freq_df = pd.read_csv(args.max_freq)
 max_freq_df["log_likelihood"] = 0.0
 
+# -------- utilities --------
+def remove_stop_codon(seq: str) -> str:
+    pos = seq.find("*")
+    return seq if pos == -1 else seq[:pos]
 
-# Function to remove stop codon and following codons
-def remove_stop_codon(seq):
-    stop_pos = seq.find("*")
-    if stop_pos != -1:
-        return seq[:stop_pos]
-    return seq
-
-
-# Apply the function to the 'sequence' column
 max_freq_df["sequence"] = max_freq_df["sequence"].apply(remove_stop_codon)
-
 max_freq_df_unique = max_freq_df.drop_duplicates(subset="sequence", keep="first").reset_index(drop=True)
 
-
-# --------- Model loading helpers ---------
 def _load_base(model_name: str):
-    """
-    Load ESM base model and alphabet from esm.pretrained.<model_name>().
-    """
+    """Load ESM base model and alphabet from esm.pretrained.<model_name>()"""
     return getattr(esm.pretrained, model_name)()
 
-
 def _try_load_pointer(path: str):
-    """
-    If path is a pointer JSON (created by the training script), return its dict.
-    Otherwise return None.
-    """
+    """If path is a pointer JSON (created by the fine-tune script), return its dict; else None."""
     if not path:
         return None
-    # If it's clearly not JSON (e.g., binary), skip quickly
-    # But still try: torch.load error earlier came from trying to load JSON as weights
     try:
         with open(path, "r", encoding="utf-8") as f:
             meta = json.load(f)
@@ -74,90 +58,123 @@ def _try_load_pointer(path: str):
         pass
     return None
 
-
 def load_model_with_optional_ft(model_name: str, ft_path: str):
     """
-    Load base model, then:
-      - If ft_path is a pointer JSON: apply PEFT adapters from the referenced directory.
-      - Else if ft_path is a raw state dict: torch.load(..., weights_only=False) then load_state_dict(strict=False).
-      - Else: return base model.
+    Load base model, then optionally apply:
+      - LoRA adapters from pointer JSON (PEFT)
+      - raw state_dict (non-LoRA or merged adapters)
+    Returns: (model, alphabet, meta)
+      meta = {
+        "ft_kind": "lora" | "state_dict" | "none",
+        "adapters_path": str|None,
+        "base_model_loaded": str,
+      }
     """
     # Case 1: pointer JSON (LoRA adapters)
-    meta = _try_load_pointer(ft_path)
-    if meta is not None:
+    meta_ptr = _try_load_pointer(ft_path)
+    if meta_ptr is not None:
         if PeftModel is None:
-            raise RuntimeError(
-                "Pointer JSON provided, but 'peft' is not installed in this environment."
-            )
-        base_name = meta.get("base_model", model_name)
+            raise RuntimeError("Pointer JSON provided, but 'peft' is not installed.")
+        base_name = meta_ptr.get("base_model", model_name)
         base_model, alphabet = _load_base(base_name)
-        adapters_dir = meta["adapters_path"]
+        adapters_dir = meta_ptr["adapters_path"]
         model = PeftModel.from_pretrained(base_model, adapters_dir)
-        return model, alphabet
+        meta = {
+            "ft_kind": "lora",
+            "adapters_path": adapters_dir,
+            "base_model_loaded": base_name,
+        }
+        return model, alphabet, meta
 
     # Case 2: raw state_dict (non-LoRA or merged LoRA)
     model, alphabet = _load_base(model_name)
+    meta = {"ft_kind": "none", "adapters_path": None, "base_model_loaded": model_name}
     if ft_path:
-        # PyTorch 2.6: weights_only=True by default; many older files require False.
-        # This is safe if you trust the file (you do—it's your pipeline).
         state = torch.load(ft_path, map_location="cpu", weights_only=False)
-        # Allow partial loads (e.g., heads or adapters merged)
         missing, unexpected = model.load_state_dict(state, strict=False)
         if missing or unexpected:
-            print(f"[load_state_dict] missing keys: {len(missing)}, unexpected keys: {len(unexpected)}")
-    return model, alphabet
-# -----------------------------------------
+            print(f"[load_state_dict] missing={len(missing)} unexpected={len(unexpected)}")
+        meta["ft_kind"] = "state_dict"
+    return model, alphabet, meta
+# ---------------------------
 
-
-# 1. Load ESM-2 model (with optional fine-tuned artifact)
-model, alphabet = load_model_with_optional_ft(args.model, args.fine_tune_model)
+# 1) Load model (base or FT)
+model, alphabet, meta = load_model_with_optional_ft(args.model, args.fine_tune_model)
 
 batch_converter = alphabet.get_batch_converter()
 model.eval()  # Disable dropout for evaluation
-
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 model.to(device)
 
-# Choose top (final) layer by default
+# repr layer
 repr_layer = getattr(model, "num_layers", None)
 if repr_layer is None:
-    # Fallback for any custom wrappers; most ESM models expose num_layers
     repr_layer = 33 if args.model == "esm2_t33_650M_UR50D" else (36 if args.model == "esm2_t36_3B_UR50D" else 48)
 
-# Compute log-likelihoods sequence-by-sequence
-for index, sequence in enumerate(max_freq_df_unique["sequence"]):
-    data = [(max_freq_df_unique["node"][index], sequence)]
+# Identify special tokens to exclude from the log-likelihood sum
+pad_idx = getattr(alphabet, "pad_idx", getattr(alphabet, "padding_idx", None))
+special_idxs = {
+    x for x in (
+        getattr(alphabet, "cls_idx", None),
+        getattr(alphabet, "eos_idx", None),
+        getattr(alphabet, "bos_idx", None),
+        getattr(alphabet, "mask_idx", None),
+        pad_idx,
+    ) if x is not None
+}
 
-    # 3. Tokenize
+# 2) Compute log-likelihoods per unique sequence
+from torch.nn.functional import log_softmax  # type: ignore
+
+for index, sequence in tqdm(enumerate(max_freq_df_unique["sequence"]), total=len(max_freq_df_unique), desc="LL"):
+    data = [(max_freq_df_unique.at[index, "node"] if "node" in max_freq_df_unique.columns else f"seq{index}", sequence)]
     batch_labels, batch_strs, batch_tokens = batch_converter(data)
     batch_tokens = batch_tokens.to(device)
 
-    # 4. Compute log-likelihoods
     with torch.no_grad():
-        results = model(batch_tokens, repr_layers=[repr_layer], return_contacts=False)
-        # logits = results["logits"]  # not needed separately
-        log_probs = torch.log_softmax(results["logits"], dim=-1)
-        # Sum token log-probs at the ground-truth token indices
-        log_likelihood = log_probs.gather(2, batch_tokens.unsqueeze(-1)).sum().item()
-        max_freq_df_unique.at[index, "log_likelihood"] = log_likelihood
+        out = model(batch_tokens, repr_layers=[repr_layer], return_contacts=False)
+        logits = out["logits"]  # [B, L, V]
+        log_probs = log_softmax(logits, dim=-1)  # [B, L, V]
+
+        # Gather GT token log-probs
+        gathered = log_probs.gather(2, batch_tokens.unsqueeze(-1)).squeeze(-1)  # [B, L]
+
+        # Mask out special tokens
+        if special_idxs:
+            mask = torch.ones_like(batch_tokens, dtype=torch.bool, device=device)
+            for si in special_idxs:
+                mask &= (batch_tokens != si)
+            token_ll = gathered.masked_select(mask).sum()
+        else:
+            token_ll = gathered.sum()
+
+        max_freq_df_unique.at[index, "log_likelihood"] = float(token_ll.item())
 
 # Keep only per-sequence score and merge back
 max_freq_df_unique = max_freq_df_unique.drop(columns=["node", "max_frequency"], errors="ignore")
 merged = max_freq_df.merge(max_freq_df_unique, on="sequence", how="left")
 
-# Remove log_likelihood_x and rename log_likelihood_y if needed
+# Cleanup potential duplicate columns
 if "log_likelihood_x" in merged.columns and "log_likelihood_y" in merged.columns:
     merged = merged.drop(columns=["log_likelihood_x"]).rename(columns={"log_likelihood_y": "log_likelihood"})
 
+# 3) Attach metadata columns for downstream analysis
 end_time = time.time()
-runtime = round(end_time - start_time, 3)  # seconds with milliseconds
-merged["runtime"] = runtime  # add runtime as a column to all rows
+runtime = round(end_time - start_time, 3)
+
+merged["runtime"] = runtime
+merged["segment"] = args.segment
+merged["epochs"] = args.epochs
+merged["model_requested"] = args.model
+merged["base_model_loaded"] = meta.get("base_model_loaded")
+merged["ft_kind"] = meta.get("ft_kind")               # "lora" | "state_dict" | "none"
+merged["adapters_path"] = meta.get("adapters_path")   # path or None
+merged["repr_layer_used"] = repr_layer
 
 # Ensure the output directory exists
 output_dir = os.path.dirname(args.output)
 if output_dir and not os.path.exists(output_dir):
     os.makedirs(output_dir, exist_ok=True)
 
-# Save result
 merged.to_csv(args.output, index=False)
-print(f"[done] wrote {args.output} in {runtime}s")
+print(f"[done] wrote {args.output} in {runtime}s | ft_kind={merged['ft_kind'].iloc[0]} base={merged['base_model_loaded'].iloc[0]}")
