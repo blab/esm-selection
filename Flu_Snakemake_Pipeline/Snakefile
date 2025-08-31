@@ -5,7 +5,7 @@ import pandas as pd
 SEGMENTS = ["pb2", "pb1", "pa", "np", "na", "mp", "ns", "ha"]
 
 # Update this path to your desired params file
-df = pd.read_csv("input/params_lora.csv")
+df = pd.read_csv("input/params_lora_2.csv")
 
 # Ensure 'lora' column exists; default to 'lora' if missing
 if "lora" not in df.columns:

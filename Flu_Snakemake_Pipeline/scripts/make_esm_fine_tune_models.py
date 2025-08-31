@@ -7,6 +7,7 @@ import os
 import numpy as np
 import random
 import json
+import math
 
 # ---- PEFT / LoRA (optional) ----
 try:
@@ -28,14 +29,12 @@ class ProteinDataset(Dataset):
     def __getitem__(self, idx):
         return self.sequences[idx]
 
-
 randseed = 12
 torch.backends.cudnn.deterministic = True
 random.seed(randseed)
 torch.manual_seed(randseed)
 torch.cuda.manual_seed(randseed)
 np.random.seed(randseed)
-
 
 def parse_arguments():
     parser = argparse.ArgumentParser(
@@ -53,11 +52,18 @@ def parse_arguments():
     )
     parser.add_argument("--epochs", type=int, default=1, help="Number of epochs for fine-tuning.")
     parser.add_argument("--learning-rate", type=float, default=5e-5, help="Learning rate.")
+    parser.add_argument("--weight-decay", type=float, default=0.01, help="Weight decay (non-LoRA only).")
+    parser.add_argument("--warmup-ratio", type=float, default=0.05, help="Warmup proportion of total steps.")
+    parser.add_argument("--schedule", choices=["cosine", "linear", "none"], default="cosine",
+                        help="LR schedule.")
     parser.add_argument("--model", type=str,
                         choices=["esm2_t33_650M_UR50D", "esm2_t36_3B_UR50D", "esm2_t48_15B_UR50D"],
                         default="esm2_t33_650M_UR50D", help="Specify which ESM-2 model to use.")
     parser.add_argument("--use-amp", action="store_true",
                         help="Use mixed precision (recommended on CUDA for less memory).")
+    # Optional: segment name for metadata (helps downstream scripts identify segment)
+    parser.add_argument("--segment", type=str, default=None,
+                        help="Optional segment name; saved into LoRA pointer metadata only.")
     # LoRA control & hyperparams (apply to any model when enabled)
     parser.add_argument(
         "--lora",
@@ -65,9 +71,9 @@ def parse_arguments():
         default="auto",
         help="Enable LoRA. 'auto' enables LoRA iff --peft-output is provided (good for Snakemake)."
     )
-    parser.add_argument("--lora-r", type=int, default=8, help="LoRA rank.")
-    parser.add_argument("--lora-alpha", type=int, default=16, help="LoRA alpha.")
-    parser.add_argument("--lora-dropout", type=float, default=0.05, help="LoRA dropout.")
+    parser.add_argument("--lora-r", type=int, default=128, help="LoRA rank.")
+    parser.add_argument("--lora-alpha", type=int, default=128, help="LoRA alpha (≈ rank).")
+    parser.add_argument("--lora-dropout", type=float, default=0.0, help="LoRA dropout (0.0 to match FT).")
     return parser.parse_args()
 
 
@@ -104,12 +110,15 @@ def mask_tokens(tokens, mask_token_idx, vocab_size, device, special_token_idxs=N
     return tokens, labels
 
 
-def train_model(model, dataloader, batch_converter, optimizer, device, epochs,
+def train_model(model, dataloader, batch_converter, optimizer, scheduler, device, epochs,
                 mask_token_idx, vocab_size, repr_layer, use_amp=False, special_token_idxs=None):
     """Train the model on the given dataset."""
     model.train()
     scaler = torch.cuda.amp.GradScaler(enabled=use_amp and device.type == "cuda")
 
+    ce = torch.nn.CrossEntropyLoss(ignore_index=-100)
+
+    global_step = 0
     for epoch in range(epochs):
         print(f"Epoch {epoch + 1}/{epochs}")
         total_loss = 0.0
@@ -129,22 +138,25 @@ def train_model(model, dataloader, batch_converter, optimizer, device, epochs,
                 with torch.cuda.amp.autocast():
                     results = model(masked_tokens, repr_layers=[repr_layer])
                     logits = results["logits"]
-                    loss_fn = torch.nn.CrossEntropyLoss(ignore_index=-100)
-                    loss = loss_fn(logits.view(-1, logits.size(-1)), labels.view(-1))
+                    loss = ce(logits.view(-1, logits.size(-1)), labels.view(-1))
                 scaler.scale(loss).backward()
                 scaler.step(optimizer)
                 scaler.update()
             else:
                 results = model(masked_tokens, repr_layers=[repr_layer])
                 logits = results["logits"]
-                loss_fn = torch.nn.CrossEntropyLoss(ignore_index=-100)
-                loss = loss_fn(logits.view(-1, logits.size(-1)), labels.view(-1))
+                loss = ce(logits.view(-1, logits.size(-1)), labels.view(-1))
                 loss.backward()
                 optimizer.step()
 
+            if scheduler is not None:
+                scheduler.step()
+            global_step += 1
+
             total_loss += loss.item()
             if (i + 1) % 1 == 0:
-                print(f"Step {i + 1}/{len(dataloader)} - Loss: {loss.item():.4f}")
+                lr_now = optimizer.param_groups[0]['lr']
+                print(f"Step {i + 1}/{len(dataloader)} - Loss: {loss.item():.4f} - LR: {lr_now:.2e}")
 
         avg = total_loss / max(1, len(dataloader))
         print(f"Epoch {epoch + 1} completed. Average Loss: {avg:.4f}")
@@ -241,6 +253,23 @@ def maybe_wrap_with_lora(model, args, enable_lora):
     return peft_model, True
 
 
+def build_scheduler(optimizer, total_steps, warmup_ratio=0.05, schedule="cosine"):
+    if schedule == "none":
+        return None
+    warmup_steps = max(1, int(warmup_ratio * total_steps))
+
+    def lr_lambda(step):
+        if step < warmup_steps:
+            return float(step) / max(1, warmup_steps)
+        progress = (step - warmup_steps) / max(1, total_steps - warmup_steps)
+        if schedule == "linear":
+            return max(0.0, 1.0 - progress)
+        # cosine
+        return 0.5 * (1.0 + math.cos(math.pi * progress))
+
+    return torch.optim.lr_scheduler.LambdaLR(optimizer, lr_lambda)
+
+
 def main():
     args = parse_arguments()
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -301,12 +330,22 @@ def main():
 
     # Optimizer only over trainable params (LoRA trains adapters; non-LoRA trains full model)
     params = [p for p in model.parameters() if p.requires_grad]
-    optimizer = torch.optim.AdamW(params, lr=args.learning_rate)
+    if used_lora:
+        # Keep WD = 0 on adapters
+        optimizer = torch.optim.AdamW([{"params": params, "weight_decay": 0.0}],
+                                      lr=args.learning_rate, betas=(0.9, 0.999))
+    else:
+        optimizer = torch.optim.AdamW(params, lr=args.learning_rate,
+                                      betas=(0.9, 0.999), weight_decay=args.weight_decay)
+
+    # Scheduler: warmup then cosine/linear to 0 — same total steps as FT
+    total_steps = args.epochs * max(1, len(dataloader))
+    scheduler = build_scheduler(optimizer, total_steps, args.warmup_ratio, args.schedule)
 
     # Train
     print("Starting fine-tuning...")
     train_model(
-        model, dataloader, batch_converter, optimizer, device, args.epochs,
+        model, dataloader, batch_converter, optimizer, scheduler, device, args.epochs,
         mask_token_idx, vocab_size, repr_layer, use_amp=args.use_amp, special_token_idxs=special_token_idxs
     )
 
@@ -319,7 +358,10 @@ def main():
             used_lora=True,
             peft_output_dir=outdir,
             base_model_name=args.model,
-            extra_meta={"epochs": args.epochs, "learning_rate": args.learning_rate}
+            extra_meta={"epochs": args.epochs, "learning_rate": args.learning_rate,
+                        "schedule": args.schedule, "warmup_ratio": args.warmup_ratio,
+                        "lora_r": args.lora_r, "lora_alpha": args.lora_alpha, "lora_dropout": args.lora_dropout,
+                        "segment": args.segment}
         )
     else:
         print(f"Saving full fine-tuned model to {args.output}...")
