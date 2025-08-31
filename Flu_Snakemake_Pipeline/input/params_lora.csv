@@ -1,5 +1,11 @@
 ﻿next_tree,epochs,learning_rate,model,time,lora
+h3n2,1,5e-04,esm2_t33_650M_UR50D,1990,lora
 h3n2,1,5e-05,esm2_t33_650M_UR50D,1990,lora
 h3n2,1,5e-05,esm2_t33_650M_UR50D,1990,nolora
+h3n2,1,5e-05,esm2_t36_3B_UR50D,1990,lora
+h3n2,1,5e-05,esm2_t36_3B_UR50D,1990,nolora
+h3n2,1,5e-04,esm2_t36_3B_UR50D,1990,lora
+h3n2,1,5e-04,esm2_t48_15B_UR50D,1990,lora
 h3n2,1,5e-05,esm2_t48_15B_UR50D,1990,lora
-h3n2,1,5e-05,esm2_t48_15B_UR50D,1990,nolora
+h3n2,1,5e-03,esm2_t33_650M_UR50D,1990,lora
+h3n2,1,5e-02,esm2_t33_650M_UR50D,1990,lora

@@ -18,8 +18,9 @@ BASE_MODELS = sorted(df["model"].unique())
 
 # Subset for the comparison you asked for: 15B and 650M only
 # (If you want to fine-tune ALL models present in the CSV, just set paramspace_cmp = paramspace)
-df_cmp = df[df["model"].str.contains("15B|650M", regex=True, na=False)]
-paramspace_cmp = Paramspace(df_cmp)
+#df_cmp = df[df["model"].str.contains("15B|650M", regex=True, na=False)]
+#paramspace_cmp = Paramspace(df_cmp)
+paramspace_cmp = Paramspace(df)
 
 if "next_tree" in df.columns:
     TREES = sorted(df["next_tree"].dropna().unique())
