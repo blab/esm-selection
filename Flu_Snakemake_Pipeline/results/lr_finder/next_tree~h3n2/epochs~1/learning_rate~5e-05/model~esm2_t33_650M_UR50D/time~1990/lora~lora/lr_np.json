@@ -1,0 +1,13 @@
+{
+  "segment": "np",
+  "model": "esm2_t33_650M_UR50D",
+  "used_lora": true,
+  "steps": 100,
+  "lr_min": 1e-07,
+  "lr_max": 0.0005,
+  "strategy": "slope",
+  "factor": 3.0,
+  "chosen_learning_rate": 9.126524331537734e-05,
+  "stopped_early": false,
+  "reason": ""
+}

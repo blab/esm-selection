@@ -7,6 +7,12 @@ Adds per-step validation (streaming):
 - Records val_loss_per_step at regular intervals (and always at step 1 + end of epoch)
 - Plots per-step and epoch-level curves
 
+Reliability improvements:
+- Metrics file is written atomically with fsync
+- Periodic snapshots during training via --metrics-write-every-steps
+- Snapshots on SIGINT/SIGTERM and interpreter exit
+- Optional --run-id appended to metrics filename for per-run uniqueness
+
 Requirements:
   pip install matplotlib
 """
@@ -24,6 +30,9 @@ import math
 import glob
 import time
 import matplotlib.pyplot as plt
+import re
+import signal
+import atexit
 
 # ---- PEFT / LoRA (optional) ----
 try:
@@ -101,12 +110,15 @@ def parse_arguments():
     parser.add_argument("--lora-dropout", type=float, default=0.0, help="LoRA dropout.")
 
     # Logging / plotting
-    parser.add_argument("--logdir", type=str, default="metrics",
-                        help="Directory to write metrics JSON for plotting.")
-    parser.add_argument("--plots-out", type=str, default="plots/loss_by_segment.png",
-                        help="Combined grid figure path (epoch-level; optional).")
-    parser.add_argument("--plots-per-segment-dir", type=str, default="plots/by_segment",
-                        help="Directory for one PNG per segment (epoch-level; optional).")
+    parser.add_argument("--logdir", type=str, default=None,
+                        help="Directory to write metrics JSON for plotting. "
+                             "Default: <dirname(--output)>/metrics")
+    parser.add_argument("--plots-out", type=str, default=None,
+                        help="Combined grid figure path (epoch-level). "
+                             "Default: <dirname(--output)>/plots/loss_by_segment.png")
+    parser.add_argument("--plots-per-segment-dir", type=str, default=None,
+                        help="Directory for one PNG per segment (epoch-level). "
+                             "Default: <dirname(--output)>/plots/by_segment")
     parser.add_argument("--plot-after", action="store_true",
                         help="If set, generate plots right after training finishes.")
 
@@ -115,6 +127,12 @@ def parse_arguments():
                         help="How often to compute validation loss during training (in steps).")
     parser.add_argument("--val-steps-per-eval", type=int, default=1,
                         help="How many validation batches to average per evaluation tick.")
+
+    # Reliability / uniqueness
+    parser.add_argument("--metrics-write-every-steps", type=int, default=0,
+                        help="If >0, also write metrics snapshot every N train steps (atomic).")
+    parser.add_argument("--run-id", type=str, default=None,
+                        help="Optional run identifier to make metrics filename unique (e.g. 20250902-113045).")
 
     return parser.parse_args()
 
@@ -196,12 +214,16 @@ def evaluate_model(model, dataloader, batch_converter, device, mask_token_idx, v
 
 def train_model(model, dataloader, val_dataloader, batch_converter, optimizer, scheduler, device, epochs,
                 mask_token_idx, vocab_size, repr_layer, use_amp=False, special_token_idxs=None,
-                eval_every_steps=1, val_steps_per_eval=1):
+                eval_every_steps=1, val_steps_per_eval=1, snapshot_cb=None, snapshot_every_steps=0):
     """
     Train the model and return a history dict with per-step and per-epoch losses.
 
     Streams per-step validation loss every `eval_every_steps` steps (default: 1),
     and ALWAYS at step 1 and the last step of each epoch.
+
+    If snapshot_cb is provided, snapshots are written:
+      - every `snapshot_every_steps` steps (>0),
+      - at the end of each epoch.
     """
     model.train()
     scaler = torch.cuda.amp.GradScaler(enabled=use_amp and device.type == "cuda")
@@ -217,7 +239,7 @@ def train_model(model, dataloader, val_dataloader, batch_converter, optimizer, s
         "val_loss_steps_at": [],
     }
 
-    val_iter = iter(val_dataloader)
+    val_iter = iter(val_dataloader) if val_dataloader is not None else None
 
     global_step = 0
     for epoch in range(epochs):
@@ -300,7 +322,10 @@ def train_model(model, dataloader, val_dataloader, batch_converter, optimizer, s
 
                 history["val_loss_per_step"].append(float(np.mean(vals)))
                 history["val_loss_steps_at"].append(global_step)
-            # --------------------------------------------
+
+            # Periodic snapshot
+            if snapshot_cb and snapshot_every_steps > 0 and (global_step % snapshot_every_steps == 0):
+                snapshot_cb()
 
             print(f"Step {i + 1}/{steps_in_epoch} - Loss: {loss.item():.4f} - LR: {lr_now:.2e}")
 
@@ -318,6 +343,10 @@ def train_model(model, dataloader, val_dataloader, batch_converter, optimizer, s
             print(f"Epoch {epoch + 1} completed. Train: {avg_train:.4f}  |  Val: {val_loss:.4f}")
         else:
             print(f"Epoch {epoch + 1} completed. Average Train Loss: {avg_train:.4f}")
+
+        # Snapshot at end of epoch
+        if snapshot_cb:
+            snapshot_cb()
 
     return history
 
@@ -354,9 +383,15 @@ def save_model(model, output_file, used_lora=False, peft_output_dir=None, base_m
 
 
 def save_metrics(metrics: dict, path: str):
-    os.makedirs(os.path.dirname(path), exist_ok=True)
-    with open(path, "w", encoding="utf-8") as f:
+    """Atomically write JSON with fsync, replacing the target path."""
+    d = os.path.dirname(path)
+    os.makedirs(d, exist_ok=True)
+    tmp = path + ".tmp"
+    with open(tmp, "w", encoding="utf-8") as f:
         json.dump(metrics, f, indent=2)
+        f.flush()
+        os.fsync(f.fileno())
+    os.replace(tmp, path)
     print(f"[metrics] wrote {path}")
 
 
@@ -496,7 +531,7 @@ def make_plots(logdir, combined_out, per_segment_dir):
         print(f"[plot] wrote {out_seg}")
 
 
-def plot_per_step_curves(history, out_path="plots/loss_per_step.png", title="Per-step Training & Validation Loss"):
+def plot_per_step_curves(history, out_path, title="Per-step Training & Validation Loss"):
     train_y = history.get("train_loss_per_step", []) or []
     val_y   = history.get("val_loss_per_step", []) or []
     val_x   = history.get("val_loss_steps_at", []) or list(range(1, len(val_y)+1))
@@ -521,140 +556,218 @@ def plot_per_step_curves(history, out_path="plots/loss_per_step.png", title="Per
     print(f"[plot] wrote {out_path}")
 
 
+def _derive_default_paths(output_path, segment, tag, model, logdir_arg, plots_out_arg, plots_seg_dir_arg):
+    """
+    Compute run-rooted paths (next to --output) unless user provided explicit paths.
+    Returns: (logdir, combined_out, per_segment_dir, per_step_plot_path)
+    """
+    run_root = os.path.dirname(os.path.abspath(output_path))
+    # defaults rooted at run directory
+    default_logdir = os.path.join(run_root, "metrics")
+    default_plots_root = os.path.join(run_root, "plots")
+    default_combined = os.path.join(default_plots_root, "loss_by_segment.png")
+    default_seg_dir = os.path.join(default_plots_root, "by_segment")
+    default_per_step = os.path.join(default_plots_root, f"{segment}_{tag}_loss_per_step.png")
+
+    logdir = logdir_arg or default_logdir
+    combined_out = plots_out_arg or default_combined
+    per_seg_dir = plots_seg_dir_arg or default_seg_dir
+    return logdir, combined_out, per_seg_dir, default_per_step
+
+
+# -----------------------------
+#       UTIL: SAFE NAMES
+# -----------------------------
+def _safe_name(s: str) -> str:
+    """Sanitize strings for filenames/paths: keep alnum, dot, underscore, dash; replace others with '_'."""
+    return re.sub(r'[^A-Za-z0-9._-]+', '_', (s or 'default'))
+
+
 # -----------------------------
 #            MAIN
 # -----------------------------
 def main():
     args = parse_arguments()
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    print(f"Using device: {device}")
 
-    model_layer_map = {
-        "esm2_t33_650M_UR50D": 33,
-        "esm2_t36_3B_UR50D": 36,
-        "esm2_t48_15B_UR50D": 48
-    }
-    repr_layer = model_layer_map[args.model]
-
-    print(f"Loading {args.model} model...")
-    model, alphabet = getattr(esm.pretrained, args.model)()
-    batch_converter = alphabet.get_batch_converter()
-    mask_token_idx = getattr(alphabet, "mask_idx", None)
-    vocab_size = len(alphabet)
-
-    pad_idx = getattr(alphabet, "pad_idx", getattr(alphabet, "padding_idx", None))
-    special_token_idxs = {
-        x for x in (
-            getattr(alphabet, "cls_idx", None),
-            getattr(alphabet, "eos_idx", None),
-            getattr(alphabet, "bos_idx", None),
-            pad_idx,
-        ) if x is not None
-    }
-
-    model = model.to(device)
-
-    enable_lora = decide_lora_enabled(args)
-    print(f"LoRA enabled: {enable_lora}")
-    model, used_lora = maybe_wrap_with_lora(model, args, enable_lora)
-    model.train()
-
-    # Load sequences
-    if args.val_input:
-        print(f"Loading training sequences from {args.input}...")
-        train_sequences = load_sequences(args.input)
-        print(f"Loading validation sequences from {args.val_input}...")
-        val_sequences = load_sequences(args.val_input)
-    else:
-        print(f"Loading sequences (will split) from {args.input}...")
-        all_sequences = load_sequences(args.input)
-        n_total = len(all_sequences)
-        n_val = max(1, int(round(args.val_ratio * n_total)))
-        random.shuffle(all_sequences)
-        val_sequences = all_sequences[:n_val]
-        train_sequences = all_sequences[n_val:]
-        print(f"Split {n_total} seqs -> train={len(train_sequences)}  val={len(val_sequences)}")
-
-    # Heuristic batch sizes
-    if args.model == "esm2_t33_650M_UR50D":
-        batches = 8
-    elif args.model == "esm2_t36_3B_UR50D":
-        batches = 2
-    else:
-        batches = 1
-
-    dataset = ProteinDataset(train_sequences)
-    valset = ProteinDataset(val_sequences)
-    collate = lambda x: x
-    dataloader = DataLoader(dataset, batch_size=batches, shuffle=True, collate_fn=collate)
-    val_loader = DataLoader(valset, batch_size=batches, shuffle=False, collate_fn=collate)
-
-    params = [p for p in model.parameters() if p.requires_grad]
-    if used_lora:
-        optimizer = torch.optim.AdamW([{"params": params, "weight_decay": 0.0}],
-                                      lr=args.learning_rate, betas=(0.9, 0.999))
-    else:
-        optimizer = torch.optim.AdamW(params, lr=args.learning_rate,
-                                      betas=(0.9, 0.999), weight_decay=args.weight_decay)
-
-    total_steps = args.epochs * max(1, len(dataloader))
-    scheduler = build_scheduler(optimizer, total_steps, args.warmup_ratio, args.schedule)
-
-    print("Starting fine-tuning...")
-    history = train_model(
-        model, dataloader, val_loader, batch_converter, optimizer, scheduler, device, args.epochs,
-        mask_token_idx, vocab_size, repr_layer, use_amp=args.use_amp, special_token_idxs=special_token_idxs,
-        eval_every_steps=args.eval_every_steps, val_steps_per_eval=args.val_steps_per_eval
-    )
-
-    if used_lora:
-        outdir = args.peft_output or f"adapters/{args.model}_lora"
-        print(f"Saving LoRA adapters to {outdir}...")
-        save_model(
-            model, args.output,
-            used_lora=True,
-            peft_output_dir=outdir,
-            base_model_name=args.model,
-            extra_meta={"epochs": args.epochs, "learning_rate": args.learning_rate,
-                        "schedule": args.schedule, "warmup_ratio": args.warmup_ratio,
-                        "lora_r": args.lora_r, "lora_alpha": args.lora_alpha, "lora_dropout": args.lora_dropout,
-                        "segment": args.segment}
-        )
-    else:
-        print(f"Saving full fine-tuned model to {args.output}...")
-        save_model(model, args.output, used_lora=False)
-
+    # --- derive segment name early and sanitize ---
     segment_name = (args.segment or os.path.splitext(os.path.basename(args.input))[0])
-    tag = "lora" if used_lora else "ft"
-    run_ts = int(time.time())
-    metrics_payload = {
-        "segment": segment_name,
-        "model": args.model,
-        "used_lora": used_lora,
-        "epochs": args.epochs,
-        "learning_rate": args.learning_rate,
-        "weight_decay": args.weight_decay if not used_lora else 0.0,
-        "schedule": args.schedule,
-        "warmup_ratio": args.warmup_ratio,
-        "lora": {
-            "r": args.lora_r,
-            "alpha": args.lora_alpha,
-            "dropout": args.lora_dropout,
-        } if used_lora else None,
-        "history": history,
-        "timestamp": run_ts,
-    }
-    os.makedirs(args.logdir, exist_ok=True)
-    metrics_path = os.path.join(args.logdir, f"{segment_name}_{tag}_{args.model}_metrics.json")
-    save_metrics(metrics_payload, metrics_path)
+    segment_name = _safe_name(segment_name)
 
-    if args.plot_after:
-        plot_per_step_curves(
-            history,
-            out_path=os.path.join("plots", f"{segment_name}_{tag}_loss_per_step.png"),
-            title=f"{segment_name} — {'LoRA' if used_lora else 'FT'} — {args.model} (per step)"
+    # --- decide LoRA ahead of time so we can compute default paths & tag ---
+    enable_lora = decide_lora_enabled(args)
+    tag = "lora" if enable_lora else "ft"
+
+    # --- derive & announce where metrics/plots will land ---
+    logdir, combined_out, per_segment_dir, per_step_plot_path = _derive_default_paths(
+        args.output, segment_name, tag, args.model, args.logdir, args.plots_out, args.plots_per_segment_dir
+    )
+    os.makedirs(logdir, exist_ok=True)
+
+    # Per-run uniqueness for metrics file
+    run_id = args.run_id or time.strftime("%Y%m%d-%H%M%S")
+    metrics_path = os.path.join(logdir, f"{segment_name}_{tag}_{args.model}_{run_id}_metrics.json")
+    print(f"[metrics] will write to: {os.path.abspath(metrics_path)}")
+
+    # State captured for snapshots/handlers
+    history = {}
+    used_lora = False
+
+    def _current_metrics_payload():
+        run_ts = int(time.time())
+        return {
+            "segment": segment_name,
+            "model": args.model,
+            "used_lora": used_lora,
+            "epochs": args.epochs,
+            "learning_rate": args.learning_rate,
+            "weight_decay": args.weight_decay if not used_lora else 0.0,
+            "schedule": args.schedule,
+            "warmup_ratio": args.warmup_ratio,
+            "lora": {
+                "r": args.lora_r,
+                "alpha": args.lora_alpha,
+                "dropout": args.lora_dropout,
+            } if used_lora else None,
+            "history": history,  # may be partial
+            "timestamp": run_ts,
+        }
+
+    def _snapshot():
+        try:
+            save_metrics(_current_metrics_payload(), metrics_path)
+        except Exception as e:
+            print(f"[metrics] snapshot failed: {e}")
+
+    # Ensure we write on normal interpreter shutdown, SIGINT, SIGTERM
+    atexit.register(_snapshot)
+
+    def _sig_handler(signum, frame):
+        print(f"[metrics] caught signal {signum}, writing snapshot...")
+        _snapshot()
+        if signum == signal.SIGTERM:
+            raise SystemExit(143)  # 128+15
+
+    try:
+        signal.signal(signal.SIGTERM, _sig_handler)
+    except Exception:
+        pass  # Some environments may not allow setting handlers
+    try:
+        signal.signal(signal.SIGINT, _sig_handler)
+    except Exception:
+        pass
+
+    try:
+        device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        print(f"Using device: {device}")
+
+        model_layer_map = {
+            "esm2_t33_650M_UR50D": 33,
+            "esm2_t36_3B_UR50D": 36,
+            "esm2_t48_15B_UR50D": 48
+        }
+        repr_layer = model_layer_map[args.model]
+
+        print(f"Loading {args.model} model...")
+        model, alphabet = getattr(esm.pretrained, args.model)()
+        batch_converter = alphabet.get_batch_converter()
+        mask_token_idx = getattr(alphabet, "mask_idx", None)
+        vocab_size = len(alphabet)
+
+        pad_idx = getattr(alphabet, "pad_idx", getattr(alphabet, "padding_idx", None))
+        special_token_idxs = {
+            x for x in (
+                getattr(alphabet, "cls_idx", None),
+                getattr(alphabet, "eos_idx", None),
+                getattr(alphabet, "bos_idx", None),
+                pad_idx,
+            ) if x is not None
+        }
+
+        model = model.to(device)
+
+        print(f"LoRA enabled: {enable_lora}")
+        model, used_lora = maybe_wrap_with_lora(model, args, enable_lora)
+        model.train()
+
+        # Load sequences
+        if args.val_input:
+            print(f"Loading training sequences from {args.input}...")
+            train_sequences = load_sequences(args.input)
+            print(f"Loading validation sequences from {args.val_input}...")
+            val_sequences = load_sequences(args.val_input)
+        else:
+            print(f"Loading sequences (will split) from {args.input}...")
+            all_sequences = load_sequences(args.input)
+            n_total = len(all_sequences)
+            n_val = max(1, int(round(args.val_ratio * n_total)))
+            random.shuffle(all_sequences)
+            val_sequences = all_sequences[:n_val]
+            train_sequences = all_sequences[n_val:]
+            print(f"Split {n_total} seqs -> train={len(train_sequences)}  val={len(val_sequences)}")
+
+        # Heuristic batch sizes
+        if args.model == "esm2_t33_650M_UR50D":
+            batches = 8
+        elif args.model == "esm2_t36_3B_UR50D":
+            batches = 2
+        else:
+            batches = 1
+
+        dataset = ProteinDataset(train_sequences)
+        valset = ProteinDataset(val_sequences)
+        collate = lambda x: x
+        dataloader = DataLoader(dataset, batch_size=batches, shuffle=True, collate_fn=collate)
+        val_loader = DataLoader(valset, batch_size=batches, shuffle=False, collate_fn=collate)
+
+        params = [p for p in model.parameters() if p.requires_grad]
+        if used_lora:
+            optimizer = torch.optim.AdamW([{"params": params, "weight_decay": 0.0}],
+                                          lr=args.learning_rate, betas=(0.9, 0.999))
+        else:
+            optimizer = torch.optim.AdamW(params, lr=args.learning_rate,
+                                          betas=(0.9, 0.999), weight_decay=args.weight_decay)
+
+        total_steps = args.epochs * max(1, len(dataloader))
+        scheduler = build_scheduler(optimizer, total_steps, args.warmup_ratio, args.schedule)
+
+        print("Starting fine-tuning...")
+        history = train_model(
+            model, dataloader, val_loader, batch_converter, optimizer, scheduler, device, args.epochs,
+            mask_token_idx, vocab_size, repr_layer, use_amp=args.use_amp, special_token_idxs=special_token_idxs,
+            eval_every_steps=args.eval_every_steps, val_steps_per_eval=args.val_steps_per_eval,
+            snapshot_cb=_snapshot, snapshot_every_steps=args.metrics_write_every_steps
         )
-        make_plots(args.logdir, args.plots_out, args.plots_per_segment_dir)
+
+        # Save model
+        if used_lora:
+            outdir = args.peft_output or f"adapters/{args.model}_lora"
+            print(f"Saving LoRA adapters to {outdir}...")
+            save_model(
+                model, args.output,
+                used_lora=True,
+                peft_output_dir=outdir,
+                base_model_name=args.model,
+                extra_meta={"epochs": args.epochs, "learning_rate": args.learning_rate,
+                            "schedule": args.schedule, "warmup_ratio": args.warmup_ratio,
+                            "lora_r": args.lora_r, "lora_alpha": args.lora_alpha, "lora_dropout": args.lora_dropout,
+                            "segment": segment_name}
+            )
+        else:
+            print(f"Saving full fine-tuned model to {args.output}...")
+            save_model(model, args.output, used_lora=False)
+
+    finally:
+        # Write final metrics (may be identical to last snapshot)
+        save_metrics(_current_metrics_payload(), metrics_path)
+
+        # Optional plotting after training if requested and we have some history
+        if args.plot_after and history:
+            plot_per_step_curves(
+                history,
+                out_path=per_step_plot_path,
+                title=f"{segment_name} — {'LoRA' if used_lora else 'FT'} — {args.model} (per step)"
+            )
+            make_plots(logdir, combined_out, per_segment_dir)
 
 
 if __name__ == "__main__":

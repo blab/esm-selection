@@ -1,13 +1,19 @@
+# Snakefile — with LR finder integration (fixed segment handling + metrics snapshots)
+
 from snakemake.utils import Paramspace
 from pathlib import Path
 import pandas as pd
+import json
 
+# -------------------------------------------------------------------
+# Segments & parameters
+# -------------------------------------------------------------------
 SEGMENTS = ["pb2", "pb1", "pa", "np", "na", "mp", "ns", "ha"]
 
-# Update this path to your desired params file
+# Params CSV (edit path as needed)
 df = pd.read_csv("input/params_lora_2.csv")
 
-# Ensure 'lora' column exists; default to 'lora' if missing
+# Ensure a 'lora' column exists; default to 'lora' (meaning: enable LoRA)
 if "lora" not in df.columns:
     df["lora"] = "lora"
 
@@ -16,34 +22,49 @@ PS_WC = paramspace.wildcard_pattern
 
 BASE_MODELS = sorted(df["model"].unique())
 
-# Subset for the comparison you asked for: 15B and 650M only
-# (If you want to fine-tune ALL models present in the CSV, just set paramspace_cmp = paramspace)
-#df_cmp = df[df["model"].str.contains("15B|650M", regex=True, na=False)]
-#paramspace_cmp = Paramspace(df_cmp)
+# If you want to restrict to 650M/15B only, filter df before building paramspace_cmp.
+# For now, run LR finder + FT for all rows in the CSV:
 paramspace_cmp = Paramspace(df)
 
+# Trees list (from CSV if present; otherwise from input/trees/)
 if "next_tree" in df.columns:
     TREES = sorted(df["next_tree"].dropna().unique())
 else:
     TREES = sorted([d.name for d in Path("input/trees").iterdir() if d.is_dir()])
 
+# -------------------------------------------------------------------
+# Top-level targets
+# -------------------------------------------------------------------
 rule all:
     input:
-        # Always compute base log-likelihoods for all models present
+        # Base log-likelihoods (no fine-tuning), for all models present
         expand(
             "results/max_freqs_log_likelyhood/{next_tree}/Max_Freq_Fasta_LL_{model}_{segment}.csv",
             next_tree=TREES,
             model=BASE_MODELS,
             segment=SEGMENTS,
         ),
-        # Only compute fine-tune outputs for the 650M/15B rows to compare LoRA vs non-LoRA
+        # LR-finder artifacts for each paramspace instance & segment
+        expand(
+            "results/lr_finder/{ps}/lr_{segment}.json",
+            ps=paramspace_cmp.instance_patterns,
+            segment=SEGMENTS,
+        ),
+        expand(
+            "results/lr_finder/{ps}/plots/{segment}_lr_finder.png",
+            ps=paramspace_cmp.instance_patterns,
+            segment=SEGMENTS,
+        ),
+        # Fine-tuned outputs (using LR chosen by LR finder)
         expand(
             "results/max_freqs_log_likelyhood_Fine_Tune/{ps}/Max_Freq_Fasta_LL_Fine_Tune_{segment}.csv",
             ps=paramspace_cmp.instance_patterns,
             segment=SEGMENTS,
-        ),
+        )
 
-
+# -------------------------------------------------------------------
+# Upstream preprocessing rules (unchanged)
+# -------------------------------------------------------------------
 rule translate_nucleotide_json:
     input:
         json_tree="input/trees/{next_tree}/{segment}.json",
@@ -60,7 +81,6 @@ rule translate_nucleotide_json:
         python {input.script} --tree {input.json_tree} --root {input.json_root} --segment {wildcards.segment} --output {output}
         """
 
-
 rule extract_node_fastas:
     input:
         json_tree="input/trees/{next_tree}/{segment}.json",
@@ -76,7 +96,6 @@ rule extract_node_fastas:
         """
         python {input.script} --gene {wildcards.segment} --local-files True --tree {input.json_tree} --root {input.json_root} --output {output}
         """
-
 
 rule extract_max_freq:
     input:
@@ -95,7 +114,6 @@ rule extract_max_freq:
         time python {input.script} --segment {wildcards.segment} --tree {input.json_tree} --tip-freq {input.json_tip_freq} --node-fasta {input.node_fastas} --output {output}
         """
 
-
 rule calc_ll_esm:
     input:
         max_freq="results/max_freqs/{next_tree}/Max_Freq_Fasta_{segment}.csv",
@@ -107,7 +125,9 @@ rule calc_ll_esm:
         python {input.script} --max_freq {input.max_freq} --segment {wildcards.segment} --model {wildcards.model} --output {output}
         """
 
-
+# -------------------------------------------------------------------
+# Fine-tune data extraction (unchanged)
+# -------------------------------------------------------------------
 rule extract_fine_tune_fasta:
     input:
         json_tree="input/trees/{next_tree}/{segment}.json",
@@ -125,32 +145,95 @@ rule extract_fine_tune_fasta:
         python {input.script} --gene {wildcards.segment} --tree {input.json_tree} --node-fasta {input.node_fastas} --max-freq {input.max_freq} --time {wildcards.time} --output {output}
         """
 
-
-rule generate_fine_tune_model:
+rule lr_finder:
     input:
-        fine_tune_fasta=f"results/fine_tune_fastas/{PS_WC}/fine_tune_fasta_{{segment}}.fasta",
-        script="scripts/make_esm_fine_tune_models.py",
+        fine_tune_fasta = f"results/fine_tune_fastas/{PS_WC}/fine_tune_fasta_{{segment}}.fasta",
+        script = "scripts/run_lr_finder.py",
     output:
-        f"results/fine_tune_models/{PS_WC}/Fine_Tune_Model_{{segment}}.bin",
+        lr_json = f"results/lr_finder/{PS_WC}/lr_{{segment}}.json",
+        lr_plot = f"results/lr_finder/{PS_WC}/plots/{{segment}}_lr_finder.png",
+    params:
+        lr_min = 1e-7,
+        lr_max = 5e-4,
+        steps  = 100,
+        mode   = "exp",
+        strategy = "slope",
+        factor   = 3.0,
+        batch_size = lambda wc: 8 if "650M" in wc.model else (2 if "3B" in wc.model else 1),
+        min_steps = None,
     shell:
         r"""
-        outdir="$(dirname {output})/adapters_{wildcards.segment}"
-        # Treat any of lora/true/1/True as "use LoRA"
+        # Toggle LoRA
         case "{wildcards.lora}" in
-          lora|LORA|true|True|1) extra="--peft-output $outdir" ;;
-          *) extra="" ;;
+          lora|LORA|true|True|1) LORA_FLAG="on" ;;
+          *) LORA_FLAG="off" ;;
         esac
 
+        # Optional flag for min steps per epoch
+        EXTRA_MIN_STEPS=""
+        if [ -n "{params.min_steps}" ] && [ "{params.min_steps}" != "None" ]; then
+          EXTRA_MIN_STEPS="--min-steps-per-epoch {params.min_steps}"
+        fi
+
         python {input.script} \
-          --model {wildcards.model} \
           --input {input.fine_tune_fasta} \
-          --output {output} \
-          --epochs {wildcards.epochs} \
-          --learning-rate {wildcards.learning_rate} \
-          $extra
+          --model {wildcards.model} \
+          --segment {wildcards.segment} \
+          --lora "$LORA_FLAG" \
+          --steps {params.steps} \
+          --lr-min {params.lr_min} \
+          --lr-max {params.lr_max} \
+          --mode {params.mode} \
+          --strategy {params.strategy} \
+          --factor {params.factor} \
+          --batch-size {params.batch_size} \
+          $EXTRA_MIN_STEPS \
+          --out {output.lr_json} \
+          --plot {output.lr_plot}
         """
 
+# -------------------------------------------------------------------
+# Fine-tune model (fixed: no hard-coded pb2; adds segment/logdir/run-id/snapshots)
+# -------------------------------------------------------------------
+rule generate_fine_tune_model:
+    input:
+        fasta   = f"results/fine_tune_fastas/{PS_WC}/fine_tune_fasta_{{segment}}.fasta",
+        lr_json = f"results/lr_finder/{PS_WC}/lr_{{segment}}.json",
+        script  = "scripts/make_esm_fine_tune_models.py",
+    output:
+        model_bin = f"results/fine_tune_models/{PS_WC}/Fine_Tune_Model_{{segment}}.bin",
+    params:
+        chosen_lr = lambda wildcards, input: json.load(open(input.lr_json))["chosen_learning_rate"]
+    shell:
+        r'''
+        set -euo pipefail
 
+        mkdir -p "$(dirname "{output.model_bin}")"
+        logdir="$(dirname "{output.model_bin}")/metrics"
+        run_id="{wildcards.time}"
+        outdir="$(dirname "{output.model_bin}")/adapters_{wildcards.segment}"
+
+        case "{wildcards.lora}" in
+          lora|LORA|true|True|1) extra="--peft-output $outdir"; mkdir -p "$outdir" ;;
+          *) extra="";;
+        esac
+
+        python "{input.script}" \
+          --model "{wildcards.model}" \
+          --input "{input.fasta}" \
+          --output "{output.model_bin}" \
+          --epochs "{wildcards.epochs}" \
+          --learning-rate "{params.chosen_lr}" \
+          --segment "{wildcards.segment}" \
+          --logdir "$logdir" \
+          --run-id "$run_id" \
+          --metrics-write-every-steps 50 \
+          $extra
+        '''
+
+# -------------------------------------------------------------------
+# Evaluate fine-tuned model (unchanged, but now runs after LR-picked FT)
+# -------------------------------------------------------------------
 rule calc_ll_esm_Fine_tune:
     input:
         max_freq="results/max_freqs/{next_tree}/Max_Freq_Fasta_{segment}.csv",
