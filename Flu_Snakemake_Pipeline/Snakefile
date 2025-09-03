@@ -1,9 +1,8 @@
-# Snakefile — with LR finder integration (fixed segment handling + metrics snapshots)
+# Snakefile — no LR finder; LR comes from params.csv
 
 from snakemake.utils import Paramspace
 from pathlib import Path
 import pandas as pd
-import json
 
 # -------------------------------------------------------------------
 # Segments & parameters
@@ -17,13 +16,19 @@ df = pd.read_csv("input/params_lora_2.csv")
 if "lora" not in df.columns:
     df["lora"] = "lora"
 
+# Ensure an 'lr' column exists (fallback to 'learning_rate' if provided)
+if "lr" not in df.columns:
+    if "learning_rate" in df.columns:
+        df["lr"] = df["learning_rate"]
+    else:
+        raise ValueError(
+            "params CSV must include an 'lr' column (or 'learning_rate')."
+        )
+
 paramspace = Paramspace(df)  # all params
 PS_WC = paramspace.wildcard_pattern
 
 BASE_MODELS = sorted(df["model"].unique())
-
-# If you want to restrict to 650M/15B only, filter df before building paramspace_cmp.
-# For now, run LR finder + FT for all rows in the CSV:
 paramspace_cmp = Paramspace(df)
 
 # Trees list (from CSV if present; otherwise from input/trees/)
@@ -44,18 +49,7 @@ rule all:
             model=BASE_MODELS,
             segment=SEGMENTS,
         ),
-        # LR-finder artifacts for each paramspace instance & segment
-        expand(
-            "results/lr_finder/{ps}/lr_{segment}.json",
-            ps=paramspace_cmp.instance_patterns,
-            segment=SEGMENTS,
-        ),
-        expand(
-            "results/lr_finder/{ps}/plots/{segment}_lr_finder.png",
-            ps=paramspace_cmp.instance_patterns,
-            segment=SEGMENTS,
-        ),
-        # Fine-tuned outputs (using LR chosen by LR finder)
+        # Fine-tuned evaluation outputs (LR taken from CSV)
         expand(
             "results/max_freqs_log_likelyhood_Fine_Tune/{ps}/Max_Freq_Fasta_LL_Fine_Tune_{segment}.csv",
             ps=paramspace_cmp.instance_patterns,
@@ -145,65 +139,17 @@ rule extract_fine_tune_fasta:
         python {input.script} --gene {wildcards.segment} --tree {input.json_tree} --node-fasta {input.node_fastas} --max-freq {input.max_freq} --time {wildcards.time} --output {output}
         """
 
-rule lr_finder:
-    input:
-        fine_tune_fasta = f"results/fine_tune_fastas/{PS_WC}/fine_tune_fasta_{{segment}}.fasta",
-        script = "scripts/run_lr_finder.py",
-    output:
-        lr_json = f"results/lr_finder/{PS_WC}/lr_{{segment}}.json",
-        lr_plot = f"results/lr_finder/{PS_WC}/plots/{{segment}}_lr_finder.png",
-    params:
-        lr_min = 1e-7,
-        lr_max = 5e-4,
-        steps  = 100,
-        mode   = "exp",
-        strategy = "slope",
-        factor   = 3.0,
-        batch_size = lambda wc: 8 if "650M" in wc.model else (2 if "3B" in wc.model else 1),
-        min_steps = None,
-    shell:
-        r"""
-        # Toggle LoRA
-        case "{wildcards.lora}" in
-          lora|LORA|true|True|1) LORA_FLAG="on" ;;
-          *) LORA_FLAG="off" ;;
-        esac
-
-        # Optional flag for min steps per epoch
-        EXTRA_MIN_STEPS=""
-        if [ -n "{params.min_steps}" ] && [ "{params.min_steps}" != "None" ]; then
-          EXTRA_MIN_STEPS="--min-steps-per-epoch {params.min_steps}"
-        fi
-
-        python {input.script} \
-          --input {input.fine_tune_fasta} \
-          --model {wildcards.model} \
-          --segment {wildcards.segment} \
-          --lora "$LORA_FLAG" \
-          --steps {params.steps} \
-          --lr-min {params.lr_min} \
-          --lr-max {params.lr_max} \
-          --mode {params.mode} \
-          --strategy {params.strategy} \
-          --factor {params.factor} \
-          --batch-size {params.batch_size} \
-          $EXTRA_MIN_STEPS \
-          --out {output.lr_json} \
-          --plot {output.lr_plot}
-        """
-
 # -------------------------------------------------------------------
-# Fine-tune model (fixed: no hard-coded pb2; adds segment/logdir/run-id/snapshots)
+# Fine-tune model (learning rate comes from params.csv: 'lr' column)
 # -------------------------------------------------------------------
 rule generate_fine_tune_model:
     input:
         fasta   = f"results/fine_tune_fastas/{PS_WC}/fine_tune_fasta_{{segment}}.fasta",
-        lr_json = f"results/lr_finder/{PS_WC}/lr_{{segment}}.json",
         script  = "scripts/make_esm_fine_tune_models.py",
     output:
         model_bin = f"results/fine_tune_models/{PS_WC}/Fine_Tune_Model_{{segment}}.bin",
     params:
-        chosen_lr = lambda wildcards, input: json.load(open(input.lr_json))["chosen_learning_rate"]
+        chosen_lr = lambda wildcards: str(wildcards.lr)
     shell:
         r'''
         set -euo pipefail
@@ -232,7 +178,7 @@ rule generate_fine_tune_model:
         '''
 
 # -------------------------------------------------------------------
-# Evaluate fine-tuned model (unchanged, but now runs after LR-picked FT)
+# Evaluate fine-tuned model (unchanged)
 # -------------------------------------------------------------------
 rule calc_ll_esm_Fine_tune:
     input:
