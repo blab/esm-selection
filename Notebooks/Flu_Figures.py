@@ -13,7 +13,7 @@
 
 import marimo
 
-__generated_with = "0.14.16"
+__generated_with = "0.14.17"
 app = marimo.App(width="medium")
 
 
@@ -559,7 +559,7 @@ def _(mo):
 
 @app.cell
 def _(add_ESM_LL_to_Nextstrain_Tree, os):
-    folder_path_3B = "Flu_Snakemake_Pipeline/results/max_freqs_log_likelyhood/next_tree~h3n2/epochs~1/learning_rate~5e-05/model~esm2_t36_3B_UR50D/time~1990"
+    folder_path_3B = "Flu_Snakemake_Pipeline/results/max_freqs_log_likelihood/next_tree~h3n2/epochs~1/learning_rate~5e-05/model~esm2_t36_3B_UR50D/time~1990"
 
     if os.path.isdir(folder_path_3B):
 

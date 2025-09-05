@@ -11,7 +11,7 @@
 
 import marimo
 
-__generated_with = "0.14.12"
+__generated_with = "0.14.17"
 app = marimo.App(width="medium")
 
 
@@ -108,6 +108,21 @@ def _(alt, uniprot_df_no_null_year):
                 }
             }
         )
+            .properties(title="Year", width="container")
+            .configure_view(stroke=None)
+            .configure_axis(grid=False)
+            .configure(background='white')
+                .configure_axis(
+                    grid=False,            # you already disabled grid
+                    domainColor='black',   # the axis line
+                    tickColor='black',     # tick marks
+                    labelColor='black',    # tick labels
+                    titleColor='black'     # axis titles
+                )
+            .configure_title(
+                    color='black',    # title text color
+                    fontSize=16       # optional: adjust size
+            )
     )
     _chart
     return
@@ -145,7 +160,7 @@ def _(alt, uniprot_df_no_null_subtype):
                 alt.Tooltip("count:Q", format=",.0f", title="Number of records"),
             ],
         )
-        .properties(title="Top 10 subtypes (uniref90)", width="container")
+        .properties(title="Top 10 Flu subtypes (uniref90)", width="container")
         .configure_view(stroke=None)
         .configure_axis(grid=False)
         .configure(background='white')
