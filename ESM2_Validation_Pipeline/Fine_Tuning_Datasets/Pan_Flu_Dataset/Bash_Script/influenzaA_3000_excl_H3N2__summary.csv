@@ -1,0 +1,17 @@
+segment,host_group,requested,selected,available_hits,scanned_candidates
+PB2,human,188,188,6591,20000
+PB2,avian,187,187,4544,20000
+PB1,human,188,188,6092,20000
+PB1,avian,187,187,4544,20000
+PA,human,188,188,5286,20000
+PA,avian,187,187,4260,20000
+HA,human,188,188,5944,20000
+HA,avian,187,187,4861,20000
+NP,human,187,187,6291,20000
+NP,avian,188,188,4704,20000
+NA,human,187,187,5978,20000
+NA,avian,188,188,4509,20000
+M,human,187,187,10712,20000
+M,avian,188,20,20,20000
+NS,human,187,187,9725,20000
+NS,avian,188,188,709,20000
