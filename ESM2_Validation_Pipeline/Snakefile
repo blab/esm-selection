@@ -12,10 +12,6 @@ SEGMENTS = ["pb2", "pb1", "pa", "np", "na", "mp", "ns", "ha"]
 # Params CSV (edit path as needed)
 df = pd.read_csv("input/params_lora_2.csv")
 
-# Ensure a 'lora' column exists; default to 'lora' (meaning: enable LoRA)
-if "lora" not in df.columns:
-    df["lora"] = "lora"
-
 # Ensure an 'lr' column exists (fallback to 'learning_rate' if provided)
 if "lr" not in df.columns:
     if "learning_rate" in df.columns:
@@ -157,12 +153,6 @@ rule generate_fine_tune_model:
         mkdir -p "$(dirname "{output.model_bin}")"
         logdir="$(dirname "{output.model_bin}")/metrics"
         run_id="{wildcards.time}"
-        outdir="$(dirname "{output.model_bin}")/adapters_{wildcards.segment}"
-
-        case "{wildcards.lora}" in
-          lora|LORA|true|True|1) extra="--peft-output $outdir"; mkdir -p "$outdir" ;;
-          *) extra="";;
-        esac
 
         python "{input.script}" \
           --model "{wildcards.model}" \
@@ -173,8 +163,7 @@ rule generate_fine_tune_model:
           --segment "{wildcards.segment}" \
           --logdir "$logdir" \
           --run-id "$run_id" \
-          --metrics-write-every-steps 50 \
-          $extra
+          --metrics-write-every-steps 50
         '''
 
 # -------------------------------------------------------------------
