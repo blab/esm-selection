@@ -10,7 +10,7 @@ import pandas as pd
 SEGMENTS = ["pb2", "pb1", "pa", "np", "na", "mp", "ns", "ha"]
 
 # Params CSV (edit path as needed)
-df = pd.read_csv("input/params_lora_2.csv")
+df = pd.read_csv("input/params_learning_rate_compare.csv")
 
 # Ensure a 'lora' column exists; default to 'lora' (meaning: enable LoRA)
 if "lora" not in df.columns:
