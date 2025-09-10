@@ -1,5 +1,3 @@
-# Snakefile — no LR finder; LR comes from params.csv
-
 from snakemake.utils import Paramspace
 from pathlib import Path
 import pandas as pd
@@ -10,7 +8,11 @@ import pandas as pd
 SEGMENTS = ["pb2", "pb1", "pa", "np", "na", "mp", "ns", "ha"]
 
 # Params CSV (edit path as needed)
-df = pd.read_csv("input/params_lora_2.csv")
+df = pd.read_csv("input/params.csv")
+
+# Add default dataset if not specified
+if "dataset" not in df.columns:
+    df["dataset"] = "ESM_1965_Full"  # Default to ESM_1965_Full.fasta
 
 # Ensure an 'lr' column exists (fallback to 'learning_rate' if provided)
 if "lr" not in df.columns:
@@ -116,31 +118,11 @@ rule calc_ll_esm:
         """
 
 # -------------------------------------------------------------------
-# Fine-tune data extraction (unchanged)
-# -------------------------------------------------------------------
-rule extract_fine_tune_fasta:
-    input:
-        json_tree="input/trees/{next_tree}/{segment}.json",
-        node_fastas="results/node_fastas/{next_tree}/nodeSeqs_{segment}.fasta",
-        script="scripts/extract_fine_tune_fasta.py",
-        max_freq="results/max_freqs/{next_tree}/Max_Freq_Fasta_{segment}.csv",
-    output:
-        f"results/fine_tune_fastas/{PS_WC}/fine_tune_fasta_{{segment}}.fasta",
-    conda:
-        "envs/nextstrain_env.yaml"
-    container:
-        "envs/nextstrain-base.sif"
-    shell:
-        """
-        python {input.script} --gene {wildcards.segment} --tree {input.json_tree} --node-fasta {input.node_fastas} --max-freq {input.max_freq} --time {wildcards.time} --output {output}
-        """
-
-# -------------------------------------------------------------------
 # Fine-tune model (learning rate comes from params.csv: 'lr' column)
 # -------------------------------------------------------------------
 rule generate_fine_tune_model:
     input:
-        fasta   = f"results/fine_tune_fastas/{PS_WC}/fine_tune_fasta_{{segment}}.fasta",
+        fasta   = "input/Fine_Tuning_Datasets/{dataset}.fasta",
         script  = "scripts/make_esm_fine_tune_models.py",
     output:
         model_bin = f"results/fine_tune_models/{PS_WC}/Fine_Tune_Model_{{segment}}.bin",
@@ -151,8 +133,6 @@ rule generate_fine_tune_model:
         set -euo pipefail
 
         mkdir -p "$(dirname "{output.model_bin}")"
-        logdir="$(dirname "{output.model_bin}")/metrics"
-        run_id="{wildcards.time}"
 
         python "{input.script}" \
           --model "{wildcards.model}" \
@@ -160,10 +140,7 @@ rule generate_fine_tune_model:
           --output "{output.model_bin}" \
           --epochs "{wildcards.epochs}" \
           --learning-rate "{params.chosen_lr}" \
-          --segment "{wildcards.segment}" \
-          --logdir "$logdir" \
-          --run-id "$run_id" \
-          --metrics-write-every-steps 50
+          --segment "{wildcards.segment}"
         '''
 
 # -------------------------------------------------------------------
