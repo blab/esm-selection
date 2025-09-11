@@ -67,7 +67,9 @@ def load_sequences(fasta_file):
     """Load sequences from a FASTA file."""
     sequences = []
     for record in SeqIO.parse(fasta_file, "fasta"):
-        sequences.append((record.id, str(record.seq)))
+        # Replace J with X in protein sequences
+        seq_str = str(record.seq).replace("J", "X")
+        sequences.append((record.id, seq_str))
     return sequences
 
 

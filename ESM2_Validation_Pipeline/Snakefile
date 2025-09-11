@@ -7,12 +7,24 @@ import pandas as pd
 # -------------------------------------------------------------------
 SEGMENTS = ["pb2", "pb1", "pa", "np", "na", "mp", "ns", "ha"]
 
+# Available datasets for fine-tuning
+DATASETS = [
+    "ESM_1965_Full",
+    "H3N2_Dataset_Full", 
+    "pan_flu_1965_Full",
+    "mix_AB_50_ESM_1965_Full_50_H3N2_Dataset_Full",
+    "mix_BC_50_H3N2_Dataset_Full_50_pan_flu_1965_Full",
+    "mix_AC_50_ESM_1965_Full_50_pan_flu_1965_Full",
+    "mix_ABC_33_ESM_1965_Full_33_H3N2_Dataset_Full_33_pan_flu_1965_Full"
+]
+
 # Params CSV (edit path as needed)
 df = pd.read_csv("input/params.csv")
 
+# Remove dataset column handling since we'll handle it via expansion
 # Add default dataset if not specified
-if "dataset" not in df.columns:
-    df["dataset"] = "ESM_1965_Full"  # Default to ESM_1965_Full.fasta
+# if "dataset" not in df.columns:
+#     df["dataset"] = "ESM_1965_Full"  # Default to ESM_1965_Full.fasta
 
 # Ensure an 'lr' column exists (fallback to 'learning_rate' if provided)
 if "lr" not in df.columns:
@@ -40,17 +52,17 @@ else:
 # -------------------------------------------------------------------
 rule all:
     input:
-        # Base log-likelihoods (no fine-tuning), for all models present
+        # Base log-likelihoods (no fine-tuning), organized same as fine-tuned results
         expand(
-            "results/max_freqs_log_likelyhood/{next_tree}/Max_Freq_Fasta_LL_{model}_{segment}.csv",
-            next_tree=TREES,
-            model=BASE_MODELS,
+            "results/max_freqs_log_likelyhood_Fine_Tune/{ps}/base/Max_Freq_Fasta_LL_{segment}.csv",
+            ps=paramspace_cmp.instance_patterns,
             segment=SEGMENTS,
         ),
-        # Fine-tuned evaluation outputs (LR taken from CSV)
+        # Fine-tuned evaluation outputs (expanded across all datasets)
         expand(
-            "results/max_freqs_log_likelyhood_Fine_Tune/{ps}/Max_Freq_Fasta_LL_Fine_Tune_{segment}.csv",
+            "results/max_freqs_log_likelyhood_Fine_Tune/{ps}/{dataset}/Max_Freq_Fasta_LL_Fine_Tune_{segment}.csv",
             ps=paramspace_cmp.instance_patterns,
+            dataset=DATASETS,
             segment=SEGMENTS,
         )
 
@@ -111,7 +123,7 @@ rule calc_ll_esm:
         max_freq="results/max_freqs/{next_tree}/Max_Freq_Fasta_{segment}.csv",
         script="scripts/calc_ll_esm.py",
     output:
-        "results/max_freqs_log_likelyhood/{next_tree}/Max_Freq_Fasta_LL_{model}_{segment}.csv"
+        f"results/max_freqs_log_likelyhood_Fine_Tune/{PS_WC}/base/Max_Freq_Fasta_LL_{{segment}}.csv"
     shell:
         """
         python {input.script} --max_freq {input.max_freq} --segment {wildcards.segment} --model {wildcards.model} --output {output}
@@ -125,7 +137,7 @@ rule generate_fine_tune_model:
         fasta   = "input/Fine_Tuning_Datasets/{dataset}.fasta",
         script  = "scripts/make_esm_fine_tune_models.py",
     output:
-        model_bin = f"results/fine_tune_models/{PS_WC}/Fine_Tune_Model_{{segment}}.bin",
+        model_bin = f"results/fine_tune_models/{PS_WC}/{{dataset}}/Fine_Tune_Model_{{segment}}.bin",
     params:
         chosen_lr = lambda wildcards: str(wildcards.lr)
     shell:
@@ -150,9 +162,9 @@ rule calc_ll_esm_Fine_tune:
     input:
         max_freq="results/max_freqs/{next_tree}/Max_Freq_Fasta_{segment}.csv",
         script="scripts/calc_ll_esm.py",
-        fine_tune_model=f"results/fine_tune_models/{PS_WC}/Fine_Tune_Model_{{segment}}.bin",
+        fine_tune_model=f"results/fine_tune_models/{PS_WC}/{{dataset}}/Fine_Tune_Model_{{segment}}.bin",
     output:
-        f"results/max_freqs_log_likelyhood_Fine_Tune/{PS_WC}/Max_Freq_Fasta_LL_Fine_Tune_{{segment}}.csv",
+        f"results/max_freqs_log_likelyhood_Fine_Tune/{PS_WC}/{{dataset}}/Max_Freq_Fasta_LL_Fine_Tune_{{segment}}.csv",
     shell:
         """
         python {input.script} --max_freq {input.max_freq} --segment {wildcards.segment} --model {wildcards.model} --fine_tune_model {input.fine_tune_model} --epochs {wildcards.epochs} --output {output}
