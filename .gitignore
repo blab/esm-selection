@@ -14,3 +14,4 @@ Flu_Snakemake_Pipeline/results/Fine_Tune_Models/
 Flu_Snakemake_Pipeline/results/fine_tune_models/
 ESM2_Validation_Pipeline/.snakemake
 ESM2_Validation_Pipeline/envs
+ESM2_Validation_Pipeline/results/fine_tune_models

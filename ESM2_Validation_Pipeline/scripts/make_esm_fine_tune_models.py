@@ -1,5 +1,4 @@
-#!/usr/bin/env python3
-
+# code from ChatGPT
 import torch
 import esm
 import argparse
@@ -8,9 +7,6 @@ from torch.utils.data import DataLoader, Dataset
 import os
 import numpy as np
 import random
-import math
-
-
 class ProteinDataset(Dataset):
     """Dataset class for protein sequences."""
     def __init__(self, sequences):
@@ -22,8 +18,6 @@ class ProteinDataset(Dataset):
     def __getitem__(self, idx):
         return self.sequences[idx]
 
-
-# ---- Reproducibility ----
 randseed = 12
 torch.backends.cudnn.deterministic = True
 random.seed(randseed)
@@ -31,38 +25,18 @@ torch.manual_seed(randseed)
 torch.cuda.manual_seed(randseed)
 np.random.seed(randseed)
 
-
-# -----------------------------
-#           ARGS
-# -----------------------------
 def parse_arguments():
-    parser = argparse.ArgumentParser(
-        description="Fine-tune ESM-2 on protein sequences."
-    )
-    parser.add_argument("--input", type=str, default="alignment.fasta",
-                        help="Input FASTA file containing training sequences.")
-    parser.add_argument("--output", type=str, default="models/esm.bin",
-                        help="Path to save the fine-tuned model state_dict.")
+    parser = argparse.ArgumentParser(description="Fine-tune ESM-2 on protein sequences.")
+    parser.add_argument("--input", type=str, default="alignment.fasta", help="Input FASTA file containing training sequences.")
+    parser.add_argument("--output", type=str, default="models/esm.bin", help="File path to save the fine-tuned model.")
     parser.add_argument("--epochs", type=int, default=1, help="Number of epochs for fine-tuning.")
-    parser.add_argument("--learning-rate", type=float, default=5e-5, help="Learning rate.")
-    parser.add_argument("--weight-decay", type=float, default=0.01, help="Weight decay.")
-    parser.add_argument("--warmup-ratio", type=float, default=0.05, help="Warmup proportion of total steps.")
-    parser.add_argument("--schedule", choices=["cosine", "linear", "none"], default="cosine",
-                        help="LR schedule.")
-    parser.add_argument("--model", type=str,
-                        choices=["esm2_t33_650M_UR50D", "esm2_t36_3B_UR50D", "esm2_t48_15B_UR50D"],
+    #parser.add_argument("--batch-size", type=int, default=8, help="Batch size for training.")
+    parser.add_argument("--learning-rate")
+    parser.add_argument("--model", type=str, choices=["esm2_t33_650M_UR50D", "esm2_t36_3B_UR50D", "esm2_t48_15B_UR50D"],
                         default="esm2_t33_650M_UR50D", help="Specify which ESM-2 model to use.")
-    parser.add_argument("--use-amp", action="store_true",
-                        help="Use mixed precision (recommended on CUDA for less memory).")
-    parser.add_argument("--segment", type=str, default=None,
-                        help="Optional segment name for identification.")
-
     return parser.parse_args()
 
 
-# -----------------------------
-#         DATA UTILS
-# -----------------------------
 def load_sequences(fasta_file):
     """Load sequences from a FASTA file."""
     sequences = []
@@ -73,185 +47,121 @@ def load_sequences(fasta_file):
     return sequences
 
 
-# -----------------------------
-#      MASKING / OBJECTIVE
-# -----------------------------
-def mask_tokens(tokens, mask_token_idx, vocab_size, device, special_token_idxs=None):
-    """Apply masking to input tokens (avoid masking special tokens if provided)."""
+def mask_tokens(tokens, mask_token_idx, vocab_size, device):
+    """Apply masking to input tokens."""
     labels = tokens.clone()
     probability_matrix = torch.full(labels.shape, 0.15, device=device)
-
-    if special_token_idxs is not None:
-        for idx in special_token_idxs:
-            probability_matrix = probability_matrix * (tokens != idx)
-
     masked_indices = torch.bernoulli(probability_matrix).bool()
     labels[~masked_indices] = -100  # Only compute loss on masked tokens
 
-    # 80%: replace with [MASK]
+    # 80% of the time, replace masked tokens with the [MASK] token
     mask_indices = masked_indices & (torch.rand(labels.shape, device=device) < 0.8)
     tokens[mask_indices] = mask_token_idx
 
-    # 10%: random tokens
+    # 10% of the time, replace masked tokens with random tokens
     random_indices = masked_indices & (torch.rand(labels.shape, device=device) < 0.1)
     random_tokens = torch.randint(0, vocab_size, labels.shape, device=device)
     tokens[random_indices] = random_tokens[random_indices]
 
-    # 10%: keep original
+    # The remaining 10% of the time, keep the original tokens
     return tokens, labels
 
 
-# -----------------------------
-#       TRAIN / EVAL
-# -----------------------------
-
-
-def train_model(model, dataloader, batch_converter, optimizer, scheduler, device, epochs,
-                mask_token_idx, vocab_size, repr_layer, use_amp=False, special_token_idxs=None):
-    """Train the model."""
+def train_model(model, dataloader, batch_converter, optimizer, device, epochs, mask_token_idx, vocab_size, repr_layer):
+    """Train the model on the given dataset."""
     model.train()
-    scaler = torch.cuda.amp.GradScaler(enabled=use_amp and device.type == "cuda")
-    ce = torch.nn.CrossEntropyLoss(ignore_index=-100)
-
     for epoch in range(epochs):
         print(f"Epoch {epoch + 1}/{epochs}")
-        total_loss = 0.0
-        steps_this_epoch = 0
-
+        total_loss = 0
         for i, batch in enumerate(dataloader):
+
+            # Convert batch of sequences using batch_converter
             batch_labels, batch_strs, batch_tokens = batch_converter(batch)
+
+            # Move batch tokens to the specified device
             batch_tokens = batch_tokens.to(device)
 
-            masked_tokens, labels = mask_tokens(
-                batch_tokens, mask_token_idx, vocab_size, device, special_token_idxs
-            )
+            # Mask tokens
+            masked_tokens, labels = mask_tokens(batch_tokens, mask_token_idx, vocab_size, device)
 
-            optimizer.zero_grad(set_to_none=True)
+            optimizer.zero_grad()
+            results = model(masked_tokens, repr_layers=[repr_layer])
+            logits = results["logits"]
 
-            if use_amp and device.type == "cuda":
-                with torch.cuda.amp.autocast():
-                    results = model(masked_tokens, repr_layers=[repr_layer])
-                    logits = results["logits"]
-                    loss = ce(logits.view(-1, logits.size(-1)), labels.view(-1))
-                scaler.scale(loss).backward()
-                scaler.step(optimizer)
-                scaler.update()
-            else:
-                results = model(masked_tokens, repr_layers=[repr_layer])
-                logits = results["logits"]
-                loss = ce(logits.view(-1, logits.size(-1)), labels.view(-1))
-                loss.backward()
-                optimizer.step()
+            # Compute loss
+            loss_fn = torch.nn.CrossEntropyLoss(ignore_index=-100)
+            loss = loss_fn(logits.view(-1, logits.size(-1)), labels.view(-1))
+            loss.backward()
+            optimizer.step()
 
-            if scheduler is not None:
-                scheduler.step()
-
-            lr_now = optimizer.param_groups[0]['lr']
-            steps_this_epoch += 1
             total_loss += loss.item()
 
-            print(f"Step {i + 1}/{len(dataloader)} - Loss: {loss.item():.4f} - LR: {lr_now:.2e}")
+            if (i + 1) % 1 == 0:
+                print(f"Step {i + 1}/{len(dataloader)} - Loss: {loss.item():.4f}")
 
-        avg_train = total_loss / max(1, steps_this_epoch)
-        print(f"Epoch {epoch + 1} completed. Average Train Loss: {avg_train:.4f}")
+        print(f"Epoch {epoch + 1} completed. Average Loss: {total_loss / len(dataloader):.4f}")
 
 
-# -----------------------------
-#        SAVE HELPERS
-# -----------------------------
 def save_model(model, output_file):
+    """Save the fine-tuned model to a file."""
     os.makedirs(os.path.dirname(output_file), exist_ok=True)
     torch.save(model.state_dict(), output_file)
     print(f"Model saved to {output_file}")
 
 
-# -----------------------------
-#        LR SCHEDULER
-# -----------------------------
-def build_scheduler(optimizer, total_steps, warmup_ratio=0.05, schedule="cosine"):
-    if schedule == "none":
-        return None
-    warmup_steps = max(1, int(warmup_ratio * total_steps))
-
-    def lr_lambda(step):
-        if step < warmup_steps:
-            return float(step) / max(1, warmup_steps)
-        progress = (step - warmup_steps) / max(1, total_steps - warmup_steps)
-        if schedule == "linear":
-            return max(0.0, 1.0 - progress)
-        return 0.5 * (1.0 + math.cos(math.pi * progress))
-
-    return torch.optim.lr_scheduler.LambdaLR(optimizer, lr_lambda)
-
-
-# -----------------------------
-#            MAIN
-# -----------------------------
 def main():
     args = parse_arguments()
 
-    # --- derive segment name early ---
-    segment_name = (args.segment or os.path.splitext(os.path.basename(args.input))[0])
-
+    # Check if CUDA is available and set the device
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print(f"Using device: {device}")
 
+    # 650M parameter model: esm2_t33_650M_UR50D with embedding dimen of 1280
+    # 3B parameter model: esm2_t36_3B_UR50D with embedding dimen of 2560
+    # 15B parameter model: esm2_t48_15B_UR50D with embedding dimen of 6144
+
+    # Map model names to their corresponding layer numbers
     model_layer_map = {
         "esm2_t33_650M_UR50D": 33,
         "esm2_t36_3B_UR50D": 36,
         "esm2_t48_15B_UR50D": 48
     }
+
     repr_layer = model_layer_map[args.model]
 
+    # Load model and tokenizer
     print(f"Loading {args.model} model...")
     model, alphabet = getattr(esm.pretrained, args.model)()
     batch_converter = alphabet.get_batch_converter()
-    mask_token_idx = getattr(alphabet, "mask_idx", None)
-    vocab_size = len(alphabet)
-
-    pad_idx = getattr(alphabet, "pad_idx", getattr(alphabet, "padding_idx", None))
-    special_token_idxs = {
-        x for x in (
-            getattr(alphabet, "cls_idx", None),
-            getattr(alphabet, "eos_idx", None),
-            getattr(alphabet, "bos_idx", None),
-            pad_idx,
-        ) if x is not None
-    }
-
+    mask_token_idx = alphabet.mask_idx  # Index of the [MASK] token
+    vocab_size = len(alphabet)  # Vocabulary size
     model = model.to(device)
+
     model.train()
 
-    # Load sequences
-    print(f"Loading sequences from {args.input}...")
-    train_sequences = load_sequences(args.input)
+    # Load training sequences
+    print(f"Loading training sequences from {args.input}...")
+    sequences = load_sequences(args.input)
 
-    # Heuristic batch sizes
     if args.model == "esm2_t33_650M_UR50D":
         batches = 8
     elif args.model == "esm2_t36_3B_UR50D":
         batches = 2
-    else:
+    elif args.model == "esm2_t48_15B_UR50D":
         batches = 1
 
-    dataset = ProteinDataset(train_sequences)
-    collate = lambda x: x
-    dataloader = DataLoader(dataset, batch_size=batches, shuffle=True, collate_fn=collate)
+    # Prepare dataset and dataloader
+    dataset = ProteinDataset(sequences)
+    dataloader = DataLoader(dataset, batch_size=batches, shuffle=True, collate_fn=lambda x: x)
 
-    params = [p for p in model.parameters() if p.requires_grad]
-    optimizer = torch.optim.AdamW(params, lr=args.learning_rate,
-                                  betas=(0.9, 0.999), weight_decay=args.weight_decay)
+    # Set up optimizer
+    optimizer = torch.optim.AdamW(model.parameters(), lr=args.learning_rate)
 
-    total_steps = args.epochs * max(1, len(dataloader))
-    scheduler = build_scheduler(optimizer, total_steps, args.warmup_ratio, args.schedule)
-
+    # Train model
     print("Starting fine-tuning...")
-    train_model(
-        model, dataloader, batch_converter, optimizer, scheduler, device, args.epochs,
-        mask_token_idx, vocab_size, repr_layer, use_amp=args.use_amp, special_token_idxs=special_token_idxs
-    )
+    train_model(model, dataloader, batch_converter, optimizer, device, args.epochs, mask_token_idx, vocab_size, repr_layer)
 
-    # Save model
+    # Save fine-tuned model
     print(f"Saving fine-tuned model to {args.output}...")
     save_model(model, args.output)
 
