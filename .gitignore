@@ -15,3 +15,4 @@ Flu_Snakemake_Pipeline/results/fine_tune_models/
 ESM2_Validation_Pipeline/.snakemake
 ESM2_Validation_Pipeline/envs
 ESM2_Validation_Pipeline/results/fine_tune_models
+uniref90membersandreps_ur50trainfiltreps.fasta

@@ -7,15 +7,26 @@ import pandas as pd
 # -------------------------------------------------------------------
 SEGMENTS = ["pb2", "pb1", "pa", "np", "na", "mp", "ns", "ha"]
 
-# Available datasets for fine-tuning
+# Function to get sequence count from H3N2 file
+def get_seq_count():
+    try:
+        with open("input/Fine_Tuning_Datasets/H3N2_Dataset_Full.fasta", "r") as f:
+            return str(sum(1 for line in f if line.startswith('>')))
+    except FileNotFoundError:
+        return "1965"  # fallback if file doesn't exist yet
+
+# Get dynamic sequence count
+SEQ_COUNT = get_seq_count()
+
+# Dynamic dataset names based on actual sequence count
 DATASETS = [
-    "ESM_1965_Full",
-    "H3N2_Dataset_Full", 
-    "pan_flu_1965_Full",
-    "mix_AB_50_ESM_1965_Full_50_H3N2_Dataset_Full",
-    "mix_BC_50_H3N2_Dataset_Full_50_pan_flu_1965_Full",
-    "mix_AC_50_ESM_1965_Full_50_pan_flu_1965_Full",
-    "mix_ABC_33_ESM_1965_Full_33_H3N2_Dataset_Full_33_pan_flu_1965_Full"
+    f"H3N2_Dataset_{SEQ_COUNT}_Full",
+    f"ESM_{SEQ_COUNT}_Full",
+    f"pan_flu_{SEQ_COUNT}_Full",
+    f"mix_AB_50_ESM_{SEQ_COUNT}_Full_50_H3N2_Dataset_{SEQ_COUNT}_Full",
+    f"mix_BC_50_H3N2_Dataset_{SEQ_COUNT}_Full_50_pan_flu_{SEQ_COUNT}_Full",
+    f"mix_AC_50_ESM_{SEQ_COUNT}_Full_50_pan_flu_{SEQ_COUNT}_Full",
+    f"mix_ABC_33_ESM_{SEQ_COUNT}_Full_33_H3N2_Dataset_{SEQ_COUNT}_Full_33_pan_flu_{SEQ_COUNT}_Full"
 ]
 
 # Params CSV (edit path as needed)
@@ -54,13 +65,13 @@ rule all:
     input:
         # Base log-likelihoods (no fine-tuning), organized same as fine-tuned results
         expand(
-            "results/max_freqs_log_likelyhood_Fine_Tune/{ps}/base/Max_Freq_Fasta_LL_{segment}.csv",
+            "results/Log_Likelihoods/{ps}/base/Max_Freq_Fasta_LL_{segment}.csv",
             ps=paramspace_cmp.instance_patterns,
             segment=SEGMENTS,
         ),
-        # Fine-tuned evaluation outputs (expanded across all datasets)
+        # Fine-tuned evaluation outputs (using dynamic dataset names)
         expand(
-            "results/max_freqs_log_likelyhood_Fine_Tune/{ps}/{dataset}/Max_Freq_Fasta_LL_Fine_Tune_{segment}.csv",
+            "results/Log_Likelihoods/{ps}/{dataset}/Max_Freq_Fasta_LL_Fine_Tune_{segment}.csv",
             ps=paramspace_cmp.instance_patterns,
             dataset=DATASETS,
             segment=SEGMENTS,
@@ -123,10 +134,66 @@ rule calc_ll_esm:
         max_freq="results/max_freqs/{next_tree}/Max_Freq_Fasta_{segment}.csv",
         script="scripts/calc_ll_esm.py",
     output:
-        f"results/max_freqs_log_likelyhood_Fine_Tune/{PS_WC}/base/Max_Freq_Fasta_LL_{{segment}}.csv"
+        f"results/Log_Likelihoods/{PS_WC}/base/Max_Freq_Fasta_LL_{{segment}}.csv"
     shell:
         """
         python {input.script} --max_freq {input.max_freq} --segment {wildcards.segment} --model {wildcards.model} --output {output}
+        """
+
+# -------------------------------------------------------------------
+# Generate fine-tuning FASTA files
+# -------------------------------------------------------------------
+rule generate_h3n2_dataset_full:
+    input:
+        expand("input/Fine_Tuning_Datasets/H3N2_Tree/fine_tune_fasta_{segment}.fasta", segment=SEGMENTS)
+    output:
+        "input/Fine_Tuning_Datasets/H3N2_Dataset_{seq_count}_Full.fasta"
+    shell:
+        """
+        cat {input} > temp_h3n2.fasta
+        SEQ_COUNT=$(grep -c '^>' temp_h3n2.fasta)
+        mv temp_h3n2.fasta input/Fine_Tuning_Datasets/H3N2_Dataset_${{SEQ_COUNT}}_Full.fasta
+        """
+
+rule generate_esm_dataset:
+    input:
+        h3n2_fasta="input/Fine_Tuning_Datasets/H3N2_Dataset_{seq_count}_Full.fasta",
+        uniref_fasta="input/Fine_Tuning_Datasets/ESM_Training_Dataset/uniref90membersandreps_ur50trainfiltreps.fasta"
+    output:
+        "input/Fine_Tuning_Datasets/ESM_{seq_count}_Full.fasta"
+    shell:
+        """
+        SEQ_COUNT=$(grep -c '^>' {input.h3n2_fasta})
+        # Filter sequences to max 1000 AA, then sample the required count
+        seqkit seq -M 1000 {input.uniref_fasta} | seqkit sample -n $SEQ_COUNT -s 42 -2 > input/Fine_Tuning_Datasets/ESM_${{SEQ_COUNT}}_Full.fasta
+        """
+
+rule generate_pan_flu_dataset:
+    input:
+        h3n2_fasta="input/Fine_Tuning_Datasets/H3N2_Dataset_{seq_count}_Full.fasta",
+        pan_flu_fasta="input/Fine_Tuning_Datasets/Pan_Flu_Dataset/non_h3n2_prot.fasta"
+    output:
+        "input/Fine_Tuning_Datasets/pan_flu_{seq_count}_Full.fasta"
+    shell:
+        """
+        SEQ_COUNT=$(grep -c '^>' {input.h3n2_fasta})
+        seqkit sample -n $SEQ_COUNT -s 42 {input.pan_flu_fasta} > input/Fine_Tuning_Datasets/pan_flu_${{SEQ_COUNT}}_Full.fasta
+        """
+
+rule generate_mixed_datasets:
+    input:
+        h3n2_fasta="input/Fine_Tuning_Datasets/H3N2_Dataset_{seq_count}_Full.fasta",
+        script="input/Fine_Tuning_Datasets/mix_split_fastas.sh"
+    output:
+        "input/Fine_Tuning_Datasets/mix_AB_50_ESM_{seq_count}_Full_50_H3N2_Dataset_{seq_count}_Full.fasta",
+        "input/Fine_Tuning_Datasets/mix_BC_50_H3N2_Dataset_{seq_count}_Full_50_pan_flu_{seq_count}_Full.fasta",
+        "input/Fine_Tuning_Datasets/mix_AC_50_ESM_{seq_count}_Full_50_pan_flu_{seq_count}_Full.fasta",
+        "input/Fine_Tuning_Datasets/mix_ABC_33_ESM_{seq_count}_Full_33_H3N2_Dataset_{seq_count}_Full_33_pan_flu_{seq_count}_Full.fasta"
+    shell:
+        """
+        cd input/Fine_Tuning_Datasets
+        SEQ_COUNT=$(grep -c '^>' H3N2_Dataset_{wildcards.seq_count}_Full.fasta)
+        ./mix_split_fastas.sh $SEQ_COUNT
         """
 
 # -------------------------------------------------------------------
@@ -137,7 +204,7 @@ rule generate_fine_tune_model:
         fasta   = "input/Fine_Tuning_Datasets/{dataset}.fasta",
         script  = "scripts/make_esm_fine_tune_models.py",
     output:
-        model_bin = f"results/fine_tune_models/{PS_WC}/{{dataset}}/Fine_Tune_Model_{{segment}}.bin",
+        model_bin = f"results/fine_tune_models/{PS_WC}/{{dataset}}/Fine_Tune_Model.bin",
     params:
         chosen_lr = lambda wildcards: str(wildcards.lr)
     shell:
@@ -151,8 +218,7 @@ rule generate_fine_tune_model:
           --input "{input.fasta}" \
           --output "{output.model_bin}" \
           --epochs "{wildcards.epochs}" \
-          --learning-rate "{params.chosen_lr}" \
-          --segment "{wildcards.segment}"
+          --learning-rate "{params.chosen_lr}"
         '''
 
 # -------------------------------------------------------------------
@@ -162,9 +228,9 @@ rule calc_ll_esm_Fine_tune:
     input:
         max_freq="results/max_freqs/{next_tree}/Max_Freq_Fasta_{segment}.csv",
         script="scripts/calc_ll_esm.py",
-        fine_tune_model=f"results/fine_tune_models/{PS_WC}/{{dataset}}/Fine_Tune_Model_{{segment}}.bin",
+        fine_tune_model=f"results/fine_tune_models/{PS_WC}/{{dataset}}/Fine_Tune_Model.bin",
     output:
-        f"results/max_freqs_log_likelyhood_Fine_Tune/{PS_WC}/{{dataset}}/Max_Freq_Fasta_LL_Fine_Tune_{{segment}}.csv",
+        f"results/Log_Likelihoods/{PS_WC}/{{dataset}}/Max_Freq_Fasta_LL_Fine_Tune_{{segment}}.csv",
     shell:
         """
         python {input.script} --max_freq {input.max_freq} --segment {wildcards.segment} --model {wildcards.model} --fine_tune_model {input.fine_tune_model} --epochs {wildcards.epochs} --output {output}
