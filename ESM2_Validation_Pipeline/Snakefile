@@ -7,13 +7,23 @@ import pandas as pd
 # -------------------------------------------------------------------
 SEGMENTS = ["pb2", "pb1", "pa", "np", "na", "mp", "ns", "ha"]
 
-# Function to get sequence count from H3N2 file
+# Function to get sequence count from H3N2 source files
 def get_seq_count():
+    from pathlib import Path
+    import glob
+    
     try:
-        with open("input/Fine_Tuning_Datasets/H3N2_Dataset_Full.fasta", "r") as f:
-            return str(sum(1 for line in f if line.startswith('>')))
-    except FileNotFoundError:
-        return "1965"  # fallback if file doesn't exist yet
+        # Count sequences from all H3N2_Tree segment files
+        total_count = 0
+        h3n2_files = glob.glob("input/Fine_Tuning_Datasets/H3N2_Tree/fine_tune_fasta_*.fasta")
+        
+        for fasta_file in h3n2_files:
+            with open(fasta_file, "r") as f:
+                total_count += sum(1 for line in f if line.startswith('>'))
+        
+        return str(total_count) if total_count > 0 else "1965"
+    except (FileNotFoundError, OSError):
+        return "1965"  # fallback if files don't exist
 
 # Get dynamic sequence count
 SEQ_COUNT = get_seq_count()
@@ -165,7 +175,7 @@ rule generate_esm_dataset:
         """
         SEQ_COUNT=$(grep -c '^>' {input.h3n2_fasta})
         # Filter sequences to max 1000 AA, then sample the required count
-        seqkit seq -M 1000 {input.uniref_fasta} | seqkit sample -n $SEQ_COUNT -s 42 -2 > input/Fine_Tuning_Datasets/ESM_${{SEQ_COUNT}}_Full.fasta
+        seqkit seq -M 1000 {input.uniref_fasta} | seqkit sample -n $SEQ_COUNT -s 42 > input/Fine_Tuning_Datasets/ESM_${{SEQ_COUNT}}_Full.fasta
         """
 
 rule generate_pan_flu_dataset:
@@ -183,6 +193,8 @@ rule generate_pan_flu_dataset:
 rule generate_mixed_datasets:
     input:
         h3n2_fasta="input/Fine_Tuning_Datasets/H3N2_Dataset_{seq_count}_Full.fasta",
+        esm_fasta="input/Fine_Tuning_Datasets/ESM_{seq_count}_Full.fasta",
+        pan_flu_fasta="input/Fine_Tuning_Datasets/pan_flu_{seq_count}_Full.fasta",
         script="input/Fine_Tuning_Datasets/mix_split_fastas.sh"
     output:
         "input/Fine_Tuning_Datasets/mix_AB_50_ESM_{seq_count}_Full_50_H3N2_Dataset_{seq_count}_Full.fasta",
