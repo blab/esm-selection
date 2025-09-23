@@ -47,14 +47,11 @@ df = pd.read_csv("input/params.csv")
 # if "dataset" not in df.columns:
 #     df["dataset"] = "ESM_1965_Full"  # Default to ESM_1965_Full.fasta
 
-# Ensure an 'lr' column exists (fallback to 'learning_rate' if provided)
-if "lr" not in df.columns:
-    if "learning_rate" in df.columns:
-        df["lr"] = df["learning_rate"]
-    else:
-        raise ValueError(
-            "params CSV must include an 'lr' column (or 'learning_rate')."
-        )
+# Ensure a 'learning_rate' column exists
+if "learning_rate" not in df.columns:
+    raise ValueError(
+        "params CSV must include a 'learning_rate' column."
+    )
 
 paramspace = Paramspace(df)  # all params
 PS_WC = paramspace.wildcard_pattern
@@ -75,13 +72,13 @@ rule all:
     input:
         # Base log-likelihoods (no fine-tuning), organized same as fine-tuned results
         expand(
-            "results/Log_Likelihoods/{ps}/base/Max_Freq_Fasta_LL_{segment}.csv",
+            "results/log_likelihoods/{ps}/base/Max_Freq_Fasta_LL_{segment}.csv",
             ps=paramspace_cmp.instance_patterns,
             segment=SEGMENTS,
         ),
         # Fine-tuned evaluation outputs (using dynamic dataset names)
         expand(
-            "results/Log_Likelihoods/{ps}/{dataset}/Max_Freq_Fasta_LL_Fine_Tune_{segment}.csv",
+            "results/log_likelihoods/{ps}/{dataset}/Max_Freq_Fasta_LL_Fine_Tune_{segment}.csv",
             ps=paramspace_cmp.instance_patterns,
             dataset=DATASETS,
             segment=SEGMENTS,
@@ -144,7 +141,7 @@ rule calc_ll_esm:
         max_freq="results/max_freqs/{next_tree}/Max_Freq_Fasta_{segment}.csv",
         script="scripts/calc_ll_esm.py",
     output:
-        f"results/Log_Likelihoods/{PS_WC}/base/Max_Freq_Fasta_LL_{{segment}}.csv"
+        f"results/log_likelihoods/{PS_WC}/base/Max_Freq_Fasta_LL_{{segment}}.csv"
     shell:
         """
         python {input.script} --max_freq {input.max_freq} --segment {wildcards.segment} --model {wildcards.model} --output {output}
@@ -218,7 +215,7 @@ rule generate_fine_tune_model:
     output:
         model_bin = f"results/fine_tune_models/{PS_WC}/{{dataset}}/Fine_Tune_Model.bin",
     params:
-        chosen_lr = lambda wildcards: str(wildcards.lr)
+        chosen_lr = lambda wildcards: str(wildcards.learning_rate)
     shell:
         r'''
         set -euo pipefail
@@ -242,7 +239,7 @@ rule calc_ll_esm_Fine_tune:
         script="scripts/calc_ll_esm.py",
         fine_tune_model=f"results/fine_tune_models/{PS_WC}/{{dataset}}/Fine_Tune_Model.bin",
     output:
-        f"results/Log_Likelihoods/{PS_WC}/{{dataset}}/Max_Freq_Fasta_LL_Fine_Tune_{{segment}}.csv",
+        f"results/log_likelihoods/{PS_WC}/{{dataset}}/Max_Freq_Fasta_LL_Fine_Tune_{{segment}}.csv",
     shell:
         """
         python {input.script} --max_freq {input.max_freq} --segment {wildcards.segment} --model {wildcards.model} --fine_tune_model {input.fine_tune_model} --epochs {wildcards.epochs} --output {output}
