@@ -32,7 +32,7 @@ app = marimo.App(
 
 @app.cell
 def _(mo):
-    mo.md(r"""# ESM2 Validation Pipeline with LOESS Correction""")
+    mo.md(r"""# ESM2 Validation Pipeline with LOESS Correction - 650M vs 3B Model Comparison""")
     return
 
 
@@ -42,6 +42,9 @@ def _(mo):
         r"""
     This notebook imports datasets from ESM2_Validation_Pipeline/results/Log_Likelihoods/ 
     and applies LOESS correction to analyze ESM model performance across different training datasets.
+
+    This version compares both 650M (esm2_t33_650M_UR50D) and 3B (esm2_t36_3B_UR50D) models.
+    LOESS correction is applied separately to each model size with independent caching.
 
     The LOESS correction removes the negative trend of ESM score vs Time to provide more accurate fitness measurements.
     """
@@ -234,6 +237,9 @@ def _(glob, os, pd):
         all_dataframes = []
 
         for file_path in csv_files:
+            # Skip files from h3n2-Small directory to avoid duplicates
+            if "h3n2-Small" in file_path:
+                continue
             try:
                 df = pd.read_csv(file_path)
 
@@ -432,7 +438,8 @@ def _(datasets_with_time):
 
 @app.cell
 def apply_loess(filtered_datasets_with_time, loess_1d, np, os, pd):
-    def apply_loess():
+    def apply_loess_for_model(model_type):
+        """Apply LOESS correction with model-specific caching."""
         def apply_custom_loess_to_group(group_df, x_col="time", y_col="log_likelihood", degree=2, frac=0.15):
             """Apply custom LOESS to a single group."""
             if len(group_df) < 3:  # Need at least 3 points for LOESS
@@ -464,12 +471,13 @@ def apply_loess(filtered_datasets_with_time, loess_1d, np, os, pd):
 
             return group_df
 
+        # Filter data for specific model type
+        data_to_process = filtered_datasets_with_time[filtered_datasets_with_time['model_type'] == model_type]
+        cache_suffix = f"_{model_type.replace('esm2_t33_650M_UR50D', '650M').replace('esm2_t36_3B_UR50D', '3B')}"
+        print(f"Applying custom LOESS correction to {model_type} model...")
 
-        # Apply custom LOESS correction to all segment/model_config/training_dataset/model_type combinations
-        print("Applying custom LOESS correction to all segments and datasets...")
-
-        # Define Parquet cache file path
-        cache_file = "Dataframes/datasets_with_loess_cache.parquet"
+        # Define Parquet cache file path with model-specific suffix
+        cache_file = f"Dataframes/datasets_with_loess{cache_suffix}_cache.parquet"
 
         # Check if cached results exist
         if os.path.exists(cache_file):
@@ -482,33 +490,32 @@ def apply_loess(filtered_datasets_with_time, loess_1d, np, os, pd):
             print("No cache found, computing LOESS correction...")
 
             # Filter for records with valid time data
-            valid_data = filtered_datasets_with_time[filtered_datasets_with_time['time'].notna()].copy()
+            valid_data = data_to_process[data_to_process['time'].notna()].copy()
 
             processed_groups = []
             group_count = 0
 
-            for (segment, model_config, training_dataset, model_type), group in valid_data.groupby(["segment", "model_config", "training_dataset", "model_type"], sort=False):
+            for (segment, model_config, training_dataset, model_type_group), group in valid_data.groupby(["segment", "model_config", "training_dataset", "model_type"], sort=False):
                 group_count += 1
                 if group_count % 5 == 0:
-                    print(f"Processing group {group_count}: {segment}_{model_config}_{training_dataset}_{model_type}")
+                    print(f"Processing group {group_count}: {segment}_{model_config}_{training_dataset}_{model_type_group}")
 
                 processed_group = apply_custom_loess_to_group(group)
                 processed_groups.append(processed_group)
-
 
             # Combine all processed groups
             if processed_groups:
                 datasets_with_loess = pd.concat(processed_groups, ignore_index=True)
 
                 # Merge back with original data (for records without time data)
-                no_time_data = filtered_datasets_with_time[filtered_datasets_with_time['time'].isna()].copy()
+                no_time_data = data_to_process[data_to_process['time'].isna()].copy()
                 if len(no_time_data) > 0:
                     no_time_data['loess_trend'] = np.nan
                     no_time_data['loess_weights'] = np.nan  
                     no_time_data['corrected_log_likelihood'] = np.nan
                     datasets_with_loess = pd.concat([datasets_with_loess, no_time_data], ignore_index=True)
             else:
-                datasets_with_loess = filtered_datasets_with_time.copy()
+                datasets_with_loess = data_to_process.copy()
                 datasets_with_loess['loess_trend'] = np.nan
                 datasets_with_loess['loess_weights'] = np.nan
                 datasets_with_loess['corrected_log_likelihood'] = np.nan
@@ -522,14 +529,30 @@ def apply_loess(filtered_datasets_with_time, loess_1d, np, os, pd):
             datasets_with_loess.to_parquet(cache_file, index=False)
             print("Cache saved successfully")
         return datasets_with_loess
-
-    datasets_with_loess = apply_loess()
-    return (datasets_with_loess,)
+    return (apply_loess_for_model,)
 
 
 @app.cell
-def _(datasets_with_loess):
-    datasets_with_loess
+def _(mo):
+    mo.md(r"""## Apply LOESS Correction to 650M Model Data""")
+    return
+
+
+@app.cell
+def _(apply_loess_for_model):
+    # Apply LOESS correction specifically to 650M model data
+    datasets_with_loess_650m = apply_loess_for_model("esm2_t33_650M_UR50D")
+
+    print(f"650M Model - Total records: {len(datasets_with_loess_650m)}")
+    print(f"650M Model - Records with LOESS correction: {datasets_with_loess_650m['corrected_log_likelihood'].notna().sum()}")
+    print(f"650M Model - Available model configurations: {sorted(datasets_with_loess_650m['model_config'].unique())}")
+    print(f"650M Model - Available training datasets: {sorted(datasets_with_loess_650m['training_dataset'].unique())}")
+    return (datasets_with_loess_650m,)
+
+
+@app.cell
+def _(datasets_with_loess_650m):
+    datasets_with_loess_650m
     return
 
 
@@ -652,7 +675,7 @@ def _(ScalarFormatter, colorsys, mpl, np, plt, sns):
 
     def create_model_comparison_plots(df, model_config, training_dataset, model_type, 
                                      remove_outliers_flag=False, outlier_threshold=200):
-        """Create multipanel plots comparing pre and post LOESS for all segments in a model configuration."""
+        """Create multipanel plots comparing raw and LOESS corrected ESM scores for all segments in a model configuration."""
         # Filter data for this specific model configuration
         model_df = df[
             (df['model_config'] == model_config) & 
@@ -725,7 +748,7 @@ def _(mo):
 
 @app.cell
 def _(mo):
-    mo.md(r"""## Log Likelihood vs Time Plots (Pre vs Post LOESS)""")
+    mo.md(r"""### 650M Model Time Series Plots (Pre vs Post LOESS)""")
     return
 
 
@@ -736,217 +759,155 @@ def _(mo):
 
 
 @app.cell
-def _(datasets_with_loess):
-    # Get all unique model configurations
-    model_configs = []
+def _(datasets_with_loess_650m):
+    # Get all unique model configurations for 650M model
+    model_configs_650m = []
 
-    for (model_config, training_dataset, model_type), group in datasets_with_loess.groupby(
+    for (model_config_650m, training_dataset_650m, model_type_650m), group_650m in datasets_with_loess_650m.groupby(
         ['model_config', 'training_dataset', 'model_type']
     ):
-        if group['time'].notna().sum() > 0:  # Only include configs with time data
-            model_configs.append((model_config, training_dataset, model_type))
+        if group_650m['time'].notna().sum() > 0:  # Only include configs with time data
+            model_configs_650m.append((model_config_650m, training_dataset_650m, model_type_650m))
 
-    print(f"Found {len(model_configs)} model configurations with time data:")
-    for config in model_configs:
-        print(f"  - {config[0]} + {config[1]} + {config[2]}")
-    return (model_configs,)
+    print(f"Found {len(model_configs_650m)} 650M model configurations with time data:")
+    for config_650m in model_configs_650m:
+        print(f"  - {config_650m[0]} + {config_650m[1]} + {config_650m[2]}")
+    return (model_configs_650m,)
 
 
 @app.cell
-def _(create_model_comparison_plots, datasets_with_loess, model_configs):
-    def generate_base_plots():
-        # Generate plots for base models first
-        print("Generating plots for Base models...")
-        base_configs = [config for config in model_configs if config[0] == "Base"]
+def _(
+    create_model_comparison_plots,
+    datasets_with_loess_650m,
+    model_configs_650m,
+):
+    def generate_650m_base_plots():
+        # Generate plots for 650M base models
+        print("Generating plots for 650M Base models...")
+        base_configs_650m = [config for config in model_configs_650m if config[0] == "Base"]
 
-        base_model_figures = []
+        base_model_figures_650m = []
 
-        for model_config, training_dataset, model_type in base_configs:
-            print(f"\nCreating plot for: {model_config} + {training_dataset} + {model_type}")
-            fig_1 = create_model_comparison_plots(datasets_with_loess, model_config, training_dataset, model_type)
+        for model_config_650m_base, training_dataset_650m_base, model_type_650m_base in base_configs_650m:
+            print(f"\nCreating plot for: {model_config_650m_base} + {training_dataset_650m_base} + {model_type_650m_base}")
+            fig_1 = create_model_comparison_plots(datasets_with_loess_650m, model_config_650m_base, training_dataset_650m_base, model_type_650m_base)
 
-            fig_1
             if fig_1:
-                base_model_figures.append(fig_1)
+                base_model_figures_650m.append(fig_1)
 
-        return base_model_figures
+        return base_model_figures_650m
 
-    base_model_figures = generate_base_plots()
-    return (base_model_figures,)
+    base_model_figures_650m = generate_650m_base_plots()
+    return (base_model_figures_650m,)
 
 
 @app.cell
-def _(base_model_figures):
-    base_model_figures
+def _(base_model_figures_650m):
+    base_model_figures_650m
     return
 
 
 @app.cell
-def _(create_model_comparison_plots, datasets_with_loess, model_configs):
-    def list_available_fine_tune_datasets():
-        """List all available fine-tune datasets for reference."""
-        fine_tune_configs = [config for config in model_configs if config[0] == "Fine_Tune"]
-
-        print("Available Fine-Tune datasets:")
-        for model_config, training_dataset, model_type in sorted(fine_tune_configs):
-            print(f"  - {model_config} + {training_dataset} + {model_type}")
-
-        # Group by dataset type
-        individual_datasets = set()
-        mixed_datasets = set()
-
-        for _, training_dataset, _ in fine_tune_configs:
-            if training_dataset.startswith("mix_"):
-                mixed_datasets.add(training_dataset)
-            else:
-                individual_datasets.add(training_dataset)
-
-        print(f"\nIndividual datasets: {sorted(individual_datasets)}")
-        print(f"Mixed datasets: {sorted(mixed_datasets)}")
-
-        return fine_tune_configs
-
-    def generate_individual_dataset_plots(dataset_names=None, remove_outliers_flag=False, 
-                                         outlier_threshold=200):
-        """Generate plots for individual (non-mixed) fine-tune datasets."""
-        if dataset_names is None:
-            dataset_names = ["ESM_1965_Full", "H3N2_Dataset_1965_Full", "pan_flu_1965_Full"]
-
-        print(f"Generating plots for individual datasets: {dataset_names}")
-        if remove_outliers_flag:
-            print(f"Outlier removal enabled: removing points >±{outlier_threshold} from mean")
-
-        fine_tune_configs = [config for config in model_configs 
-                           if config[0] == "Fine_Tune" and config[1] in dataset_names]
-
-        figures = []
-        for model_config, training_dataset, model_type in fine_tune_configs:
-            print(f"\nCreating plot for: {model_config} + {training_dataset} + {model_type}")
-            fig = create_model_comparison_plots(datasets_with_loess, model_config, training_dataset, model_type,
-                                              remove_outliers_flag=remove_outliers_flag,
-                                              outlier_threshold=outlier_threshold)
-            if fig:
-                figures.append(fig)
-
-        return figures
-
-    def generate_mixed_dataset_plots(dataset_pattern=None, remove_outliers_flag=False, 
-                                    outlier_threshold=200):
-        """Generate plots for mixed fine-tune datasets."""
-        fine_tune_configs = [config for config in model_configs 
-                           if config[0] == "Fine_Tune" and config[1].startswith("mix_")]
-
-        if dataset_pattern:
-            fine_tune_configs = [config for config in fine_tune_configs 
-                               if dataset_pattern in config[1]]
-
-        print(f"Generating plots for mixed datasets (pattern: {dataset_pattern or 'all'})")
-        if remove_outliers_flag:
-            print(f"Outlier removal enabled: removing points >±{outlier_threshold} from mean")
-
-        figures = []
-        for model_config, training_dataset, model_type in fine_tune_configs:
-            print(f"\nCreating plot for: {model_config} + {training_dataset} + {model_type}")
-            fig = create_model_comparison_plots(datasets_with_loess, model_config, training_dataset, model_type,
-                                              remove_outliers_flag=remove_outliers_flag,
-                                              outlier_threshold=outlier_threshold)
-            if fig:
-                figures.append(fig)
-
-        return figures
-
-    def generate_specific_dataset_plots(training_dataset_name, remove_outliers_flag=False, 
+def _(
+    create_model_comparison_plots,
+    datasets_with_loess_650m,
+    model_configs_650m,
+):
+    def generate_650m_specific_dataset_plots(training_dataset_name, remove_outliers_flag=False, 
                                       outlier_threshold=200):
-        """Generate plots for a specific training dataset."""
-        fine_tune_configs = [config for config in model_configs 
+        """Generate plots for a specific training dataset using 650M model."""
+        fine_tune_configs_650m = [config for config in model_configs_650m 
                            if config[0] == "Fine_Tune" and config[1] == training_dataset_name]
 
-        print(f"Generating plots for dataset: {training_dataset_name}")
+        print(f"Generating 650M model plots for dataset: {training_dataset_name}")
         if remove_outliers_flag:
             print(f"Outlier removal enabled: removing points >±{outlier_threshold} from mean")
 
         figures = []
-        for model_config, training_dataset, model_type in fine_tune_configs:
-            print(f"\nCreating plot for: {model_config} + {training_dataset} + {model_type}")
-            fig = create_model_comparison_plots(datasets_with_loess, model_config, training_dataset, model_type,
+        for model_config_650m_ft, training_dataset_650m_ft, model_type_650m_ft in fine_tune_configs_650m:
+            print(f"\nCreating plot for: {model_config_650m_ft} + {training_dataset_650m_ft} + {model_type_650m_ft}")
+            fig = create_model_comparison_plots(datasets_with_loess_650m, model_config_650m_ft, training_dataset_650m_ft, model_type_650m_ft,
                                               remove_outliers_flag=remove_outliers_flag,
                                               outlier_threshold=outlier_threshold)
             if fig:
                 figures.append(fig)
 
         return figures
-
-    # List available datasets for reference
-    available_configs = list_available_fine_tune_datasets()
-    return (generate_specific_dataset_plots,)
+    return (generate_650m_specific_dataset_plots,)
 
 
 @app.cell
-def _(generate_specific_dataset_plots):
-    # Example usage: Generate plots for H3N2 dataset only
-    h3n2_figures = generate_specific_dataset_plots("H3N2_Dataset_1965_Full")
-    h3n2_figures
+def _(generate_650m_specific_dataset_plots):
+    # Generate plots for H3N2 dataset using 650M model
+    h3n2_figures_650m = generate_650m_specific_dataset_plots("H3N2_Dataset_1965_Full")
+    h3n2_figures_650m
     return
 
 
 @app.cell
-def _(generate_specific_dataset_plots):
-    # Example: Generate plots without outlier removal (original behavior)
-    esm_dataset_figures = generate_specific_dataset_plots("ESM_1965_Full")
-    pan_flu_figures = generate_specific_dataset_plots("pan_flu_1965_Full") 
-    mix_ab_figures = generate_specific_dataset_plots("mix_AB_50_ESM_1965_Full_50_H3N2_Dataset_1965_Full")
-    mix_ac_figures = generate_specific_dataset_plots("mix_AC_50_ESM_1965_Full_50_pan_flu_1965_Full")
-    mix_bc_figures = generate_specific_dataset_plots("mix_BC_50_H3N2_Dataset_1965_Full_50_pan_flu_1965_Full")
-    mix_abc_figures = generate_specific_dataset_plots("mix_ABC_33_ESM_1965_Full_33_H3N2_Dataset_1965_Full_33_pan_flu_1965_Full")
+def _(generate_650m_specific_dataset_plots):
+    # Generate 650M model plots for all individual datasets
+    esm_dataset_figures_650m = generate_650m_specific_dataset_plots("ESM_1965_Full")
+    pan_flu_figures_650m = generate_650m_specific_dataset_plots("pan_flu_1965_Full") 
+    mix_ab_figures_650m = generate_650m_specific_dataset_plots("mix_AB_50_ESM_1965_Full_50_H3N2_Dataset_1965_Full")
+    mix_ac_figures_650m = generate_650m_specific_dataset_plots("mix_AC_50_ESM_1965_Full_50_pan_flu_1965_Full")
+    mix_bc_figures_650m = generate_650m_specific_dataset_plots("mix_BC_50_H3N2_Dataset_1965_Full_50_pan_flu_1965_Full")
+    mix_abc_figures_650m = generate_650m_specific_dataset_plots("mix_ABC_33_ESM_1965_Full_33_H3N2_Dataset_1965_Full_33_pan_flu_1965_Full")
     return (
-        esm_dataset_figures,
-        mix_ab_figures,
-        mix_abc_figures,
-        mix_ac_figures,
-        mix_bc_figures,
-        pan_flu_figures,
+        esm_dataset_figures_650m,
+        mix_ab_figures_650m,
+        mix_abc_figures_650m,
+        mix_ac_figures_650m,
+        mix_bc_figures_650m,
+        pan_flu_figures_650m,
     )
 
 
 @app.cell
-def _(esm_dataset_figures):
-    esm_dataset_figures
+def _(esm_dataset_figures_650m):
+    esm_dataset_figures_650m
     return
 
 
 @app.cell
-def _(pan_flu_figures):
-    pan_flu_figures
+def _(pan_flu_figures_650m):
+    pan_flu_figures_650m
     return
 
 
 @app.cell
-def _(mix_ab_figures):
-    mix_ab_figures
+def _(mix_ab_figures_650m):
+    mix_ab_figures_650m
     return
 
 
 @app.cell
-def _(mix_ac_figures):
-    mix_ac_figures
+def _(mix_ac_figures_650m):
+    mix_ac_figures_650m
     return
 
 
 @app.cell
-def _(mix_bc_figures):
-    mix_bc_figures
+def _(mix_bc_figures_650m):
+    mix_bc_figures_650m
     return
 
 
 @app.cell
-def _(mix_abc_figures):
-    mix_abc_figures
+def _(mix_abc_figures_650m):
+    mix_abc_figures_650m
     return
 
 
 @app.cell
 def _(mo):
-    mo.md(r"""## Training Dataset Spearman Correlation Comparison""")
+    mo.md(r"""## 650M Model Analysis""")
+    return
+
+
+@app.cell
+def _(mo):
+    mo.md(r"""### Training Dataset Spearman Correlation Comparison (650M Model)""")
     return
 
 
@@ -965,39 +926,40 @@ def _(mo):
 
 
 @app.cell
-def _(datasets_with_loess):
+def _(datasets_with_loess_650m):
     # Filter for 650M model and Fine_Tune configuration only
-    model_650m_ft = datasets_with_loess[
-        (datasets_with_loess['model_type'] == 'esm2_t33_650M_UR50D') & 
-        (datasets_with_loess['model_config'] == 'Fine_Tune') &
-        (datasets_with_loess['training_dataset'] != 'None') &  # Exclude base model (no training dataset)
-        (datasets_with_loess['corrected_log_likelihood'].notna())  # Only include records with LOESS correction
+    model_650m_ft = datasets_with_loess_650m[
+        (datasets_with_loess_650m['model_type'] == 'esm2_t33_650M_UR50D') & 
+        (datasets_with_loess_650m['model_config'] == 'Fine_Tune') &
+        (datasets_with_loess_650m['training_dataset'] != 'None') &  # Exclude base model (no training dataset)
+        (datasets_with_loess_650m['corrected_log_likelihood'].notna())  # Only include records with LOESS correction
     ].copy()
 
-    print(f"Filtered data shape: {model_650m_ft.shape}")
-    print(f"Available training datasets: {sorted(model_650m_ft['training_dataset'].unique())}")
-    print(f"Available segments: {sorted(model_650m_ft['segment'].unique())}")
+    print(f"650M Model - Filtered data shape: {model_650m_ft.shape}")
+    print(f"650M Model - Available training datasets: {sorted(model_650m_ft['training_dataset'].unique())}")
+    print(f"650M Model - Available segments: {sorted(model_650m_ft['segment'].unique())}")
 
     # Count records per training dataset
-    training_dataset_counts = model_650m_ft['training_dataset'].value_counts()
-    print(f"\nRecords per training dataset:")
-    for dataset_key, count in training_dataset_counts.items():
-        print(f"  {dataset_key}: {count}")
+    training_dataset_counts_650m = model_650m_ft['training_dataset'].value_counts()
+    print(f"\n650M Model - Records per training dataset:")
+    for dataset_key_650m, count_650m in training_dataset_counts_650m.items():
+        print(f"  {dataset_key_650m}: {count_650m}")
     return (model_650m_ft,)
 
 
 @app.cell
-def _(datasets_with_loess):
-    datasets_with_loess
+def _(datasets_with_loess_650m):
+    datasets_with_loess_650m
     return
 
 
 @app.cell
 def _(pd, spearmanr):
-    def calculate_spearman_by_training_dataset(df, use_corrected=True):
+    def calculate_spearman_by_training_dataset(df):
+        """Calculate Spearman correlation using LOESS corrected log likelihood."""
         results = []
 
-        ll_col = 'corrected_log_likelihood' if use_corrected else 'log_likelihood'
+        ll_col = 'corrected_log_likelihood'
 
         for dataset_name in df['training_dataset'].unique():
             dataset_df = df[df['training_dataset'] == dataset_name]
@@ -1019,7 +981,7 @@ def _(pd, spearmanr):
                         'spearman_correlation': corr,
                         'p_value': p_value,
                         'n_points': len(seg_df_clean),
-                        'correlation_type': 'LOESS_Corrected' if use_corrected else 'Raw'
+                        'correlation_type': 'LOESS_Corrected'
                     })
                 except Exception as e:
                     print(f"Error calculating correlation for {dataset_name} - {segment_name}: {e}")
@@ -1031,35 +993,36 @@ def _(pd, spearmanr):
 
 @app.cell
 def _(calculate_spearman_by_training_dataset, model_650m_ft, pd):
-    # Split data by time period
+    # Split 650M data by time period
     model_650m_ft_training = model_650m_ft[model_650m_ft['time'] < 2000].copy()
     model_650m_ft_testing = model_650m_ft[model_650m_ft['time'] >= 2000].copy()
 
-    print(f"Training period data (before 2000): {model_650m_ft_training.shape[0]} records")
-    print(f"Testing period data (2000+): {model_650m_ft_testing.shape[0]} records")
+    print(f"650M Model:")
+    print(f"  Training period data (before 2000): {model_650m_ft_training.shape[0]} records")
+    print(f"  Testing period data (2000+): {model_650m_ft_testing.shape[0]} records")
 
-    # Calculate correlations for each period
-    spearman_results_training = calculate_spearman_by_training_dataset(model_650m_ft_training, use_corrected=True)
-    spearman_results_testing = calculate_spearman_by_training_dataset(model_650m_ft_testing, use_corrected=True)
+    # Calculate correlations for each period - 650M model
+    spearman_results_training_650m = calculate_spearman_by_training_dataset(model_650m_ft_training)
+    spearman_results_testing_650m = calculate_spearman_by_training_dataset(model_650m_ft_testing)
 
     # Add time period labels
-    spearman_results_training['time_period'] = 'Training (< 2000)'
-    spearman_results_testing['time_period'] = 'Testing (≥ 2000)'
+    spearman_results_training_650m['time_period'] = 'Training (< 2000)'
+    spearman_results_testing_650m['time_period'] = 'Testing (≥ 2000)'
 
-    # Combine results
-    spearman_results_combined = pd.concat([spearman_results_training, spearman_results_testing], ignore_index=True)
+    # Combine results for 650M model
+    spearman_results_combined_650m = pd.concat([spearman_results_training_650m, spearman_results_testing_650m], ignore_index=True)
 
-    print(f"\nTraining period correlations: {spearman_results_training.shape[0]} dataset-segment combinations")
-    print(f"Testing period correlations: {spearman_results_testing.shape[0]} dataset-segment combinations")
+    print(f"\n650M Training period correlations: {spearman_results_training_650m.shape[0]} dataset-segment combinations")
+    print(f"650M Testing period correlations: {spearman_results_testing_650m.shape[0]} dataset-segment combinations")
     return (
-        spearman_results_combined,
-        spearman_results_testing,
-        spearman_results_training,
+        spearman_results_combined_650m,
+        spearman_results_testing_650m,
+        spearman_results_training_650m,
     )
 
 
 @app.cell
-def _(plt, sns):
+def _(np, pd, plt, sns, spearmanr):
     def create_time_period_comparison_plot(spearman_df, title="Spearman Correlation by Training Dataset and Time Period"):
         training_dataset_mapping = {
             'ESM_1965_Full': 'ESM Only',
@@ -1125,8 +1088,9 @@ def _(plt, sns):
             x='dataset_label',
             y='mean',
             hue='time_period',
+            hue_order=['Training (< 2000)', 'Testing (≥ 2000)'],  # Training first, then testing
             ax=ax,
-            palette=['#1f77b4', '#ff7f0e'],  # Blue for training, orange for testing
+            palette=['#f4d35e', '#890304'],  # Tan for training, red for testing
             capsize=0.1
         )
 
@@ -1258,148 +1222,643 @@ def _(plt, sns):
 
         plt.tight_layout()
         return fig
+
+    def create_spearman_segment_comparison_plot(spearman_df, title="Spearman Correlation by Training Dataset and Segment"):
+        """
+        Create a plot comparing Spearman correlation coefficients across training datasets,
+        showing each segment as a separate bar similar to create_time_period_summary_plot.
+        """
+        # Dataset mapping for cleaner labels
+        dataset_mapping = {
+            'ESM_1965_Full': 'ESM Only',
+            'H3N2_Dataset_1965_Full': 'H3N2 Only', 
+            'pan_flu_1965_Full': 'Pan-Flu Only',
+            'mix_AB_50_ESM_1965_Full_50_H3N2_Dataset_1965_Full': 'ESM + H3N2',
+            'mix_AC_50_ESM_1965_Full_50_pan_flu_1965_Full': 'ESM + Pan-Flu',
+            'mix_BC_50_H3N2_Dataset_1965_Full_50_pan_flu_1965_Full': 'H3N2 + Pan-Flu',
+            'mix_ABC_33_ESM_1965_Full_33_H3N2_Dataset_1965_Full_33_pan_flu_1965_Full': 'ESM + H3N2 + Pan-Flu'
+        }
+
+        # Add dataset labels
+        plot_df = spearman_df.copy()
+        plot_df['dataset_label'] = plot_df['training_dataset'].map(
+            lambda x: dataset_mapping.get(x, x)
+        )
+
+        # Create the plot
+        fig, ax = plt.subplots(figsize=(16, 10))
+
+        # Create grouped bar plot with segments as hue
+        custom_palette = ['#B84432', '#F8C3A0', '#D8AD4B', '#1A5B23', '#DEE8E5', '#3F5B8D', '#C9A8CD', '#211603']
+        sns.barplot(
+            data=plot_df,
+            x='dataset_label',
+            y='spearman_correlation',
+            hue='segment',
+            ax=ax,
+            palette=custom_palette
+        )
+
+        # Styling
+        ax.set_title(title, fontsize=16, fontweight='bold')
+        ax.set_xlabel('Training Dataset', fontsize=12, fontweight='bold')
+        ax.set_ylabel('Spearman Correlation Coefficient', fontsize=12, fontweight='bold')
+        ax.grid(True, alpha=0.3, axis='y')
+        ax.axhline(y=0, color='black', linestyle='-', alpha=0.3)
+
+        # Rotate x-axis labels for better readability
+        plt.xticks(rotation=45, ha='right')
+
+        # Position legend outside the plot
+        ax.legend(title='Segment', bbox_to_anchor=(1.05, 1), loc='upper left')
+
+        plt.tight_layout()
+        return fig
+
+    def create_spearman_segment_detailed_plot(spearman_df, title="Spearman Correlation with Individual Segments"):
+        """
+        Create a plot similar to create_time_period_summary_plot but showing individual segments
+        as separate bars along with training dataset grouping.
+        """
+        # Dataset mapping for cleaner labels
+        dataset_mapping = {
+            'ESM_1965_Full': 'ESM Only',
+            'H3N2_Dataset_1965_Full': 'H3N2 Only', 
+            'pan_flu_1965_Full': 'Pan-Flu Only',
+            'mix_AB_50_ESM_1965_Full_50_H3N2_Dataset_1965_Full': 'ESM + H3N2',
+            'mix_AC_50_ESM_1965_Full_50_pan_flu_1965_Full': 'ESM + Pan-Flu',
+            'mix_BC_50_H3N2_Dataset_1965_Full_50_pan_flu_1965_Full': 'H3N2 + Pan-Flu',
+            'mix_ABC_33_ESM_1965_Full_33_H3N2_Dataset_1965_Full_33_pan_flu_1965_Full': 'ESM + H3N2 + Pan-Flu'
+        }
+
+        # Add dataset labels
+        plot_df = spearman_df.copy()
+        plot_df['dataset_label'] = plot_df['training_dataset'].map(
+            lambda x: dataset_mapping.get(x, x)
+        )
+
+        # Create the plot with segments on x-axis and training datasets as hue
+        fig, ax = plt.subplots(figsize=(14, 8))
+
+        sns.barplot(
+            data=plot_df,
+            x='segment',
+            y='spearman_correlation',
+            hue='dataset_label',
+            ax=ax,
+            palette='Set2'
+        )
+
+        # Styling similar to create_time_period_summary_plot
+        ax.set_title(title, fontsize=16, fontweight='bold')
+        ax.set_xlabel('Segment', fontsize=12, fontweight='bold')
+        ax.set_ylabel('Spearman Correlation Coefficient', fontsize=12, fontweight='bold')
+        ax.grid(True, alpha=0.3, axis='y')
+        ax.axhline(y=0, color='black', linestyle='-', alpha=0.3)
+
+        plt.xticks(rotation=45, ha='right')
+        ax.legend(title='Training Dataset')
+
+        plt.tight_layout()
+        return fig
+    def create_time_binned_spearman_line_plot(df, title="Time-Binned Spearman Correlation Analysis"):
+        """
+        Create a line plot showing LOESS corrected Spearman correlations across sliding time windows,
+        similar to the one in Apply_LOESS_To_Previous_ESM.py
+        """
+        # Define time ranges (sliding windows)
+        time_ranges = [
+            (1970, 1990, "1980"),
+            (1980, 2000, "1990"), 
+            (1990, 2010, "2000"),
+            (2000, 2020, "2010"),
+            (2010, None, "2020"),
+        ]
+
+        results = []
+
+        # Calculate spearman correlation for each time window and training dataset
+        for (start, end, label) in time_ranges:
+            if end is None:
+                time_filtered_df = df[df['time'] >= start]
+            else:
+                time_filtered_df = df[(df['time'] >= start) & (df['time'] <= end)]
+
+            if len(time_filtered_df) == 0:
+                continue
+
+            # Calculate correlations for each training dataset
+            for training_dataset in df['training_dataset'].unique():
+                dataset_df = time_filtered_df[time_filtered_df['training_dataset'] == training_dataset]
+
+                if len(dataset_df) < 3:  # Need minimum points for correlation
+                    continue
+
+                # Calculate LOESS-corrected correlations only
+                try:
+                    if 'corrected_log_likelihood' in dataset_df.columns:
+                        corr_loess, _ = spearmanr(dataset_df['max_frequency'], dataset_df['corrected_log_likelihood'])
+                        results.append({
+                            'Time_Range': label,
+                            'Training_Dataset': training_dataset, 
+                            'Spearman_Correlation': corr_loess,
+                            'Model_Type': 'LOESS_Corrected',
+                            'N_Points': len(dataset_df)
+                        })
+                except Exception as e:
+                    continue
+
+        if not results:
+            print("No data available for time-binned analysis")
+            return None
+
+        results_df = pd.DataFrame(results)
+
+        # Create dataset labels for cleaner display
+        dataset_mapping = {
+            'ESM_1965_Full': 'ESM Only',
+            'H3N2_Dataset_1965_Full': 'H3N2 Only', 
+            'pan_flu_1965_Full': 'Pan-Flu Only',
+            'mix_AB_50_ESM_1965_Full_50_H3N2_Dataset_1965_Full': 'ESM + H3N2',
+            'mix_AC_50_ESM_1965_Full_50_pan_flu_1965_Full': 'ESM + Pan-Flu',
+            'mix_BC_50_H3N2_Dataset_1965_Full_50_pan_flu_1965_Full': 'H3N2 + Pan-Flu',
+            'mix_ABC_33_ESM_1965_Full_33_H3N2_Dataset_1965_Full_33_pan_flu_1965_Full': 'ESM + H3N2 + Pan-Flu'
+        }
+
+        results_df['Dataset_Label'] = results_df['Training_Dataset'].map(
+            lambda x: dataset_mapping.get(x, x)
+        )
+
+        # Create model labels (only LOESS corrected)
+        results_df['Model'] = results_df['Dataset_Label']
+
+        # Set up plotting style similar to Apply_LOESS file
+        sns.set_style("whitegrid")
+        custom_params = {"axes.spines.right": False, "axes.spines.top": False}
+        sns.set_theme(style="ticks", rc=custom_params)
+
+        fig, ax = plt.subplots(figsize=(12, 8))
+
+        # Create line plot
+        ax = sns.lineplot(
+            data=results_df,
+            x='Time_Range',
+            y='Spearman_Correlation', 
+            hue='Model',
+            marker="o",
+            legend=False,
+            zorder=1,
+            ax=ax,
+            errorbar=None,
+        )
+
+        ax.set_title(title, fontsize=16, fontweight='bold')
+        ax.set_xlabel("Time Range (Center Year)", fontsize=12, fontweight='bold')
+        ax.set_ylabel("Spearman Correlation Coefficient", fontsize=12, fontweight='bold')
+        ax.grid(True, alpha=0.3)
+        ax.axhline(y=0, color='black', linestyle='-', alpha=0.3)
+
+        # Add labels at the end of each line similar to Apply_LOESS style
+        label_positions = []
+        for line, model in zip(ax.lines, results_df['Model'].unique()):
+            y = line.get_ydata()[-1]
+            x = line.get_xdata()[-1]
+
+            if not np.isfinite(y) or not np.isfinite(x):
+                continue
+
+            # Adjust label positions to avoid overlap
+            while any(abs(y - pos) < 0.025 for pos in label_positions):
+                y += 0.01
+
+            label_positions.append(y)
+
+            ax.annotate(
+                model,
+                xy=(x, y),
+                xytext=(5, 0),
+                textcoords="offset points",
+                color=line.get_color(),
+                fontsize=10,
+                weight='bold',
+                ha='left',
+                va='center',
+                zorder=2,
+            )
+
+        plt.tight_layout()
+        return fig
     return (
-        create_time_period_comparison_plot,
+        create_spearman_segment_comparison_plot,
+        create_spearman_segment_detailed_plot,
+        create_time_binned_spearman_line_plot,
         create_time_period_summary_plot,
         create_training_dataset_heatmap,
     )
 
 
 @app.cell
-def _(mo):
-    mo.md(r"""### Generate Training Dataset Comparison Plots""")
-    return
-
-
-@app.cell
-def _(create_time_period_comparison_plot, spearman_results_combined):
-    # Create the main time period comparison plot
-    time_period_comparison_fig = create_time_period_comparison_plot(
-        spearman_results_combined,
-        "Spearman Correlation by Time Period - Training (< 2000) vs Testing (≥ 2000) - 650M Model"
+def _(create_time_period_summary_plot, spearman_results_combined_650m):
+    # Create time period summary comparison for 650M model
+    time_period_summary_fig_650m = create_time_period_summary_plot(
+        spearman_results_combined_650m,
+        "Average Spearman Correlation by Training Dataset - Training vs Testing Periods (650M Model)"
     )
-    time_period_comparison_fig
+    time_period_summary_fig_650m
     return
 
 
 @app.cell
-def _(create_time_period_summary_plot, spearman_results_combined):
-    # Create time period summary comparison
-    time_period_summary_fig = create_time_period_summary_plot(
-        spearman_results_combined,
-        "Average Spearman Correlation by Training Dataset - Training vs Testing Periods"
-    )
-    time_period_summary_fig
-    return
-
-
-@app.cell
-def _(create_training_dataset_heatmap, spearman_results_training):
-    # Create heatmap for training period
-    training_heatmap_fig = create_training_dataset_heatmap(
-        spearman_results_training,
+def _(create_training_dataset_heatmap, spearman_results_training_650m):
+    # Create heatmap for 650M training period
+    training_heatmap_fig_650m = create_training_dataset_heatmap(
+        spearman_results_training_650m,
         "Spearman Correlation Heatmap - Training Period (< 2000) - 650M Model"
     )
-    training_heatmap_fig
+    training_heatmap_fig_650m
     return
 
 
 @app.cell
-def _(create_training_dataset_heatmap, spearman_results_testing):
-    # Create heatmap for testing period
-    testing_heatmap_fig = create_training_dataset_heatmap(
-        spearman_results_testing,
+def _(create_training_dataset_heatmap, spearman_results_testing_650m):
+    # Create heatmap for 650M testing period
+    testing_heatmap_fig_650m = create_training_dataset_heatmap(
+        spearman_results_testing_650m,
         "Spearman Correlation Heatmap - Testing Period (≥ 2000) - 650M Model"
     )
-    testing_heatmap_fig
+    testing_heatmap_fig_650m
+    return
+
+
+@app.cell
+def _(create_spearman_segment_comparison_plot, spearman_results_training_650m):
+    # Create segment comparison plot for 650M training period
+    spearman_segment_training_fig_650m = create_spearman_segment_comparison_plot(
+        spearman_results_training_650m,
+        "Spearman Correlation by Training Dataset and Segment - Training Period (< 2000) - 650M Model"
+    )
+    spearman_segment_training_fig_650m
+    return
+
+
+@app.cell
+def _(create_spearman_segment_comparison_plot, spearman_results_testing_650m):
+    # Create segment comparison plot for 650M testing period
+    spearman_segment_testing_fig_650m = create_spearman_segment_comparison_plot(
+        spearman_results_testing_650m,
+        "Spearman Correlation by Training Dataset and Segment - Testing Period (≥ 2000) - 650M Model"
+    )
+    spearman_segment_testing_fig_650m
+    return
+
+
+@app.cell
+def _(create_spearman_segment_detailed_plot, spearman_results_training_650m):
+    # Create detailed segment comparison plot for 650M training period
+    spearman_segment_detailed_training_fig_650m = create_spearman_segment_detailed_plot(
+        spearman_results_training_650m,
+        "Spearman Correlation with Individual Segments by Training Dataset - Training Period (< 2000) - 650M Model"
+    )
+    spearman_segment_detailed_training_fig_650m
+    return
+
+
+@app.cell
+def _(create_spearman_segment_detailed_plot, spearman_results_testing_650m):
+    # Create detailed segment comparison plot for 650M testing period
+    spearman_segment_detailed_testing_fig_650m = create_spearman_segment_detailed_plot(
+        spearman_results_testing_650m,
+        "Spearman Correlation with Individual Segments by Training Dataset - Testing Period (≥ 2000) - 650M Model"
+    )
+    spearman_segment_detailed_testing_fig_650m
+    return
+
+
+@app.cell
+def _(create_time_binned_spearman_line_plot, model_650m_ft):
+    # Create time-binned spearman correlation line plot (LOESS corrected only)
+    time_binned_line_fig = create_time_binned_spearman_line_plot(
+        model_650m_ft,
+        "Time-Binned Spearman Correlation Analysis - 650M Fine-Tuned Models"
+    )
+    time_binned_line_fig
     return
 
 
 @app.cell
 def _(mo):
-    mo.md(r"""### Detailed Analysis Table""")
+    mo.md(r"""## 3B Model Analysis""")
     return
 
 
 @app.cell
-def _(spearman_results_training):
-    # Create detailed analysis table for training period
-    detailed_analysis_training = spearman_results_training.pivot(
-        index='training_dataset', 
-        columns='segment', 
-        values='spearman_correlation'
-    ).round(3)
-
-    # Add summary statistics
-    detailed_analysis_training['Mean'] = detailed_analysis_training.mean(axis=1).round(3)
-    detailed_analysis_training['Std'] = detailed_analysis_training.std(axis=1).round(3)
-
-    print("Detailed Spearman Correlation Analysis - Training Period (< 2000):")
-    print("=" * 80)
-    detailed_analysis_training
+def _(mo):
+    mo.md(r"""### Apply LOESS Correction to 3B Model Data""")
     return
 
 
 @app.cell
-def _(spearman_results_testing):
-    # Create detailed analysis table for testing period
-    detailed_analysis_testing = spearman_results_testing.pivot(
-        index='training_dataset', 
-        columns='segment', 
-        values='spearman_correlation'
-    ).round(3)
+def _(apply_loess_for_model):
+    # Apply LOESS correction specifically to 3B model data
+    datasets_with_loess_3b = apply_loess_for_model("esm2_t36_3B_UR50D")
 
-    # Add summary statistics
-    detailed_analysis_testing['Mean'] = detailed_analysis_testing.mean(axis=1).round(3)
-    detailed_analysis_testing['Std'] = detailed_analysis_testing.std(axis=1).round(3)
+    print(f"3B Model - Total records: {len(datasets_with_loess_3b)}")
+    print(f"3B Model - Records with LOESS correction: {datasets_with_loess_3b['corrected_log_likelihood'].notna().sum()}")
+    print(f"3B Model - Available model configurations: {sorted(datasets_with_loess_3b['model_config'].unique())}")
+    print(f"3B Model - Available training datasets: {sorted(datasets_with_loess_3b['training_dataset'].unique())}")
+    return (datasets_with_loess_3b,)
 
-    print("Detailed Spearman Correlation Analysis - Testing Period (≥ 2000):")
-    print("=" * 80)
-    detailed_analysis_testing
+
+@app.cell
+def _(datasets_with_loess_3b):
+    datasets_with_loess_3b
     return
 
 
 @app.cell
-def _(mo, spearman_results_testing, spearman_results_training):
-    # Calculate summary statistics for both periods
-    avg_by_dataset_training = spearman_results_training.groupby('training_dataset')['spearman_correlation'].mean().sort_values(ascending=False)
-    avg_by_dataset_testing = spearman_results_testing.groupby('training_dataset')['spearman_correlation'].mean().sort_values(ascending=False)
-
-    best_dataset_training = avg_by_dataset_training.index[0]
-    best_corr_training = avg_by_dataset_training.iloc[0]
-    best_dataset_testing = avg_by_dataset_testing.index[0]
-    best_corr_testing = avg_by_dataset_testing.iloc[0]
-
-    mo.md(f"""
-    ### Key Findings from Training Dataset Comparison by Time Period
-
-    Based on the Spearman correlation analysis between log likelihood and maximum frequency for the 650M model:
-
-    #### Training Period (< 2000):
-    **Best Performing Training Dataset:** {best_dataset_training} (avg correlation: {best_corr_training:.3f})
-
-    #### Testing Period (≥ 2000):
-    **Best Performing Training Dataset:** {best_dataset_testing} (avg correlation: {best_corr_testing:.3f})
-
-    **Key Insight:** {'Same' if best_dataset_training == best_dataset_testing else 'Different'} training dataset performs best in training vs testing periods.
-    """)
-    return avg_by_dataset_testing, avg_by_dataset_training
-
-
-@app.cell
-def _(avg_by_dataset_testing, avg_by_dataset_training):
-    print("Training Period Rankings (< 2000):")
-    for ij, (dataset_rank_name, corr) in enumerate(avg_by_dataset_training.items(), 1):
-        print(f"{ij}. {dataset_rank_name}: {corr:.3f}")
-
-    print("\nTesting Period Rankings (≥ 2000):")
-    for ij, (dataset_rank_name, corr) in enumerate(avg_by_dataset_testing.items(), 1):
-        print(f"{ij}. {dataset_rank_name}: {corr:.3f}")
+def _(mo):
+    mo.md(r"""### 3B Model Time Series Plots""")
     return
 
 
 @app.cell
-def _():
+def _(datasets_with_loess_3b):
+    # Get all unique model configurations for 3B model
+    model_configs_3b = []
+
+    for (model_config_3b, training_dataset_3b, model_type_3b), group_3b in datasets_with_loess_3b.groupby(
+        ['model_config', 'training_dataset', 'model_type']
+    ):
+        if group_3b['time'].notna().sum() > 0:  # Only include configs with time data
+            model_configs_3b.append((model_config_3b, training_dataset_3b, model_type_3b))
+
+    print(f"Found {len(model_configs_3b)} 3B model configurations with time data:")
+    for config_3b in model_configs_3b:
+        print(f"  - {config_3b[0]} + {config_3b[1]} + {config_3b[2]}")
+    return (model_configs_3b,)
+
+
+@app.cell
+def _(create_model_comparison_plots, datasets_with_loess_3b, model_configs_3b):
+    def generate_3b_base_plots():
+        # Generate plots for 3B base models
+        print("Generating plots for 3B Base models...")
+        base_configs_3b = [config for config in model_configs_3b if config[0] == "Base"]
+
+        base_model_figures_3b = []
+
+        for model_config_3b_base, training_dataset_3b_base, model_type_3b_base in base_configs_3b:
+            print(f"\nCreating plot for: {model_config_3b_base} + {training_dataset_3b_base} + {model_type_3b_base}")
+            fig_1 = create_model_comparison_plots(datasets_with_loess_3b, model_config_3b_base, training_dataset_3b_base, model_type_3b_base)
+
+            if fig_1:
+                base_model_figures_3b.append(fig_1)
+
+        return base_model_figures_3b
+
+    base_model_figures_3b = generate_3b_base_plots()
+    return (base_model_figures_3b,)
+
+
+@app.cell
+def _(base_model_figures_3b):
+    base_model_figures_3b
+    return
+
+
+@app.cell
+def _(base_model_figures_3b):
+    base_model_figures_3b
+    return
+
+
+@app.cell
+def _(create_model_comparison_plots, datasets_with_loess_3b, model_configs_3b):
+    def generate_3b_specific_dataset_plots(training_dataset_name, remove_outliers_flag=False, 
+                                      outlier_threshold=200):
+        """Generate plots for a specific training dataset using 3B model."""
+        fine_tune_configs_3b = [config for config in model_configs_3b 
+                           if config[0] == "Fine_Tune" and config[1] == training_dataset_name]
+
+        print(f"Generating 3B model plots for dataset: {training_dataset_name}")
+        if remove_outliers_flag:
+            print(f"Outlier removal enabled: removing points >±{outlier_threshold} from mean")
+
+        figures = []
+        for model_config_3b_ft, training_dataset_3b_ft, model_type_3b_ft in fine_tune_configs_3b:
+            print(f"\nCreating plot for: {model_config_3b_ft} + {training_dataset_3b_ft} + {model_type_3b_ft}")
+            fig = create_model_comparison_plots(datasets_with_loess_3b, model_config_3b_ft, training_dataset_3b_ft, model_type_3b_ft,
+                                              remove_outliers_flag=remove_outliers_flag,
+                                              outlier_threshold=outlier_threshold)
+            if fig:
+                figures.append(fig)
+
+        return figures
+
+    # Generate 3B model plots for all individual datasets
+    h3n2_figures_3b = generate_3b_specific_dataset_plots("H3N2_Dataset_1965_Full")
+    esm_dataset_figures_3b = generate_3b_specific_dataset_plots("ESM_1965_Full")
+    pan_flu_figures_3b = generate_3b_specific_dataset_plots("pan_flu_1965_Full") 
+    mix_ab_figures_3b = generate_3b_specific_dataset_plots("mix_AB_50_ESM_1965_Full_50_H3N2_Dataset_1965_Full")
+    mix_ac_figures_3b = generate_3b_specific_dataset_plots("mix_AC_50_ESM_1965_Full_50_pan_flu_1965_Full")
+    mix_bc_figures_3b = generate_3b_specific_dataset_plots("mix_BC_50_H3N2_Dataset_1965_Full_50_pan_flu_1965_Full")
+    mix_abc_figures_3b = generate_3b_specific_dataset_plots("mix_ABC_33_ESM_1965_Full_33_H3N2_Dataset_1965_Full_33_pan_flu_1965_Full")
+    return (
+        esm_dataset_figures_3b,
+        h3n2_figures_3b,
+        mix_ab_figures_3b,
+        mix_abc_figures_3b,
+        mix_ac_figures_3b,
+        mix_bc_figures_3b,
+        pan_flu_figures_3b,
+    )
+
+
+@app.cell
+def _(h3n2_figures_3b):
+    h3n2_figures_3b
+    return
+
+
+@app.cell
+def _(esm_dataset_figures_3b):
+    esm_dataset_figures_3b
+    return
+
+
+@app.cell
+def _(pan_flu_figures_3b):
+    pan_flu_figures_3b
+    return
+
+
+@app.cell
+def _(mix_ab_figures_3b):
+    mix_ab_figures_3b
+    return
+
+
+@app.cell
+def _(mix_ac_figures_3b):
+    mix_ac_figures_3b
+    return
+
+
+@app.cell
+def _(mix_bc_figures_3b):
+    mix_bc_figures_3b
+    return
+
+
+@app.cell
+def _(mix_abc_figures_3b):
+    mix_abc_figures_3b
+    return
+
+
+@app.cell
+def _(mo):
+    mo.md(r"""### 3B Model Spearman Correlation Analysis""")
+    return
+
+
+@app.cell
+def _(datasets_with_loess_3b):
+    # Filter for 3B model and Fine_Tune configuration only
+    model_3b_ft = datasets_with_loess_3b[
+        (datasets_with_loess_3b['model_type'] == 'esm2_t36_3B_UR50D') & 
+        (datasets_with_loess_3b['model_config'] == 'Fine_Tune') &
+        (datasets_with_loess_3b['training_dataset'] != 'None') &  # Exclude base model (no training dataset)
+        (datasets_with_loess_3b['corrected_log_likelihood'].notna())  # Only include records with LOESS correction
+    ].copy()
+
+    print(f"3B Model - Filtered data shape: {model_3b_ft.shape}")
+    print(f"3B Model - Available training datasets: {sorted(model_3b_ft['training_dataset'].unique())}")
+    print(f"3B Model - Available segments: {sorted(model_3b_ft['segment'].unique())}")
+
+    # Count records per training dataset
+    training_dataset_counts_3b = model_3b_ft['training_dataset'].value_counts()
+    print(f"\n3B Model - Records per training dataset:")
+    for dataset_key_3b, count_3b in training_dataset_counts_3b.items():
+        print(f"  {dataset_key_3b}: {count_3b}")
+    return (model_3b_ft,)
+
+
+@app.cell
+def _(calculate_spearman_by_training_dataset, model_3b_ft, pd):
+    # Split 3B data by time period
+    model_3b_ft_training = model_3b_ft[model_3b_ft['time'] < 2000].copy()
+    model_3b_ft_testing = model_3b_ft[model_3b_ft['time'] >= 2000].copy()
+
+    print(f"3B Model:")
+    print(f"  Training period data (before 2000): {model_3b_ft_training.shape[0]} records")
+    print(f"  Testing period data (2000+): {model_3b_ft_testing.shape[0]} records")
+
+    # Calculate correlations for each period - 3B model
+    spearman_results_training_3b = calculate_spearman_by_training_dataset(model_3b_ft_training)
+    spearman_results_testing_3b = calculate_spearman_by_training_dataset(model_3b_ft_testing)
+
+    # Add time period labels
+    spearman_results_training_3b['time_period'] = 'Training (< 2000)'
+    spearman_results_testing_3b['time_period'] = 'Testing (≥ 2000)'
+
+    # Combine results for 3B model
+    spearman_results_combined_3b = pd.concat([spearman_results_training_3b, spearman_results_testing_3b], ignore_index=True)
+
+    print(f"\n3B Training period correlations: {spearman_results_training_3b.shape[0]} dataset-segment combinations")
+    print(f"3B Testing period correlations: {spearman_results_testing_3b.shape[0]} dataset-segment combinations")
+    return (
+        spearman_results_combined_3b,
+        spearman_results_testing_3b,
+        spearman_results_training_3b,
+    )
+
+
+@app.cell
+def _(create_time_period_summary_plot, spearman_results_combined_3b):
+    # Create time period summary comparison for 3B model
+    time_period_summary_fig_3b = create_time_period_summary_plot(
+        spearman_results_combined_3b,
+        "Average Spearman Correlation by Training Dataset - Training vs Testing Periods (3B Model)"
+    )
+    time_period_summary_fig_3b
+    return
+
+
+@app.cell
+def _(create_training_dataset_heatmap, spearman_results_training_3b):
+    # Create heatmap for 3B training period
+    training_heatmap_fig_3b = create_training_dataset_heatmap(
+        spearman_results_training_3b,
+        "Spearman Correlation Heatmap - Training Period (< 2000) - 3B Model"
+    )
+    training_heatmap_fig_3b
+    return
+
+
+@app.cell
+def _(create_training_dataset_heatmap, spearman_results_testing_3b):
+    # Create heatmap for 3B testing period
+    testing_heatmap_fig_3b = create_training_dataset_heatmap(
+        spearman_results_testing_3b,
+        "Spearman Correlation Heatmap - Testing Period (≥ 2000) - 3B Model"
+    )
+    testing_heatmap_fig_3b
+    return
+
+
+@app.cell
+def _(create_spearman_segment_comparison_plot, spearman_results_training_3b):
+    # Create segment comparison plot for 3B training period
+    spearman_segment_training_fig_3b = create_spearman_segment_comparison_plot(
+        spearman_results_training_3b,
+        "Spearman Correlation by Training Dataset and Segment - Training Period (< 2000) - 3B Model"
+    )
+    spearman_segment_training_fig_3b
+    return
+
+
+@app.cell
+def _(create_spearman_segment_comparison_plot, spearman_results_testing_3b):
+    # Create segment comparison plot for 3B testing period
+    spearman_segment_testing_fig_3b = create_spearman_segment_comparison_plot(
+        spearman_results_testing_3b,
+        "Spearman Correlation by Training Dataset and Segment - Testing Period (≥ 2000) - 3B Model"
+    )
+    spearman_segment_testing_fig_3b
+    return
+
+
+@app.cell
+def _(create_spearman_segment_detailed_plot, spearman_results_training_3b):
+    # Create detailed segment comparison plot for 3B training period
+    spearman_segment_detailed_training_fig_3b = create_spearman_segment_detailed_plot(
+        spearman_results_training_3b,
+        "Spearman Correlation with Individual Segments by Training Dataset - Training Period (< 2000) - 3B Model"
+    )
+    spearman_segment_detailed_training_fig_3b
+    return
+
+
+@app.cell
+def _(create_spearman_segment_detailed_plot, spearman_results_testing_3b):
+    # Create detailed segment comparison plot for 3B testing period
+    spearman_segment_detailed_testing_fig_3b = create_spearman_segment_detailed_plot(
+        spearman_results_testing_3b,
+        "Spearman Correlation with Individual Segments by Training Dataset - Testing Period (≥ 2000) - 3B Model"
+    )
+    spearman_segment_detailed_testing_fig_3b
+    return
+
+
+@app.cell
+def _(create_time_binned_spearman_line_plot, model_3b_ft):
+    # Create time-binned spearman correlation line plot for 3B model (LOESS corrected only)
+    time_binned_line_fig_3b = create_time_binned_spearman_line_plot(
+        model_3b_ft,
+        "Time-Binned Spearman Correlation Analysis - 3B Fine-Tuned Models (LOESS Corrected)"
+    )
+    time_binned_line_fig_3b
     return
 
 
