@@ -23,7 +23,7 @@
 
 import marimo
 
-__generated_with = "0.16.1"
+__generated_with = "0.16.2"
 app = marimo.App(
     width="medium",
     app_title="ESM2 Validation Pipeline with LOESS",
@@ -948,12 +948,6 @@ def _(datasets_with_loess_650m):
 
 
 @app.cell
-def _(datasets_with_loess_650m):
-    datasets_with_loess_650m
-    return
-
-
-@app.cell
 def _(pd, spearmanr):
     def calculate_spearman_by_training_dataset(df):
         """Calculate Spearman correlation using LOESS corrected log likelihood."""
@@ -1856,7 +1850,7 @@ def _(create_time_binned_spearman_line_plot, model_3b_ft):
     # Create time-binned spearman correlation line plot for 3B model (LOESS corrected only)
     time_binned_line_fig_3b = create_time_binned_spearman_line_plot(
         model_3b_ft,
-        "Time-Binned Spearman Correlation Analysis - 3B Fine-Tuned Models (LOESS Corrected)"
+        "Time-Binned Spearman Correlation Analysis - 3B Fine-Tuned Models"
     )
     time_binned_line_fig_3b
     return
