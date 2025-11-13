@@ -1,7 +1,15 @@
 .DS_Store
+
+# Snakemake directories (all pipelines)
+.snakemake/
+**/.snakemake/
+
+# Singularity containers
+*.sif
 Flu_Snakemake_Pipeline/envs/nextstrain-base.sif
 Flu_Snakemake_Pipeline/envs/python-data-stack.sif
-Flu_Snakemake_Pipeline/.snakemake/
+
+# Flu Pipeline specific
 Flu_Snakemake_Pipeline/scripts/calc_ll_esm_fine_tune.py
 Flu_Snakemake_Pipeline/Fine_Tune_Models/
 Flu_Snakemake_Pipeline/fine_tune_fastas/
@@ -12,7 +20,10 @@ Flu_Snakemake_Pipeline/results/fine_tune_fastas/
 Flu_Snakemake_Pipeline/results/node_fastas/
 Flu_Snakemake_Pipeline/results/Fine_Tune_Models/
 Flu_Snakemake_Pipeline/results/fine_tune_models/
-ESM2_Validation_Pipeline/.snakemake
+
+# ESM2 Validation Pipeline
 ESM2_Validation_Pipeline/envs
 ESM2_Validation_Pipeline/results/fine_tune_models
+
+# Large datasets
 uniref90membersandreps_ur50trainfiltreps.fasta

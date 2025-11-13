@@ -1,0 +1,164 @@
+# Snakefile for DMS Analysis with ESM2 models
+# Simplified version without Nextstrain tree processing
+
+from snakemake.utils import Paramspace
+from pathlib import Path
+import pandas as pd
+
+# -------------------------------------------------------------------
+# Parameters
+# -------------------------------------------------------------------
+df = pd.read_csv("params.csv")
+paramspace = Paramspace(df)
+PS_WC = paramspace.wildcard_pattern
+
+BASE_MODELS = sorted(df["model"].unique())
+
+# Dataset to use for fine-tuning (HA only)
+DATASET = "H3N2_HA_2009_Cutoff"
+CUTOFF_DATE = 2009.2643835616439
+SEGMENT = "ha"
+
+# Path to existing fine-tuned models (for reuse)
+EXISTING_FT_PATH = "../../ESM2_Validation_Pipeline/results/fine_tune_models"
+
+# Path to trees for date filtering
+TREE_PATH = "../../ESM2_Validation_Pipeline/input/trees/h3n2"
+
+# -------------------------------------------------------------------
+# Top-level targets
+# -------------------------------------------------------------------
+rule all:
+    input:
+        # Base model log-likelihoods
+        expand(
+            "results/log_likelihoods/{ps}/base/dms_library_LL.csv",
+            ps=paramspace.instance_patterns,
+        ),
+        # Fine-tuned model log-likelihoods
+        expand(
+            "results/log_likelihoods/{ps}/" + DATASET + "/dms_library_LL_Fine_Tune.csv",
+            ps=paramspace.instance_patterns,
+        )
+
+# -------------------------------------------------------------------
+# Convert FASTA to CSV
+# -------------------------------------------------------------------
+rule fasta_to_csv:
+    input:
+        fasta="dms_library_all_mutations.fasta",
+        script="scripts/fasta_to_csv.py",
+    output:
+        "results/dms_library.csv"
+    shell:
+        """
+        python {input.script} --input {input.fasta} --output {output}
+        """
+
+# -------------------------------------------------------------------
+# Base model log-likelihood computation
+# -------------------------------------------------------------------
+rule calc_ll_esm_base:
+    input:
+        csv="results/dms_library.csv",
+        script="scripts/calc_ll_esm.py",
+    output:
+        f"results/log_likelihoods/{PS_WC}/base/dms_library_LL.csv"
+    shell:
+        """
+        python {input.script} \
+            --max_freq {input.csv} \
+            --segment DMS \
+            --model {wildcards.model} \
+            --output {output}
+        """
+
+# -------------------------------------------------------------------
+# Fine-tuning dataset generation (HA only)
+# -------------------------------------------------------------------
+rule filter_ha_by_date:
+    input:
+        tree=f"{TREE_PATH}/{SEGMENT}.json",
+        fasta=f"input/Fine_Tuning_Datasets/H3N2_Tree/fine_tune_fasta_{SEGMENT}.fasta",
+        script="scripts/filter_by_date.py"
+    output:
+        f"input/Fine_Tuning_Datasets/{DATASET}.fasta"
+    params:
+        cutoff=CUTOFF_DATE
+    shell:
+        """
+        python {input.script} \
+            --tree {input.tree} \
+            --input-fasta {input.fasta} \
+            --output-fasta {output} \
+            --cutoff-date {params.cutoff}
+        """
+
+# -------------------------------------------------------------------
+# Symlink existing fine-tuned model (if available)
+# -------------------------------------------------------------------
+def get_existing_ft_model(wildcards):
+    """Try to find existing fine-tuned model from ESM2_Validation_Pipeline."""
+    # Pattern: next_tree~/epochs~/learning_rate~/model~/time~/lr~/{dataset}/
+    pattern = f"{EXISTING_FT_PATH}/next_tree~*/epochs~{wildcards.epochs}/learning_rate~{wildcards.learning_rate}/model~{wildcards.model}/time~*/lr~{wildcards.learning_rate}/{DATASET}/Fine_Tune_Model.bin"
+    import glob
+    matches = glob.glob(pattern)
+    if matches:
+        return matches[0]
+    # Try simpler pattern without lr subdirectory
+    pattern2 = f"{EXISTING_FT_PATH}/next_tree~*/epochs~{wildcards.epochs}/learning_rate~{wildcards.learning_rate}/model~{wildcards.model}/time~*/{DATASET}/Fine_Tune_Model.bin"
+    matches2 = glob.glob(pattern2)
+    if matches2:
+        return matches2[0]
+    return None
+
+rule link_or_generate_fine_tune_model:
+    input:
+        fasta=f"input/Fine_Tuning_Datasets/{DATASET}.fasta",
+        script="scripts/make_esm_fine_tune_models.py",
+    output:
+        f"results/fine_tune_models/{PS_WC}/{DATASET}/Fine_Tune_Model.bin"
+    run:
+        import os
+        existing = get_existing_ft_model(wildcards)
+        if existing and os.path.exists(existing):
+            # Symlink to existing model
+            os.makedirs(os.path.dirname(output[0]), exist_ok=True)
+            if os.path.exists(output[0]) or os.path.islink(output[0]):
+                os.remove(output[0])
+            os.symlink(os.path.abspath(existing), output[0])
+            print(f"Linked existing model: {existing}")
+        else:
+            # Train new model
+            print(f"Training new model (no existing model found)")
+            shell(f"""
+            python {{input.script}} \
+                --model {{wildcards.model}} \
+                --input {{input.fasta}} \
+                --output {{output}} \
+                --epochs {{wildcards.epochs}} \
+                --learning-rate {{wildcards.learning_rate}} \
+                --segment DMS
+            """)
+
+
+# -------------------------------------------------------------------
+# Fine-tuned model log-likelihood computation
+# -------------------------------------------------------------------
+rule calc_ll_esm_fine_tune:
+    input:
+        csv="results/dms_library.csv",
+        script="scripts/calc_ll_esm.py",
+        model=f"results/fine_tune_models/{PS_WC}/{DATASET}/Fine_Tune_Model.bin"
+    output:
+        f"results/log_likelihoods/{PS_WC}/{DATASET}/dms_library_LL_Fine_Tune.csv"
+    shell:
+        """
+        python {input.script} \
+            --max_freq {input.csv} \
+            --segment DMS \
+            --model {wildcards.model} \
+            --fine_tune_model {input.model} \
+            --epochs {wildcards.epochs} \
+            --output {output}
+        """

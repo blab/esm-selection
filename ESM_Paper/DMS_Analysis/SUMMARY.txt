@@ -1,0 +1,32 @@
+DMS Analysis Pipeline Summary
+==============================
+
+Dataset: H3N2 HA sequences filtered by date ≤ 2009.2643835616439 (April 2009)
+Input: dms_library_all_mutations.fasta (10,755 DMS sequences)
+Models: esm2_t33_650M_UR50D (650M), esm2_t36_3B_UR50D (3B)
+
+Fine-tuning dataset:
+- Segment: HA only (other segments removed)
+- Source: H3N2_Tree/fine_tune_fasta_ha.fasta (485 sequences)
+- After filtering: ~485 sequences with dates ≤ 2009.264
+- Output: H3N2_HA_2009_Cutoff.fasta
+
+Removed files:
+- H3N2_Tree/fine_tune_fasta_pb2.fasta (deleted)
+- H3N2_Tree/fine_tune_fasta_pb1.fasta (deleted)
+- H3N2_Tree/fine_tune_fasta_pa.fasta (deleted)
+- H3N2_Tree/fine_tune_fasta_np.fasta (deleted)
+- H3N2_Tree/fine_tune_fasta_na.fasta (deleted)
+- H3N2_Tree/fine_tune_fasta_mp.fasta (deleted)
+- H3N2_Tree/fine_tune_fasta_ns.fasta (deleted)
+
+Pipeline jobs (9 total):
+1. fasta_to_csv - Convert DMS library to CSV
+2. filter_ha_by_date - Filter HA sequences by date
+3. calc_ll_esm_base (2x) - Base model log-likelihoods for 650M, 3B
+4. link_or_generate_fine_tune_model (2x) - Fine-tune or link models
+5. calc_ll_esm_fine_tune (2x) - Fine-tuned model log-likelihoods
+
+Output:
+- results/log_likelihoods/{model}/base/dms_library_LL.csv
+- results/log_likelihoods/{model}/H3N2_HA_2009_Cutoff/dms_library_LL_Fine_Tune.csv
