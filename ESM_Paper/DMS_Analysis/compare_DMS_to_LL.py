@@ -97,6 +97,12 @@ def _(dms_library, dms_scores, mo, summary_avgprefs):
 
 
 @app.cell
+def _(dms_scores):
+    dms_scores
+    return
+
+
+@app.cell
 def _(mo, scored_library):
     # Display results
     results_summary = scored_library[['node', 'dms_score']].sort_values('dms_score', ascending=False)
@@ -143,6 +149,141 @@ def _(mo, scored_library):
 
     Results saved to: `{output_path}`
     """)
+    return
+
+
+@app.cell
+def _():
+    return
+
+
+@app.cell
+def _():
+    import math
+    return (math,)
+
+
+@app.cell
+def _():
+    return
+
+
+@app.cell
+def _(math, pd):
+
+    # ------------------------------------------------------------------
+    # 1. Input: paths and sequence
+    # ------------------------------------------------------------------
+
+    # Path to your DMS table (edit this)
+    DMS_TABLE_PATH = "dms_table.tsv"   # change to your actual file
+
+    # Hard-coded sequence to score
+    seq = (
+        "MKTIIALSYILCLVFAQKLPGNDNSTATLCLGHHAVPNGTIVKTITNDQIEVTNATELVQ"
+        "SSSTGEICDSPHQILDGKNCTLIDALLGDPQCDDFQNKKWDLFVERSKAYSNCYPYDVPD"
+        "YASLRSLVASSGTLEFNNESFNWTGVTQNGTSSACIRRSKNSFFSRLNWLTHLNFKYPAL"
+        "NVTMPNNEQFDKLYIWGVLHPGTDKDQIFLYAQASGRITVSTKRSQQIVSPNIGSRPRVR"
+        "NIPSRISIYWTIVKPGDILLINSTGNLIAPRGYFKIRSGKSSIMRSDAPIGKCNSECITP"
+        "NGSIPNDKPFQNVNRITYGACPRYVKQNTLKLATGMRNVPEKQTRGIFGAIAGFIENGWE"
+        "GMVDGWYGFRHQNSEGRGQAADLKSTQAAIDQINGKLNRLIGKTNEKFHQIEKEFSEVEG"
+        "RIQDLEKYVEDTKIDLWSYNAELLVALENQHTIDLTDSEMNKLFEKTKKQLRENAEDMGN"
+        "GCFKIYHKCDNACIGSIRNGTYDHDVYRDEALNNRFQIKGVELKSGYKDWILWISFAISC"
+        "FLLCVALLGFIMWACQKGNIRCNICI"
+    ).upper()
+
+    # ------------------------------------------------------------------
+    # 2. Load DMS table and prepare lookup
+    # ------------------------------------------------------------------
+
+    # Detect separator by extension; override if needed
+    if DMS_TABLE_PATH.endswith(".tsv") or DMS_TABLE_PATH.endswith(".tab"):
+        sep = "\t"
+    else:
+        sep = ","  # change to "\t" if your file is tab-separated
+
+    dms_raw = pd.read_csv("/Users/cavendan/Desktop/esm-selection/ESM_Paper/DMS_Analysis/summary_avgprefs.csv")
+
+    # Ignore first two columns, use site_fix as index
+    # Assumes columns like: site, site_fix, A, C, D, E, ...
+    aa_cols_1 = dms_raw.columns[2:]
+    dms_df = dms_raw.set_index("site_fix")[aa_cols_1]
+
+    # ------------------------------------------------------------------
+    # 3. Scoring function
+    # ------------------------------------------------------------------
+
+    def score_sequence(seq: str, dms_df: pd.DataFrame):
+        """
+        Score a single protein sequence using a DMS lookup table.
+
+        Assumes:
+          - dms_df.index = site_fix (1-based integer positions)
+          - dms_df.columns = amino acid letters with scores
+          - seq is a string of amino acids
+        Returns:
+          summary_dict, per_position_df
+        """
+        per_pos = []
+        total = 0.0
+        count_scored = 0
+
+        for pos_1based, aa in enumerate(seq, start=1):
+            score = None
+            status = ""
+
+            if pos_1based not in dms_df.index:
+                status = "position_not_in_table"
+            elif aa not in dms_df.columns:
+                status = "aa_not_in_table"
+            else:
+                val = dms_df.at[pos_1based, aa]
+                if pd.isna(val):
+                    status = "nan_in_table"
+                else:
+                    score = float(val)
+                    status = "ok"
+
+            if score is not None:
+                total += score
+                count_scored += 1
+
+            per_pos.append(
+                {
+                    "position": pos_1based,
+                    "aa": aa,
+                    "score": score,
+                    "status": status,
+                }
+            )
+
+        mean = total / count_scored if count_scored > 0 else math.nan
+
+        summary = {
+            "length": len(seq),
+            "total_score": total,
+            "mean_score": mean,
+            "n_scored_positions": count_scored,
+        }
+
+        return summary, pd.DataFrame(per_pos)
+
+    # ------------------------------------------------------------------
+    # 4. Run scoring and show results
+    # ------------------------------------------------------------------
+
+    summary, per_pos_df = score_sequence(seq, dms_df)
+
+    print("Summary:")
+    for k, v in summary.items():
+        print(f"  {k}: {v}")
+
+    per_pos_df
+    return
+
+
+@app.cell
+def _():
     return
 
 
