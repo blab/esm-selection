@@ -7,9 +7,9 @@ Models: esm2_t33_650M_UR50D (650M), esm2_t36_3B_UR50D (3B)
 
 Fine-tuning dataset:
 - Segment: HA only (other segments removed)
-- Source: H3N2_Tree/fine_tune_fasta_ha.fasta (485 sequences)
-- After filtering: ~485 sequences with dates ≤ 2009.264
-- Output: H3N2_HA_2009_Cutoff.fasta
+- Source: Flu_Snakemake_Pipeline/results/node_fastas/h3n2/nodeSeqs_ha.fasta (3,849 sequences)
+- After filtering (< 2009.264), deduplication, and stop codon removal: 527 unique sequences
+- Output: H3N2_HA_2009_Cutoff.fasta (527 sequences)
 
 Removed files:
 - H3N2_Tree/fine_tune_fasta_pb2.fasta (deleted)

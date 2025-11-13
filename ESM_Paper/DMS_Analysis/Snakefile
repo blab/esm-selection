@@ -2,6 +2,7 @@
 # Simplified version without Nextstrain tree processing
 
 from snakemake.utils import Paramspace
+from snakemake.shell import shell
 from pathlib import Path
 import pandas as pd
 
@@ -19,11 +20,9 @@ DATASET = "H3N2_HA_2009_Cutoff"
 CUTOFF_DATE = 2009.2643835616439
 SEGMENT = "ha"
 
-# Path to existing fine-tuned models (for reuse)
-EXISTING_FT_PATH = "../../ESM2_Validation_Pipeline/results/fine_tune_models"
-
 # Path to trees for date filtering
-TREE_PATH = "../../ESM2_Validation_Pipeline/input/trees/h3n2"
+TREE_PATH = "../../ESM2_Validation_Pipeline/input/trees/h3n2-Small"
+ROOT_SEQ_PATH = "../../Flu_Snakemake_Pipeline/results/root_tree_translated/h3n2"
 
 # -------------------------------------------------------------------
 # Top-level targets
@@ -76,70 +75,46 @@ rule calc_ll_esm_base:
 # -------------------------------------------------------------------
 # Fine-tuning dataset generation (HA only)
 # -------------------------------------------------------------------
-rule filter_ha_by_date:
+# Use existing nodeSeqs file from Flu_Snakemake_Pipeline and filter by time
+rule extract_ha_by_time:
     input:
-        tree=f"{TREE_PATH}/{SEGMENT}.json",
-        fasta=f"input/Fine_Tuning_Datasets/H3N2_Tree/fine_tune_fasta_{SEGMENT}.fasta",
-        script="scripts/filter_by_date.py"
+        tree=f"{TREE_PATH}/ha.json",
+        node_fasta="../../Flu_Snakemake_Pipeline/results/node_fastas/h3n2/nodeSeqs_ha.fasta",
+        script="scripts/extract_fine_tune_fasta.py"
     output:
         f"input/Fine_Tuning_Datasets/{DATASET}.fasta"
     params:
-        cutoff=CUTOFF_DATE
+        cutoff=CUTOFF_DATE,
+        segment=SEGMENT
     shell:
         """
         python {input.script} \
+            --gene {params.segment} \
             --tree {input.tree} \
-            --input-fasta {input.fasta} \
-            --output-fasta {output} \
-            --cutoff-date {params.cutoff}
+            --node-fasta {input.node_fasta} \
+            --max-freq dummy \
+            --time {params.cutoff} \
+            --output {output}
         """
 
 # -------------------------------------------------------------------
-# Symlink existing fine-tuned model (if available)
+# Fine-tune model generation
 # -------------------------------------------------------------------
-def get_existing_ft_model(wildcards):
-    """Try to find existing fine-tuned model from ESM2_Validation_Pipeline."""
-    # Pattern: next_tree~/epochs~/learning_rate~/model~/time~/lr~/{dataset}/
-    pattern = f"{EXISTING_FT_PATH}/next_tree~*/epochs~{wildcards.epochs}/learning_rate~{wildcards.learning_rate}/model~{wildcards.model}/time~*/lr~{wildcards.learning_rate}/{DATASET}/Fine_Tune_Model.bin"
-    import glob
-    matches = glob.glob(pattern)
-    if matches:
-        return matches[0]
-    # Try simpler pattern without lr subdirectory
-    pattern2 = f"{EXISTING_FT_PATH}/next_tree~*/epochs~{wildcards.epochs}/learning_rate~{wildcards.learning_rate}/model~{wildcards.model}/time~*/{DATASET}/Fine_Tune_Model.bin"
-    matches2 = glob.glob(pattern2)
-    if matches2:
-        return matches2[0]
-    return None
-
-rule link_or_generate_fine_tune_model:
+rule generate_fine_tune_model:
     input:
         fasta=f"input/Fine_Tuning_Datasets/{DATASET}.fasta",
         script="scripts/make_esm_fine_tune_models.py",
     output:
         f"results/fine_tune_models/{PS_WC}/{DATASET}/Fine_Tune_Model.bin"
-    run:
-        import os
-        existing = get_existing_ft_model(wildcards)
-        if existing and os.path.exists(existing):
-            # Symlink to existing model
-            os.makedirs(os.path.dirname(output[0]), exist_ok=True)
-            if os.path.exists(output[0]) or os.path.islink(output[0]):
-                os.remove(output[0])
-            os.symlink(os.path.abspath(existing), output[0])
-            print(f"Linked existing model: {existing}")
-        else:
-            # Train new model
-            print(f"Training new model (no existing model found)")
-            shell(f"""
-            python {{input.script}} \
-                --model {{wildcards.model}} \
-                --input {{input.fasta}} \
-                --output {{output}} \
-                --epochs {{wildcards.epochs}} \
-                --learning-rate {{wildcards.learning_rate}} \
-                --segment DMS
-            """)
+    shell:
+        """
+        python {input.script} \
+            --model {wildcards.model} \
+            --input {input.fasta} \
+            --output {output} \
+            --epochs {wildcards.epochs} \
+            --learning-rate {wildcards.learning_rate}
+        """
 
 
 # -------------------------------------------------------------------
