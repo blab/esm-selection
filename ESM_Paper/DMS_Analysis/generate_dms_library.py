@@ -88,7 +88,7 @@ def main():
     parser.add_argument(
         "--input",
         type=Path,
-        default=Path("Dataframes/estimated_sequence.fasta"),
+        default=Path("perth_2009.fasta"),
         help="Input FASTA file with reference sequence"
     )
 

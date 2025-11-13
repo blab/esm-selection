@@ -17,7 +17,7 @@ DMS_Analysis/
 ├── Snakefile                          # Main pipeline definition
 ├── params.csv                          # Model parameters to test
 ├── dms_library_all_mutations.fasta    # Input DMS library (10,755 sequences)
-├── estimated_sequence.fasta            # Wild-type sequence
+├── perth_2009.fasta                   # Wild-type sequence
 ├── summary_avgprefs.csv               # DMS experimental data
 ├── scripts/
 │   ├── calc_ll_esm.py                 # ESM log-likelihood computation
@@ -42,7 +42,7 @@ DMS_Analysis/
 
 **DMS Library:** `dms_library_all_mutations.fasta`
 - 10,755 sequences (1 wild-type + 10,754 single mutants)
-- Generated from estimated_sequence.fasta
+- Generated from perth_2009.fasta
 - Every possible single amino acid mutation (19 per position × 566 positions)
 
 ## Configuration
@@ -152,5 +152,5 @@ Log-likelihood CSV files contain:
 
 To regenerate the DMS library:
 ```bash
-python generate_dms_library.py --input estimated_sequence.fasta --output dms_library_all_mutations.fasta
+python generate_dms_library.py --input perth_2009.fasta --output dms_library_all_mutations.fasta
 ```
