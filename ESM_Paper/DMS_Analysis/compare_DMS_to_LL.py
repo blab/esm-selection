@@ -7,6 +7,8 @@
 #     "matplotlib==3.10.7",
 #     "seaborn==0.13.2",
 #     "scipy==1.16.3",
+#     "tabulate==0.9.0",
+#     "logomaker==0.8.7",
 # ]
 # ///
 
@@ -27,25 +29,16 @@ def _():
 
 
 @app.cell
-def _(mo, pd):
+def _(pd):
     # Load the data files
     dms_library = pd.read_csv("results/dms_library.csv")
     summary_avgprefs = pd.read_csv("summary_avgprefs.csv")
     wolf_epitopes = pd.read_csv("wolf_epitope_sites.csv")
-
-    mo.md(f"""
-    # DMS Score Calculation
-
-    Loaded data:
-    - DMS Library: {len(dms_library)} sequences
-    - Summary Avg Prefs: {len(summary_avgprefs)} positions
-    - Wolf Epitope Sites: {len(wolf_epitopes)} positions
-    """)
     return dms_library, summary_avgprefs, wolf_epitopes
 
 
 @app.cell
-def _(mo, pd, summary_avgprefs, wolf_epitopes):
+def _(pd, summary_avgprefs, wolf_epitopes):
     import glob
     import os
 
@@ -92,20 +85,6 @@ def _(mo, pd, summary_avgprefs, wolf_epitopes):
 
     # Combine all log likelihood dataframes
     combined_ll = pd.concat(ll_dataframes, ignore_index=True)
-
-    mo.md(f"""
-    Created DMS score lookup with {len(dms_scores)} entries for amino acids: {', '.join(amino_acids)}
-
-    **Epitope Sites (using site_fix):**
-    - Total epitope positions: {len(epitope_sites)}
-    - Sample epitope positions: {sorted(list(epitope_sites))[:10]}...
-
-    **Log Likelihood Data Loaded:**
-    - Total files: {len(ll_files)}
-    - Total records: {len(combined_ll)}
-    - Models: {', '.join(combined_ll['model'].unique())}
-    - Conditions: {', '.join(combined_ll['condition'].unique())}
-    """)
     return combined_ll, dms_scores, epitope_sites
 
 
@@ -115,7 +94,6 @@ def _(
     dms_library,
     dms_scores,
     epitope_sites,
-    mo,
     pd,
     summary_avgprefs,
 ):
@@ -149,20 +127,6 @@ def _(
         on='node', 
         how='inner'
     )
-
-    mo.md(f"""
-    ## DMS Scores Calculated & Combined with Log Likelihoods
-
-    **Combined Dataset:**
-    - Total sequences with both DMS and LL data: {len(comparison_df)}
-    - Unique sequences: {comparison_df['node'].nunique()}
-    - Models compared: {', '.join(comparison_df['model'].unique())}
-    - Conditions: {', '.join(comparison_df['condition'].unique())}
-
-    **Score Statistics:**
-    - Total DMS Score Range: {comparison_df['dms_score'].min():.3f} to {comparison_df['dms_score'].max():.3f}
-    - Epitope DMS Score Range: {comparison_df['epitope_dms_score'].min():.3f} to {comparison_df['epitope_dms_score'].max():.3f}
-    """)
     return (comparison_df,)
 
 
@@ -174,7 +138,7 @@ def _(comparison_df):
 
 
 @app.cell
-def _(comparison_df, mo):
+def _(comparison_df):
     # Create pivot table for easier comparison
     pivot_comparison = comparison_df.pivot_table(
         index='node', 
@@ -204,14 +168,6 @@ def _(comparison_df, mo):
         comparison_df[['node', 'dms_score', 'epitope_dms_score']].drop_duplicates(), 
         on='node'
     )
-
-    mo.md(f"""
-    ## Comparison Analysis
-
-    **Pivot Table Created:**
-    - Shape: {final_comparison.shape}
-    - Columns: {list(final_comparison.columns)}
-    """)
     return (final_comparison,)
 
 
@@ -290,7 +246,7 @@ def _(final_comparison, mo, np, plt, sns):
 
 
 @app.cell
-def _(final_comparison, mo, np, plt, sns, wolf_epitopes):
+def _(final_comparison, np, plt, sns, wolf_epitopes):
     import re
 
     # Create 1x4 plot with points colored by mutation epitope status
@@ -307,12 +263,12 @@ def _(final_comparison, mo, np, plt, sns, wolf_epitopes):
             return None  # Wildtype, no mutation
 
         # Extract mutation info from pattern like "Estimated_sequence_from_DMS_M1A"
-        pattern = r'Estimated_sequence_from_DMS_[A-Z](\d+)[A-Z]'
-        match = re.search(pattern, node_name)
-        if match:
-            position = int(match.group(1))
+        mutation_pattern = r'Estimated_sequence_from_DMS_[A-Z](\d+)[A-Z]'
+        mutation_match = re.search(mutation_pattern, node_name)
+        if mutation_match:
+            mutation_position = int(mutation_match.group(1))
             # Convert to site_fix position (add 16 since site starts at -16 with site_fix=1)
-            site_fix_position = position + 16
+            site_fix_position = mutation_position + 16
             return site_fix_position
         return None
 
@@ -353,7 +309,7 @@ def _(final_comparison, mo, np, plt, sns, wolf_epitopes):
 
         if len(wildtype_data) > 0:
             mutation_ax.scatter(wildtype_data[ll_column], wildtype_data['dms_score'], 
-                              alpha=0.8, s=30, color='gray', label='Wildtype', marker='D')
+                              alpha=0.8, s=30, color='gray', label='Perth 2009', marker='D')
 
         # Calculate overall correlation
         mutation_x_data = plot_data[ll_column]
@@ -399,21 +355,7 @@ def _(final_comparison, mo, np, plt, sns, wolf_epitopes):
     plt.suptitle("DMS Score vs Log Likelihood: Mutations by Epitope Status", fontsize=14, weight='bold', y=1.05)
     plt.tight_layout()
     plt.show()
-
-    mo.md(f"""
-    ## DMS vs Log Likelihood: Mutations Colored by Epitope Status
-
-    **Legend:**
-    - **Blue**: Mutations at non-epitope sites
-    - **Red**: Mutations at epitope sites  
-    - **Gray diamonds**: Wildtype sequences (no mutations)
-
-    **Mutation Summary:**
-    - Epitope mutations: {len(mutation_comparison[mutation_comparison['is_epitope_mutation'] & ~mutation_comparison['is_wildtype']])}
-    - Non-epitope mutations: {len(mutation_comparison[~mutation_comparison['is_epitope_mutation'] & ~mutation_comparison['is_wildtype']])}
-    - Wildtype sequences: {len(mutation_comparison[mutation_comparison['is_wildtype']])}
-    """)
-    return (mutation_comparison,)
+    return mutation_comparison, re
 
 
 @app.cell
@@ -490,12 +432,7 @@ def _(mo, mutation_comparison, pd):
     - p-value: {dms_ttest.pvalue:.2e}
     - Significant difference: {'Yes' if dms_ttest.pvalue < 0.05 else 'No'} (α = 0.05)
     """)
-    return (
-        epitope_mutations,
-        non_epitope_mutations,
-        stats_ll_cols,
-        summary_stats,
-    )
+    return stats_ll_cols, summary_stats
 
 
 @app.cell
@@ -507,58 +444,14 @@ def _(mo, summary_stats):
 
 
 @app.cell
-def _(epitope_mutations, mo, non_epitope_mutations, plt, stats_ll_cols):
-    # Create comparison plots for log likelihoods
-    plot_fig, plot_axes = plt.subplots(2, 2, figsize=(12, 8))
-    plot_axes = plot_axes.flatten()
-
-    for plot_i, plot_col in enumerate(stats_ll_cols):
-        plot_ax = plot_axes[plot_i]
-
-        # Create box plots
-        plot_data_to_plot = [
-            non_epitope_mutations[plot_col].dropna(),
-            epitope_mutations[plot_col].dropna()
-        ]
-
-        plot_box_plot = plot_ax.boxplot(plot_data_to_plot, 
-                             labels=['Non-Epitope', 'Epitope'],
-                             patch_artist=True)
-
-        # Color the boxes
-        plot_box_plot['boxes'][0].set_facecolor('lightblue')
-        plot_box_plot['boxes'][1].set_facecolor('lightcoral')
-
-        # Format title
-        plot_title_parts = plot_col.split('_')
-        if len(plot_title_parts) >= 2:
-            if '650M' in plot_title_parts:
-                plot_model_name = "ESM2-650M"
-            elif '3B' in plot_title_parts:
-                plot_model_name = "ESM2-3B"
-            else:
-                plot_model_name = plot_title_parts[0].replace('esm2', 'ESM2')
-
-            plot_condition = plot_title_parts[-1].replace('base', 'Base').replace('tuned', 'Fine Tuned')
-            plot_title = f"{plot_model_name} ({plot_condition})"
-        else:
-            plot_title = plot_col
-
-        plot_ax.set_title(plot_title, fontsize=11, weight='bold')
-        plot_ax.set_ylabel("Log Likelihood", fontsize=10)
-        plot_ax.grid(True, alpha=0.3)
-
-    plt.suptitle("Log Likelihood Distributions: Epitope vs Non-Epitope Mutations", 
-                fontsize=14, weight='bold', y=0.98)
-    plt.tight_layout()
-    plt.show()
-
-    mo.md("## Log Likelihood Distributions by Mutation Location")
+def _(summary_stats):
+    stats_markdown = summary_stats.to_markdown(index=False)
+    print(stats_markdown)
     return
 
 
 @app.cell
-def _(mo, mutation_comparison, pd, stats_ll_cols):
+def _(mutation_comparison, pd, stats_ll_cols):
     # Create dataframe with top 15 highest and lowest scores for each metric
 
     # Initialize list to store all rankings
@@ -604,32 +497,9 @@ def _(mo, mutation_comparison, pd, stats_ll_cols):
         'is_wildtype': 'Is_Wildtype'
     })
 
-    mo.md(f"""
-    ## Top and Bottom 15 Sequences Analysis
-
-    **Dataset Summary:**
-    - Total rankings created: {len(extreme_scores_df)} entries
-    - Metrics analyzed: DMS Score + {len(stats_ll_cols)} Log Likelihood measures  
-    - Each metric shows top 15 and bottom 15 sequences
-
-    **Ranking Categories:**
-    - **DMS_Score_Top_15**: Highest fitness sequences
-    - **DMS_Score_Bottom_15**: Lowest fitness sequences  
-    - **[Model]_Top_15**: Highest log likelihood for each ESM model
-    - **[Model]_Bottom_15**: Lowest log likelihood for each ESM model
-
-    **Key Insights:**
-    """)
-
     # Calculate some quick stats
     top_dms_epitope_count = sum(extreme_scores_df[extreme_scores_df['Rank_Type'] == 'DMS_Score_Top_15']['Is_Epitope_Mutation'])
     bottom_dms_epitope_count = sum(extreme_scores_df[extreme_scores_df['Rank_Type'] == 'DMS_Score_Bottom_15']['Is_Epitope_Mutation'])
-
-    mo.md(f"""
-    - Among top 15 DMS scores: {top_dms_epitope_count}/15 are epitope mutations
-    - Among bottom 15 DMS scores: {bottom_dms_epitope_count}/15 are epitope mutations
-    - Wildtype sequences in dataset: {sum(extreme_scores_df['Is_Wildtype'])} total
-    """)
     return (extreme_scores_df,)
 
 
@@ -638,11 +508,25 @@ def _(extreme_scores_df, mo):
     # Display the complete extreme scores dataframe
     mo.md("### Complete Top/Bottom 15 Rankings:")
     extreme_scores_df
+
+    extreme_scores_df.iloc[:, 2] = extreme_scores_df.iloc[:, 2].str.replace("Estimated_sequence_from_", "", regex=False)
     return
 
 
 @app.cell
-def _(extreme_scores_df, mo):
+def _(extreme_scores_df):
+    extreme_scores_df
+    return
+
+
+@app.cell
+def _(extreme_scores_df):
+    print(extreme_scores_df[extreme_scores_df.iloc[:,0]=="DMS_Score_Top_15"].iloc[:,:3].to_markdown(index=False))
+    return
+
+
+@app.cell
+def _(extreme_scores_df):
     # Create summary analysis of epitope representation in extremes
 
     # Group by rank type and calculate epitope percentages
@@ -658,13 +542,456 @@ def _(extreme_scores_df, mo):
     # Reset index to make Rank_Type a column
     epitope_summary = epitope_summary.reset_index()
 
-    mo.md("""
-    ### Epitope Mutation Representation in Top/Bottom Rankings
+    epitope_summary
+    return
 
-    This table shows how many epitope vs non-epitope mutations appear in each ranking category:
+
+@app.cell
+def _(extreme_scores_df, mo, pd, re):
+    import logomaker
+
+    # Extract top 15 DMS scoring mutations for logomaker plot
+    top_15_dms = extreme_scores_df[extreme_scores_df['Rank_Type'] == 'DMS_Score_Top_15'].copy()
+
+    # Function to parse mutation information from sequence name
+    def parse_top_mutation_details(sequence_name):
+        # Extract mutation info from pattern like "DMS_M1A"
+        top_pattern = r'DMS_([A-Z])(\d+)([A-Z])'
+        top_match = re.search(top_pattern, sequence_name)
+        if top_match:
+            top_original_aa = top_match.group(1)
+            top_mutation_position = int(top_match.group(2))
+            top_mutant_aa = top_match.group(3)
+            return top_mutation_position, top_original_aa, top_mutant_aa
+        return None, None, None
+
+    # Extract mutation details
+    logo_mutations_list = []
+    for _, top_mutation_row in top_15_dms.iterrows():
+        top_mutation_pos, top_orig_aa, top_new_aa = parse_top_mutation_details(top_mutation_row['Sequence_Name'])
+        if top_mutation_pos is not None:
+            logo_mutations_list.append({
+                'position': top_mutation_pos,
+                'original_aa': top_orig_aa,
+                'mutant_aa': top_new_aa,
+                'dms_score': top_mutation_row['DMS_Score'],
+                'rank': top_mutation_row['Rank']
+            })
+
+    logo_mutations_df = pd.DataFrame(logo_mutations_list)
+
+    mo.md(f"""
+    ## Top 15 DMS Mutations for Logo Plot
+
+    Found {len(logo_mutations_df)} mutations:
+    - Position range: {logo_mutations_df['position'].min()} to {logo_mutations_df['position'].max()}
+    - Score range: {logo_mutations_df['dms_score'].min():.3f} to {logo_mutations_df['dms_score'].max():.3f}
     """)
 
-    epitope_summary
+    logo_mutations_df
+    return logo_mutations_df, logomaker
+
+
+@app.cell
+def _(logo_mutations_df, logomaker, pd, plt):
+    # Create position weight matrix for logomaker
+
+    # Get all amino acids for logo
+    logo_amino_acids = ['A', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'K', 'L', 'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'V', 'W', 'Y']
+
+    # Get unique positions and sort them
+    logo_positions = sorted(logo_mutations_df['position'].unique())
+
+    # Create the position weight matrix
+    # Initialize with small pseudo-counts to avoid log(0) issues
+    pwm_data_list = []
+
+    for logo_pos in logo_positions:
+        # Get mutations at this position
+        pos_mutations = logo_mutations_df[logo_mutations_df['position'] == logo_pos]
+
+        # Initialize row with zeros (no pseudocounts to make letters more visible)
+        logo_row = {logo_aa: 0.0 for logo_aa in logo_amino_acids}
+
+        # Add weights for observed mutations
+        for _, logo_mut in pos_mutations.iterrows():
+            # Use DMS score directly as weight, scaled by inverse rank
+            top_mutation_weight = logo_mut['dms_score'] * (16 - logo_mut['rank']) 
+            logo_row[logo_mut['mutant_aa']] += top_mutation_weight
+
+        # Only normalize if we have non-zero values
+        logo_total = sum(logo_row.values())
+        if logo_total > 0:
+            # Add small pseudocount only to observed amino acids to avoid division by zero
+            for logo_aa in logo_amino_acids:
+                if logo_row[logo_aa] > 0:
+                    logo_row[logo_aa] = logo_row[logo_aa] / logo_total
+                else:
+                    logo_row[logo_aa] = 0.0
+
+        logo_row['position'] = logo_pos
+        pwm_data_list.append(logo_row)
+
+    # Convert to DataFrame
+    logo_pwm_df = pd.DataFrame(pwm_data_list)
+    logo_pwm_df = logo_pwm_df.set_index('position')
+
+    # Create the logo plot
+    logo_fig, logo_ax = plt.subplots(1, 1, figsize=(12, 4))
+
+    # Generate logo
+    sequence_logo = logomaker.Logo(logo_pwm_df, ax=logo_ax, color_scheme='chemistry')
+
+    # Customize the plot
+    logo_ax.set_xlabel('Position', fontsize=12)
+    logo_ax.set_ylabel('Amino Acid Counts', fontsize=12) 
+    logo_ax.set_title('Sequence Logo: Top 15 DMS Scoring Mutations', fontsize=14, weight='bold')
+
+    # Set x-axis limits to show full range from 112 to 277
+    logo_ax.set_xlim(111.5, 277.5)
+
+    # Add position labels only for positions with mutations
+    logo_ax.set_xticks(logo_positions)
+    logo_ax.set_xticklabels([f'{pos}' for pos in logo_positions])
+
+    plt.tight_layout()
+    plt.show()
+    return (logo_pwm_df,)
+
+
+@app.cell
+def _(logo_mutations_df, logo_pwm_df):
+    # Display the detailed mutation information and PWM
+    print("Top 15 Mutations Details:")
+    print(logo_mutations_df.to_string(index=False))
+    print("\nPosition Weight Matrix:")
+    logo_pwm_df.round(3)
+    return
+
+
+@app.cell
+def _(extreme_scores_df, mo, pd, re):
+    # Extract bottom 15 DMS scoring mutations for logomaker plot
+    bottom_15_dms = extreme_scores_df[extreme_scores_df['Rank_Type'] == 'DMS_Score_Bottom_15'].copy()
+
+    # Function to parse mutation information from sequence name
+    def parse_bottom_mutation_details(sequence_name):
+        # Extract mutation info from pattern like "DMS_M1A"
+        bottom_pattern = r'DMS_([A-Z])(\d+)([A-Z])'
+        bottom_match = re.search(bottom_pattern, sequence_name)
+        if bottom_match:
+            bottom_original_aa = bottom_match.group(1)
+            bottom_mutation_position = int(bottom_match.group(2))
+            bottom_mutant_aa = bottom_match.group(3)
+            return bottom_mutation_position, bottom_original_aa, bottom_mutant_aa
+        return None, None, None
+
+    # Extract mutation details
+    bottom_logo_mutations_list = []
+    for _, bottom_mutation_row in bottom_15_dms.iterrows():
+        bottom_mutation_pos, bottom_orig_aa, bottom_new_aa = parse_bottom_mutation_details(bottom_mutation_row['Sequence_Name'])
+        if bottom_mutation_pos is not None:
+            bottom_logo_mutations_list.append({
+                'position': bottom_mutation_pos,
+                'original_aa': bottom_orig_aa,
+                'mutant_aa': bottom_new_aa,
+                'dms_score': bottom_mutation_row['DMS_Score'],
+                'rank': bottom_mutation_row['Rank']
+            })
+
+    bottom_logo_mutations_df = pd.DataFrame(bottom_logo_mutations_list)
+
+    mo.md(f"""
+    ## Bottom 15 DMS Mutations for Logo Plot
+
+    Found {len(bottom_logo_mutations_df)} mutations:
+    - Position range: {bottom_logo_mutations_df['position'].min()} to {bottom_logo_mutations_df['position'].max()}
+    - Score range: {bottom_logo_mutations_df['dms_score'].min():.3f} to {bottom_logo_mutations_df['dms_score'].max():.3f}
+    """)
+
+    bottom_logo_mutations_df
+    return (bottom_logo_mutations_df,)
+
+
+@app.cell
+def _(bottom_logo_mutations_df, logomaker, pd, plt):
+    # Create position weight matrix for bottom 15 mutations logomaker
+
+    # Get all amino acids for logo
+    bottom_logo_amino_acids = ['A', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'K', 'L', 'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'V', 'W', 'Y']
+
+    # Get unique positions and sort them
+    bottom_logo_positions = sorted(bottom_logo_mutations_df['position'].unique())
+
+    # Create the position weight matrix
+    bottom_pwm_data_list = []
+
+    for bottom_logo_pos in bottom_logo_positions:
+        # Get mutations at this position
+        bottom_pos_mutations = bottom_logo_mutations_df[bottom_logo_mutations_df['position'] == bottom_logo_pos]
+
+        # Initialize row with zeros
+        bottom_logo_row = {bottom_logo_aa: 0.0 for bottom_logo_aa in bottom_logo_amino_acids}
+
+        # Add weights for observed mutations
+        for _, bottom_logo_mut in bottom_pos_mutations.iterrows():
+            # Use absolute DMS score (since they're negative) scaled by inverse rank
+            bottom_mutation_weight = abs(bottom_logo_mut['dms_score']) * (16 - bottom_logo_mut['rank']) 
+            bottom_logo_row[bottom_logo_mut['mutant_aa']] += bottom_mutation_weight
+
+        # Only normalize if we have non-zero values
+        bottom_logo_total = sum(bottom_logo_row.values())
+        if bottom_logo_total > 0:
+            # Add small pseudocount only to observed amino acids to avoid division by zero
+            for bottom_logo_aa in bottom_logo_amino_acids:
+                if bottom_logo_row[bottom_logo_aa] > 0:
+                    bottom_logo_row[bottom_logo_aa] = bottom_logo_row[bottom_logo_aa] / bottom_logo_total
+                else:
+                    bottom_logo_row[bottom_logo_aa] = 0.0
+
+        bottom_logo_row['position'] = bottom_logo_pos
+        bottom_pwm_data_list.append(bottom_logo_row)
+
+    # Convert to DataFrame
+    bottom_logo_pwm_df = pd.DataFrame(bottom_pwm_data_list)
+    bottom_logo_pwm_df = bottom_logo_pwm_df.set_index('position')
+
+    # Create the logo plot
+    bottom_logo_fig, bottom_logo_ax = plt.subplots(1, 1, figsize=(12, 4))
+
+    # Generate logo
+    bottom_sequence_logo = logomaker.Logo(bottom_logo_pwm_df, ax=bottom_logo_ax, color_scheme='chemistry')
+
+    # Customize the plot
+    bottom_logo_ax.set_xlabel('Position', fontsize=12)
+    bottom_logo_ax.set_ylabel('Amino Acid Counts', fontsize=12) 
+    bottom_logo_ax.set_title('Sequence Logo: Bottom 15 DMS Scoring Mutations', fontsize=14, weight='bold')
+
+    # Set x-axis limits to show full range from 533 to 277
+    bottom_logo_ax.set_xlim(532, 534)
+
+    # Add position labels only for positions with mutations
+    bottom_logo_ax.set_xticks(bottom_logo_positions)
+    bottom_logo_ax.set_xticklabels([f'{pos}' for pos in bottom_logo_positions])
+
+    plt.tight_layout()
+    plt.show()
+    return
+
+
+@app.cell
+def _(extreme_scores_df):
+    # Check the column names to see the exact format
+    print("Column names in extreme_scores_df:")
+    print(list(extreme_scores_df.columns))
+    print("\nUnique Rank_Type values:")
+    print(extreme_scores_df['Rank_Type'].unique())
+    return
+
+
+@app.cell
+def _(extreme_scores_df, pd, re):
+    # Extract top 15 ESM2-650M base model scoring mutations for logomaker plot
+    esm_650m_top_15 = extreme_scores_df[extreme_scores_df['Rank_Type'] == 'model~esm2_t33_650M_UR50D_base_Top_15'].copy()
+
+    # Function to parse mutation information from sequence name
+    def parse_esm_mutation_details(sequence_name):
+        # Extract mutation info from pattern like "DMS_M1A"
+        esm_pattern = r'DMS_([A-Z])(\d+)([A-Z])'
+        esm_match = re.search(esm_pattern, sequence_name)
+        if esm_match:
+            esm_original_aa = esm_match.group(1)
+            esm_mutation_position = int(esm_match.group(2))
+            esm_mutant_aa = esm_match.group(3)
+            return esm_mutation_position, esm_original_aa, esm_mutant_aa
+        return None, None, None
+
+    # Extract mutation details for top 15
+    esm_top_mutations_list = []
+    for _, esm_mutation_row in esm_650m_top_15.iterrows():
+        esm_mutation_pos, esm_orig_aa, esm_new_aa = parse_esm_mutation_details(esm_mutation_row['Sequence_Name'])
+        if esm_mutation_pos is not None:
+            esm_top_mutations_list.append({
+                'position': esm_mutation_pos,
+                'original_aa': esm_orig_aa,
+                'mutant_aa': esm_new_aa,
+                'esm_score': esm_mutation_row['model~esm2_t33_650M_UR50D_base'],
+                'rank': esm_mutation_row['Rank']
+            })
+
+    esm_top_mutations_df = pd.DataFrame(esm_top_mutations_list)
+
+    # Extract bottom 15 ESM2-650M base model scoring mutations
+    esm_650m_bottom_15 = extreme_scores_df[extreme_scores_df['Rank_Type'] == 'model~esm2_t33_650M_UR50D_base_Bottom_15'].copy()
+
+    # Extract mutation details for bottom 15
+    esm_bottom_mutations_list = []
+    for _, esm_bottom_mutation_row in esm_650m_bottom_15.iterrows():
+        esm_bottom_mutation_pos, esm_bottom_orig_aa, esm_bottom_new_aa = parse_esm_mutation_details(esm_bottom_mutation_row['Sequence_Name'])
+        if esm_bottom_mutation_pos is not None:
+            esm_bottom_mutations_list.append({
+                'position': esm_bottom_mutation_pos,
+                'original_aa': esm_bottom_orig_aa,
+                'mutant_aa': esm_bottom_new_aa,
+                'esm_score': esm_bottom_mutation_row['model~esm2_t33_650M_UR50D_base'],
+                'rank': esm_bottom_mutation_row['Rank']
+            })
+
+    esm_bottom_mutations_df = pd.DataFrame(esm_bottom_mutations_list)
+
+    print(f"ESM2-650M Top 15 mutations: {len(esm_top_mutations_df)}")
+    print(f"ESM2-650M Bottom 15 mutations: {len(esm_bottom_mutations_df)}")
+    return (
+        esm_650m_bottom_15,
+        esm_650m_top_15,
+        esm_bottom_mutations_df,
+        esm_top_mutations_df,
+    )
+
+
+@app.cell
+def _(esm_top_mutations_df, logomaker, pd, plt):
+    # Create position weight matrix for ESM2-650M top 15 mutations logomaker
+
+    # Get all amino acids for logo
+    esm_top_amino_acids = ['A', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'K', 'L', 'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'V', 'W', 'Y']
+
+    # Get unique positions and sort them
+    esm_top_positions = sorted(esm_top_mutations_df['position'].unique())
+
+    # Create the position weight matrix
+    esm_top_pwm_data_list = []
+
+    for esm_top_pos in esm_top_positions:
+        # Get mutations at this position
+        esm_top_pos_mutations = esm_top_mutations_df[esm_top_mutations_df['position'] == esm_top_pos]
+
+        # Initialize row with zeros
+        esm_top_row = {esm_top_aa: 0.0 for esm_top_aa in esm_top_amino_acids}
+
+        # Add weights for observed mutations
+        for _, esm_top_mut in esm_top_pos_mutations.iterrows():
+            # Use inverse rank as weight (rank 1 gets weight 15, rank 15 gets weight 1)
+            # This gives higher weights to better-ranked mutations
+            esm_top_weight = 16 - esm_top_mut['rank']
+            esm_top_row[esm_top_mut['mutant_aa']] += esm_top_weight
+
+        # Only normalize if we have non-zero values
+        esm_top_total = sum(esm_top_row.values())
+        if esm_top_total > 0:
+            for esm_top_aa in esm_top_amino_acids:
+                if esm_top_row[esm_top_aa] > 0:
+                    esm_top_row[esm_top_aa] = esm_top_row[esm_top_aa] / esm_top_total
+                else:
+                    esm_top_row[esm_top_aa] = 0.0
+
+        esm_top_row['position'] = esm_top_pos
+        esm_top_pwm_data_list.append(esm_top_row)
+
+    # Convert to DataFrame
+    esm_top_pwm_df = pd.DataFrame(esm_top_pwm_data_list)
+    esm_top_pwm_df = esm_top_pwm_df.set_index('position')
+
+    # Create the logo plot
+    esm_top_fig, esm_top_ax = plt.subplots(1, 1, figsize=(12, 4))
+
+    # Generate logo
+    esm_top_sequence_logo = logomaker.Logo(esm_top_pwm_df, ax=esm_top_ax, color_scheme='chemistry')
+
+    # Customize the plot
+    esm_top_ax.set_xlabel('Position', fontsize=12)
+    esm_top_ax.set_ylabel('Amino Acid Counts', fontsize=12) 
+    esm_top_ax.set_title('Sequence Logo: Top 15 ESM2-650M Base Model Scoring Mutations', fontsize=14, weight='bold')
+
+    # Set x-axis limits based on data range
+    if len(esm_top_positions) > 0:
+        esm_top_ax.set_xlim(min(esm_top_positions) - 0.5, max(esm_top_positions) + 0.5)
+
+    # Add position labels only for positions with mutations
+    esm_top_ax.set_xticks(esm_top_positions)
+    esm_top_ax.set_xticklabels([f'{pos}' for pos in esm_top_positions])
+
+    plt.tight_layout()
+    plt.show()
+    return
+
+
+@app.cell
+def _(esm_650m_top_15):
+    esm_650m_top_15
+    return
+
+
+@app.cell
+def _(esm_bottom_mutations_df, logomaker, pd, plt):
+    # Create position weight matrix for ESM2-650M bottom 15 mutations logomaker
+
+    # Get all amino acids for logo
+    esm_bottom_amino_acids = ['A', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'K', 'L', 'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'V', 'W', 'Y']
+
+    # Get unique positions and sort them
+    esm_bottom_positions = sorted(esm_bottom_mutations_df['position'].unique())
+
+    # Create the position weight matrix
+    esm_bottom_pwm_data_list = []
+
+    for esm_bottom_pos in esm_bottom_positions:
+        # Get mutations at this position
+        esm_bottom_pos_mutations = esm_bottom_mutations_df[esm_bottom_mutations_df['position'] == esm_bottom_pos]
+
+        # Initialize row with zeros
+        esm_bottom_row = {esm_bottom_aa: 0.0 for esm_bottom_aa in esm_bottom_amino_acids}
+
+        # Add weights for observed mutations
+        for _, esm_bottom_mut in esm_bottom_pos_mutations.iterrows():
+            # Use inverse rank as weight (rank 1 gets weight 15, rank 15 gets weight 1)
+            # This gives higher weights to mutations ranked worse (more negative scores)
+            esm_bottom_weight = 16 - esm_bottom_mut['rank']
+            esm_bottom_row[esm_bottom_mut['mutant_aa']] += esm_bottom_weight
+
+        # Only normalize if we have non-zero values
+        esm_bottom_total = sum(esm_bottom_row.values())
+        if esm_bottom_total > 0:
+            for esm_bottom_aa in esm_bottom_amino_acids:
+                if esm_bottom_row[esm_bottom_aa] > 0:
+                    esm_bottom_row[esm_bottom_aa] = esm_bottom_row[esm_bottom_aa] / esm_bottom_total
+                else:
+                    esm_bottom_row[esm_bottom_aa] = 0.0
+
+        esm_bottom_row['position'] = esm_bottom_pos
+        esm_bottom_pwm_data_list.append(esm_bottom_row)
+
+    # Convert to DataFrame
+    esm_bottom_pwm_df = pd.DataFrame(esm_bottom_pwm_data_list)
+    esm_bottom_pwm_df = esm_bottom_pwm_df.set_index('position')
+
+    # Create the logo plot
+    esm_bottom_fig, esm_bottom_ax = plt.subplots(1, 1, figsize=(12, 4))
+
+    # Generate logo
+    esm_bottom_sequence_logo = logomaker.Logo(esm_bottom_pwm_df, ax=esm_bottom_ax, color_scheme='chemistry')
+
+    # Customize the plot
+    esm_bottom_ax.set_xlabel('Position', fontsize=12)
+    esm_bottom_ax.set_ylabel('Amino Acid Counts', fontsize=12) 
+    esm_bottom_ax.set_title('Sequence Logo: Bottom 15 ESM2-650M Base Model Scoring Mutations', fontsize=14, weight='bold')
+
+    # Set x-axis limits based on data range
+    if len(esm_bottom_positions) > 0:
+        esm_bottom_ax.set_xlim(min(esm_bottom_positions) - 0.5, max(esm_bottom_positions) + 0.5)
+
+    # Add position labels only for positions with mutations
+    esm_bottom_ax.set_xticks(esm_bottom_positions)
+    esm_bottom_ax.set_xticklabels([f'{pos}' for pos in esm_bottom_positions])
+
+    plt.tight_layout()
+    plt.show()
+    return
+
+
+@app.cell
+def _(esm_650m_bottom_15):
+    esm_650m_bottom_15
     return
 
 

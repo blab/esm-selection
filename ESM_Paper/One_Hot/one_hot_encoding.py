@@ -45,7 +45,6 @@ def _():
         OneHotEncoder,
         PCA,
         json,
-        mo,
         np,
         pd,
         pearsonr,
@@ -84,7 +83,7 @@ def _(OneHotEncoder, np):
         arr = encoder.transform(chars)
 
         return arr.astype(np.uint8)
-    return AA_ORDER, VOCAB_SIZE, one_hot_encode_sklearn
+    return (one_hot_encode_sklearn,)
 
 
 @app.cell
@@ -113,24 +112,13 @@ def _(df):
 
 
 @app.cell
-def _(AA_ORDER, VOCAB_SIZE, df_filtered, mo, one_hot_encode_sklearn):
+def _(df_filtered, one_hot_encode_sklearn):
     # Apply the sklearn-based one-hot encoding to filtered sequences
     encoded_sequences = df_filtered["sequence"].apply(one_hot_encode_sklearn).tolist()
 
     # Create a copy with encoded sequences added
     df_with_encoding = df_filtered.copy()
     df_with_encoding["one_hot"] = encoded_sequences
-
-    mo.md(
-        f"""
-        ## Encoding Results
-
-        - **Total sequences encoded**: {len(encoded_sequences)}
-        - **Amino acid alphabet**: {AA_ORDER}
-        - **Vocabulary size**: {VOCAB_SIZE}
-        - **Encoding shape per sequence**: (sequence_length, {VOCAB_SIZE})
-        """
-    )
     return df_with_encoding, encoded_sequences
 
 
@@ -141,16 +129,7 @@ def _(df_with_encoding):
 
 
 @app.cell
-def _(encoded_sequences, mo, np):
-    mo.md(
-        r"""
-        ## Creating ML-Ready Tensor
-
-        Converting the variable-length one-hot encoded sequences into a fixed-size tensor
-        suitable for machine learning models:
-        """
-    )
-
+def _(encoded_sequences, np):
     # Create padded tensor for ML models
     max_length = max(seq.shape[0] for seq in encoded_sequences)
     vocab_size = encoded_sequences[0].shape[1]
@@ -163,40 +142,13 @@ def _(encoded_sequences, mo, np):
     for i, seq in enumerate(encoded_sequences):
         seq_len = seq.shape[0]
         padded_tensor[i, :seq_len, :] = seq
-
-    mo.md(
-        f"""
-        **Padded tensor created:**
-        - Shape: {padded_tensor.shape}
-        - Data type: {padded_tensor.dtype}
-        - Memory usage: {padded_tensor.nbytes / (1024**2):.1f} MB
-        """
-    )
     return (padded_tensor,)
 
 
 @app.cell
-def _(df_with_encoding, mo, padded_tensor):
-    mo.md(
-        r"""
-        ## Dataset Summary
-
-        Final processed dataset ready for machine learning:
-        """
-    )
-
+def _(df_with_encoding):
     # Create summary statistics
     unique_sequences = df_with_encoding["sequence"].nunique()
-
-    mo.md(
-        f"""
-        - **Original sequences in CSV**: {len(df_with_encoding)}
-        - **Unique sequences**: {unique_sequences}
-        - **One-hot tensor shape**: {padded_tensor.shape}
-        - **Features per position**: {padded_tensor.shape[2]} (20 amino acids)
-        - **Total features**: {padded_tensor.shape[1] * padded_tensor.shape[2]}
-        """
-    )
 
     # Display first few sequences info
     df_summary = df_with_encoding[
@@ -398,7 +350,7 @@ def _(PCA, X_test, X_train, np):
     n_components_99 = np.argmax(cumsum_var >= 0.99) + 1
 
     # Apply PCA with 95% variance retention
-    pca = PCA(n_components=n_components_99, random_state=42)
+    pca = PCA(n_components=n_components_95, random_state=42)
     X_train_pca = pca.fit_transform(X_train)
     X_test_pca = pca.transform(X_test)
 
@@ -429,7 +381,6 @@ def _(LinearRegression, X_train_pca, y_train):
 def _(
     X_test_pca,
     X_train_pca,
-    mo,
     model_pca,
     pearsonr,
     plt,
@@ -493,26 +444,6 @@ def _(
 
     plt.tight_layout()
     plt.show()
-
-    mo.md(
-        f"""
-        ## PCA Model Visualization
-
-        The scatter plots show PCA model predictions vs actual maximum frequency values:
-
-        **PCA Training Set (pre-2000):**
-        - R² = {train_r2_pca:.3f}
-        - Pearson correlation = {train_pearson_pca:.3f}
-        - Spearman correlation = {train_spearman_pca:.3f}
-
-        **PCA Test Set (2000+):**
-        - R² = {test_r2_pca:.3f}
-        - Pearson correlation = {test_pearson_pca:.3f}
-        - Spearman correlation = {test_spearman_pca:.3f}
-
-        Points close to the dashed line indicate accurate predictions.
-        """
-    )
     return
 
 
