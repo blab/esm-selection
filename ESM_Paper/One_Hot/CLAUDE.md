@@ -1,0 +1,1 @@
+- do not redefine variables in new cells in marimo notebooks
