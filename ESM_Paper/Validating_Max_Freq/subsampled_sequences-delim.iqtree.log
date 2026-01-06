@@ -1,0 +1,3135 @@
+IQ-TREE version 3.0.1 for MacOS ARM 64-bit built Jun 30 2025
+Developed by Bui Quang Minh, Thomas Wong, Nhan Ly-Trong, Huaiyan Ren
+Contributed by Lam-Tung Nguyen, Dominik Schrempf, Chris Bielow,
+Olga Chernomor, Michael Woodhams, Diep Thi Hoang, Heiko Schmidt
+
+Host:    HWQP7YCJ41 (SSE4.2, 48 GB RAM)
+Command: iqtree3 --threads-max 1 -s subsampled_sequences-delim.fasta -m GTR --ninit 2 -n 2 --epsilon 0.05 -T AUTO --redo
+Seed:    308649 (Using SPRNG - Scalable Parallel Random Number Generator)
+Time:    Tue Dec 16 15:21:05 2025
+Kernel:  SSE2 - auto-detect threads (12 CPU cores detected)
+
+Reading alignment file subsampled_sequences-delim.fasta ... Fasta format detected
+Reading fasta file: done in 0.035151 secs using 89.46% CPU
+Alignment most likely contains DNA/RNA sequences
+Constructing alignment: done in 0.0188358 secs using 86.66% CPU
+Alignment has 2958 sequences with 1701 columns, 1518 distinct patterns
+1222 parsimony-informative, 295 singleton sites, 184 constant sites
+                 Gap/Ambiguity  Composition  p-value
+Analyzing sequences: done in 0.000936985 secs using 735.1% CPU
+   1  sample_2000_1      0.00%    passed     95.38%
+   2  sample_2000_4      0.00%    passed     98.18%
+   3  sample_2000_8      0.00%    passed     99.15%
+   4  sample_2000_10     0.00%    passed     98.30%
+   5  sample_2000_11     0.00%    passed     98.76%
+   6  sample_2000_14     0.00%    passed     98.54%
+   7  sample_2000_23     0.00%    passed     98.29%
+   8  sample_2000_44     0.00%    passed     99.51%
+   9  sample_2000_49     0.00%    passed     99.50%
+  10  sample_2000_74     0.00%    passed     99.89%
+  11  sample_2000_82     0.00%    passed     99.02%
+  12  sample_2000_90     0.00%    passed     98.10%
+  13  sample_2000_96     0.00%    passed     98.87%
+  14  sample_2000_100    0.00%    passed     97.80%
+  15  sample_2004_8      0.00%    passed     98.67%
+  16  sample_2004_24     0.00%    passed     99.67%
+  17  sample_2004_47     0.00%    passed     98.51%
+  18  sample_2004_50     0.00%    passed     99.33%
+  19  sample_2004_62     0.00%    passed     99.20%
+  20  sample_2004_65     0.00%    passed     98.91%
+  21  sample_2004_74     0.00%    passed     98.95%
+  22  sample_2004_82     0.00%    passed     97.36%
+  23  sample_2008_6      0.00%    passed     98.28%
+  24  sample_2008_11     0.00%    passed     99.71%
+  25  sample_2008_16     0.00%    passed     97.36%
+  26  sample_2008_28     0.00%    passed     97.19%
+  27  sample_2008_47     0.00%    passed     98.09%
+  28  sample_2008_48     0.00%    passed     99.11%
+  29  sample_2008_70     0.00%    passed     98.99%
+  30  sample_2008_76     0.00%    passed     98.73%
+  31  sample_2008_80     0.00%    passed     98.52%
+  32  sample_2012_1      0.00%    passed     99.20%
+  33  sample_2012_3      0.00%    passed     99.32%
+  34  sample_2012_33     0.00%    passed     98.30%
+  35  sample_2012_35     0.00%    passed     98.22%
+  36  sample_2012_45     0.00%    passed     99.70%
+  37  sample_2012_51     0.00%    passed     96.14%
+  38  sample_2012_76     0.00%    passed     99.16%
+  39  sample_2012_77     0.00%    passed     98.25%
+  40  sample_2012_90     0.00%    passed     98.93%
+  41  sample_2016_4      0.00%    passed     97.12%
+  42  sample_2016_24     0.00%    passed     99.10%
+  43  sample_2016_38     0.00%    passed     97.12%
+  44  sample_2016_39     0.00%    passed     99.76%
+  45  sample_2016_41     0.00%    passed     99.60%
+  46  sample_2016_43     0.00%    passed     99.08%
+  47  sample_2016_48     0.00%    passed     98.30%
+  48  sample_2016_56     0.00%    passed     94.14%
+  49  sample_2016_75     0.00%    passed     98.00%
+  50  sample_2020_2      0.00%    passed     99.02%
+  51  sample_2020_19     0.00%    passed     97.86%
+  52  sample_2020_22     0.00%    passed     97.59%
+  53  sample_2020_25     0.00%    passed     98.11%
+  54  sample_2020_45     0.00%    passed     98.96%
+  55  sample_2020_59     0.00%    passed     99.25%
+  56  sample_2020_72     0.00%    passed     99.65%
+  57  sample_2020_81     0.00%    passed     99.15%
+  58  sample_2020_91     0.00%    passed     98.70%
+  59  sample_2020_95     0.00%    passed     98.18%
+  60  sample_2024_7      0.00%    passed     96.60%
+  61  sample_2024_8      0.00%    passed     95.80%
+  62  sample_2024_13     0.00%    passed     99.17%
+  63  sample_2024_15     0.00%    passed     99.35%
+  64  sample_2024_22     0.00%    passed     97.53%
+  65  sample_2024_24     0.00%    passed     99.01%
+  66  sample_2024_47     0.00%    passed     97.06%
+  67  sample_2024_71     0.00%    passed     99.51%
+  68  sample_2024_85     0.00%    passed     98.65%
+  69  sample_2024_86     0.00%    passed     98.93%
+  70  sample_2024_87     0.00%    passed     98.50%
+  71  sample_2024_89     0.00%    passed     99.80%
+  72  sample_2028_3      0.00%    passed     99.75%
+  73  sample_2028_7      0.00%    passed     99.55%
+  74  sample_2028_8      0.00%    passed     98.95%
+  75  sample_2028_20     0.00%    passed     97.06%
+  76  sample_2028_30     0.00%    passed     99.43%
+  77  sample_2028_36     0.00%    passed     96.86%
+  78  sample_2028_46     0.00%    passed     98.95%
+  79  sample_2028_56     0.00%    passed     99.74%
+  80  sample_2028_58     0.00%    passed     98.35%
+  81  sample_2028_61     0.00%    passed     99.35%
+  82  sample_2028_68     0.00%    passed     99.10%
+  83  sample_2028_79     0.00%    passed     99.15%
+  84  sample_2028_92     0.00%    passed     99.68%
+  85  sample_2028_98     0.00%    passed     98.96%
+  86  sample_2028_100    0.00%    passed     99.13%
+  87  sample_2032_1      0.00%    passed     97.69%
+  88  sample_2032_4      0.00%    passed     99.87%
+  89  sample_2032_8      0.00%    passed     99.44%
+  90  sample_2032_10     0.00%    passed     98.42%
+  91  sample_2032_35     0.00%    passed     98.28%
+  92  sample_2032_44     0.00%    passed     95.20%
+  93  sample_2032_45     0.00%    passed     96.99%
+  94  sample_2032_50     0.00%    passed     98.64%
+  95  sample_2032_68     0.00%    passed     99.51%
+  96  sample_2032_76     0.00%    passed     99.15%
+  97  sample_2032_82     0.00%    passed     99.94%
+  98  sample_2032_92     0.00%    passed     98.05%
+  99  sample_2036_14     0.00%    passed     99.47%
+ 100  sample_2036_20     0.00%    passed     99.14%
+ 101  sample_2036_30     0.00%    passed     99.82%
+ 102  sample_2036_51     0.00%    passed     87.97%
+ 103  sample_2036_57     0.00%    passed     99.76%
+ 104  sample_2036_60     0.00%    passed     99.90%
+ 105  sample_2036_61     0.00%    passed     99.76%
+ 106  sample_2036_65     0.00%    passed     99.97%
+ 107  sample_2036_70     0.00%    passed     99.72%
+ 108  sample_2036_84     0.00%    passed     99.50%
+ 109  sample_2036_91     0.00%    passed     99.26%
+ 110  sample_2040_7      0.00%    passed     98.80%
+ 111  sample_2040_12     0.00%    passed     88.90%
+ 112  sample_2040_27     0.00%    passed     97.50%
+ 113  sample_2040_38     0.00%    passed     98.87%
+ 114  sample_2040_61     0.00%    passed     98.98%
+ 115  sample_2040_63     0.00%    passed     98.86%
+ 116  sample_2040_72     0.00%    passed     98.93%
+ 117  sample_2044_1      0.00%    passed     98.58%
+ 118  sample_2044_7      0.00%    passed     97.78%
+ 119  sample_2044_31     0.00%    passed     97.76%
+ 120  sample_2044_35     0.00%    passed     98.49%
+ 121  sample_2044_36     0.00%    passed     99.57%
+ 122  sample_2044_58     0.00%    passed     96.29%
+ 123  sample_2044_63     0.00%    passed     96.14%
+ 124  sample_2044_68     0.00%    passed     94.49%
+ 125  sample_2044_70     0.00%    passed     97.49%
+ 126  sample_2044_79     0.00%    passed     92.81%
+ 127  sample_2044_81     0.00%    passed     99.25%
+ 128  sample_2044_82     0.00%    passed     95.58%
+ 129  sample_2044_96     0.00%    passed     98.78%
+ 130  sample_2048_4      0.00%    passed     99.33%
+ 131  sample_2048_9      0.00%    passed     98.50%
+ 132  sample_2048_27     0.00%    passed     99.88%
+ 133  sample_2048_31     0.00%    passed     99.07%
+ 134  sample_2048_37     0.00%    passed     99.41%
+ 135  sample_2048_45     0.00%    passed     99.87%
+ 136  sample_2048_61     0.00%    passed     99.19%
+ 137  sample_2048_62     0.00%    passed     99.97%
+ 138  sample_2048_67     0.00%    passed     99.44%
+ 139  sample_2048_68     0.00%    passed     97.86%
+ 140  sample_2048_73     0.00%    passed     98.97%
+ 141  sample_2048_82     0.00%    passed     99.50%
+ 142  sample_2048_84     0.00%    passed     98.18%
+ 143  sample_2048_90     0.00%    passed     96.66%
+ 144  sample_2048_91     0.00%    passed     98.80%
+ 145  sample_2048_93     0.00%    passed     99.72%
+ 146  sample_2048_94     0.00%    passed     99.75%
+ 147  sample_2048_95     0.00%    passed     99.64%
+ 148  sample_2052_8      0.00%    passed     97.87%
+ 149  sample_2052_10     0.00%    passed     99.28%
+ 150  sample_2052_21     0.00%    passed     99.25%
+ 151  sample_2052_36     0.00%    passed     98.93%
+ 152  sample_2052_45     0.00%    passed     98.37%
+ 153  sample_2052_58     0.00%    passed     87.97%
+ 154  sample_2052_81     0.00%    passed     99.67%
+ 155  sample_2052_85     0.00%    passed     98.37%
+ 156  sample_2052_90     0.00%    passed     97.50%
+ 157  sample_2056_23     0.00%    passed     98.11%
+ 158  sample_2056_27     0.00%    passed     98.31%
+ 159  sample_2056_34     0.00%    passed     99.35%
+ 160  sample_2056_42     0.00%    passed     96.71%
+ 161  sample_2056_46     0.00%    passed     96.97%
+ 162  sample_2056_50     0.00%    passed     97.87%
+ 163  sample_2056_52     0.00%    passed     99.98%
+ 164  sample_2056_56     0.00%    passed     97.38%
+ 165  sample_2056_67     0.00%    passed     98.57%
+ 166  sample_2056_77     0.00%    passed     97.49%
+ 167  sample_2056_81     0.00%    passed     97.28%
+ 168  sample_2056_96     0.00%    passed     96.31%
+ 169  sample_2056_98     0.00%    passed     99.51%
+ 170  sample_2060_11     0.00%    passed     97.78%
+ 171  sample_2060_15     0.00%    passed     99.68%
+ 172  sample_2060_20     0.00%    passed     99.82%
+ 173  sample_2060_25     0.00%    passed     92.17%
+ 174  sample_2060_31     0.00%    passed     99.22%
+ 175  sample_2060_42     0.00%    passed     98.11%
+ 176  sample_2060_47     0.00%    passed     98.88%
+ 177  sample_2060_52     0.00%    passed     96.55%
+ 178  sample_2060_54     0.00%    passed     99.47%
+ 179  sample_2060_55     0.00%    passed     98.45%
+ 180  sample_2060_60     0.00%    passed     97.96%
+ 181  sample_2060_64     0.00%    passed     98.37%
+ 182  sample_2060_66     0.00%    passed     99.43%
+ 183  sample_2060_75     0.00%    passed     97.77%
+ 184  sample_2060_86     0.00%    passed     96.51%
+ 185  sample_2060_88     0.00%    passed     97.69%
+ 186  sample_2060_95     0.00%    passed     98.78%
+ 187  sample_2064_10     0.00%    passed     97.77%
+ 188  sample_2064_15     0.00%    passed     96.74%
+ 189  sample_2064_27     0.00%    passed     99.01%
+ 190  sample_2064_30     0.00%    passed     99.34%
+ 191  sample_2064_51     0.00%    passed     95.00%
+ 192  sample_2064_54     0.00%    passed     98.86%
+ 193  sample_2064_61     0.00%    passed     98.27%
+ 194  sample_2064_69     0.00%    passed     95.38%
+ 195  sample_2064_82     0.00%    passed     99.34%
+ 196  sample_2064_92     0.00%    passed     97.73%
+ 197  sample_2068_15     0.00%    passed     97.32%
+ 198  sample_2068_16     0.00%    passed     95.28%
+ 199  sample_2068_21     0.00%    passed     99.84%
+ 200  sample_2068_28     0.00%    passed     98.95%
+ 201  sample_2068_49     0.00%    passed     98.34%
+ 202  sample_2068_50     0.00%    passed     98.38%
+ 203  sample_2068_52     0.00%    passed     98.10%
+ 204  sample_2068_53     0.00%    passed     99.55%
+ 205  sample_2068_64     0.00%    passed     98.09%
+ 206  sample_2068_70     0.00%    passed     99.41%
+ 207  sample_2068_90     0.00%    passed     98.47%
+ 208  sample_2068_92     0.00%    passed     97.96%
+ 209  sample_2072_4      0.00%    passed     97.69%
+ 210  sample_2072_20     0.00%    passed     99.65%
+ 211  sample_2072_25     0.00%    passed     99.07%
+ 212  sample_2072_46     0.00%    passed     98.87%
+ 213  sample_2072_52     0.00%    passed     99.67%
+ 214  sample_2072_59     0.00%    passed     99.07%
+ 215  sample_2072_60     0.00%    passed     98.53%
+ 216  sample_2072_68     0.00%    passed     98.84%
+ 217  sample_2072_78     0.00%    passed     99.70%
+ 218  sample_2072_89     0.00%    passed     99.64%
+ 219  sample_2076_4      0.00%    passed     99.39%
+ 220  sample_2076_5      0.00%    passed     95.75%
+ 221  sample_2076_10     0.00%    passed     98.27%
+ 222  sample_2076_17     0.00%    passed     99.33%
+ 223  sample_2076_23     0.00%    passed     99.66%
+ 224  sample_2076_24     0.00%    passed     99.30%
+ 225  sample_2076_26     0.00%    passed     95.95%
+ 226  sample_2076_34     0.00%    passed     99.65%
+ 227  sample_2076_67     0.00%    passed     98.44%
+ 228  sample_2076_87     0.00%    passed     97.28%
+ 229  sample_2080_12     0.00%    passed     99.71%
+ 230  sample_2080_14     0.00%    passed     98.17%
+ 231  sample_2080_19     0.00%    passed     97.41%
+ 232  sample_2080_20     0.00%    passed     98.86%
+ 233  sample_2080_22     0.00%    passed     98.94%
+ 234  sample_2080_29     0.00%    passed     99.70%
+ 235  sample_2080_31     0.00%    passed     98.93%
+ 236  sample_2080_34     0.00%    passed     98.38%
+ 237  sample_2080_38     0.00%    passed     98.42%
+ 238  sample_2080_42     0.00%    passed     99.13%
+ 239  sample_2080_52     0.00%    passed     98.96%
+ 240  sample_2080_58     0.00%    passed     97.43%
+ 241  sample_2080_67     0.00%    passed     99.80%
+ 242  sample_2080_74     0.00%    passed     99.65%
+ 243  sample_2080_83     0.00%    passed     98.41%
+ 244  sample_2080_87     0.00%    passed     99.67%
+ 245  sample_2080_90     0.00%    passed     99.50%
+ 246  sample_2084_1      0.00%    passed     96.39%
+ 247  sample_2084_9      0.00%    passed     99.43%
+ 248  sample_2084_25     0.00%    passed     99.50%
+ 249  sample_2084_49     0.00%    passed     99.60%
+ 250  sample_2084_51     0.00%    passed     99.84%
+ 251  sample_2084_52     0.00%    passed     98.52%
+ 252  sample_2084_59     0.00%    passed     97.45%
+ 253  sample_2084_64     0.00%    passed     99.91%
+ 254  sample_2084_72     0.00%    passed     99.80%
+ 255  sample_2084_80     0.00%    passed     99.67%
+ 256  sample_2084_85     0.00%    passed     98.41%
+ 257  sample_2084_88     0.00%    passed     99.33%
+ 258  sample_2084_94     0.00%    passed     99.12%
+ 259  sample_2088_2      0.00%    passed     99.07%
+ 260  sample_2088_11     0.00%    passed     99.41%
+ 261  sample_2088_14     0.00%    passed     99.93%
+ 262  sample_2088_16     0.00%    passed     99.33%
+ 263  sample_2088_30     0.00%    passed     97.97%
+ 264  sample_2088_31     0.00%    passed     99.55%
+ 265  sample_2088_45     0.00%    passed     99.89%
+ 266  sample_2088_55     0.00%    passed     99.66%
+ 267  sample_2088_61     0.00%    passed     99.19%
+ 268  sample_2088_89     0.00%    passed     97.71%
+ 269  sample_2088_92     0.00%    passed     99.95%
+ 270  sample_2088_94     0.00%    passed     98.45%
+ 271  sample_2092_8      0.00%    passed     99.67%
+ 272  sample_2092_15     0.00%    passed     99.87%
+ 273  sample_2092_17     0.00%    passed     99.39%
+ 274  sample_2092_18     0.00%    passed     97.68%
+ 275  sample_2092_38     0.00%    passed     99.47%
+ 276  sample_2092_40     0.00%    passed     99.59%
+ 277  sample_2092_47     0.00%    passed     98.91%
+ 278  sample_2092_51     0.00%    passed     96.72%
+ 279  sample_2092_54     0.00%    passed     99.89%
+ 280  sample_2092_71     0.00%    passed     98.66%
+ 281  sample_2092_76     0.00%    passed     99.84%
+ 282  sample_2092_81     0.00%    passed     99.00%
+ 283  sample_2092_89     0.00%    passed     95.82%
+ 284  sample_2092_91     0.00%    passed     96.57%
+ 285  sample_2096_15     0.00%    passed     99.07%
+ 286  sample_2096_18     0.00%    passed     98.49%
+ 287  sample_2096_35     0.00%    passed     95.92%
+ 288  sample_2096_38     0.00%    passed     99.45%
+ 289  sample_2096_49     0.00%    passed     99.19%
+ 290  sample_2096_84     0.00%    passed     98.41%
+ 291  sample_2096_85     0.00%    passed     99.87%
+ 292  sample_2096_88     0.00%    passed     99.38%
+ 293  sample_2096_92     0.00%    passed     99.51%
+ 294  sample_2096_97     0.00%    passed     99.66%
+ 295  sample_2100_7      0.00%    passed     99.94%
+ 296  sample_2100_11     0.00%    passed     97.54%
+ 297  sample_2100_18     0.00%    passed     96.18%
+ 298  sample_2100_37     0.00%    passed     99.50%
+ 299  sample_2100_59     0.00%    passed     99.54%
+ 300  sample_2100_71     0.00%    passed     99.17%
+ 301  sample_2100_88     0.00%    passed     98.17%
+ 302  sample_2100_92     0.00%    passed     99.61%
+ 303  sample_2104_30     0.00%    passed     99.75%
+ 304  sample_2104_38     0.00%    passed     97.15%
+ 305  sample_2104_54     0.00%    passed     98.81%
+ 306  sample_2104_69     0.00%    passed     97.50%
+ 307  sample_2104_72     0.00%    passed     99.59%
+ 308  sample_2104_80     0.00%    passed     99.75%
+ 309  sample_2104_95     0.00%    passed     98.31%
+ 310  sample_2108_5      0.00%    passed     99.99%
+ 311  sample_2108_11     0.00%    passed     99.87%
+ 312  sample_2108_17     0.00%    passed     99.82%
+ 313  sample_2108_27     0.00%    passed     98.42%
+ 314  sample_2108_32     0.00%    passed     99.35%
+ 315  sample_2108_33     0.00%    passed     98.97%
+ 316  sample_2108_40     0.00%    passed     99.75%
+ 317  sample_2108_43     0.00%    passed     99.07%
+ 318  sample_2108_48     0.00%    passed     99.67%
+ 319  sample_2108_52     0.00%    passed     99.19%
+ 320  sample_2108_66     0.00%    passed     99.44%
+ 321  sample_2108_74     0.00%    passed     99.89%
+ 322  sample_2108_77     0.00%    passed     99.67%
+ 323  sample_2112_8      0.00%    passed     99.50%
+ 324  sample_2112_9      0.00%    passed     99.90%
+ 325  sample_2112_29     0.00%    passed     99.93%
+ 326  sample_2112_42     0.00%    passed     99.93%
+ 327  sample_2112_49     0.00%    passed     92.98%
+ 328  sample_2112_54     0.00%    passed     94.18%
+ 329  sample_2112_67     0.00%    passed     99.15%
+ 330  sample_2112_74     0.00%    passed     99.39%
+ 331  sample_2112_77     0.00%    passed     97.07%
+ 332  sample_2112_94     0.00%    passed     99.39%
+ 333  sample_2116_6      0.00%    passed     98.18%
+ 334  sample_2116_10     0.00%    passed     96.14%
+ 335  sample_2116_11     0.00%    passed     98.97%
+ 336  sample_2116_18     0.00%    passed     97.72%
+ 337  sample_2116_28     0.00%    passed     98.88%
+ 338  sample_2116_29     0.00%    passed     97.71%
+ 339  sample_2116_63     0.00%    passed     99.30%
+ 340  sample_2116_70     0.00%    passed     99.15%
+ 341  sample_2116_74     0.00%    passed     98.27%
+ 342  sample_2116_77     0.00%    passed     97.44%
+ 343  sample_2116_88     0.00%    passed     97.06%
+ 344  sample_2120_12     0.00%    passed     99.51%
+ 345  sample_2120_22     0.00%    passed     99.92%
+ 346  sample_2120_32     0.00%    passed     97.92%
+ 347  sample_2120_40     0.00%    passed     99.84%
+ 348  sample_2120_41     0.00%    passed     99.04%
+ 349  sample_2120_46     0.00%    passed     94.14%
+ 350  sample_2120_57     0.00%    passed     99.79%
+ 351  sample_2120_66     0.00%    passed     99.87%
+ 352  sample_2120_72     0.00%    passed     99.67%
+ 353  sample_2120_75     0.00%    passed     99.89%
+ 354  sample_2120_81     0.00%    passed     98.17%
+ 355  sample_2120_86     0.00%    passed     99.65%
+ 356  sample_2120_92     0.00%    passed     99.84%
+ 357  sample_2120_97     0.00%    passed     99.50%
+ 358  sample_2124_17     0.00%    passed     98.27%
+ 359  sample_2124_24     0.00%    passed     96.14%
+ 360  sample_2124_42     0.00%    passed     95.07%
+ 361  sample_2124_45     0.00%    passed     98.33%
+ 362  sample_2124_58     0.00%    passed     97.19%
+ 363  sample_2124_65     0.00%    passed     95.51%
+ 364  sample_2124_69     0.00%    passed     97.92%
+ 365  sample_2124_84     0.00%    passed     99.78%
+ 366  sample_2124_89     0.00%    passed     99.19%
+ 367  sample_2124_94     0.00%    passed     98.32%
+ 368  sample_2128_25     0.00%    passed     99.87%
+ 369  sample_2128_33     0.00%    passed     99.15%
+ 370  sample_2128_43     0.00%    passed     98.52%
+ 371  sample_2128_56     0.00%    passed     94.57%
+ 372  sample_2128_64     0.00%    passed     99.87%
+ 373  sample_2128_66     0.00%    passed     99.52%
+ 374  sample_2128_71     0.00%    passed     99.40%
+ 375  sample_2128_75     0.00%    passed     99.43%
+ 376  sample_2128_84     0.00%    passed     96.60%
+ 377  sample_2128_86     0.00%    passed     99.07%
+ 378  sample_2128_89     0.00%    passed     99.86%
+ 379  sample_2128_95     0.00%    passed     99.39%
+ 380  sample_2132_9      0.00%    passed     97.49%
+ 381  sample_2132_10     0.00%    passed     97.25%
+ 382  sample_2132_19     0.00%    passed     99.19%
+ 383  sample_2132_20     0.00%    passed     98.27%
+ 384  sample_2132_22     0.00%    passed     99.70%
+ 385  sample_2132_36     0.00%    passed     97.69%
+ 386  sample_2132_42     0.00%    passed     94.97%
+ 387  sample_2132_55     0.00%    passed     99.01%
+ 388  sample_2132_57     0.00%    passed     99.72%
+ 389  sample_2132_64     0.00%    passed     99.94%
+ 390  sample_2132_72     0.00%    passed     98.71%
+ 391  sample_2132_73     0.00%    passed     93.29%
+ 392  sample_2132_81     0.00%    passed     99.82%
+ 393  sample_2136_2      0.00%    passed     99.47%
+ 394  sample_2136_6      0.00%    passed     98.27%
+ 395  sample_2136_7      0.00%    passed     99.88%
+ 396  sample_2136_8      0.00%    passed     97.07%
+ 397  sample_2136_9      0.00%    passed     97.19%
+ 398  sample_2136_35     0.00%    passed     93.86%
+ 399  sample_2136_85     0.00%    passed     99.40%
+ 400  sample_2136_93     0.00%    passed     99.70%
+ 401  sample_2136_94     0.00%    passed     99.89%
+ 402  sample_2136_96     0.00%    passed     98.65%
+ 403  sample_2140_3      0.00%    passed     99.00%
+ 404  sample_2140_9      0.00%    passed     98.86%
+ 405  sample_2140_14     0.00%    passed     98.75%
+ 406  sample_2140_15     0.00%    passed     99.40%
+ 407  sample_2140_33     0.00%    passed     99.07%
+ 408  sample_2140_39     0.00%    passed     99.43%
+ 409  sample_2140_42     0.00%    passed     99.50%
+ 410  sample_2140_50     0.00%    passed     99.44%
+ 411  sample_2140_62     0.00%    passed     95.45%
+ 412  sample_2140_68     0.00%    passed     98.98%
+ 413  sample_2140_79     0.00%    passed     96.75%
+ 414  sample_2140_81     0.00%    passed     99.41%
+ 415  sample_2140_83     0.00%    passed     99.69%
+ 416  sample_2144_3      0.00%    passed     99.50%
+ 417  sample_2144_12     0.00%    passed     99.43%
+ 418  sample_2144_15     0.00%    passed     99.65%
+ 419  sample_2144_16     0.00%    passed     96.41%
+ 420  sample_2144_17     0.00%    passed     99.55%
+ 421  sample_2144_25     0.00%    passed     99.24%
+ 422  sample_2144_29     0.00%    passed     99.59%
+ 423  sample_2144_36     0.00%    passed     96.47%
+ 424  sample_2144_40     0.00%    passed     98.98%
+ 425  sample_2144_49     0.00%    passed     96.62%
+ 426  sample_2144_52     0.00%    passed     99.37%
+ 427  sample_2144_53     0.00%    passed     99.87%
+ 428  sample_2144_62     0.00%    passed     98.85%
+ 429  sample_2144_69     0.00%    passed     99.21%
+ 430  sample_2144_80     0.00%    passed     96.31%
+ 431  sample_2144_88     0.00%    passed     99.63%
+ 432  sample_2144_89     0.00%    passed     99.89%
+ 433  sample_2148_1      0.00%    passed     95.07%
+ 434  sample_2148_4      0.00%    passed     99.02%
+ 435  sample_2148_16     0.00%    passed     98.54%
+ 436  sample_2148_25     0.00%    passed     94.99%
+ 437  sample_2148_36     0.00%    passed     99.50%
+ 438  sample_2148_38     0.00%    passed     99.81%
+ 439  sample_2148_41     0.00%    passed     99.19%
+ 440  sample_2148_55     0.00%    passed     99.71%
+ 441  sample_2148_63     0.00%    passed     92.66%
+ 442  sample_2152_1      0.00%    passed     94.90%
+ 443  sample_2152_9      0.00%    passed     99.67%
+ 444  sample_2152_46     0.00%    passed     97.19%
+ 445  sample_2152_49     0.00%    passed     99.15%
+ 446  sample_2152_59     0.00%    passed     99.94%
+ 447  sample_2152_64     0.00%    passed     99.39%
+ 448  sample_2152_67     0.00%    passed     98.71%
+ 449  sample_2152_68     0.00%    passed     98.33%
+ 450  sample_2152_71     0.00%    passed     99.65%
+ 451  sample_2152_74     0.00%    passed     99.76%
+ 452  sample_2152_83     0.00%    passed     99.60%
+ 453  sample_2152_85     0.00%    passed     99.59%
+ 454  sample_2152_86     0.00%    passed     99.15%
+ 455  sample_2152_88     0.00%    passed     98.52%
+ 456  sample_2152_100    0.00%    passed     94.19%
+ 457  sample_2156_1      0.00%    passed     99.18%
+ 458  sample_2156_19     0.00%    passed     99.05%
+ 459  sample_2156_23     0.00%    passed     99.26%
+ 460  sample_2156_25     0.00%    passed     99.39%
+ 461  sample_2156_31     0.00%    passed     99.80%
+ 462  sample_2156_49     0.00%    passed     99.55%
+ 463  sample_2156_61     0.00%    passed     97.61%
+ 464  sample_2156_64     0.00%    passed     99.70%
+ 465  sample_2156_66     0.00%    passed     99.20%
+ 466  sample_2156_70     0.00%    passed     97.78%
+ 467  sample_2156_85     0.00%    passed     99.97%
+ 468  sample_2156_88     0.00%    passed     99.78%
+ 469  sample_2156_97     0.00%    passed     98.71%
+ 470  sample_2160_7      0.00%    passed     98.27%
+ 471  sample_2160_25     0.00%    passed     98.57%
+ 472  sample_2160_30     0.00%    passed     95.94%
+ 473  sample_2160_51     0.00%    passed     94.64%
+ 474  sample_2160_73     0.00%    passed     98.54%
+ 475  sample_2160_91     0.00%    passed     99.65%
+ 476  sample_2160_94     0.00%    passed     92.52%
+ 477  sample_2160_100    0.00%    passed     97.53%
+ 478  sample_2164_28     0.00%    passed     96.62%
+ 479  sample_2164_37     0.00%    passed     99.66%
+ 480  sample_2164_38     0.00%    passed     99.44%
+ 481  sample_2164_49     0.00%    passed     99.54%
+ 482  sample_2164_57     0.00%    passed     98.98%
+ 483  sample_2164_59     0.00%    passed     99.01%
+ 484  sample_2164_60     0.00%    passed     99.97%
+ 485  sample_2164_62     0.00%    passed     99.72%
+ 486  sample_2164_70     0.00%    passed     98.82%
+ 487  sample_2164_71     0.00%    passed     97.30%
+ 488  sample_2164_82     0.00%    passed     99.90%
+ 489  sample_2164_87     0.00%    passed     99.98%
+ 490  sample_2164_99     0.00%    passed     99.63%
+ 491  sample_2168_4      0.00%    passed     99.57%
+ 492  sample_2168_5      0.00%    passed     99.07%
+ 493  sample_2168_8      0.00%    passed     99.22%
+ 494  sample_2168_35     0.00%    passed     99.35%
+ 495  sample_2168_43     0.00%    passed     97.27%
+ 496  sample_2168_50     0.00%    passed     98.88%
+ 497  sample_2168_84     0.00%    passed     95.90%
+ 498  sample_2168_85     0.00%    passed     97.32%
+ 499  sample_2172_7      0.00%    passed     99.02%
+ 500  sample_2172_8      0.00%    passed     99.97%
+ 501  sample_2172_19     0.00%    passed     96.90%
+ 502  sample_2172_22     0.00%    passed     99.14%
+ 503  sample_2172_25     0.00%    passed    100.00%
+ 504  sample_2172_34     0.00%    passed     96.14%
+ 505  sample_2172_40     0.00%    passed     99.57%
+ 506  sample_2172_51     0.00%    passed     98.81%
+ 507  sample_2172_54     0.00%    passed     98.85%
+ 508  sample_2172_56     0.00%    passed     99.90%
+ 509  sample_2172_76     0.00%    passed     99.97%
+ 510  sample_2172_78     0.00%    passed     99.33%
+ 511  sample_2172_79     0.00%    passed     99.65%
+ 512  sample_2172_92     0.00%    passed     97.35%
+ 513  sample_2176_1      0.00%    passed     99.87%
+ 514  sample_2176_3      0.00%    passed     98.27%
+ 515  sample_2176_34     0.00%    passed     98.03%
+ 516  sample_2176_53     0.00%    passed     98.48%
+ 517  sample_2176_60     0.00%    passed     96.63%
+ 518  sample_2176_61     0.00%    passed     98.71%
+ 519  sample_2176_71     0.00%    passed     99.88%
+ 520  sample_2176_82     0.00%    passed     96.20%
+ 521  sample_2176_83     0.00%    passed     99.40%
+ 522  sample_2176_85     0.00%    passed     99.88%
+ 523  sample_2176_89     0.00%    passed     98.67%
+ 524  sample_2176_92     0.00%    passed     99.10%
+ 525  sample_2176_98     0.00%    passed    100.00%
+ 526  sample_2176_100    0.00%    passed     99.97%
+ 527  sample_2180_22     0.00%    passed     99.35%
+ 528  sample_2180_47     0.00%    passed     98.86%
+ 529  sample_2180_50     0.00%    passed     99.02%
+ 530  sample_2180_55     0.00%    passed     95.90%
+ 531  sample_2180_59     0.00%    passed     99.68%
+ 532  sample_2180_60     0.00%    passed     98.61%
+ 533  sample_2180_64     0.00%    passed     99.78%
+ 534  sample_2180_74     0.00%    passed     99.60%
+ 535  sample_2180_80     0.00%    passed     97.07%
+ 536  sample_2180_87     0.00%    passed     94.58%
+ 537  sample_2180_88     0.00%    passed     99.86%
+ 538  sample_2180_90     0.00%    passed     98.98%
+ 539  sample_2180_97     0.00%    passed     99.58%
+ 540  sample_2184_13     0.00%    passed     99.44%
+ 541  sample_2184_14     0.00%    passed     99.14%
+ 542  sample_2184_15     0.00%    passed     97.67%
+ 543  sample_2184_22     0.00%    passed     95.79%
+ 544  sample_2184_23     0.00%    passed     99.12%
+ 545  sample_2184_41     0.00%    passed     99.43%
+ 546  sample_2184_45     0.00%    passed     99.53%
+ 547  sample_2184_50     0.00%    passed     98.84%
+ 548  sample_2184_57     0.00%    passed     93.26%
+ 549  sample_2184_70     0.00%    passed     99.55%
+ 550  sample_2184_71     0.00%    passed     99.67%
+ 551  sample_2184_82     0.00%    passed     99.40%
+ 552  sample_2184_84     0.00%    passed     99.28%
+ 553  sample_2184_86     0.00%    passed     99.51%
+ 554  sample_2188_6      0.00%    passed     98.78%
+ 555  sample_2188_13     0.00%    passed     98.71%
+ 556  sample_2188_33     0.00%    passed     98.65%
+ 557  sample_2188_47     0.00%    passed     97.72%
+ 558  sample_2188_48     0.00%    passed     99.19%
+ 559  sample_2188_56     0.00%    passed     99.00%
+ 560  sample_2188_75     0.00%    passed     99.34%
+ 561  sample_2188_77     0.00%    passed     99.67%
+ 562  sample_2188_83     0.00%    passed     99.55%
+ 563  sample_2188_88     0.00%    passed     98.78%
+ 564  sample_2192_4      0.00%    passed     99.33%
+ 565  sample_2192_11     0.00%    passed     99.20%
+ 566  sample_2192_14     0.00%    passed     97.72%
+ 567  sample_2192_19     0.00%    passed     99.86%
+ 568  sample_2192_23     0.00%    passed     98.94%
+ 569  sample_2192_31     0.00%    passed     99.89%
+ 570  sample_2192_71     0.00%    passed     97.98%
+ 571  sample_2192_82     0.00%    passed     99.85%
+ 572  sample_2192_90     0.00%    passed     99.80%
+ 573  sample_2192_92     0.00%    passed     99.65%
+ 574  sample_2192_100    0.00%    passed     99.67%
+ 575  sample_2196_7      0.00%    passed     99.19%
+ 576  sample_2196_11     0.00%    passed     99.67%
+ 577  sample_2196_15     0.00%    passed     99.60%
+ 578  sample_2196_18     0.00%    passed     99.70%
+ 579  sample_2196_24     0.00%    passed     99.33%
+ 580  sample_2196_28     0.00%    passed     99.04%
+ 581  sample_2196_36     0.00%    passed     99.87%
+ 582  sample_2196_52     0.00%    passed     99.26%
+ 583  sample_2196_59     0.00%    passed     98.10%
+ 584  sample_2196_60     0.00%    passed     99.55%
+ 585  sample_2196_69     0.00%    passed     99.72%
+ 586  sample_2196_76     0.00%    passed     97.60%
+ 587  sample_2196_80     0.00%    passed     99.28%
+ 588  sample_2196_98     0.00%    passed     99.72%
+ 589  sample_2200_1      0.00%    passed     99.38%
+ 590  sample_2200_4      0.00%    passed     99.78%
+ 591  sample_2200_22     0.00%    passed     99.86%
+ 592  sample_2200_31     0.00%    passed     99.89%
+ 593  sample_2200_47     0.00%    passed     99.72%
+ 594  sample_2200_60     0.00%    passed     99.59%
+ 595  sample_2200_61     0.00%    passed     99.70%
+ 596  sample_2200_70     0.00%    passed     99.98%
+ 597  sample_2200_83     0.00%    passed     98.71%
+ 598  sample_2200_93     0.00%    passed     99.62%
+ 599  sample_2200_98     0.00%    passed     99.65%
+ 600  sample_2204_36     0.00%    passed     99.88%
+ 601  sample_2204_49     0.00%    passed     98.65%
+ 602  sample_2204_54     0.00%    passed     99.78%
+ 603  sample_2204_61     0.00%    passed     97.49%
+ 604  sample_2204_64     0.00%    passed     99.07%
+ 605  sample_2204_65     0.00%    passed     99.89%
+ 606  sample_2204_85     0.00%    passed     94.71%
+ 607  sample_2204_91     0.00%    passed     99.91%
+ 608  sample_2204_92     0.00%    passed     99.91%
+ 609  sample_2204_98     0.00%    passed     99.21%
+ 610  sample_2204_100    0.00%    passed     97.09%
+ 611  sample_2208_7      0.00%    passed     97.12%
+ 612  sample_2208_18     0.00%    passed     98.36%
+ 613  sample_2208_25     0.00%    passed     99.38%
+ 614  sample_2208_51     0.00%    passed     99.89%
+ 615  sample_2208_73     0.00%    passed     98.53%
+ 616  sample_2208_87     0.00%    passed     97.39%
+ 617  sample_2208_88     0.00%    passed     98.71%
+ 618  sample_2208_93     0.00%    passed     99.32%
+ 619  sample_2208_94     0.00%    passed     99.88%
+ 620  sample_2208_98     0.00%    passed     98.27%
+ 621  sample_2208_99     0.00%    passed     98.49%
+ 622  sample_2212_5      0.00%    passed     99.55%
+ 623  sample_2212_16     0.00%    passed     99.87%
+ 624  sample_2212_34     0.00%    passed     99.87%
+ 625  sample_2212_45     0.00%    passed     99.71%
+ 626  sample_2212_69     0.00%    passed     93.69%
+ 627  sample_2212_75     0.00%    passed     99.82%
+ 628  sample_2212_81     0.00%    passed     98.67%
+ 629  sample_2212_99     0.00%    passed     99.93%
+ 630  sample_2216_1      0.00%    passed     99.89%
+ 631  sample_2216_4      0.00%    passed     99.72%
+ 632  sample_2216_51     0.00%    passed     99.87%
+ 633  sample_2216_77     0.00%    passed     99.28%
+ 634  sample_2216_81     0.00%    passed     99.30%
+ 635  sample_2216_88     0.00%    passed     99.52%
+ 636  sample_2216_91     0.00%    passed     99.89%
+ 637  sample_2216_99     0.00%    passed     97.80%
+ 638  sample_2220_8      0.00%    passed     99.35%
+ 639  sample_2220_11     0.00%    passed     99.33%
+ 640  sample_2220_20     0.00%    passed     99.98%
+ 641  sample_2220_31     0.00%    passed     98.94%
+ 642  sample_2220_40     0.00%    passed     99.92%
+ 643  sample_2220_65     0.00%    passed     97.25%
+ 644  sample_2220_69     0.00%    passed     99.89%
+ 645  sample_2220_85     0.00%    passed     99.90%
+ 646  sample_2220_96     0.00%    passed     99.79%
+ 647  sample_2220_98     0.00%    passed     99.42%
+ 648  sample_2224_6      0.00%    passed     99.90%
+ 649  sample_2224_21     0.00%    passed     99.72%
+ 650  sample_2224_24     0.00%    passed     99.74%
+ 651  sample_2224_26     0.00%    passed     97.56%
+ 652  sample_2224_30     0.00%    passed     98.93%
+ 653  sample_2224_31     0.00%    passed     99.13%
+ 654  sample_2224_32     0.00%    passed     99.65%
+ 655  sample_2224_37     0.00%    passed     99.98%
+ 656  sample_2224_40     0.00%    passed     99.71%
+ 657  sample_2224_43     0.00%    passed     99.78%
+ 658  sample_2224_56     0.00%    passed     99.89%
+ 659  sample_2224_72     0.00%    passed     99.52%
+ 660  sample_2224_74     0.00%    passed     99.98%
+ 661  sample_2224_75     0.00%    passed     99.08%
+ 662  sample_2224_78     0.00%    passed     99.91%
+ 663  sample_2224_85     0.00%    passed     99.97%
+ 664  sample_2224_91     0.00%    passed     99.47%
+ 665  sample_2224_98     0.00%    passed     99.40%
+ 666  sample_2228_15     0.00%    passed    100.00%
+ 667  sample_2228_17     0.00%    passed     99.98%
+ 668  sample_2228_46     0.00%    passed     99.33%
+ 669  sample_2228_54     0.00%    passed     99.15%
+ 670  sample_2228_61     0.00%    passed     99.63%
+ 671  sample_2228_74     0.00%    passed     99.89%
+ 672  sample_2228_76     0.00%    passed     99.66%
+ 673  sample_2228_81     0.00%    passed     99.91%
+ 674  sample_2228_85     0.00%    passed     99.92%
+ 675  sample_2228_91     0.00%    passed     99.67%
+ 676  sample_2232_4      0.00%    passed     99.19%
+ 677  sample_2232_14     0.00%    passed     99.30%
+ 678  sample_2232_28     0.00%    passed     99.15%
+ 679  sample_2232_31     0.00%    passed     99.44%
+ 680  sample_2232_35     0.00%    passed     99.83%
+ 681  sample_2232_37     0.00%    passed     99.55%
+ 682  sample_2232_41     0.00%    passed     99.31%
+ 683  sample_2232_43     0.00%    passed     99.94%
+ 684  sample_2232_55     0.00%    passed     99.71%
+ 685  sample_2232_79     0.00%    passed     99.65%
+ 686  sample_2232_99     0.00%    passed     99.69%
+ 687  sample_2236_7      0.00%    passed     98.44%
+ 688  sample_2236_30     0.00%    passed     99.08%
+ 689  sample_2236_43     0.00%    passed     99.35%
+ 690  sample_2236_44     0.00%    passed     99.86%
+ 691  sample_2236_49     0.00%    passed     99.90%
+ 692  sample_2236_60     0.00%    passed     98.57%
+ 693  sample_2236_64     0.00%    passed     99.44%
+ 694  sample_2236_74     0.00%    passed     99.72%
+ 695  sample_2236_76     0.00%    passed     99.59%
+ 696  sample_2240_1      0.00%    passed     98.27%
+ 697  sample_2240_4      0.00%    passed     99.84%
+ 698  sample_2240_11     0.00%    passed     99.90%
+ 699  sample_2240_12     0.00%    passed     99.67%
+ 700  sample_2240_32     0.00%    passed     99.67%
+ 701  sample_2240_41     0.00%    passed     99.98%
+ 702  sample_2240_42     0.00%    passed     99.42%
+ 703  sample_2240_50     0.00%    passed     99.92%
+ 704  sample_2240_56     0.00%    passed     99.86%
+ 705  sample_2240_63     0.00%    passed     99.92%
+ 706  sample_2240_81     0.00%    passed     99.55%
+ 707  sample_2240_86     0.00%    passed     99.89%
+ 708  sample_2244_12     0.00%    passed     99.39%
+ 709  sample_2244_17     0.00%    passed     99.27%
+ 710  sample_2244_28     0.00%    passed     99.32%
+ 711  sample_2244_29     0.00%    passed     99.89%
+ 712  sample_2244_36     0.00%    passed     99.59%
+ 713  sample_2244_37     0.00%    passed     98.94%
+ 714  sample_2244_41     0.00%    passed     99.72%
+ 715  sample_2244_42     0.00%    passed     99.55%
+ 716  sample_2244_45     0.00%    passed     99.66%
+ 717  sample_2244_54     0.00%    passed     99.69%
+ 718  sample_2244_56     0.00%    passed     99.73%
+ 719  sample_2244_80     0.00%    passed     98.97%
+ 720  sample_2244_93     0.00%    passed     99.30%
+ 721  sample_2244_100    0.00%    passed    100.00%
+ 722  sample_2248_1      0.00%    passed     99.41%
+ 723  sample_2248_2      0.00%    passed     99.52%
+ 724  sample_2248_23     0.00%    passed     94.55%
+ 725  sample_2248_30     0.00%    passed     99.54%
+ 726  sample_2248_38     0.00%    passed     99.67%
+ 727  sample_2248_39     0.00%    passed     99.89%
+ 728  sample_2248_43     0.00%    passed     99.88%
+ 729  sample_2248_55     0.00%    passed     99.90%
+ 730  sample_2248_69     0.00%    passed     98.52%
+ 731  sample_2248_70     0.00%    passed     99.75%
+ 732  sample_2248_74     0.00%    passed     99.93%
+ 733  sample_2248_77     0.00%    passed     98.56%
+ 734  sample_2248_81     0.00%    passed     96.80%
+ 735  sample_2248_87     0.00%    passed     98.96%
+ 736  sample_2252_2      0.00%    passed     99.16%
+ 737  sample_2252_5      0.00%    passed     99.67%
+ 738  sample_2252_9      0.00%    passed     96.91%
+ 739  sample_2252_14     0.00%    passed     99.96%
+ 740  sample_2252_32     0.00%    passed     99.97%
+ 741  sample_2252_43     0.00%    passed     97.65%
+ 742  sample_2252_46     0.00%    passed     99.35%
+ 743  sample_2252_52     0.00%    passed     99.67%
+ 744  sample_2252_61     0.00%    passed     99.80%
+ 745  sample_2252_85     0.00%    passed     99.78%
+ 746  sample_2252_86     0.00%    passed     99.84%
+ 747  sample_2252_97     0.00%    passed     99.89%
+ 748  sample_2256_8      0.00%    passed     98.40%
+ 749  sample_2256_18     0.00%    passed    100.00%
+ 750  sample_2256_22     0.00%    passed     97.87%
+ 751  sample_2256_39     0.00%    passed     99.43%
+ 752  sample_2256_47     0.00%    passed     98.53%
+ 753  sample_2256_54     0.00%    passed     98.35%
+ 754  sample_2256_62     0.00%    passed     98.75%
+ 755  sample_2256_75     0.00%    passed     98.53%
+ 756  sample_2256_78     0.00%    passed    100.00%
+ 757  sample_2256_90     0.00%    passed     98.44%
+ 758  sample_2256_92     0.00%    passed     99.15%
+ 759  sample_2256_93     0.00%    passed     99.44%
+ 760  sample_2260_10     0.00%    passed     99.00%
+ 761  sample_2260_12     0.00%    passed     98.81%
+ 762  sample_2260_25     0.00%    passed     99.89%
+ 763  sample_2260_32     0.00%    passed     99.96%
+ 764  sample_2260_41     0.00%    passed     98.23%
+ 765  sample_2260_44     0.00%    passed     99.67%
+ 766  sample_2260_45     0.00%    passed     98.97%
+ 767  sample_2260_49     0.00%    passed     99.54%
+ 768  sample_2260_50     0.00%    passed     99.98%
+ 769  sample_2260_57     0.00%    passed     97.06%
+ 770  sample_2260_66     0.00%    passed     99.35%
+ 771  sample_2260_73     0.00%    passed     99.11%
+ 772  sample_2260_85     0.00%    passed     99.15%
+ 773  sample_2260_92     0.00%    passed     99.88%
+ 774  sample_2260_99     0.00%    passed     99.80%
+ 775  sample_2264_11     0.00%    passed     99.79%
+ 776  sample_2264_12     0.00%    passed     99.92%
+ 777  sample_2264_16     0.00%    passed     99.44%
+ 778  sample_2264_20     0.00%    passed     99.69%
+ 779  sample_2264_24     0.00%    passed     99.97%
+ 780  sample_2264_46     0.00%    passed     96.93%
+ 781  sample_2264_72     0.00%    passed     99.97%
+ 782  sample_2264_78     0.00%    passed     99.54%
+ 783  sample_2264_82     0.00%    passed     99.86%
+ 784  sample_2264_92     0.00%    passed     99.76%
+ 785  sample_2268_10     0.00%    passed     99.19%
+ 786  sample_2268_22     0.00%    passed     99.82%
+ 787  sample_2268_28     0.00%    passed     99.41%
+ 788  sample_2268_32     0.00%    passed     98.96%
+ 789  sample_2268_34     0.00%    passed     99.89%
+ 790  sample_2268_55     0.00%    passed     97.71%
+ 791  sample_2268_57     0.00%    passed     98.52%
+ 792  sample_2268_59     0.00%    passed     99.44%
+ 793  sample_2268_71     0.00%    passed     97.01%
+ 794  sample_2272_3      0.00%    passed     99.56%
+ 795  sample_2272_5      0.00%    passed     98.18%
+ 796  sample_2272_19     0.00%    passed     99.79%
+ 797  sample_2272_24     0.00%    passed    100.00%
+ 798  sample_2272_36     0.00%    passed     99.97%
+ 799  sample_2272_37     0.00%    passed     99.73%
+ 800  sample_2272_46     0.00%    passed     99.67%
+ 801  sample_2272_50     0.00%    passed     98.03%
+ 802  sample_2272_60     0.00%    passed     99.91%
+ 803  sample_2272_62     0.00%    passed     99.83%
+ 804  sample_2272_64     0.00%    passed     96.87%
+ 805  sample_2272_66     0.00%    passed     99.96%
+ 806  sample_2272_67     0.00%    passed     99.85%
+ 807  sample_2272_74     0.00%    passed     99.91%
+ 808  sample_2272_80     0.00%    passed     99.79%
+ 809  sample_2272_81     0.00%    passed     98.77%
+ 810  sample_2272_82     0.00%    passed     99.30%
+ 811  sample_2272_92     0.00%    passed     99.78%
+ 812  sample_2272_100    0.00%    passed     99.84%
+ 813  sample_2276_30     0.00%    passed     99.87%
+ 814  sample_2276_43     0.00%    passed     99.80%
+ 815  sample_2276_46     0.00%    passed     99.97%
+ 816  sample_2276_48     0.00%    passed     99.87%
+ 817  sample_2276_64     0.00%    passed     99.93%
+ 818  sample_2276_76     0.00%    passed     98.52%
+ 819  sample_2276_79     0.00%    passed     99.95%
+ 820  sample_2276_94     0.00%    passed     99.93%
+ 821  sample_2280_4      0.00%    passed     99.78%
+ 822  sample_2280_13     0.00%    passed     99.95%
+ 823  sample_2280_15     0.00%    passed     98.53%
+ 824  sample_2280_28     0.00%    passed     99.67%
+ 825  sample_2280_35     0.00%    passed     97.25%
+ 826  sample_2280_39     0.00%    passed    100.00%
+ 827  sample_2280_50     0.00%    passed     99.16%
+ 828  sample_2280_52     0.00%    passed    100.00%
+ 829  sample_2280_69     0.00%    passed     99.69%
+ 830  sample_2280_80     0.00%    passed     99.02%
+ 831  sample_2280_84     0.00%    passed     99.67%
+ 832  sample_2280_85     0.00%    passed     99.92%
+ 833  sample_2280_87     0.00%    passed     99.65%
+ 834  sample_2284_4      0.00%    passed     99.40%
+ 835  sample_2284_7      0.00%    passed     98.18%
+ 836  sample_2284_11     0.00%    passed     99.59%
+ 837  sample_2284_15     0.00%    passed     98.97%
+ 838  sample_2284_25     0.00%    passed     99.74%
+ 839  sample_2284_27     0.00%    passed     99.87%
+ 840  sample_2284_62     0.00%    passed     99.85%
+ 841  sample_2284_69     0.00%    passed     98.63%
+ 842  sample_2284_70     0.00%    passed     98.80%
+ 843  sample_2284_80     0.00%    passed     98.93%
+ 844  sample_2284_82     0.00%    passed     98.85%
+ 845  sample_2284_92     0.00%    passed     98.78%
+ 846  sample_2284_95     0.00%    passed     99.70%
+ 847  sample_2284_96     0.00%    passed     99.98%
+ 848  sample_2284_98     0.00%    passed     99.34%
+ 849  sample_2288_5      0.00%    passed     99.35%
+ 850  sample_2288_9      0.00%    passed     99.44%
+ 851  sample_2288_20     0.00%    passed     99.88%
+ 852  sample_2288_27     0.00%    passed     99.65%
+ 853  sample_2288_37     0.00%    passed     98.84%
+ 854  sample_2288_40     0.00%    passed     99.50%
+ 855  sample_2288_56     0.00%    passed     99.18%
+ 856  sample_2288_57     0.00%    passed     99.57%
+ 857  sample_2288_69     0.00%    passed     99.39%
+ 858  sample_2288_81     0.00%    passed     99.32%
+ 859  sample_2288_84     0.00%    passed     99.32%
+ 860  sample_2292_4      0.00%    passed     99.13%
+ 861  sample_2292_28     0.00%    passed     99.91%
+ 862  sample_2292_40     0.00%    passed     99.51%
+ 863  sample_2292_58     0.00%    passed     98.84%
+ 864  sample_2292_70     0.00%    passed     99.73%
+ 865  sample_2292_75     0.00%    passed     99.91%
+ 866  sample_2292_76     0.00%    passed     98.94%
+ 867  sample_2292_82     0.00%    passed     99.42%
+ 868  sample_2292_85     0.00%    passed     98.21%
+ 869  sample_2292_91     0.00%    passed     99.67%
+ 870  sample_2292_100    0.00%    passed     99.76%
+ 871  sample_2296_6      0.00%    passed     99.87%
+ 872  sample_2296_20     0.00%    passed     97.61%
+ 873  sample_2296_32     0.00%    passed     98.24%
+ 874  sample_2296_42     0.00%    passed     99.67%
+ 875  sample_2296_51     0.00%    passed     98.69%
+ 876  sample_2296_54     0.00%    passed     97.80%
+ 877  sample_2296_59     0.00%    passed     99.88%
+ 878  sample_2296_60     0.00%    passed     99.51%
+ 879  sample_2296_91     0.00%    passed     99.47%
+ 880  sample_2296_93     0.00%    passed     99.07%
+ 881  sample_2296_99     0.00%    passed     99.65%
+ 882  sample_2296_100    0.00%    passed     99.94%
+ 883  sample_2300_2      0.00%    passed     98.79%
+ 884  sample_2300_15     0.00%    passed     98.69%
+ 885  sample_2300_17     0.00%    passed     99.98%
+ 886  sample_2300_21     0.00%    passed     99.34%
+ 887  sample_2300_25     0.00%    passed     99.55%
+ 888  sample_2300_38     0.00%    passed     99.89%
+ 889  sample_2300_67     0.00%    passed     99.32%
+ 890  sample_2300_72     0.00%    passed     97.99%
+ 891  sample_2300_76     0.00%    passed     99.28%
+ 892  sample_2300_77     0.00%    passed     99.95%
+ 893  sample_2300_95     0.00%    passed     99.76%
+ 894  sample_2300_99     0.00%    passed     99.78%
+ 895  sample_2304_12     0.00%    passed     98.17%
+ 896  sample_2304_31     0.00%    passed     98.44%
+ 897  sample_2304_37     0.00%    passed     98.87%
+ 898  sample_2304_42     0.00%    passed     99.71%
+ 899  sample_2304_46     0.00%    passed     99.69%
+ 900  sample_2304_49     0.00%    passed     99.90%
+ 901  sample_2304_63     0.00%    passed     98.81%
+ 902  sample_2304_66     0.00%    passed     97.77%
+ 903  sample_2304_78     0.00%    passed     99.15%
+ 904  sample_2304_92     0.00%    passed     99.15%
+ 905  sample_2304_98     0.00%    passed     99.92%
+ 906  sample_2308_18     0.00%    passed     99.77%
+ 907  sample_2308_26     0.00%    passed     99.78%
+ 908  sample_2308_27     0.00%    passed     99.89%
+ 909  sample_2308_28     0.00%    passed     99.64%
+ 910  sample_2308_35     0.00%    passed     99.35%
+ 911  sample_2308_36     0.00%    passed     99.69%
+ 912  sample_2308_66     0.00%    passed     99.87%
+ 913  sample_2308_73     0.00%    passed     99.92%
+ 914  sample_2308_87     0.00%    passed     99.99%
+ 915  sample_2312_47     0.00%    passed     99.93%
+ 916  sample_2312_66     0.00%    passed     99.92%
+ 917  sample_2312_82     0.00%    passed     99.51%
+ 918  sample_2312_88     0.00%    passed     99.80%
+ 919  sample_2316_19     0.00%    passed     99.96%
+ 920  sample_2316_28     0.00%    passed     99.73%
+ 921  sample_2316_29     0.00%    passed     99.82%
+ 922  sample_2316_30     0.00%    passed     99.76%
+ 923  sample_2316_41     0.00%    passed     99.74%
+ 924  sample_2316_42     0.00%    passed     99.00%
+ 925  sample_2316_49     0.00%    passed     99.93%
+ 926  sample_2316_62     0.00%    passed     93.84%
+ 927  sample_2316_64     0.00%    passed     98.98%
+ 928  sample_2316_69     0.00%    passed     98.91%
+ 929  sample_2316_77     0.00%    passed     98.21%
+ 930  sample_2316_78     0.00%    passed     99.68%
+ 931  sample_2316_83     0.00%    passed     99.86%
+ 932  sample_2320_6      0.00%    passed     99.96%
+ 933  sample_2320_22     0.00%    passed     99.79%
+ 934  sample_2320_24     0.00%    passed     99.87%
+ 935  sample_2320_25     0.00%    passed     99.92%
+ 936  sample_2320_50     0.00%    passed     99.70%
+ 937  sample_2320_51     0.00%    passed     98.78%
+ 938  sample_2320_54     0.00%    passed     99.88%
+ 939  sample_2320_58     0.00%    passed     98.74%
+ 940  sample_2320_60     0.00%    passed     99.97%
+ 941  sample_2320_62     0.00%    passed     99.55%
+ 942  sample_2320_66     0.00%    passed     99.96%
+ 943  sample_2320_67     0.00%    passed     99.78%
+ 944  sample_2320_70     0.00%    passed     99.97%
+ 945  sample_2320_77     0.00%    passed     99.88%
+ 946  sample_2320_82     0.00%    passed    100.00%
+ 947  sample_2320_84     0.00%    passed     99.81%
+ 948  sample_2320_91     0.00%    passed     99.79%
+ 949  sample_2320_92     0.00%    passed    100.00%
+ 950  sample_2324_3      0.00%    passed     99.93%
+ 951  sample_2324_4      0.00%    passed    100.00%
+ 952  sample_2324_9      0.00%    passed     99.99%
+ 953  sample_2324_23     0.00%    passed     99.71%
+ 954  sample_2324_35     0.00%    passed     99.91%
+ 955  sample_2324_36     0.00%    passed     99.47%
+ 956  sample_2324_43     0.00%    passed     98.90%
+ 957  sample_2324_51     0.00%    passed     99.74%
+ 958  sample_2324_65     0.00%    passed     99.72%
+ 959  sample_2324_98     0.00%    passed     99.92%
+ 960  sample_2328_20     0.00%    passed     98.06%
+ 961  sample_2328_22     0.00%    passed     99.68%
+ 962  sample_2328_28     0.00%    passed    100.00%
+ 963  sample_2328_71     0.00%    passed     99.89%
+ 964  sample_2328_73     0.00%    passed    100.00%
+ 965  sample_2328_74     0.00%    passed     99.97%
+ 966  sample_2328_99     0.00%    passed     98.21%
+ 967  sample_2332_8      0.00%    passed     99.77%
+ 968  sample_2332_20     0.00%    passed     99.78%
+ 969  sample_2332_21     0.00%    passed     99.12%
+ 970  sample_2332_29     0.00%    passed     99.87%
+ 971  sample_2332_43     0.00%    passed     99.78%
+ 972  sample_2332_54     0.00%    passed     99.52%
+ 973  sample_2332_66     0.00%    passed     98.21%
+ 974  sample_2332_68     0.00%    passed     99.85%
+ 975  sample_2332_69     0.00%    passed     99.69%
+ 976  sample_2332_76     0.00%    passed     98.71%
+ 977  sample_2332_81     0.00%    passed     99.38%
+ 978  sample_2332_86     0.00%    passed     99.59%
+ 979  sample_2332_93     0.00%    passed     99.60%
+ 980  sample_2332_100    0.00%    passed     99.79%
+ 981  sample_2336_15     0.00%    passed     99.66%
+ 982  sample_2336_29     0.00%    passed     99.93%
+ 983  sample_2336_57     0.00%    passed     99.69%
+ 984  sample_2336_58     0.00%    passed     99.93%
+ 985  sample_2336_59     0.00%    passed     99.93%
+ 986  sample_2336_65     0.00%    passed     99.90%
+ 987  sample_2336_71     0.00%    passed     99.99%
+ 988  sample_2336_77     0.00%    passed     99.97%
+ 989  sample_2336_88     0.00%    passed     98.51%
+ 990  sample_2336_89     0.00%    passed     97.92%
+ 991  sample_2340_4      0.00%    passed     99.98%
+ 992  sample_2340_8      0.00%    passed     99.96%
+ 993  sample_2340_9      0.00%    passed     99.20%
+ 994  sample_2340_14     0.00%    passed     99.34%
+ 995  sample_2340_21     0.00%    passed     99.83%
+ 996  sample_2340_38     0.00%    passed     99.93%
+ 997  sample_2340_65     0.00%    passed     99.79%
+ 998  sample_2340_78     0.00%    passed     99.69%
+ 999  sample_2340_85     0.00%    passed    100.00%
+1000  sample_2340_92     0.00%    passed     99.83%
+1001  sample_2344_6      0.00%    passed     99.62%
+1002  sample_2344_8      0.00%    passed     98.16%
+1003  sample_2344_17     0.00%    passed     99.91%
+1004  sample_2344_22     0.00%    passed     98.76%
+1005  sample_2344_32     0.00%    passed     99.70%
+1006  sample_2344_39     0.00%    passed     99.90%
+1007  sample_2344_45     0.00%    passed     99.93%
+1008  sample_2344_54     0.00%    passed     99.73%
+1009  sample_2344_59     0.00%    passed     99.95%
+1010  sample_2344_71     0.00%    passed     99.58%
+1011  sample_2344_75     0.00%    passed     99.67%
+1012  sample_2344_85     0.00%    passed     99.45%
+1013  sample_2344_94     0.00%    passed     98.94%
+1014  sample_2348_9      0.00%    passed     99.43%
+1015  sample_2348_10     0.00%    passed     99.72%
+1016  sample_2348_20     0.00%    passed     99.70%
+1017  sample_2348_29     0.00%    passed     99.99%
+1018  sample_2348_31     0.00%    passed     99.97%
+1019  sample_2348_41     0.00%    passed     99.97%
+1020  sample_2348_57     0.00%    passed     99.82%
+1021  sample_2348_65     0.00%    passed     97.92%
+1022  sample_2348_72     0.00%    passed     98.21%
+1023  sample_2348_84     0.00%    passed     99.91%
+1024  sample_2348_85     0.00%    passed     98.91%
+1025  sample_2348_86     0.00%    passed     98.91%
+1026  sample_2348_89     0.00%    passed     99.90%
+1027  sample_2348_90     0.00%    passed    100.00%
+1028  sample_2348_96     0.00%    passed     99.89%
+1029  sample_2348_99     0.00%    passed     99.99%
+1030  sample_2352_4      0.00%    passed     99.80%
+1031  sample_2352_6      0.00%    passed     99.89%
+1032  sample_2352_12     0.00%    passed     99.98%
+1033  sample_2352_23     0.00%    passed    100.00%
+1034  sample_2352_31     0.00%    passed     99.59%
+1035  sample_2352_49     0.00%    passed     99.67%
+1036  sample_2352_51     0.00%    passed     99.70%
+1037  sample_2352_56     0.00%    passed     99.61%
+1038  sample_2352_61     0.00%    passed     99.96%
+1039  sample_2352_65     0.00%    passed     99.72%
+1040  sample_2352_72     0.00%    passed     99.53%
+1041  sample_2352_77     0.00%    passed     99.46%
+1042  sample_2356_25     0.00%    passed     99.87%
+1043  sample_2356_29     0.00%    passed     99.86%
+1044  sample_2356_37     0.00%    passed     99.90%
+1045  sample_2356_38     0.00%    passed     99.98%
+1046  sample_2356_49     0.00%    passed     98.84%
+1047  sample_2356_61     0.00%    passed     99.35%
+1048  sample_2356_62     0.00%    passed     99.06%
+1049  sample_2356_72     0.00%    passed     97.17%
+1050  sample_2356_86     0.00%    passed     99.94%
+1051  sample_2356_95     0.00%    passed     99.52%
+1052  sample_2360_9      0.00%    passed     99.74%
+1053  sample_2360_11     0.00%    passed    100.00%
+1054  sample_2360_23     0.00%    passed     99.85%
+1055  sample_2360_45     0.00%    passed     98.13%
+1056  sample_2360_46     0.00%    passed     99.74%
+1057  sample_2360_58     0.00%    passed     99.35%
+1058  sample_2360_70     0.00%    passed     99.80%
+1059  sample_2360_77     0.00%    passed     99.43%
+1060  sample_2360_88     0.00%    passed     99.69%
+1061  sample_2360_89     0.00%    passed     99.63%
+1062  sample_2364_7      0.00%    passed     99.61%
+1063  sample_2364_15     0.00%    passed     99.94%
+1064  sample_2364_28     0.00%    passed     99.05%
+1065  sample_2364_36     0.00%    passed     99.82%
+1066  sample_2364_37     0.00%    passed     97.19%
+1067  sample_2364_38     0.00%    passed     99.80%
+1068  sample_2364_41     0.00%    passed     98.21%
+1069  sample_2364_49     0.00%    passed     98.71%
+1070  sample_2364_62     0.00%    passed     99.80%
+1071  sample_2364_64     0.00%    passed     99.96%
+1072  sample_2364_70     0.00%    passed     99.22%
+1073  sample_2364_71     0.00%    passed     99.99%
+1074  sample_2364_75     0.00%    passed     99.93%
+1075  sample_2364_88     0.00%    passed     99.87%
+1076  sample_2364_96     0.00%    passed     99.88%
+1077  sample_2364_97     0.00%    passed    100.00%
+1078  sample_2364_100    0.00%    passed     99.92%
+1079  sample_2368_1      0.00%    passed     99.67%
+1080  sample_2368_6      0.00%    passed     99.68%
+1081  sample_2368_17     0.00%    passed     99.97%
+1082  sample_2368_22     0.00%    passed     99.43%
+1083  sample_2368_27     0.00%    passed     99.95%
+1084  sample_2368_44     0.00%    passed     99.86%
+1085  sample_2368_49     0.00%    passed     99.99%
+1086  sample_2368_55     0.00%    passed     99.78%
+1087  sample_2368_59     0.00%    passed     99.41%
+1088  sample_2368_82     0.00%    passed     99.91%
+1089  sample_2368_83     0.00%    passed     99.97%
+1090  sample_2368_86     0.00%    passed     97.32%
+1091  sample_2372_3      0.00%    passed     99.98%
+1092  sample_2372_9      0.00%    passed     99.99%
+1093  sample_2372_14     0.00%    passed     99.89%
+1094  sample_2372_16     0.00%    passed     99.84%
+1095  sample_2372_26     0.00%    passed     99.90%
+1096  sample_2372_32     0.00%    passed     99.51%
+1097  sample_2372_34     0.00%    passed     99.62%
+1098  sample_2372_46     0.00%    passed     99.92%
+1099  sample_2372_55     0.00%    passed     99.98%
+1100  sample_2372_66     0.00%    passed     99.89%
+1101  sample_2372_67     0.00%    passed     99.16%
+1102  sample_2372_83     0.00%    passed     99.93%
+1103  sample_2372_91     0.00%    passed     98.60%
+1104  sample_2376_5      0.00%    passed     99.95%
+1105  sample_2376_6      0.00%    passed     99.95%
+1106  sample_2376_17     0.00%    passed     99.91%
+1107  sample_2376_20     0.00%    passed     99.41%
+1108  sample_2376_31     0.00%    passed     99.91%
+1109  sample_2376_32     0.00%    passed     99.87%
+1110  sample_2376_35     0.00%    passed     99.82%
+1111  sample_2376_63     0.00%    passed     99.97%
+1112  sample_2376_73     0.00%    passed     99.67%
+1113  sample_2376_88     0.00%    passed     99.83%
+1114  sample_2376_90     0.00%    passed     98.84%
+1115  sample_2376_93     0.00%    passed     99.94%
+1116  sample_2376_98     0.00%    passed     98.96%
+1117  sample_2380_28     0.00%    passed     99.89%
+1118  sample_2380_32     0.00%    passed     99.93%
+1119  sample_2380_39     0.00%    passed     99.87%
+1120  sample_2380_53     0.00%    passed     99.89%
+1121  sample_2380_58     0.00%    passed     99.15%
+1122  sample_2380_71     0.00%    passed     99.80%
+1123  sample_2380_73     0.00%    passed     99.98%
+1124  sample_2380_76     0.00%    passed     97.73%
+1125  sample_2380_79     0.00%    passed     99.86%
+1126  sample_2380_84     0.00%    passed     99.75%
+1127  sample_2380_95     0.00%    passed     99.91%
+1128  sample_2384_5      0.00%    passed     99.95%
+1129  sample_2384_16     0.00%    passed     99.95%
+1130  sample_2384_19     0.00%    passed     99.67%
+1131  sample_2384_20     0.00%    passed     99.69%
+1132  sample_2384_37     0.00%    passed     99.80%
+1133  sample_2384_53     0.00%    passed     99.89%
+1134  sample_2384_55     0.00%    passed     99.98%
+1135  sample_2384_60     0.00%    passed     99.74%
+1136  sample_2384_65     0.00%    passed     99.14%
+1137  sample_2384_67     0.00%    passed     99.82%
+1138  sample_2384_79     0.00%    passed     99.86%
+1139  sample_2384_87     0.00%    passed     99.56%
+1140  sample_2384_89     0.00%    passed     99.95%
+1141  sample_2384_96     0.00%    passed     99.32%
+1142  sample_2388_2      0.00%    passed     99.90%
+1143  sample_2388_3      0.00%    passed     99.75%
+1144  sample_2388_9      0.00%    passed     99.91%
+1145  sample_2388_11     0.00%    passed     99.81%
+1146  sample_2388_15     0.00%    passed     99.89%
+1147  sample_2388_19     0.00%    passed     99.87%
+1148  sample_2388_26     0.00%    passed     98.86%
+1149  sample_2388_57     0.00%    passed     96.57%
+1150  sample_2388_80     0.00%    passed     99.66%
+1151  sample_2388_88     0.00%    passed     99.15%
+1152  sample_2388_95     0.00%    passed     99.40%
+1153  sample_2392_8      0.00%    passed     99.95%
+1154  sample_2392_12     0.00%    passed     99.72%
+1155  sample_2392_38     0.00%    passed     99.76%
+1156  sample_2392_47     0.00%    passed     99.78%
+1157  sample_2392_49     0.00%    passed    100.00%
+1158  sample_2392_61     0.00%    passed     99.68%
+1159  sample_2392_70     0.00%    passed     98.95%
+1160  sample_2392_91     0.00%    passed     99.79%
+1161  sample_2392_92     0.00%    passed     99.84%
+1162  sample_2392_94     0.00%    passed     99.12%
+1163  sample_2396_6      0.00%    passed     99.87%
+1164  sample_2396_16     0.00%    passed     99.55%
+1165  sample_2396_30     0.00%    passed     99.74%
+1166  sample_2396_32     0.00%    passed     99.03%
+1167  sample_2396_42     0.00%    passed     99.66%
+1168  sample_2396_47     0.00%    passed     99.82%
+1169  sample_2396_48     0.00%    passed     99.87%
+1170  sample_2396_69     0.00%    passed     99.82%
+1171  sample_2396_72     0.00%    passed     99.55%
+1172  sample_2396_73     0.00%    passed     99.28%
+1173  sample_2396_83     0.00%    passed     98.69%
+1174  sample_2396_85     0.00%    passed     98.87%
+1175  sample_2396_92     0.00%    passed     99.55%
+1176  sample_2396_96     0.00%    passed     98.23%
+1177  sample_2400_1      0.00%    passed     99.78%
+1178  sample_2400_12     0.00%    passed     99.66%
+1179  sample_2400_18     0.00%    passed     99.30%
+1180  sample_2400_19     0.00%    passed     99.87%
+1181  sample_2400_37     0.00%    passed     99.98%
+1182  sample_2400_54     0.00%    passed     98.25%
+1183  sample_2400_65     0.00%    passed     99.90%
+1184  sample_2400_76     0.00%    passed     99.88%
+1185  sample_2400_99     0.00%    passed     99.76%
+1186  sample_2404_1      0.00%    passed     99.83%
+1187  sample_2404_9      0.00%    passed     99.47%
+1188  sample_2404_10     0.00%    passed     99.43%
+1189  sample_2404_29     0.00%    passed     99.43%
+1190  sample_2404_44     0.00%    passed     99.79%
+1191  sample_2404_48     0.00%    passed     99.66%
+1192  sample_2404_50     0.00%    passed     99.35%
+1193  sample_2404_56     0.00%    passed     99.61%
+1194  sample_2404_66     0.00%    passed     99.95%
+1195  sample_2404_71     0.00%    passed     99.32%
+1196  sample_2404_76     0.00%    passed     99.33%
+1197  sample_2404_81     0.00%    passed     99.88%
+1198  sample_2404_82     0.00%    passed     98.43%
+1199  sample_2404_83     0.00%    passed     99.34%
+1200  sample_2404_85     0.00%    passed     99.80%
+1201  sample_2408_8      0.00%    passed     99.89%
+1202  sample_2408_30     0.00%    passed     99.99%
+1203  sample_2408_46     0.00%    passed     99.32%
+1204  sample_2408_73     0.00%    passed     99.32%
+1205  sample_2408_90     0.00%    passed     99.94%
+1206  sample_2408_92     0.00%    passed     99.85%
+1207  sample_2408_97     0.00%    passed     99.15%
+1208  sample_2412_27     0.00%    passed     99.39%
+1209  sample_2412_39     0.00%    passed     98.78%
+1210  sample_2412_45     0.00%    passed    100.00%
+1211  sample_2412_66     0.00%    passed     99.87%
+1212  sample_2412_68     0.00%    passed     99.95%
+1213  sample_2412_85     0.00%    passed     99.95%
+1214  sample_2412_92     0.00%    passed     99.81%
+1215  sample_2416_5      0.00%    passed     98.49%
+1216  sample_2416_27     0.00%    passed     99.76%
+1217  sample_2416_34     0.00%    passed     99.71%
+1218  sample_2416_39     0.00%    passed     99.75%
+1219  sample_2416_40     0.00%    passed     99.89%
+1220  sample_2416_63     0.00%    passed     99.95%
+1221  sample_2416_78     0.00%    passed     99.93%
+1222  sample_2416_79     0.00%    passed     99.96%
+1223  sample_2416_89     0.00%    passed    100.00%
+1224  sample_2416_92     0.00%    passed     99.57%
+1225  sample_2416_100    0.00%    passed     99.87%
+1226  sample_2420_7      0.00%    passed     98.73%
+1227  sample_2420_11     0.00%    passed     99.89%
+1228  sample_2420_14     0.00%    passed     99.90%
+1229  sample_2420_38     0.00%    passed     97.32%
+1230  sample_2420_43     0.00%    passed     99.43%
+1231  sample_2420_60     0.00%    passed     99.91%
+1232  sample_2420_62     0.00%    passed     99.97%
+1233  sample_2420_66     0.00%    passed     99.96%
+1234  sample_2420_72     0.00%    passed     99.88%
+1235  sample_2420_90     0.00%    passed     99.72%
+1236  sample_2424_2      0.00%    passed     99.40%
+1237  sample_2424_10     0.00%    passed     99.84%
+1238  sample_2424_16     0.00%    passed     99.97%
+1239  sample_2424_21     0.00%    passed     99.99%
+1240  sample_2424_22     0.00%    passed     99.80%
+1241  sample_2424_32     0.00%    passed     96.84%
+1242  sample_2424_35     0.00%    passed     99.94%
+1243  sample_2424_39     0.00%    passed    100.00%
+1244  sample_2424_41     0.00%    passed     99.48%
+1245  sample_2424_43     0.00%    passed     99.44%
+1246  sample_2424_46     0.00%    passed     99.93%
+1247  sample_2424_54     0.00%    passed     99.90%
+1248  sample_2424_79     0.00%    passed     99.85%
+1249  sample_2424_86     0.00%    passed     99.85%
+1250  sample_2424_96     0.00%    passed     99.95%
+1251  sample_2428_5      0.00%    passed     99.96%
+1252  sample_2428_11     0.00%    passed     99.54%
+1253  sample_2428_34     0.00%    passed     99.96%
+1254  sample_2428_37     0.00%    passed     99.37%
+1255  sample_2428_38     0.00%    passed     99.89%
+1256  sample_2428_42     0.00%    passed     99.76%
+1257  sample_2428_44     0.00%    passed     99.95%
+1258  sample_2428_51     0.00%    passed     99.97%
+1259  sample_2428_76     0.00%    passed     99.85%
+1260  sample_2432_8      0.00%    passed     99.99%
+1261  sample_2432_10     0.00%    passed     99.93%
+1262  sample_2432_14     0.00%    passed     98.77%
+1263  sample_2432_16     0.00%    passed     99.99%
+1264  sample_2432_17     0.00%    passed     99.95%
+1265  sample_2432_23     0.00%    passed     99.92%
+1266  sample_2432_33     0.00%    passed     99.68%
+1267  sample_2432_34     0.00%    passed     99.87%
+1268  sample_2432_48     0.00%    passed     99.89%
+1269  sample_2432_49     0.00%    passed     99.87%
+1270  sample_2432_53     0.00%    passed     99.89%
+1271  sample_2432_54     0.00%    passed     98.27%
+1272  sample_2432_64     0.00%    passed     99.97%
+1273  sample_2432_65     0.00%    passed     99.54%
+1274  sample_2432_73     0.00%    passed     99.67%
+1275  sample_2436_3      0.00%    passed     99.52%
+1276  sample_2436_12     0.00%    passed     99.96%
+1277  sample_2436_13     0.00%    passed     99.89%
+1278  sample_2436_23     0.00%    passed     99.50%
+1279  sample_2436_29     0.00%    passed     99.43%
+1280  sample_2436_42     0.00%    passed     99.72%
+1281  sample_2436_47     0.00%    passed     99.72%
+1282  sample_2436_71     0.00%    passed     99.85%
+1283  sample_2436_80     0.00%    passed     99.85%
+1284  sample_2436_85     0.00%    passed     99.10%
+1285  sample_2436_95     0.00%    passed     99.65%
+1286  sample_2440_11     0.00%    passed     99.98%
+1287  sample_2440_24     0.00%    passed     99.76%
+1288  sample_2440_30     0.00%    passed     99.97%
+1289  sample_2440_35     0.00%    passed     99.72%
+1290  sample_2440_51     0.00%    passed     99.78%
+1291  sample_2440_53     0.00%    passed     99.60%
+1292  sample_2440_54     0.00%    passed     99.96%
+1293  sample_2440_57     0.00%    passed     99.98%
+1294  sample_2440_78     0.00%    passed     99.72%
+1295  sample_2440_93     0.00%    passed     99.92%
+1296  sample_2444_21     0.00%    passed    100.00%
+1297  sample_2444_24     0.00%    passed     99.95%
+1298  sample_2444_31     0.00%    passed     99.21%
+1299  sample_2444_53     0.00%    passed     99.59%
+1300  sample_2444_65     0.00%    passed     93.89%
+1301  sample_2444_68     0.00%    passed     99.28%
+1302  sample_2444_73     0.00%    passed     99.96%
+1303  sample_2444_75     0.00%    passed     99.82%
+1304  sample_2448_3      0.00%    passed     99.92%
+1305  sample_2448_4      0.00%    passed     99.56%
+1306  sample_2448_7      0.00%    passed     99.03%
+1307  sample_2448_21     0.00%    passed     99.72%
+1308  sample_2448_26     0.00%    passed     99.65%
+1309  sample_2448_29     0.00%    passed     99.15%
+1310  sample_2448_35     0.00%    passed     99.48%
+1311  sample_2448_36     0.00%    passed     99.45%
+1312  sample_2448_49     0.00%    passed     99.59%
+1313  sample_2448_56     0.00%    passed     99.35%
+1314  sample_2448_57     0.00%    passed     99.98%
+1315  sample_2448_64     0.00%    passed     99.82%
+1316  sample_2448_65     0.00%    passed     99.67%
+1317  sample_2448_68     0.00%    passed     99.56%
+1318  sample_2448_69     0.00%    passed    100.00%
+1319  sample_2448_73     0.00%    passed     99.63%
+1320  sample_2448_75     0.00%    passed     99.93%
+1321  sample_2448_88     0.00%    passed     99.96%
+1322  sample_2448_92     0.00%    passed     99.70%
+1323  sample_2448_97     0.00%    passed     99.84%
+1324  sample_2452_26     0.00%    passed     98.72%
+1325  sample_2452_31     0.00%    passed     99.62%
+1326  sample_2452_41     0.00%    passed     99.85%
+1327  sample_2452_43     0.00%    passed     99.55%
+1328  sample_2452_51     0.00%    passed     99.50%
+1329  sample_2452_52     0.00%    passed     97.36%
+1330  sample_2452_70     0.00%    passed     98.12%
+1331  sample_2452_74     0.00%    passed     99.33%
+1332  sample_2452_82     0.00%    passed     99.91%
+1333  sample_2452_83     0.00%    passed     99.04%
+1334  sample_2452_85     0.00%    passed     99.45%
+1335  sample_2452_93     0.00%    passed     99.89%
+1336  sample_2456_10     0.00%    passed     99.82%
+1337  sample_2456_25     0.00%    passed     99.02%
+1338  sample_2456_29     0.00%    passed     99.91%
+1339  sample_2456_30     0.00%    passed     99.39%
+1340  sample_2456_42     0.00%    passed     99.87%
+1341  sample_2456_55     0.00%    passed     99.89%
+1342  sample_2456_68     0.00%    passed     97.64%
+1343  sample_2456_73     0.00%    passed     99.91%
+1344  sample_2456_75     0.00%    passed     99.78%
+1345  sample_2456_81     0.00%    passed     99.62%
+1346  sample_2456_82     0.00%    passed     99.68%
+1347  sample_2456_83     0.00%    passed     99.82%
+1348  sample_2460_2      0.00%    passed     99.91%
+1349  sample_2460_8      0.00%    passed     99.72%
+1350  sample_2460_11     0.00%    passed     99.71%
+1351  sample_2460_14     0.00%    passed     99.68%
+1352  sample_2460_21     0.00%    passed     99.71%
+1353  sample_2460_25     0.00%    passed     99.90%
+1354  sample_2460_36     0.00%    passed     99.67%
+1355  sample_2460_40     0.00%    passed     98.32%
+1356  sample_2460_50     0.00%    passed     99.98%
+1357  sample_2460_58     0.00%    passed     99.69%
+1358  sample_2460_66     0.00%    passed     99.98%
+1359  sample_2460_67     0.00%    passed     99.89%
+1360  sample_2460_70     0.00%    passed     97.57%
+1361  sample_2460_85     0.00%    passed     99.76%
+1362  sample_2464_15     0.00%    passed     99.74%
+1363  sample_2464_26     0.00%    passed     99.78%
+1364  sample_2464_36     0.00%    passed     99.92%
+1365  sample_2464_42     0.00%    passed     99.96%
+1366  sample_2464_49     0.00%    passed     99.97%
+1367  sample_2464_55     0.00%    passed     99.92%
+1368  sample_2464_59     0.00%    passed     99.76%
+1369  sample_2464_73     0.00%    passed     99.59%
+1370  sample_2464_76     0.00%    passed     99.99%
+1371  sample_2464_79     0.00%    passed     99.98%
+1372  sample_2464_90     0.00%    passed     99.87%
+1373  sample_2468_3      0.00%    passed     99.65%
+1374  sample_2468_8      0.00%    passed     99.90%
+1375  sample_2468_23     0.00%    passed     98.87%
+1376  sample_2468_32     0.00%    passed     99.74%
+1377  sample_2468_33     0.00%    passed     99.44%
+1378  sample_2468_35     0.00%    passed     99.96%
+1379  sample_2468_37     0.00%    passed     99.89%
+1380  sample_2468_55     0.00%    passed     99.82%
+1381  sample_2468_68     0.00%    passed     99.84%
+1382  sample_2468_75     0.00%    passed     99.84%
+1383  sample_2468_80     0.00%    passed     99.89%
+1384  sample_2468_83     0.00%    passed    100.00%
+1385  sample_2468_94     0.00%    passed     99.85%
+1386  sample_2468_100    0.00%    passed     99.89%
+1387  sample_2472_15     0.00%    passed     99.99%
+1388  sample_2472_16     0.00%    passed     99.73%
+1389  sample_2472_29     0.00%    passed     98.49%
+1390  sample_2472_46     0.00%    passed     99.67%
+1391  sample_2472_65     0.00%    passed     98.42%
+1392  sample_2472_67     0.00%    passed     98.81%
+1393  sample_2472_89     0.00%    passed     99.05%
+1394  sample_2472_91     0.00%    passed     98.33%
+1395  sample_2472_99     0.00%    passed     99.73%
+1396  sample_2472_100    0.00%    passed     99.47%
+1397  sample_2476_8      0.00%    passed     99.89%
+1398  sample_2476_24     0.00%    passed     99.92%
+1399  sample_2476_42     0.00%    passed     99.43%
+1400  sample_2476_46     0.00%    passed     99.71%
+1401  sample_2476_84     0.00%    passed     99.63%
+1402  sample_2476_88     0.00%    passed     99.88%
+1403  sample_2476_89     0.00%    passed     99.68%
+1404  sample_2476_92     0.00%    passed     99.03%
+1405  sample_2476_98     0.00%    passed     99.97%
+1406  sample_2480_1      0.00%    passed     99.95%
+1407  sample_2480_2      0.00%    passed     98.70%
+1408  sample_2480_11     0.00%    passed     99.85%
+1409  sample_2480_12     0.00%    passed     99.88%
+1410  sample_2480_13     0.00%    passed     99.94%
+1411  sample_2480_16     0.00%    passed     98.95%
+1412  sample_2480_23     0.00%    passed     99.72%
+1413  sample_2480_36     0.00%    passed     99.78%
+1414  sample_2480_50     0.00%    passed     99.85%
+1415  sample_2480_52     0.00%    passed     96.31%
+1416  sample_2480_54     0.00%    passed     99.62%
+1417  sample_2480_55     0.00%    passed     99.76%
+1418  sample_2480_57     0.00%    passed     99.97%
+1419  sample_2480_78     0.00%    passed     99.34%
+1420  sample_2480_82     0.00%    passed     99.57%
+1421  sample_2480_97     0.00%    passed     99.89%
+1422  sample_2484_4      0.00%    passed     99.87%
+1423  sample_2484_8      0.00%    passed     99.85%
+1424  sample_2484_16     0.00%    passed     99.89%
+1425  sample_2484_20     0.00%    passed     99.79%
+1426  sample_2484_24     0.00%    passed     99.28%
+1427  sample_2484_39     0.00%    passed     99.95%
+1428  sample_2484_74     0.00%    passed     99.06%
+1429  sample_2484_79     0.00%    passed     99.75%
+1430  sample_2488_28     0.00%    passed     99.93%
+1431  sample_2488_29     0.00%    passed     99.91%
+1432  sample_2488_37     0.00%    passed     99.68%
+1433  sample_2488_39     0.00%    passed     99.26%
+1434  sample_2488_47     0.00%    passed     99.62%
+1435  sample_2488_59     0.00%    passed     99.82%
+1436  sample_2488_75     0.00%    passed     99.89%
+1437  sample_2488_88     0.00%    passed     98.67%
+1438  sample_2488_92     0.00%    passed     99.92%
+1439  sample_2488_96     0.00%    passed     99.63%
+1440  sample_2492_22     0.00%    passed     99.89%
+1441  sample_2492_25     0.00%    passed     98.93%
+1442  sample_2492_30     0.00%    passed     99.76%
+1443  sample_2492_33     0.00%    passed     97.39%
+1444  sample_2492_35     0.00%    passed     97.57%
+1445  sample_2492_46     0.00%    passed     99.82%
+1446  sample_2492_47     0.00%    passed     99.97%
+1447  sample_2492_58     0.00%    passed     99.91%
+1448  sample_2492_81     0.00%    passed     99.85%
+1449  sample_2496_1      0.00%    passed     99.74%
+1450  sample_2496_7      0.00%    passed     99.68%
+1451  sample_2496_28     0.00%    passed     99.78%
+1452  sample_2496_38     0.00%    passed    100.00%
+1453  sample_2496_39     0.00%    passed     99.70%
+1454  sample_2496_51     0.00%    passed     99.98%
+1455  sample_2496_66     0.00%    passed     99.96%
+1456  sample_2496_70     0.00%    passed     99.91%
+1457  sample_2496_73     0.00%    passed     99.55%
+1458  sample_2496_78     0.00%    passed     99.91%
+1459  sample_2496_85     0.00%    passed     99.99%
+1460  sample_2496_91     0.00%    passed     99.60%
+1461  sample_2500_9      0.00%    passed     99.84%
+1462  sample_2500_18     0.00%    passed     99.92%
+1463  sample_2500_32     0.00%    passed     98.87%
+1464  sample_2500_51     0.00%    passed     99.96%
+1465  sample_2500_54     0.00%    passed     99.89%
+1466  sample_2500_55     0.00%    passed     99.95%
+1467  sample_2500_56     0.00%    passed     99.69%
+1468  sample_2500_58     0.00%    passed     99.95%
+1469  sample_2500_73     0.00%    passed     99.40%
+1470  sample_2500_89     0.00%    passed     99.51%
+1471  sample_2504_13     0.00%    passed     99.87%
+1472  sample_2504_16     0.00%    passed     99.38%
+1473  sample_2504_17     0.00%    passed     99.92%
+1474  sample_2504_18     0.00%    passed     99.95%
+1475  sample_2504_19     0.00%    passed     99.68%
+1476  sample_2504_30     0.00%    passed     99.96%
+1477  sample_2504_31     0.00%    passed     99.08%
+1478  sample_2504_34     0.00%    passed     99.96%
+1479  sample_2504_37     0.00%    passed     97.72%
+1480  sample_2504_63     0.00%    passed     99.99%
+1481  sample_2504_65     0.00%    passed     99.89%
+1482  sample_2504_67     0.00%    passed     99.38%
+1483  sample_2504_69     0.00%    passed     99.97%
+1484  sample_2504_71     0.00%    passed     98.94%
+1485  sample_2504_76     0.00%    passed     98.92%
+1486  sample_2504_78     0.00%    passed     99.28%
+1487  sample_2504_86     0.00%    passed     99.69%
+1488  sample_2504_95     0.00%    passed     99.95%
+1489  sample_2508_4      0.00%    passed     99.86%
+1490  sample_2508_18     0.00%    passed     99.77%
+1491  sample_2508_40     0.00%    passed     99.70%
+1492  sample_2508_46     0.00%    passed     99.56%
+1493  sample_2508_50     0.00%    passed     99.38%
+1494  sample_2508_52     0.00%    passed     99.51%
+1495  sample_2508_70     0.00%    passed     99.92%
+1496  sample_2508_77     0.00%    passed     97.43%
+1497  sample_2508_78     0.00%    passed     99.92%
+1498  sample_2508_89     0.00%    passed     98.56%
+1499  sample_2508_93     0.00%    passed     99.97%
+1500  sample_2508_97     0.00%    passed     99.92%
+1501  sample_2508_99     0.00%    passed     99.06%
+1502  sample_2512_3      0.00%    passed     99.57%
+1503  sample_2512_7      0.00%    passed     97.01%
+1504  sample_2512_9      0.00%    passed     99.04%
+1505  sample_2512_14     0.00%    passed     99.95%
+1506  sample_2512_47     0.00%    passed     99.47%
+1507  sample_2512_61     0.00%    passed     97.08%
+1508  sample_2512_71     0.00%    passed     99.73%
+1509  sample_2512_72     0.00%    passed     99.98%
+1510  sample_2512_73     0.00%    passed     99.19%
+1511  sample_2512_75     0.00%    passed     99.88%
+1512  sample_2512_90     0.00%    passed    100.00%
+1513  sample_2512_98     0.00%    passed     99.80%
+1514  sample_2516_18     0.00%    passed     98.17%
+1515  sample_2516_23     0.00%    passed     99.70%
+1516  sample_2516_35     0.00%    passed     99.06%
+1517  sample_2516_40     0.00%    passed     97.83%
+1518  sample_2516_66     0.00%    passed     99.26%
+1519  sample_2516_100    0.00%    passed     99.95%
+1520  sample_2520_12     0.00%    passed     99.94%
+1521  sample_2520_15     0.00%    passed     99.59%
+1522  sample_2520_27     0.00%    passed     98.77%
+1523  sample_2520_32     0.00%    passed     99.85%
+1524  sample_2520_38     0.00%    passed     99.67%
+1525  sample_2520_39     0.00%    passed     99.54%
+1526  sample_2520_54     0.00%    passed     99.45%
+1527  sample_2520_55     0.00%    passed     99.93%
+1528  sample_2520_60     0.00%    passed     99.90%
+1529  sample_2520_63     0.00%    passed     98.93%
+1530  sample_2520_69     0.00%    passed     99.97%
+1531  sample_2520_72     0.00%    passed     97.45%
+1532  sample_2520_76     0.00%    passed     99.80%
+1533  sample_2520_82     0.00%    passed     99.98%
+1534  sample_2520_86     0.00%    passed     99.68%
+1535  sample_2520_88     0.00%    passed     99.88%
+1536  sample_2524_7      0.00%    passed     98.75%
+1537  sample_2524_10     0.00%    passed     98.32%
+1538  sample_2524_15     0.00%    passed     99.67%
+1539  sample_2524_26     0.00%    passed     99.91%
+1540  sample_2524_30     0.00%    passed     99.77%
+1541  sample_2524_41     0.00%    passed     99.89%
+1542  sample_2524_43     0.00%    passed     98.71%
+1543  sample_2524_46     0.00%    passed     99.04%
+1544  sample_2524_51     0.00%    passed     99.95%
+1545  sample_2524_74     0.00%    passed     99.95%
+1546  sample_2524_75     0.00%    passed     99.96%
+1547  sample_2524_90     0.00%    passed     99.69%
+1548  sample_2524_94     0.00%    passed     98.95%
+1549  sample_2528_1      0.00%    passed     99.67%
+1550  sample_2528_12     0.00%    passed     99.79%
+1551  sample_2528_35     0.00%    passed     99.39%
+1552  sample_2528_49     0.00%    passed     99.86%
+1553  sample_2528_53     0.00%    passed     99.38%
+1554  sample_2528_67     0.00%    passed     99.87%
+1555  sample_2528_69     0.00%    passed     99.96%
+1556  sample_2528_71     0.00%    passed     99.01%
+1557  sample_2528_74     0.00%    passed     99.96%
+1558  sample_2528_76     0.00%    passed     99.97%
+1559  sample_2528_92     0.00%    passed     99.85%
+1560  sample_2528_99     0.00%    passed     99.82%
+1561  sample_2532_17     0.00%    passed     99.99%
+1562  sample_2532_19     0.00%    passed     98.91%
+1563  sample_2532_40     0.00%    passed     99.73%
+1564  sample_2532_42     0.00%    passed     98.97%
+1565  sample_2532_44     0.00%    passed     99.04%
+1566  sample_2532_51     0.00%    passed     99.81%
+1567  sample_2532_59     0.00%    passed     99.07%
+1568  sample_2532_96     0.00%    passed     97.69%
+1569  sample_2536_11     0.00%    passed     99.55%
+1570  sample_2536_13     0.00%    passed     99.88%
+1571  sample_2536_17     0.00%    passed     99.76%
+1572  sample_2536_18     0.00%    passed     98.71%
+1573  sample_2536_20     0.00%    passed     99.93%
+1574  sample_2536_22     0.00%    passed     99.41%
+1575  sample_2536_23     0.00%    passed     99.80%
+1576  sample_2536_26     0.00%    passed     99.81%
+1577  sample_2536_28     0.00%    passed     99.93%
+1578  sample_2536_36     0.00%    passed     98.69%
+1579  sample_2536_38     0.00%    passed     99.70%
+1580  sample_2536_42     0.00%    passed     99.35%
+1581  sample_2536_76     0.00%    passed     99.20%
+1582  sample_2536_77     0.00%    passed     99.99%
+1583  sample_2536_81     0.00%    passed     99.21%
+1584  sample_2536_82     0.00%    passed     99.15%
+1585  sample_2536_89     0.00%    passed     99.94%
+1586  sample_2536_100    0.00%    passed     99.38%
+1587  sample_2540_7      0.00%    passed     99.84%
+1588  sample_2540_11     0.00%    passed     99.86%
+1589  sample_2540_19     0.00%    passed     99.73%
+1590  sample_2540_22     0.00%    passed     98.96%
+1591  sample_2540_50     0.00%    passed     99.91%
+1592  sample_2540_51     0.00%    passed     99.84%
+1593  sample_2540_54     0.00%    passed     99.98%
+1594  sample_2540_71     0.00%    passed     99.65%
+1595  sample_2540_93     0.00%    passed     98.87%
+1596  sample_2540_100    0.00%    passed     99.97%
+1597  sample_2544_3      0.00%    passed     99.89%
+1598  sample_2544_20     0.00%    passed     99.85%
+1599  sample_2544_40     0.00%    passed     99.97%
+1600  sample_2544_49     0.00%    passed     99.78%
+1601  sample_2544_51     0.00%    passed     99.90%
+1602  sample_2544_64     0.00%    passed     99.98%
+1603  sample_2544_69     0.00%    passed     99.78%
+1604  sample_2544_73     0.00%    passed     99.88%
+1605  sample_2544_100    0.00%    passed     99.47%
+1606  sample_2548_16     0.00%    passed     99.90%
+1607  sample_2548_26     0.00%    passed     99.98%
+1608  sample_2548_38     0.00%    passed     99.81%
+1609  sample_2548_49     0.00%    passed     99.62%
+1610  sample_2548_50     0.00%    passed     99.94%
+1611  sample_2548_51     0.00%    passed     99.40%
+1612  sample_2548_52     0.00%    passed     99.34%
+1613  sample_2548_60     0.00%    passed     98.06%
+1614  sample_2548_69     0.00%    passed     98.92%
+1615  sample_2548_75     0.00%    passed     99.99%
+1616  sample_2548_78     0.00%    passed     99.96%
+1617  sample_2548_84     0.00%    passed     99.72%
+1618  sample_2552_2      0.00%    passed     99.97%
+1619  sample_2552_5      0.00%    passed     99.99%
+1620  sample_2552_8      0.00%    passed     99.72%
+1621  sample_2552_9      0.00%    passed     99.76%
+1622  sample_2552_11     0.00%    passed     99.16%
+1623  sample_2552_17     0.00%    passed     99.74%
+1624  sample_2552_37     0.00%    passed     99.98%
+1625  sample_2552_39     0.00%    passed     99.79%
+1626  sample_2552_47     0.00%    passed     99.77%
+1627  sample_2552_49     0.00%    passed     99.89%
+1628  sample_2552_62     0.00%    passed     99.91%
+1629  sample_2552_66     0.00%    passed     99.47%
+1630  sample_2552_89     0.00%    passed     99.90%
+1631  sample_2556_5      0.00%    passed     99.88%
+1632  sample_2556_7      0.00%    passed     99.94%
+1633  sample_2556_16     0.00%    passed     99.59%
+1634  sample_2556_45     0.00%    passed     99.72%
+1635  sample_2556_52     0.00%    passed     98.95%
+1636  sample_2556_53     0.00%    passed     99.62%
+1637  sample_2556_55     0.00%    passed     99.68%
+1638  sample_2556_82     0.00%    passed     99.90%
+1639  sample_2556_87     0.00%    passed     99.87%
+1640  sample_2556_93     0.00%    passed     99.61%
+1641  sample_2556_100    0.00%    passed     98.87%
+1642  sample_2560_1      0.00%    passed     99.88%
+1643  sample_2560_7      0.00%    passed     99.69%
+1644  sample_2560_10     0.00%    passed     99.04%
+1645  sample_2560_24     0.00%    passed     99.51%
+1646  sample_2560_40     0.00%    passed     99.94%
+1647  sample_2560_45     0.00%    passed     99.20%
+1648  sample_2560_58     0.00%    passed     99.99%
+1649  sample_2560_59     0.00%    passed     99.88%
+1650  sample_2560_65     0.00%    passed     99.59%
+1651  sample_2560_69     0.00%    passed     99.80%
+1652  sample_2560_85     0.00%    passed     99.89%
+1653  sample_2560_91     0.00%    passed     99.03%
+1654  sample_2560_99     0.00%    passed    100.00%
+1655  sample_2564_2      0.00%    passed     99.61%
+1656  sample_2564_5      0.00%    passed     99.86%
+1657  sample_2564_10     0.00%    passed     99.70%
+1658  sample_2564_31     0.00%    passed     99.85%
+1659  sample_2564_34     0.00%    passed     97.98%
+1660  sample_2564_36     0.00%    passed     99.33%
+1661  sample_2564_55     0.00%    passed     99.64%
+1662  sample_2564_66     0.00%    passed     99.94%
+1663  sample_2564_70     0.00%    passed     99.67%
+1664  sample_2564_80     0.00%    passed     99.12%
+1665  sample_2564_89     0.00%    passed     99.82%
+1666  sample_2564_96     0.00%    passed     99.98%
+1667  sample_2568_6      0.00%    passed     98.24%
+1668  sample_2568_15     0.00%    passed     99.74%
+1669  sample_2568_29     0.00%    passed     99.90%
+1670  sample_2568_36     0.00%    passed     99.90%
+1671  sample_2568_57     0.00%    passed     99.86%
+1672  sample_2568_74     0.00%    passed     99.83%
+1673  sample_2568_86     0.00%    passed     99.88%
+1674  sample_2568_98     0.00%    passed     99.80%
+1675  sample_2572_1      0.00%    passed     99.89%
+1676  sample_2572_2      0.00%    passed     99.16%
+1677  sample_2572_13     0.00%    passed     98.53%
+1678  sample_2572_22     0.00%    passed     98.75%
+1679  sample_2572_25     0.00%    passed     99.72%
+1680  sample_2572_35     0.00%    passed     99.79%
+1681  sample_2572_36     0.00%    passed     99.42%
+1682  sample_2572_52     0.00%    passed     99.24%
+1683  sample_2572_54     0.00%    passed     99.96%
+1684  sample_2572_56     0.00%    passed     95.00%
+1685  sample_2572_58     0.00%    passed     99.72%
+1686  sample_2572_72     0.00%    passed     99.71%
+1687  sample_2572_73     0.00%    passed     99.40%
+1688  sample_2572_77     0.00%    passed     99.76%
+1689  sample_2572_86     0.00%    passed     99.59%
+1690  sample_2572_88     0.00%    passed     96.40%
+1691  sample_2572_91     0.00%    passed     99.51%
+1692  sample_2572_92     0.00%    passed     99.96%
+1693  sample_2572_97     0.00%    passed     99.78%
+1694  sample_2576_2      0.00%    passed     99.89%
+1695  sample_2576_6      0.00%    passed     99.09%
+1696  sample_2576_17     0.00%    passed     99.80%
+1697  sample_2576_19     0.00%    passed     99.92%
+1698  sample_2576_31     0.00%    passed     99.68%
+1699  sample_2576_32     0.00%    passed     99.63%
+1700  sample_2576_38     0.00%    passed     99.96%
+1701  sample_2576_40     0.00%    passed     99.84%
+1702  sample_2576_48     0.00%    passed     99.98%
+1703  sample_2576_51     0.00%    passed     99.86%
+1704  sample_2576_53     0.00%    passed     99.63%
+1705  sample_2576_79     0.00%    passed     99.12%
+1706  sample_2580_32     0.00%    passed     99.62%
+1707  sample_2580_40     0.00%    passed     99.97%
+1708  sample_2580_42     0.00%    passed     99.86%
+1709  sample_2580_50     0.00%    passed     99.88%
+1710  sample_2580_61     0.00%    passed     99.71%
+1711  sample_2580_63     0.00%    passed     99.59%
+1712  sample_2580_67     0.00%    passed     99.95%
+1713  sample_2580_77     0.00%    passed     99.39%
+1714  sample_2580_78     0.00%    passed     99.91%
+1715  sample_2580_82     0.00%    passed     99.90%
+1716  sample_2584_3      0.00%    passed     99.85%
+1717  sample_2584_8      0.00%    passed     99.03%
+1718  sample_2584_15     0.00%    passed     99.62%
+1719  sample_2584_26     0.00%    passed     99.91%
+1720  sample_2584_27     0.00%    passed     99.89%
+1721  sample_2584_40     0.00%    passed     99.27%
+1722  sample_2584_55     0.00%    passed     99.91%
+1723  sample_2584_60     0.00%    passed     99.55%
+1724  sample_2584_74     0.00%    passed     99.54%
+1725  sample_2584_78     0.00%    passed     99.00%
+1726  sample_2584_87     0.00%    passed    100.00%
+1727  sample_2584_93     0.00%    passed     99.88%
+1728  sample_2588_13     0.00%    passed     99.95%
+1729  sample_2588_27     0.00%    passed     99.51%
+1730  sample_2588_41     0.00%    passed     99.68%
+1731  sample_2588_46     0.00%    passed     99.92%
+1732  sample_2588_51     0.00%    passed     97.09%
+1733  sample_2588_70     0.00%    passed     99.90%
+1734  sample_2588_84     0.00%    passed     99.98%
+1735  sample_2588_88     0.00%    passed     99.55%
+1736  sample_2588_93     0.00%    passed     99.21%
+1737  sample_2588_97     0.00%    passed     99.95%
+1738  sample_2588_100    0.00%    passed     98.73%
+1739  sample_2592_5      0.00%    passed     99.69%
+1740  sample_2592_12     0.00%    passed     99.77%
+1741  sample_2592_13     0.00%    passed     99.95%
+1742  sample_2592_17     0.00%    passed     99.42%
+1743  sample_2592_26     0.00%    passed     99.70%
+1744  sample_2592_32     0.00%    passed     99.88%
+1745  sample_2592_33     0.00%    passed     99.03%
+1746  sample_2592_38     0.00%    passed     99.80%
+1747  sample_2592_47     0.00%    passed     99.86%
+1748  sample_2592_66     0.00%    passed     99.62%
+1749  sample_2592_71     0.00%    passed     99.99%
+1750  sample_2592_81     0.00%    passed     99.67%
+1751  sample_2592_82     0.00%    passed     98.29%
+1752  sample_2592_93     0.00%    passed     99.76%
+1753  sample_2592_95     0.00%    passed     99.70%
+1754  sample_2596_6      0.00%    passed     99.69%
+1755  sample_2596_9      0.00%    passed     99.46%
+1756  sample_2596_16     0.00%    passed     99.99%
+1757  sample_2596_25     0.00%    passed     99.80%
+1758  sample_2596_26     0.00%    passed     99.92%
+1759  sample_2596_29     0.00%    passed     99.76%
+1760  sample_2596_32     0.00%    passed     99.90%
+1761  sample_2596_34     0.00%    passed     97.89%
+1762  sample_2596_35     0.00%    passed     99.17%
+1763  sample_2596_51     0.00%    passed     99.98%
+1764  sample_2596_60     0.00%    passed     99.00%
+1765  sample_2600_8      0.00%    passed     98.16%
+1766  sample_2600_27     0.00%    passed     99.00%
+1767  sample_2600_28     0.00%    passed     99.71%
+1768  sample_2600_44     0.00%    passed     99.98%
+1769  sample_2600_49     0.00%    passed     99.76%
+1770  sample_2600_53     0.00%    passed     99.53%
+1771  sample_2600_72     0.00%    passed     99.84%
+1772  sample_2600_73     0.00%    passed     99.56%
+1773  sample_2600_83     0.00%    passed     99.82%
+1774  sample_2600_93     0.00%    passed     99.76%
+1775  sample_2600_98     0.00%    passed     99.75%
+1776  sample_2600_99     0.00%    passed     99.71%
+1777  sample_2604_31     0.00%    passed     99.43%
+1778  sample_2604_49     0.00%    passed     99.83%
+1779  sample_2604_53     0.00%    passed     99.92%
+1780  sample_2604_55     0.00%    passed     99.99%
+1781  sample_2604_56     0.00%    passed     98.96%
+1782  sample_2604_73     0.00%    passed     99.73%
+1783  sample_2604_75     0.00%    passed     99.54%
+1784  sample_2604_83     0.00%    passed     98.38%
+1785  sample_2608_2      0.00%    passed     99.91%
+1786  sample_2608_37     0.00%    passed     99.39%
+1787  sample_2608_41     0.00%    passed     99.82%
+1788  sample_2608_56     0.00%    passed     99.87%
+1789  sample_2608_57     0.00%    passed     99.86%
+1790  sample_2608_70     0.00%    passed     99.86%
+1791  sample_2608_73     0.00%    passed     99.80%
+1792  sample_2608_86     0.00%    passed     99.47%
+1793  sample_2612_20     0.00%    passed     99.90%
+1794  sample_2612_27     0.00%    passed     99.64%
+1795  sample_2612_35     0.00%    passed     99.78%
+1796  sample_2612_51     0.00%    passed     99.84%
+1797  sample_2612_61     0.00%    passed     99.68%
+1798  sample_2612_76     0.00%    passed     99.94%
+1799  sample_2612_85     0.00%    passed     99.09%
+1800  sample_2612_87     0.00%    passed     98.70%
+1801  sample_2612_98     0.00%    passed     99.60%
+1802  sample_2616_19     0.00%    passed     99.84%
+1803  sample_2616_24     0.00%    passed     98.85%
+1804  sample_2616_33     0.00%    passed     99.60%
+1805  sample_2616_35     0.00%    passed     99.18%
+1806  sample_2616_41     0.00%    passed     99.64%
+1807  sample_2616_43     0.00%    passed     99.62%
+1808  sample_2616_52     0.00%    passed     99.25%
+1809  sample_2616_55     0.00%    passed     98.05%
+1810  sample_2616_59     0.00%    passed     99.96%
+1811  sample_2616_64     0.00%    passed     99.86%
+1812  sample_2616_90     0.00%    passed    100.00%
+1813  sample_2616_95     0.00%    passed     98.98%
+1814  sample_2620_2      0.00%    passed     99.70%
+1815  sample_2620_14     0.00%    passed     99.99%
+1816  sample_2620_15     0.00%    passed     99.66%
+1817  sample_2620_17     0.00%    passed     99.80%
+1818  sample_2620_19     0.00%    passed     99.84%
+1819  sample_2620_30     0.00%    passed     98.98%
+1820  sample_2620_36     0.00%    passed     99.86%
+1821  sample_2620_42     0.00%    passed     96.80%
+1822  sample_2620_51     0.00%    passed     99.97%
+1823  sample_2620_56     0.00%    passed     99.84%
+1824  sample_2620_60     0.00%    passed     99.73%
+1825  sample_2620_81     0.00%    passed     99.62%
+1826  sample_2620_83     0.00%    passed     99.47%
+1827  sample_2624_6      0.00%    passed     99.34%
+1828  sample_2624_11     0.00%    passed     99.81%
+1829  sample_2624_24     0.00%    passed    100.00%
+1830  sample_2624_35     0.00%    passed     99.53%
+1831  sample_2624_44     0.00%    passed     99.59%
+1832  sample_2624_56     0.00%    passed     99.99%
+1833  sample_2624_57     0.00%    passed     98.97%
+1834  sample_2624_61     0.00%    passed     99.20%
+1835  sample_2624_74     0.00%    passed     99.34%
+1836  sample_2624_77     0.00%    passed     99.92%
+1837  sample_2624_79     0.00%    passed     99.95%
+1838  sample_2624_83     0.00%    passed     99.55%
+1839  sample_2624_88     0.00%    passed     99.88%
+1840  sample_2628_4      0.00%    passed     99.34%
+1841  sample_2628_11     0.00%    passed     99.83%
+1842  sample_2628_12     0.00%    passed     98.78%
+1843  sample_2628_16     0.00%    passed     99.98%
+1844  sample_2628_20     0.00%    passed     99.43%
+1845  sample_2628_31     0.00%    passed     99.62%
+1846  sample_2628_67     0.00%    passed     99.64%
+1847  sample_2628_85     0.00%    passed     98.61%
+1848  sample_2628_95     0.00%    passed     99.30%
+1849  sample_2632_6      0.00%    passed     99.98%
+1850  sample_2632_20     0.00%    passed     99.82%
+1851  sample_2632_29     0.00%    passed     99.96%
+1852  sample_2632_34     0.00%    passed     99.21%
+1853  sample_2632_38     0.00%    passed     99.94%
+1854  sample_2632_57     0.00%    passed     99.71%
+1855  sample_2632_59     0.00%    passed     99.94%
+1856  sample_2632_66     0.00%    passed     99.53%
+1857  sample_2632_70     0.00%    passed     99.96%
+1858  sample_2632_72     0.00%    passed     99.99%
+1859  sample_2632_74     0.00%    passed     99.64%
+1860  sample_2632_77     0.00%    passed     99.66%
+1861  sample_2632_79     0.00%    passed     99.99%
+1862  sample_2632_84     0.00%    passed     99.92%
+1863  sample_2636_1      0.00%    passed     99.03%
+1864  sample_2636_4      0.00%    passed    100.00%
+1865  sample_2636_10     0.00%    passed     99.81%
+1866  sample_2636_17     0.00%    passed     99.83%
+1867  sample_2636_21     0.00%    passed     99.83%
+1868  sample_2636_47     0.00%    passed     99.98%
+1869  sample_2636_49     0.00%    passed     99.94%
+1870  sample_2636_70     0.00%    passed     99.12%
+1871  sample_2636_74     0.00%    passed     99.44%
+1872  sample_2636_80     0.00%    passed     99.64%
+1873  sample_2640_2      0.00%    passed     99.94%
+1874  sample_2640_11     0.00%    passed     99.71%
+1875  sample_2640_19     0.00%    passed     99.94%
+1876  sample_2640_37     0.00%    passed     99.62%
+1877  sample_2640_50     0.00%    passed     99.78%
+1878  sample_2640_51     0.00%    passed     99.93%
+1879  sample_2640_67     0.00%    passed     99.28%
+1880  sample_2640_87     0.00%    passed     99.85%
+1881  sample_2644_11     0.00%    passed     99.20%
+1882  sample_2644_17     0.00%    passed     99.97%
+1883  sample_2644_22     0.00%    passed     99.14%
+1884  sample_2644_27     0.00%    passed     98.53%
+1885  sample_2644_44     0.00%    passed     98.96%
+1886  sample_2644_49     0.00%    passed     99.68%
+1887  sample_2644_50     0.00%    passed     98.22%
+1888  sample_2644_54     0.00%    passed     99.70%
+1889  sample_2644_75     0.00%    passed     98.94%
+1890  sample_2644_85     0.00%    passed     99.94%
+1891  sample_2644_90     0.00%    passed     99.40%
+1892  sample_2644_91     0.00%    passed     99.80%
+1893  sample_2644_95     0.00%    passed     99.44%
+1894  sample_2644_96     0.00%    passed     99.64%
+1895  sample_2644_97     0.00%    passed     99.34%
+1896  sample_2648_4      0.00%    passed     99.69%
+1897  sample_2648_10     0.00%    passed     99.55%
+1898  sample_2648_18     0.00%    passed     99.66%
+1899  sample_2648_27     0.00%    passed     99.30%
+1900  sample_2648_31     0.00%    passed     99.53%
+1901  sample_2648_57     0.00%    passed     99.64%
+1902  sample_2648_60     0.00%    passed     99.51%
+1903  sample_2648_66     0.00%    passed     98.61%
+1904  sample_2648_67     0.00%    passed     99.41%
+1905  sample_2648_69     0.00%    passed     99.74%
+1906  sample_2648_73     0.00%    passed     99.53%
+1907  sample_2648_75     0.00%    passed     99.57%
+1908  sample_2648_83     0.00%    passed     99.90%
+1909  sample_2648_85     0.00%    passed     99.53%
+1910  sample_2648_86     0.00%    passed     98.73%
+1911  sample_2648_87     0.00%    passed     99.79%
+1912  sample_2652_10     0.00%    passed     99.50%
+1913  sample_2652_23     0.00%    passed     98.56%
+1914  sample_2652_26     0.00%    passed     99.88%
+1915  sample_2652_28     0.00%    passed     99.98%
+1916  sample_2652_31     0.00%    passed     99.80%
+1917  sample_2652_33     0.00%    passed     99.80%
+1918  sample_2652_42     0.00%    passed     99.38%
+1919  sample_2652_54     0.00%    passed     98.99%
+1920  sample_2652_58     0.00%    passed     99.92%
+1921  sample_2652_74     0.00%    passed     99.34%
+1922  sample_2652_75     0.00%    passed     99.79%
+1923  sample_2652_80     0.00%    passed     99.84%
+1924  sample_2652_92     0.00%    passed     99.59%
+1925  sample_2652_93     0.00%    passed     99.55%
+1926  sample_2652_96     0.00%    passed     98.86%
+1927  sample_2652_97     0.00%    passed     96.06%
+1928  sample_2656_23     0.00%    passed     99.94%
+1929  sample_2656_61     0.00%    passed     99.48%
+1930  sample_2656_68     0.00%    passed     99.96%
+1931  sample_2656_77     0.00%    passed     99.73%
+1932  sample_2656_79     0.00%    passed     99.15%
+1933  sample_2656_80     0.00%    passed     99.66%
+1934  sample_2660_1      0.00%    passed     99.72%
+1935  sample_2660_5      0.00%    passed     99.77%
+1936  sample_2660_8      0.00%    passed     99.39%
+1937  sample_2660_9      0.00%    passed     99.86%
+1938  sample_2660_15     0.00%    passed     99.12%
+1939  sample_2660_17     0.00%    passed     99.99%
+1940  sample_2660_27     0.00%    passed     98.92%
+1941  sample_2660_48     0.00%    passed     99.66%
+1942  sample_2660_51     0.00%    passed     99.40%
+1943  sample_2660_63     0.00%    passed     99.97%
+1944  sample_2660_72     0.00%    passed     99.77%
+1945  sample_2660_82     0.00%    passed     99.45%
+1946  sample_2660_84     0.00%    passed     99.83%
+1947  sample_2664_10     0.00%    passed     99.90%
+1948  sample_2664_11     0.00%    passed     98.09%
+1949  sample_2664_13     0.00%    passed     99.81%
+1950  sample_2664_20     0.00%    passed     99.59%
+1951  sample_2664_32     0.00%    passed     99.68%
+1952  sample_2664_33     0.00%    passed     99.30%
+1953  sample_2664_34     0.00%    passed     99.79%
+1954  sample_2664_56     0.00%    passed     99.97%
+1955  sample_2664_59     0.00%    passed     99.97%
+1956  sample_2664_66     0.00%    passed     99.64%
+1957  sample_2664_79     0.00%    passed     99.16%
+1958  sample_2664_86     0.00%    passed     99.94%
+1959  sample_2664_89     0.00%    passed     99.84%
+1960  sample_2664_99     0.00%    passed     99.50%
+1961  sample_2668_20     0.00%    passed     99.62%
+1962  sample_2668_22     0.00%    passed     99.27%
+1963  sample_2668_28     0.00%    passed     99.08%
+1964  sample_2668_55     0.00%    passed     99.44%
+1965  sample_2668_63     0.00%    passed     99.90%
+1966  sample_2668_67     0.00%    passed     99.59%
+1967  sample_2668_68     0.00%    passed     97.39%
+1968  sample_2668_84     0.00%    passed     99.70%
+1969  sample_2668_86     0.00%    passed     99.81%
+1970  sample_2668_98     0.00%    passed     99.62%
+1971  sample_2668_100    0.00%    passed     99.78%
+1972  sample_2672_5      0.00%    passed     99.30%
+1973  sample_2672_9      0.00%    passed     99.12%
+1974  sample_2672_15     0.00%    passed     99.89%
+1975  sample_2672_25     0.00%    passed    100.00%
+1976  sample_2672_26     0.00%    passed     98.80%
+1977  sample_2672_31     0.00%    passed     99.55%
+1978  sample_2672_32     0.00%    passed     99.81%
+1979  sample_2672_40     0.00%    passed     99.89%
+1980  sample_2672_41     0.00%    passed     99.32%
+1981  sample_2672_42     0.00%    passed     99.53%
+1982  sample_2672_45     0.00%    passed     99.73%
+1983  sample_2672_63     0.00%    passed     99.49%
+1984  sample_2672_81     0.00%    passed     99.16%
+1985  sample_2672_86     0.00%    passed     99.84%
+1986  sample_2672_88     0.00%    passed     99.78%
+1987  sample_2672_96     0.00%    passed     99.17%
+1988  sample_2676_1      0.00%    passed     99.71%
+1989  sample_2676_7      0.00%    passed     99.81%
+1990  sample_2676_10     0.00%    passed     98.98%
+1991  sample_2676_12     0.00%    passed     99.89%
+1992  sample_2676_33     0.00%    passed     99.64%
+1993  sample_2676_48     0.00%    passed     99.85%
+1994  sample_2676_52     0.00%    passed     99.21%
+1995  sample_2676_58     0.00%    passed     99.10%
+1996  sample_2676_78     0.00%    passed     98.97%
+1997  sample_2676_89     0.00%    passed     99.99%
+1998  sample_2676_97     0.00%    passed     99.51%
+1999  sample_2680_5      0.00%    passed     99.91%
+2000  sample_2680_22     0.00%    passed     99.55%
+2001  sample_2680_23     0.00%    passed     98.69%
+2002  sample_2680_26     0.00%    passed     99.77%
+2003  sample_2680_27     0.00%    passed     99.43%
+2004  sample_2680_28     0.00%    passed     99.67%
+2005  sample_2680_35     0.00%    passed     99.76%
+2006  sample_2680_39     0.00%    passed     99.76%
+2007  sample_2680_56     0.00%    passed     99.74%
+2008  sample_2680_63     0.00%    passed     99.67%
+2009  sample_2680_74     0.00%    passed     99.72%
+2010  sample_2684_44     0.00%    passed     99.97%
+2011  sample_2684_45     0.00%    passed     99.85%
+2012  sample_2684_84     0.00%    passed     99.85%
+2013  sample_2684_100    0.00%    passed     99.79%
+2014  sample_2688_1      0.00%    passed     99.97%
+2015  sample_2688_5      0.00%    passed     99.66%
+2016  sample_2688_10     0.00%    passed     99.67%
+2017  sample_2688_12     0.00%    passed     98.38%
+2018  sample_2688_18     0.00%    passed     99.77%
+2019  sample_2688_19     0.00%    passed     98.47%
+2020  sample_2688_29     0.00%    passed     99.95%
+2021  sample_2688_30     0.00%    passed     99.00%
+2022  sample_2688_39     0.00%    passed     99.80%
+2023  sample_2688_40     0.00%    passed     98.66%
+2024  sample_2688_49     0.00%    passed     99.24%
+2025  sample_2688_52     0.00%    passed     99.72%
+2026  sample_2688_61     0.00%    passed     99.33%
+2027  sample_2688_62     0.00%    passed     98.50%
+2028  sample_2688_70     0.00%    passed     99.90%
+2029  sample_2688_75     0.00%    passed     99.93%
+2030  sample_2688_78     0.00%    passed     99.69%
+2031  sample_2688_88     0.00%    passed     98.28%
+2032  sample_2688_93     0.00%    passed     99.10%
+2033  sample_2692_23     0.00%    passed     99.86%
+2034  sample_2692_25     0.00%    passed     99.71%
+2035  sample_2692_33     0.00%    passed     99.02%
+2036  sample_2692_34     0.00%    passed     98.93%
+2037  sample_2692_40     0.00%    passed     99.73%
+2038  sample_2692_49     0.00%    passed     98.61%
+2039  sample_2692_56     0.00%    passed     98.69%
+2040  sample_2692_63     0.00%    passed     98.87%
+2041  sample_2692_65     0.00%    passed     99.90%
+2042  sample_2692_79     0.00%    passed     99.86%
+2043  sample_2692_90     0.00%    passed     98.73%
+2044  sample_2692_97     0.00%    passed     99.71%
+2045  sample_2696_10     0.00%    passed     99.44%
+2046  sample_2696_14     0.00%    passed     99.92%
+2047  sample_2696_15     0.00%    passed     99.81%
+2048  sample_2696_21     0.00%    passed     99.52%
+2049  sample_2696_22     0.00%    passed     99.91%
+2050  sample_2696_23     0.00%    passed     99.21%
+2051  sample_2696_28     0.00%    passed     99.79%
+2052  sample_2696_46     0.00%    passed     99.81%
+2053  sample_2696_49     0.00%    passed     96.86%
+2054  sample_2696_65     0.00%    passed     99.97%
+2055  sample_2696_71     0.00%    passed     99.05%
+2056  sample_2696_82     0.00%    passed    100.00%
+2057  sample_2696_93     0.00%    passed     99.26%
+2058  sample_2696_100    0.00%    passed     99.50%
+2059  sample_2700_10     0.00%    passed     98.25%
+2060  sample_2700_41     0.00%    passed     98.42%
+2061  sample_2700_42     0.00%    passed     96.86%
+2062  sample_2700_50     0.00%    passed     99.92%
+2063  sample_2700_51     0.00%    passed     99.84%
+2064  sample_2700_66     0.00%    passed     99.34%
+2065  sample_2700_82     0.00%    passed     99.72%
+2066  sample_2704_4      0.00%    passed     99.24%
+2067  sample_2704_6      0.00%    passed     99.43%
+2068  sample_2704_9      0.00%    passed     99.70%
+2069  sample_2704_14     0.00%    passed     99.43%
+2070  sample_2704_16     0.00%    passed     93.99%
+2071  sample_2704_24     0.00%    passed     99.94%
+2072  sample_2704_64     0.00%    passed     99.47%
+2073  sample_2704_65     0.00%    passed     98.66%
+2074  sample_2704_73     0.00%    passed     97.97%
+2075  sample_2704_82     0.00%    passed     99.04%
+2076  sample_2704_83     0.00%    passed     99.26%
+2077  sample_2704_89     0.00%    passed     98.75%
+2078  sample_2704_94     0.00%    passed     99.88%
+2079  sample_2704_97     0.00%    passed     99.68%
+2080  sample_2708_12     0.00%    passed     99.93%
+2081  sample_2708_22     0.00%    passed     99.98%
+2082  sample_2708_25     0.00%    passed     99.76%
+2083  sample_2708_29     0.00%    passed     99.98%
+2084  sample_2708_46     0.00%    passed     99.28%
+2085  sample_2708_71     0.00%    passed     99.94%
+2086  sample_2708_87     0.00%    passed     98.75%
+2087  sample_2708_92     0.00%    passed     99.83%
+2088  sample_2712_13     0.00%    passed     98.53%
+2089  sample_2712_35     0.00%    passed     97.49%
+2090  sample_2712_42     0.00%    passed     98.46%
+2091  sample_2712_50     0.00%    passed     99.69%
+2092  sample_2712_56     0.00%    passed     98.18%
+2093  sample_2712_59     0.00%    passed     98.75%
+2094  sample_2712_75     0.00%    passed     99.73%
+2095  sample_2712_76     0.00%    passed     99.50%
+2096  sample_2712_99     0.00%    passed     99.72%
+2097  sample_2716_20     0.00%    passed     98.99%
+2098  sample_2716_22     0.00%    passed     99.62%
+2099  sample_2716_24     0.00%    passed     99.10%
+2100  sample_2716_34     0.00%    passed     99.79%
+2101  sample_2716_39     0.00%    passed     99.73%
+2102  sample_2716_50     0.00%    passed     99.00%
+2103  sample_2716_55     0.00%    passed     92.15%
+2104  sample_2716_57     0.00%    passed     99.92%
+2105  sample_2716_60     0.00%    passed     97.14%
+2106  sample_2716_77     0.00%    passed     99.64%
+2107  sample_2716_87     0.00%    passed     99.96%
+2108  sample_2720_12     0.00%    passed     99.98%
+2109  sample_2720_54     0.00%    passed     94.04%
+2110  sample_2720_61     0.00%    passed     99.94%
+2111  sample_2720_67     0.00%    passed     99.81%
+2112  sample_2720_70     0.00%    passed     99.00%
+2113  sample_2720_78     0.00%    passed     98.80%
+2114  sample_2720_84     0.00%    passed     97.57%
+2115  sample_2720_87     0.00%    passed     99.88%
+2116  sample_2720_92     0.00%    passed     99.77%
+2117  sample_2720_98     0.00%    passed     99.95%
+2118  sample_2724_2      0.00%    passed     99.81%
+2119  sample_2724_4      0.00%    passed     99.44%
+2120  sample_2724_6      0.00%    passed     99.94%
+2121  sample_2724_16     0.00%    passed     99.73%
+2122  sample_2724_19     0.00%    passed     99.59%
+2123  sample_2724_21     0.00%    passed     97.85%
+2124  sample_2724_48     0.00%    passed     99.91%
+2125  sample_2724_57     0.00%    passed     99.68%
+2126  sample_2724_65     0.00%    passed     91.85%
+2127  sample_2724_74     0.00%    passed     99.86%
+2128  sample_2724_78     0.00%    passed     99.51%
+2129  sample_2724_89     0.00%    passed     98.93%
+2130  sample_2724_92     0.00%    passed     99.94%
+2131  sample_2728_5      0.00%    passed     99.84%
+2132  sample_2728_8      0.00%    passed     99.34%
+2133  sample_2728_14     0.00%    passed     99.36%
+2134  sample_2728_29     0.00%    passed     99.42%
+2135  sample_2728_32     0.00%    passed     99.40%
+2136  sample_2728_37     0.00%    passed     99.90%
+2137  sample_2728_41     0.00%    passed     99.16%
+2138  sample_2728_42     0.00%    passed     99.99%
+2139  sample_2728_48     0.00%    passed     99.14%
+2140  sample_2728_69     0.00%    passed     99.88%
+2141  sample_2728_71     0.00%    passed     99.67%
+2142  sample_2728_77     0.00%    passed     99.38%
+2143  sample_2728_90     0.00%    passed     99.92%
+2144  sample_2728_92     0.00%    passed     95.24%
+2145  sample_2728_97     0.00%    passed     99.71%
+2146  sample_2728_100    0.00%    passed     99.86%
+2147  sample_2732_7      0.00%    passed     99.92%
+2148  sample_2732_11     0.00%    passed     98.99%
+2149  sample_2732_14     0.00%    passed     99.51%
+2150  sample_2732_28     0.00%    passed     99.63%
+2151  sample_2732_30     0.00%    passed     99.29%
+2152  sample_2732_36     0.00%    passed     99.08%
+2153  sample_2732_49     0.00%    passed     99.78%
+2154  sample_2732_78     0.00%    passed     99.44%
+2155  sample_2732_87     0.00%    passed     99.85%
+2156  sample_2732_95     0.00%    passed     99.59%
+2157  sample_2736_33     0.00%    passed     99.62%
+2158  sample_2736_42     0.00%    passed     99.12%
+2159  sample_2736_67     0.00%    passed     98.72%
+2160  sample_2736_76     0.00%    passed     99.77%
+2161  sample_2736_84     0.00%    passed     99.70%
+2162  sample_2736_86     0.00%    passed     99.83%
+2163  sample_2736_97     0.00%    passed     99.00%
+2164  sample_2740_14     0.00%    passed     98.50%
+2165  sample_2740_17     0.00%    passed     99.70%
+2166  sample_2740_25     0.00%    passed     99.44%
+2167  sample_2740_32     0.00%    passed     98.87%
+2168  sample_2740_49     0.00%    passed     98.73%
+2169  sample_2740_54     0.00%    passed     99.51%
+2170  sample_2740_58     0.00%    passed     99.19%
+2171  sample_2740_65     0.00%    passed     99.94%
+2172  sample_2740_67     0.00%    passed     99.53%
+2173  sample_2740_72     0.00%    passed     99.90%
+2174  sample_2740_84     0.00%    passed     98.97%
+2175  sample_2740_92     0.00%    passed     95.69%
+2176  sample_2740_94     0.00%    passed     94.08%
+2177  sample_2740_96     0.00%    passed     98.87%
+2178  sample_2740_100    0.00%    passed     98.19%
+2179  sample_2744_7      0.00%    passed     97.82%
+2180  sample_2744_8      0.00%    passed     97.14%
+2181  sample_2744_13     0.00%    passed     99.08%
+2182  sample_2744_16     0.00%    passed     93.53%
+2183  sample_2744_26     0.00%    passed     98.98%
+2184  sample_2744_27     0.00%    passed     99.09%
+2185  sample_2744_31     0.00%    passed     99.34%
+2186  sample_2744_32     0.00%    passed     99.35%
+2187  sample_2744_46     0.00%    passed     99.80%
+2188  sample_2744_58     0.00%    passed     99.76%
+2189  sample_2744_63     0.00%    passed     99.92%
+2190  sample_2744_75     0.00%    passed     99.26%
+2191  sample_2744_77     0.00%    passed     99.77%
+2192  sample_2744_88     0.00%    passed     99.36%
+2193  sample_2744_96     0.00%    passed     99.94%
+2194  sample_2744_99     0.00%    passed     98.60%
+2195  sample_2748_4      0.00%    passed     97.10%
+2196  sample_2748_20     0.00%    passed     99.60%
+2197  sample_2748_28     0.00%    passed     99.29%
+2198  sample_2748_43     0.00%    passed     99.90%
+2199  sample_2748_48     0.00%    passed     99.71%
+2200  sample_2748_53     0.00%    passed     99.04%
+2201  sample_2748_54     0.00%    passed     99.94%
+2202  sample_2748_56     0.00%    passed     99.14%
+2203  sample_2748_67     0.00%    passed     99.55%
+2204  sample_2748_89     0.00%    passed     99.78%
+2205  sample_2748_92     0.00%    passed     99.51%
+2206  sample_2752_4      0.00%    passed     99.17%
+2207  sample_2752_11     0.00%    passed     98.97%
+2208  sample_2752_12     0.00%    passed     99.83%
+2209  sample_2752_21     0.00%    passed     99.99%
+2210  sample_2752_48     0.00%    passed     94.86%
+2211  sample_2752_57     0.00%    passed     99.80%
+2212  sample_2752_65     0.00%    passed     98.96%
+2213  sample_2752_69     0.00%    passed     97.87%
+2214  sample_2752_76     0.00%    passed     99.05%
+2215  sample_2752_89     0.00%    passed     99.43%
+2216  sample_2752_93     0.00%    passed     99.86%
+2217  sample_2756_19     0.00%    passed     99.92%
+2218  sample_2756_23     0.00%    passed     99.50%
+2219  sample_2756_34     0.00%    passed     99.76%
+2220  sample_2756_41     0.00%    passed     99.62%
+2221  sample_2756_44     0.00%    passed     99.02%
+2222  sample_2756_56     0.00%    passed     99.82%
+2223  sample_2756_58     0.00%    passed     99.92%
+2224  sample_2756_61     0.00%    passed     99.51%
+2225  sample_2756_68     0.00%    passed     97.85%
+2226  sample_2756_73     0.00%    passed     99.52%
+2227  sample_2756_79     0.00%    passed     99.57%
+2228  sample_2756_81     0.00%    passed     98.31%
+2229  sample_2756_99     0.00%    passed     98.60%
+2230  sample_2756_100    0.00%    passed     99.70%
+2231  sample_2760_23     0.00%    passed     99.82%
+2232  sample_2760_29     0.00%    passed     99.71%
+2233  sample_2760_35     0.00%    passed     99.61%
+2234  sample_2760_36     0.00%    passed     98.46%
+2235  sample_2760_37     0.00%    passed     99.67%
+2236  sample_2760_58     0.00%    passed     99.33%
+2237  sample_2760_73     0.00%    passed     89.72%
+2238  sample_2760_79     0.00%    passed     99.90%
+2239  sample_2760_82     0.00%    passed     99.38%
+2240  sample_2760_85     0.00%    passed     99.71%
+2241  sample_2760_88     0.00%    passed     99.84%
+2242  sample_2760_96     0.00%    passed     97.30%
+2243  sample_2764_8      0.00%    passed     97.73%
+2244  sample_2764_11     0.00%    passed     99.86%
+2245  sample_2764_14     0.00%    passed     99.35%
+2246  sample_2764_15     0.00%    passed     99.43%
+2247  sample_2764_25     0.00%    passed     99.10%
+2248  sample_2764_56     0.00%    passed     99.62%
+2249  sample_2764_72     0.00%    passed     99.79%
+2250  sample_2764_80     0.00%    passed     99.86%
+2251  sample_2764_88     0.00%    passed     96.08%
+2252  sample_2764_93     0.00%    passed     99.35%
+2253  sample_2764_98     0.00%    passed     99.94%
+2254  sample_2764_100    0.00%    passed     99.20%
+2255  sample_2768_12     0.00%    passed     99.33%
+2256  sample_2768_44     0.00%    passed     98.78%
+2257  sample_2768_50     0.00%    passed     98.43%
+2258  sample_2768_51     0.00%    passed     99.76%
+2259  sample_2768_67     0.00%    passed     99.17%
+2260  sample_2768_69     0.00%    passed     99.71%
+2261  sample_2768_70     0.00%    passed     99.98%
+2262  sample_2768_75     0.00%    passed     99.49%
+2263  sample_2768_78     0.00%    passed     95.62%
+2264  sample_2768_89     0.00%    passed     99.60%
+2265  sample_2768_93     0.00%    passed     99.67%
+2266  sample_2768_94     0.00%    passed     99.14%
+2267  sample_2768_99     0.00%    passed     99.80%
+2268  sample_2772_6      0.00%    passed     99.35%
+2269  sample_2772_7      0.00%    passed     99.61%
+2270  sample_2772_12     0.00%    passed     99.03%
+2271  sample_2772_20     0.00%    passed     98.36%
+2272  sample_2772_55     0.00%    passed     99.54%
+2273  sample_2772_60     0.00%    passed     99.61%
+2274  sample_2772_69     0.00%    passed     99.76%
+2275  sample_2772_70     0.00%    passed     99.79%
+2276  sample_2776_1      0.00%    passed     96.23%
+2277  sample_2776_2      0.00%    passed     99.28%
+2278  sample_2776_8      0.00%    passed     99.95%
+2279  sample_2776_12     0.00%    passed     99.44%
+2280  sample_2776_15     0.00%    passed     99.83%
+2281  sample_2776_20     0.00%    passed     99.56%
+2282  sample_2776_26     0.00%    passed     87.76%
+2283  sample_2776_29     0.00%    passed     99.82%
+2284  sample_2776_41     0.00%    passed     99.77%
+2285  sample_2776_46     0.00%    passed    100.00%
+2286  sample_2776_60     0.00%    passed     87.76%
+2287  sample_2776_82     0.00%    passed     97.95%
+2288  sample_2776_97     0.00%    passed     99.56%
+2289  sample_2776_98     0.00%    passed     99.77%
+2290  sample_2776_99     0.00%    passed     99.52%
+2291  sample_2780_16     0.00%    passed     99.96%
+2292  sample_2780_17     0.00%    passed     99.84%
+2293  sample_2780_27     0.00%    passed     99.82%
+2294  sample_2780_28     0.00%    passed     99.92%
+2295  sample_2780_44     0.00%    passed     99.20%
+2296  sample_2780_45     0.00%    passed     99.96%
+2297  sample_2780_47     0.00%    passed     99.11%
+2298  sample_2780_57     0.00%    passed     99.74%
+2299  sample_2780_58     0.00%    passed     99.62%
+2300  sample_2780_67     0.00%    passed     99.67%
+2301  sample_2780_75     0.00%    passed     98.58%
+2302  sample_2780_76     0.00%    passed     99.09%
+2303  sample_2780_77     0.00%    passed     99.55%
+2304  sample_2784_4      0.00%    passed     99.82%
+2305  sample_2784_10     0.00%    passed     99.48%
+2306  sample_2784_20     0.00%    passed     97.24%
+2307  sample_2784_28     0.00%    passed     92.44%
+2308  sample_2784_57     0.00%    passed     99.80%
+2309  sample_2784_58     0.00%    passed     99.76%
+2310  sample_2784_72     0.00%    passed     99.92%
+2311  sample_2784_76     0.00%    passed     99.57%
+2312  sample_2784_84     0.00%    passed     90.92%
+2313  sample_2788_1      0.00%    passed     99.77%
+2314  sample_2788_6      0.00%    passed     99.00%
+2315  sample_2788_12     0.00%    passed     99.77%
+2316  sample_2788_17     0.00%    passed     99.38%
+2317  sample_2788_19     0.00%    passed     99.62%
+2318  sample_2788_23     0.00%    passed     99.62%
+2319  sample_2788_30     0.00%    passed     99.80%
+2320  sample_2788_32     0.00%    passed     99.33%
+2321  sample_2788_39     0.00%    passed     99.69%
+2322  sample_2788_43     0.00%    passed     99.84%
+2323  sample_2788_53     0.00%    passed     99.80%
+2324  sample_2788_56     0.00%    passed     98.24%
+2325  sample_2788_59     0.00%    passed     99.79%
+2326  sample_2788_60     0.00%    passed     99.56%
+2327  sample_2788_62     0.00%    passed     99.93%
+2328  sample_2788_68     0.00%    passed     99.56%
+2329  sample_2788_69     0.00%    passed     99.43%
+2330  sample_2788_74     0.00%    passed     99.36%
+2331  sample_2788_75     0.00%    passed     99.93%
+2332  sample_2788_84     0.00%    passed     99.22%
+2333  sample_2788_98     0.00%    passed     99.43%
+2334  sample_2788_99     0.00%    passed     99.67%
+2335  sample_2792_5      0.00%    passed     99.62%
+2336  sample_2792_32     0.00%    passed     98.80%
+2337  sample_2792_33     0.00%    passed     99.18%
+2338  sample_2792_37     0.00%    passed     99.02%
+2339  sample_2792_50     0.00%    passed     95.13%
+2340  sample_2792_72     0.00%    passed     99.06%
+2341  sample_2792_86     0.00%    passed     97.93%
+2342  sample_2792_88     0.00%    passed     99.43%
+2343  sample_2792_99     0.00%    passed     98.93%
+2344  sample_2796_12     0.00%    passed     99.98%
+2345  sample_2796_26     0.00%    passed    100.00%
+2346  sample_2796_34     0.00%    passed     99.51%
+2347  sample_2796_35     0.00%    passed     99.51%
+2348  sample_2796_48     0.00%    passed     97.86%
+2349  sample_2796_62     0.00%    passed     99.95%
+2350  sample_2796_78     0.00%    passed     99.97%
+2351  sample_2796_79     0.00%    passed     99.57%
+2352  sample_2796_99     0.00%    passed     99.89%
+2353  sample_2800_19     0.00%    passed     98.94%
+2354  sample_2800_24     0.00%    passed     99.88%
+2355  sample_2800_38     0.00%    passed     99.98%
+2356  sample_2800_57     0.00%    passed     99.91%
+2357  sample_2800_60     0.00%    passed     98.64%
+2358  sample_2800_74     0.00%    passed     99.96%
+2359  sample_2800_79     0.00%    passed     98.04%
+2360  sample_2800_96     0.00%    passed     99.22%
+2361  sample_2804_2      0.00%    passed     99.90%
+2362  sample_2804_39     0.00%    passed     97.20%
+2363  sample_2804_44     0.00%    passed     99.71%
+2364  sample_2804_58     0.00%    passed    100.00%
+2365  sample_2804_68     0.00%    passed     99.18%
+2366  sample_2804_72     0.00%    passed     98.66%
+2367  sample_2804_74     0.00%    passed     99.12%
+2368  sample_2804_77     0.00%    passed     99.46%
+2369  sample_2804_79     0.00%    passed     99.45%
+2370  sample_2804_85     0.00%    passed     98.73%
+2371  sample_2804_90     0.00%    passed     87.13%
+2372  sample_2808_13     0.00%    passed     99.94%
+2373  sample_2808_19     0.00%    passed     97.85%
+2374  sample_2808_25     0.00%    passed     96.43%
+2375  sample_2808_31     0.00%    passed     99.79%
+2376  sample_2808_36     0.00%    passed     99.05%
+2377  sample_2808_67     0.00%    passed     98.61%
+2378  sample_2808_70     0.00%    passed     99.93%
+2379  sample_2808_71     0.00%    passed     98.86%
+2380  sample_2808_77     0.00%    passed     99.92%
+2381  sample_2808_79     0.00%    passed     98.00%
+2382  sample_2808_87     0.00%    passed     99.12%
+2383  sample_2808_90     0.00%    passed     99.71%
+2384  sample_2808_93     0.00%    passed     99.44%
+2385  sample_2812_4      0.00%    passed     99.12%
+2386  sample_2812_21     0.00%    passed     99.16%
+2387  sample_2812_26     0.00%    passed     99.77%
+2388  sample_2812_27     0.00%    passed     99.93%
+2389  sample_2812_46     0.00%    passed     99.82%
+2390  sample_2812_67     0.00%    passed     99.26%
+2391  sample_2812_71     0.00%    passed     99.50%
+2392  sample_2812_79     0.00%    passed     99.38%
+2393  sample_2812_94     0.00%    passed     98.45%
+2394  sample_2816_30     0.00%    passed     99.71%
+2395  sample_2816_44     0.00%    passed     99.97%
+2396  sample_2816_47     0.00%    passed     99.82%
+2397  sample_2816_51     0.00%    passed     99.82%
+2398  sample_2816_78     0.00%    passed     99.83%
+2399  sample_2816_82     0.00%    passed     99.34%
+2400  sample_2816_87     0.00%    passed     99.53%
+2401  sample_2816_95     0.00%    passed     97.09%
+2402  sample_2820_15     0.00%    passed     99.79%
+2403  sample_2820_16     0.00%    passed     99.61%
+2404  sample_2820_25     0.00%    passed     99.44%
+2405  sample_2820_28     0.00%    passed     99.95%
+2406  sample_2820_33     0.00%    passed     99.38%
+2407  sample_2820_38     0.00%    passed     99.87%
+2408  sample_2820_40     0.00%    passed     99.36%
+2409  sample_2820_57     0.00%    passed     95.72%
+2410  sample_2820_63     0.00%    passed     98.72%
+2411  sample_2820_83     0.00%    passed     98.86%
+2412  sample_2820_84     0.00%    passed     98.78%
+2413  sample_2820_89     0.00%    passed     98.03%
+2414  sample_2820_99     0.00%    passed     99.44%
+2415  sample_2824_1      0.00%    passed     99.50%
+2416  sample_2824_32     0.00%    passed     98.21%
+2417  sample_2824_42     0.00%    passed     99.42%
+2418  sample_2824_44     0.00%    passed     84.20%
+2419  sample_2824_58     0.00%    passed     99.43%
+2420  sample_2824_77     0.00%    passed     99.50%
+2421  sample_2824_82     0.00%    passed     95.84%
+2422  sample_2828_3      0.00%    passed     99.76%
+2423  sample_2828_11     0.00%    passed     97.02%
+2424  sample_2828_12     0.00%    passed     99.96%
+2425  sample_2828_20     0.00%    passed     96.76%
+2426  sample_2828_23     0.00%    passed     99.86%
+2427  sample_2828_30     0.00%    passed     99.54%
+2428  sample_2828_37     0.00%    passed     98.75%
+2429  sample_2828_47     0.00%    passed     98.73%
+2430  sample_2828_57     0.00%    passed     99.53%
+2431  sample_2828_58     0.00%    passed     99.69%
+2432  sample_2828_66     0.00%    passed     99.36%
+2433  sample_2828_74     0.00%    passed     99.34%
+2434  sample_2828_79     0.00%    passed     99.44%
+2435  sample_2828_86     0.00%    passed     99.33%
+2436  sample_2828_93     0.00%    passed     99.08%
+2437  sample_2828_97     0.00%    passed     95.09%
+2438  sample_2832_1      0.00%    passed     99.66%
+2439  sample_2832_8      0.00%    passed     96.78%
+2440  sample_2832_10     0.00%    passed     99.96%
+2441  sample_2832_14     0.00%    passed     98.99%
+2442  sample_2832_16     0.00%    passed     99.21%
+2443  sample_2832_20     0.00%    passed     99.72%
+2444  sample_2832_22     0.00%    passed     99.91%
+2445  sample_2832_37     0.00%    passed     99.83%
+2446  sample_2832_53     0.00%    passed     99.71%
+2447  sample_2832_55     0.00%    passed     99.66%
+2448  sample_2832_63     0.00%    passed     99.47%
+2449  sample_2832_89     0.00%    passed     99.43%
+2450  sample_2832_93     0.00%    passed     99.73%
+2451  sample_2836_18     0.00%    passed     99.33%
+2452  sample_2836_29     0.00%    passed     99.88%
+2453  sample_2836_33     0.00%    passed     99.94%
+2454  sample_2836_40     0.00%    passed     98.98%
+2455  sample_2836_47     0.00%    passed     99.20%
+2456  sample_2836_53     0.00%    passed     99.56%
+2457  sample_2836_86     0.00%    passed     99.08%
+2458  sample_2836_94     0.00%    passed     99.59%
+2459  sample_2836_99     0.00%    passed     99.95%
+2460  sample_2836_100    0.00%    passed     98.28%
+2461  sample_2840_3      0.00%    passed     99.80%
+2462  sample_2840_5      0.00%    passed     98.94%
+2463  sample_2840_7      0.00%    passed     99.70%
+2464  sample_2840_9      0.00%    passed     98.04%
+2465  sample_2840_12     0.00%    passed     99.75%
+2466  sample_2840_15     0.00%    passed     99.59%
+2467  sample_2840_22     0.00%    passed     99.72%
+2468  sample_2840_30     0.00%    passed     99.92%
+2469  sample_2840_34     0.00%    passed     99.62%
+2470  sample_2840_44     0.00%    passed     94.25%
+2471  sample_2840_45     0.00%    passed     99.24%
+2472  sample_2840_57     0.00%    passed     99.59%
+2473  sample_2840_66     0.00%    passed     96.40%
+2474  sample_2840_68     0.00%    passed     99.71%
+2475  sample_2840_71     0.00%    passed     99.22%
+2476  sample_2840_72     0.00%    passed     99.44%
+2477  sample_2840_76     0.00%    passed     99.53%
+2478  sample_2840_82     0.00%    passed     99.46%
+2479  sample_2840_93     0.00%    passed     99.19%
+2480  sample_2840_100    0.00%    passed     99.61%
+2481  sample_2844_10     0.00%    passed     99.56%
+2482  sample_2844_22     0.00%    passed     97.95%
+2483  sample_2844_58     0.00%    passed     99.55%
+2484  sample_2844_59     0.00%    passed     99.20%
+2485  sample_2844_68     0.00%    passed     99.36%
+2486  sample_2844_78     0.00%    passed     99.71%
+2487  sample_2844_91     0.00%    passed     99.69%
+2488  sample_2848_5      0.00%    passed     99.89%
+2489  sample_2848_14     0.00%    passed     96.40%
+2490  sample_2848_19     0.00%    passed     98.64%
+2491  sample_2848_20     0.00%    passed     99.71%
+2492  sample_2848_23     0.00%    passed     99.67%
+2493  sample_2848_26     0.00%    passed     99.17%
+2494  sample_2848_30     0.00%    passed     98.60%
+2495  sample_2848_31     0.00%    passed     96.45%
+2496  sample_2848_39     0.00%    passed     99.67%
+2497  sample_2848_65     0.00%    passed     99.44%
+2498  sample_2848_84     0.00%    passed     99.33%
+2499  sample_2848_85     0.00%    passed     99.77%
+2500  sample_2852_1      0.00%    passed     98.60%
+2501  sample_2852_3      0.00%    passed     99.70%
+2502  sample_2852_8      0.00%    passed     99.77%
+2503  sample_2852_18     0.00%    passed     99.79%
+2504  sample_2852_45     0.00%    passed     99.98%
+2505  sample_2852_50     0.00%    passed     99.80%
+2506  sample_2852_51     0.00%    passed     99.96%
+2507  sample_2852_63     0.00%    passed     99.46%
+2508  sample_2852_68     0.00%    passed     98.61%
+2509  sample_2852_73     0.00%    passed     97.75%
+2510  sample_2852_79     0.00%    passed     98.97%
+2511  sample_2852_88     0.00%    passed     97.75%
+2512  sample_2852_96     0.00%    passed     99.71%
+2513  sample_2852_100    0.00%    passed     99.47%
+2514  sample_2856_14     0.00%    passed     99.14%
+2515  sample_2856_16     0.00%    passed     99.43%
+2516  sample_2856_18     0.00%    passed     82.76%
+2517  sample_2856_27     0.00%    passed     99.88%
+2518  sample_2856_28     0.00%    passed     99.36%
+2519  sample_2856_30     0.00%    passed     98.55%
+2520  sample_2856_38     0.00%    passed     99.10%
+2521  sample_2856_40     0.00%    passed     99.91%
+2522  sample_2856_49     0.00%    passed     97.52%
+2523  sample_2856_55     0.00%    passed     99.56%
+2524  sample_2856_60     0.00%    passed     99.86%
+2525  sample_2856_65     0.00%    passed     99.02%
+2526  sample_2856_81     0.00%    passed     98.48%
+2527  sample_2856_83     0.00%    passed     99.56%
+2528  sample_2856_89     0.00%    passed     99.53%
+2529  sample_2856_99     0.00%    passed     97.74%
+2530  sample_2860_7      0.00%    passed     99.24%
+2531  sample_2860_11     0.00%    passed     99.24%
+2532  sample_2860_24     0.00%    passed     99.10%
+2533  sample_2860_27     0.00%    passed     99.17%
+2534  sample_2860_32     0.00%    passed     98.29%
+2535  sample_2860_35     0.00%    passed     98.87%
+2536  sample_2860_47     0.00%    passed     99.44%
+2537  sample_2860_48     0.00%    passed     99.22%
+2538  sample_2860_51     0.00%    passed     98.60%
+2539  sample_2860_53     0.00%    passed     99.86%
+2540  sample_2860_55     0.00%    passed     99.50%
+2541  sample_2860_60     0.00%    passed     98.60%
+2542  sample_2860_84     0.00%    passed     99.17%
+2543  sample_2860_87     0.00%    passed     99.49%
+2544  sample_2860_100    0.00%    passed     99.16%
+2545  sample_2864_60     0.00%    passed     99.49%
+2546  sample_2864_74     0.00%    passed     98.97%
+2547  sample_2864_81     0.00%    passed     99.79%
+2548  sample_2864_82     0.00%    passed     99.78%
+2549  sample_2868_8      0.00%    passed     99.66%
+2550  sample_2868_9      0.00%    passed     99.65%
+2551  sample_2868_18     0.00%    passed     98.42%
+2552  sample_2868_41     0.00%    passed     99.30%
+2553  sample_2868_42     0.00%    passed     99.66%
+2554  sample_2868_54     0.00%    passed     99.79%
+2555  sample_2868_64     0.00%    passed     99.09%
+2556  sample_2868_67     0.00%    passed     99.71%
+2557  sample_2868_71     0.00%    passed     99.47%
+2558  sample_2868_82     0.00%    passed     99.22%
+2559  sample_2868_83     0.00%    passed     99.31%
+2560  sample_2868_86     0.00%    passed     99.33%
+2561  sample_2868_89     0.00%    passed     98.73%
+2562  sample_2868_90     0.00%    passed     99.95%
+2563  sample_2868_94     0.00%    passed     99.62%
+2564  sample_2868_95     0.00%    passed     99.66%
+2565  sample_2868_98     0.00%    passed     99.68%
+2566  sample_2872_1      0.00%    passed     99.90%
+2567  sample_2872_22     0.00%    passed     99.38%
+2568  sample_2872_25     0.00%    passed     97.99%
+2569  sample_2872_31     0.00%    passed     98.75%
+2570  sample_2872_37     0.00%    passed     99.35%
+2571  sample_2872_40     0.00%    passed     99.36%
+2572  sample_2872_45     0.00%    passed     99.90%
+2573  sample_2872_54     0.00%    passed     97.36%
+2574  sample_2872_66     0.00%    passed     99.33%
+2575  sample_2872_80     0.00%    passed     99.10%
+2576  sample_2872_86     0.00%    passed     97.89%
+2577  sample_2876_7      0.00%    passed     99.74%
+2578  sample_2876_18     0.00%    passed     99.67%
+2579  sample_2876_43     0.00%    passed     99.59%
+2580  sample_2876_51     0.00%    passed     97.72%
+2581  sample_2876_52     0.00%    passed     99.86%
+2582  sample_2876_54     0.00%    passed     99.59%
+2583  sample_2876_56     0.00%    passed     99.40%
+2584  sample_2876_57     0.00%    passed     97.04%
+2585  sample_2876_60     0.00%    passed     81.80%
+2586  sample_2876_64     0.00%    passed     98.73%
+2587  sample_2876_83     0.00%    passed     99.29%
+2588  sample_2876_98     0.00%    passed     99.24%
+2589  sample_2880_24     0.00%    passed     99.83%
+2590  sample_2880_32     0.00%    passed     99.89%
+2591  sample_2880_34     0.00%    passed     99.59%
+2592  sample_2880_39     0.00%    passed     99.40%
+2593  sample_2880_42     0.00%    passed     99.90%
+2594  sample_2880_47     0.00%    passed     98.47%
+2595  sample_2880_54     0.00%    passed     99.53%
+2596  sample_2880_57     0.00%    passed     99.56%
+2597  sample_2880_66     0.00%    passed     99.35%
+2598  sample_2884_46     0.00%    passed     99.85%
+2599  sample_2884_62     0.00%    passed     99.33%
+2600  sample_2884_72     0.00%    passed     99.64%
+2601  sample_2884_74     0.00%    passed     99.33%
+2602  sample_2884_82     0.00%    passed     99.55%
+2603  sample_2884_86     0.00%    passed     99.89%
+2604  sample_2884_93     0.00%    passed     99.56%
+2605  sample_2884_100    0.00%    passed     98.47%
+2606  sample_2888_6      0.00%    passed     98.73%
+2607  sample_2888_12     0.00%    passed     99.22%
+2608  sample_2888_13     0.00%    passed     99.55%
+2609  sample_2888_28     0.00%    passed    100.00%
+2610  sample_2888_31     0.00%    passed     99.76%
+2611  sample_2888_45     0.00%    passed     99.71%
+2612  sample_2888_47     0.00%    passed     95.13%
+2613  sample_2888_49     0.00%    passed     99.04%
+2614  sample_2888_51     0.00%    passed     99.50%
+2615  sample_2888_59     0.00%    passed     98.42%
+2616  sample_2888_75     0.00%    passed     97.57%
+2617  sample_2888_86     0.00%    passed     99.76%
+2618  sample_2888_91     0.00%    passed     99.95%
+2619  sample_2888_99     0.00%    passed     99.40%
+2620  sample_2892_9      0.00%    passed     97.34%
+2621  sample_2892_21     0.00%    passed     99.92%
+2622  sample_2892_27     0.00%    passed     99.00%
+2623  sample_2892_33     0.00%    passed     98.73%
+2624  sample_2892_36     0.00%    passed     99.85%
+2625  sample_2892_39     0.00%    passed     99.93%
+2626  sample_2892_51     0.00%    passed     99.96%
+2627  sample_2892_54     0.00%    passed     99.74%
+2628  sample_2892_73     0.00%    passed    100.00%
+2629  sample_2892_75     0.00%    passed     99.55%
+2630  sample_2892_89     0.00%    passed     98.53%
+2631  sample_2892_97     0.00%    passed     99.59%
+2632  sample_2896_8      0.00%    passed     99.70%
+2633  sample_2896_14     0.00%    passed     99.62%
+2634  sample_2896_16     0.00%    passed     98.66%
+2635  sample_2896_21     0.00%    passed     98.49%
+2636  sample_2896_33     0.00%    passed     98.15%
+2637  sample_2896_35     0.00%    passed     99.00%
+2638  sample_2896_36     0.00%    passed     98.91%
+2639  sample_2896_37     0.00%    passed     99.52%
+2640  sample_2896_46     0.00%    passed     99.33%
+2641  sample_2896_55     0.00%    passed     99.64%
+2642  sample_2896_61     0.00%    passed     99.98%
+2643  sample_2896_62     0.00%    passed     99.95%
+2644  sample_2896_78     0.00%    passed     99.50%
+2645  sample_2896_83     0.00%    passed     99.94%
+2646  sample_2896_92     0.00%    passed     99.65%
+2647  sample_2900_19     0.00%    passed     99.92%
+2648  sample_2900_31     0.00%    passed     97.57%
+2649  sample_2900_49     0.00%    passed     98.87%
+2650  sample_2900_53     0.00%    passed     99.41%
+2651  sample_2900_59     0.00%    passed     99.55%
+2652  sample_2900_61     0.00%    passed     99.81%
+2653  sample_2900_68     0.00%    passed     99.35%
+2654  sample_2904_3      0.00%    passed     99.02%
+2655  sample_2904_23     0.00%    passed     99.96%
+2656  sample_2904_26     0.00%    passed     99.55%
+2657  sample_2904_41     0.00%    passed     99.36%
+2658  sample_2904_46     0.00%    passed     96.00%
+2659  sample_2904_50     0.00%    passed     98.49%
+2660  sample_2904_52     0.00%    passed     99.31%
+2661  sample_2904_55     0.00%    passed     99.63%
+2662  sample_2904_61     0.00%    passed     99.41%
+2663  sample_2904_86     0.00%    passed     99.93%
+2664  sample_2904_97     0.00%    passed     99.71%
+2665  sample_2904_98     0.00%    passed     97.91%
+2666  sample_2908_8      0.00%    passed     99.59%
+2667  sample_2908_15     0.00%    passed     99.71%
+2668  sample_2908_19     0.00%    passed     98.53%
+2669  sample_2908_22     0.00%    passed     98.44%
+2670  sample_2908_30     0.00%    passed     99.79%
+2671  sample_2908_37     0.00%    passed     99.00%
+2672  sample_2908_52     0.00%    passed     99.67%
+2673  sample_2908_62     0.00%    passed     99.62%
+2674  sample_2908_96     0.00%    passed     98.18%
+2675  sample_2908_99     0.00%    passed     99.00%
+2676  sample_2912_5      0.00%    passed     99.55%
+2677  sample_2912_11     0.00%    passed     99.08%
+2678  sample_2912_12     0.00%    passed     99.96%
+2679  sample_2912_23     0.00%    passed     99.62%
+2680  sample_2912_42     0.00%    passed     99.59%
+2681  sample_2912_60     0.00%    passed     98.85%
+2682  sample_2912_80     0.00%    passed     99.12%
+2683  sample_2912_85     0.00%    passed     97.46%
+2684  sample_2912_86     0.00%    passed     99.32%
+2685  sample_2912_97     0.00%    passed     99.74%
+2686  sample_2912_98     0.00%    passed     98.61%
+2687  sample_2916_11     0.00%    passed     99.33%
+2688  sample_2916_28     0.00%    passed     99.87%
+2689  sample_2916_33     0.00%    passed     99.99%
+2690  sample_2916_38     0.00%    passed     97.28%
+2691  sample_2916_54     0.00%    passed     97.32%
+2692  sample_2916_60     0.00%    passed     99.97%
+2693  sample_2916_77     0.00%    passed     97.82%
+2694  sample_2916_88     0.00%    passed     99.92%
+2695  sample_2916_98     0.00%    passed     97.95%
+2696  sample_2920_5      0.00%    passed     99.71%
+2697  sample_2920_7      0.00%    passed     99.52%
+2698  sample_2920_19     0.00%    passed     99.77%
+2699  sample_2920_40     0.00%    passed     98.65%
+2700  sample_2920_59     0.00%    passed     99.47%
+2701  sample_2920_61     0.00%    passed     99.49%
+2702  sample_2920_79     0.00%    passed     99.92%
+2703  sample_2920_87     0.00%    passed     99.86%
+2704  sample_2920_90     0.00%    passed     98.84%
+2705  sample_2920_95     0.00%    passed     99.72%
+2706  sample_2920_97     0.00%    passed     99.69%
+2707  sample_2924_1      0.00%    passed     99.81%
+2708  sample_2924_8      0.00%    passed     99.10%
+2709  sample_2924_11     0.00%    passed     98.75%
+2710  sample_2924_16     0.00%    passed     98.96%
+2711  sample_2924_30     0.00%    passed     97.73%
+2712  sample_2924_37     0.00%    passed     98.61%
+2713  sample_2924_58     0.00%    passed     98.63%
+2714  sample_2924_66     0.00%    passed     98.15%
+2715  sample_2924_70     0.00%    passed     99.72%
+2716  sample_2924_75     0.00%    passed     98.85%
+2717  sample_2924_86     0.00%    passed     98.38%
+2718  sample_2924_92     0.00%    passed     98.97%
+2719  sample_2928_1      0.00%    passed     99.88%
+2720  sample_2928_6      0.00%    passed     99.61%
+2721  sample_2928_19     0.00%    passed     98.69%
+2722  sample_2928_25     0.00%    passed     97.36%
+2723  sample_2928_28     0.00%    passed     98.62%
+2724  sample_2928_51     0.00%    passed     99.53%
+2725  sample_2928_53     0.00%    passed     99.93%
+2726  sample_2928_81     0.00%    passed     99.76%
+2727  sample_2928_83     0.00%    passed     98.61%
+2728  sample_2928_92     0.00%    passed     99.97%
+2729  sample_2928_93     0.00%    passed     99.30%
+2730  sample_2928_99     0.00%    passed     99.02%
+2731  sample_2932_20     0.00%    passed     99.72%
+2732  sample_2932_21     0.00%    passed     97.87%
+2733  sample_2932_29     0.00%    passed     99.36%
+2734  sample_2932_30     0.00%    passed     99.12%
+2735  sample_2932_33     0.00%    passed     97.73%
+2736  sample_2932_50     0.00%    passed     98.32%
+2737  sample_2932_51     0.00%    passed     97.87%
+2738  sample_2932_63     0.00%    passed     97.97%
+2739  sample_2932_64     0.00%    passed     99.43%
+2740  sample_2932_66     0.00%    passed     98.93%
+2741  sample_2932_71     0.00%    passed     98.97%
+2742  sample_2932_75     0.00%    passed     99.48%
+2743  sample_2932_82     0.00%    passed     99.08%
+2744  sample_2932_88     0.00%    passed     98.73%
+2745  sample_2936_18     0.00%    passed     93.24%
+2746  sample_2936_22     0.00%    passed     99.51%
+2747  sample_2936_27     0.00%    passed     98.40%
+2748  sample_2936_30     0.00%    passed     99.99%
+2749  sample_2936_34     0.00%    passed     99.85%
+2750  sample_2936_43     0.00%    passed     97.46%
+2751  sample_2936_50     0.00%    passed     98.34%
+2752  sample_2936_52     0.00%    passed     99.05%
+2753  sample_2936_64     0.00%    passed     98.93%
+2754  sample_2936_67     0.00%    passed     99.43%
+2755  sample_2936_70     0.00%    passed     96.98%
+2756  sample_2936_83     0.00%    passed     99.57%
+2757  sample_2936_87     0.00%    passed     99.98%
+2758  sample_2936_95     0.00%    passed     98.93%
+2759  sample_2940_24     0.00%    passed     99.48%
+2760  sample_2940_28     0.00%    passed     99.69%
+2761  sample_2940_29     0.00%    passed     99.76%
+2762  sample_2940_48     0.00%    passed     99.96%
+2763  sample_2940_65     0.00%    passed     99.12%
+2764  sample_2940_76     0.00%    passed     99.70%
+2765  sample_2940_91     0.00%    passed     99.08%
+2766  sample_2940_93     0.00%    passed     99.67%
+2767  sample_2940_99     0.00%    passed     97.73%
+2768  sample_2944_4      0.00%    passed     99.35%
+2769  sample_2944_18     0.00%    passed     98.17%
+2770  sample_2944_27     0.00%    passed     99.38%
+2771  sample_2944_28     0.00%    passed     99.82%
+2772  sample_2944_44     0.00%    passed     99.78%
+2773  sample_2944_56     0.00%    passed     98.93%
+2774  sample_2944_59     0.00%    passed     99.20%
+2775  sample_2944_63     0.00%    passed     99.33%
+2776  sample_2944_77     0.00%    passed     98.55%
+2777  sample_2944_87     0.00%    passed     99.79%
+2778  sample_2944_89     0.00%    passed     99.32%
+2779  sample_2944_95     0.00%    passed     99.09%
+2780  sample_2948_11     0.00%    passed     99.10%
+2781  sample_2948_20     0.00%    passed     99.33%
+2782  sample_2948_38     0.00%    passed     99.43%
+2783  sample_2948_40     0.00%    passed     99.61%
+2784  sample_2948_41     0.00%    passed     98.47%
+2785  sample_2948_49     0.00%    passed     97.95%
+2786  sample_2948_57     0.00%    passed     98.92%
+2787  sample_2948_59     0.00%    passed     99.10%
+2788  sample_2948_74     0.00%    passed     99.34%
+2789  sample_2948_75     0.00%    passed     97.94%
+2790  sample_2948_78     0.00%    passed     98.33%
+2791  sample_2948_86     0.00%    passed     99.89%
+2792  sample_2948_92     0.00%    passed     94.68%
+2793  sample_2948_96     0.00%    passed     98.17%
+2794  sample_2952_9      0.00%    passed     97.95%
+2795  sample_2952_22     0.00%    passed     98.92%
+2796  sample_2952_26     0.00%    passed     95.56%
+2797  sample_2952_36     0.00%    passed     99.43%
+2798  sample_2952_37     0.00%    passed     98.63%
+2799  sample_2952_38     0.00%    passed     99.62%
+2800  sample_2952_54     0.00%    passed     99.59%
+2801  sample_2952_62     0.00%    passed     99.89%
+2802  sample_2952_80     0.00%    passed     99.53%
+2803  sample_2952_88     0.00%    passed     99.00%
+2804  sample_2952_90     0.00%    passed     99.47%
+2805  sample_2952_91     0.00%    passed     99.36%
+2806  sample_2956_7      0.00%    passed     99.49%
+2807  sample_2956_33     0.00%    passed     98.36%
+2808  sample_2956_48     0.00%    passed     99.33%
+2809  sample_2956_59     0.00%    passed     98.47%
+2810  sample_2956_62     0.00%    passed     99.90%
+2811  sample_2956_64     0.00%    passed     99.16%
+2812  sample_2956_65     0.00%    passed     99.82%
+2813  sample_2956_73     0.00%    passed     99.95%
+2814  sample_2956_77     0.00%    passed     99.59%
+2815  sample_2956_88     0.00%    passed     99.12%
+2816  sample_2956_93     0.00%    passed     96.68%
+2817  sample_2956_96     0.00%    passed     94.65%
+2818  sample_2960_6      0.00%    passed     99.62%
+2819  sample_2960_7      0.00%    passed     99.33%
+2820  sample_2960_17     0.00%    passed     99.92%
+2821  sample_2960_26     0.00%    passed     99.28%
+2822  sample_2960_29     0.00%    passed     97.50%
+2823  sample_2960_35     0.00%    passed     99.44%
+2824  sample_2960_36     0.00%    passed     99.53%
+2825  sample_2960_58     0.00%    passed     99.87%
+2826  sample_2960_59     0.00%    passed     99.53%
+2827  sample_2960_69     0.00%    passed     99.87%
+2828  sample_2960_99     0.00%    passed     98.28%
+2829  sample_2964_2      0.00%    passed     99.38%
+2830  sample_2964_3      0.00%    passed     99.53%
+2831  sample_2964_9      0.00%    passed     99.22%
+2832  sample_2964_12     0.00%    passed     98.73%
+2833  sample_2964_19     0.00%    passed     98.22%
+2834  sample_2964_24     0.00%    passed     99.71%
+2835  sample_2964_42     0.00%    passed     98.42%
+2836  sample_2964_48     0.00%    passed     98.91%
+2837  sample_2964_51     0.00%    passed     99.59%
+2838  sample_2964_56     0.00%    passed     98.73%
+2839  sample_2964_60     0.00%    passed     98.35%
+2840  sample_2964_77     0.00%    passed     99.39%
+2841  sample_2964_84     0.00%    passed     99.59%
+2842  sample_2964_91     0.00%    passed     97.69%
+2843  sample_2968_11     0.00%    passed     95.78%
+2844  sample_2968_16     0.00%    passed     98.15%
+2845  sample_2968_17     0.00%    passed     99.50%
+2846  sample_2968_43     0.00%    passed     99.96%
+2847  sample_2968_45     0.00%    passed     99.97%
+2848  sample_2968_47     0.00%    passed     99.96%
+2849  sample_2968_50     0.00%    passed     99.74%
+2850  sample_2968_54     0.00%    passed     99.62%
+2851  sample_2968_84     0.00%    passed     98.32%
+2852  sample_2968_85     0.00%    passed     98.67%
+2853  sample_2968_89     0.00%    passed     99.96%
+2854  sample_2968_97     0.00%    passed     99.41%
+2855  sample_2972_1      0.00%    passed     97.94%
+2856  sample_2972_15     0.00%    passed     98.25%
+2857  sample_2972_23     0.00%    passed     96.43%
+2858  sample_2972_29     0.00%    passed     99.67%
+2859  sample_2972_41     0.00%    passed     99.47%
+2860  sample_2972_61     0.00%    passed     97.86%
+2861  sample_2972_69     0.00%    passed     99.82%
+2862  sample_2972_81     0.00%    passed     99.43%
+2863  sample_2972_86     0.00%    passed     98.99%
+2864  sample_2972_96     0.00%    passed     99.59%
+2865  sample_2976_4      0.00%    passed     98.26%
+2866  sample_2976_16     0.00%    passed     96.95%
+2867  sample_2976_17     0.00%    passed     98.49%
+2868  sample_2976_18     0.00%    passed     98.11%
+2869  sample_2976_22     0.00%    passed     99.69%
+2870  sample_2976_30     0.00%    passed     99.43%
+2871  sample_2976_50     0.00%    passed     99.33%
+2872  sample_2976_56     0.00%    passed     96.63%
+2873  sample_2976_57     0.00%    passed     99.81%
+2874  sample_2976_61     0.00%    passed     99.99%
+2875  sample_2976_72     0.00%    passed     99.47%
+2876  sample_2976_74     0.00%    passed     99.86%
+2877  sample_2976_88     0.00%    passed     99.29%
+2878  sample_2976_90     0.00%    passed     98.28%
+2879  sample_2976_93     0.00%    passed     99.91%
+2880  sample_2976_99     0.00%    passed     98.68%
+2881  sample_2976_100    0.00%    passed     96.01%
+2882  sample_2980_9      0.00%    passed     99.29%
+2883  sample_2980_17     0.00%    passed     99.33%
+2884  sample_2980_23     0.00%    passed     99.12%
+2885  sample_2980_35     0.00%    passed     99.62%
+2886  sample_2980_36     0.00%    passed     96.75%
+2887  sample_2980_43     0.00%    passed     99.71%
+2888  sample_2980_70     0.00%    passed     98.22%
+2889  sample_2980_75     0.00%    passed     95.96%
+2890  sample_2980_88     0.00%    passed     98.81%
+2891  sample_2980_96     0.00%    passed     96.12%
+2892  sample_2984_1      0.00%    passed     98.54%
+2893  sample_2984_4      0.00%    passed     99.43%
+2894  sample_2984_21     0.00%    passed     99.95%
+2895  sample_2984_39     0.00%    passed     99.44%
+2896  sample_2984_66     0.00%    passed     98.07%
+2897  sample_2984_76     0.00%    passed     96.87%
+2898  sample_2984_84     0.00%    passed     99.19%
+2899  sample_2984_95     0.00%    passed     99.63%
+2900  sample_2984_100    0.00%    passed     98.77%
+2901  sample_2988_15     0.00%    passed     98.91%
+2902  sample_2988_17     0.00%    passed     99.10%
+2903  sample_2988_25     0.00%    passed     99.86%
+2904  sample_2988_29     0.00%    passed     99.70%
+2905  sample_2988_32     0.00%    passed     97.86%
+2906  sample_2988_54     0.00%    passed     99.33%
+2907  sample_2988_86     0.00%    passed     99.97%
+2908  sample_2988_96     0.00%    passed     99.26%
+2909  sample_2992_6      0.00%    passed     99.34%
+2910  sample_2992_9      0.00%    passed     99.92%
+2911  sample_2992_13     0.00%    passed     99.89%
+2912  sample_2992_15     0.00%    passed     99.43%
+2913  sample_2992_17     0.00%    passed     98.73%
+2914  sample_2992_33     0.00%    passed     99.59%
+2915  sample_2992_34     0.00%    passed     97.61%
+2916  sample_2992_48     0.00%    passed     99.16%
+2917  sample_2992_50     0.00%    passed     99.96%
+2918  sample_2992_54     0.00%    passed     99.85%
+2919  sample_2992_58     0.00%    passed     96.23%
+2920  sample_2992_59     0.00%    passed     98.22%
+2921  sample_2992_63     0.00%    passed     95.79%
+2922  sample_2992_66     0.00%    passed     96.99%
+2923  sample_2992_69     0.00%    passed     98.60%
+2924  sample_2992_79     0.00%    passed     99.50%
+2925  sample_2992_88     0.00%    passed     99.46%
+2926  sample_2992_100    0.00%    passed     99.90%
+2927  sample_2996_4      0.00%    passed     99.38%
+2928  sample_2996_5      0.00%    passed     98.91%
+2929  sample_2996_7      0.00%    passed     99.95%
+2930  sample_2996_16     0.00%    passed     99.43%
+2931  sample_2996_22     0.00%    passed     99.97%
+2932  sample_2996_26     0.00%    passed     97.10%
+2933  sample_2996_34     0.00%    passed     98.94%
+2934  sample_2996_45     0.00%    passed     95.44%
+2935  sample_2996_57     0.00%    passed     99.41%
+2936  sample_2996_63     0.00%    passed     98.97%
+2937  sample_2996_64     0.00%    passed     98.68%
+2938  sample_2996_84     0.00%    passed     98.98%
+2939  sample_2996_85     0.00%    passed     98.93%
+2940  sample_2996_97     0.00%    passed     99.77%
+2941  sample_3000_1      0.00%    passed     98.73%
+2942  sample_3000_4      0.00%    passed     99.72%
+2943  sample_3000_15     0.00%    passed     99.73%
+2944  sample_3000_16     0.00%    passed     96.88%
+2945  sample_3000_22     0.00%    passed     99.64%
+2946  sample_3000_26     0.00%    passed     98.84%
+2947  sample_3000_29     0.00%    passed     98.24%
+2948  sample_3000_31     0.00%    passed     99.99%
+2949  sample_3000_32     0.00%    passed     99.79%
+2950  sample_3000_34     0.00%    passed     99.76%
+2951  sample_3000_35     0.00%    passed     97.59%
+2952  sample_3000_39     0.00%    passed     99.61%
+2953  sample_3000_46     0.00%    passed     99.41%
+2954  sample_3000_54     0.00%    passed     99.78%
+2955  sample_3000_58     0.00%    passed     97.98%
+2956  sample_3000_62     0.00%    passed     99.71%
+2957  sample_3000_70     0.00%    passed     99.46%
+2958  sample_3000_94     0.00%    passed     99.85%
+****  TOTAL              0.00%  0 sequences failed composition chi2 test (p-value<5%; df=3)
+NOTE: sample_2020_95 is identical to sample_2000_4 but kept for subsequent analysis
+NOTE: sample_2012_33 is identical to sample_2000_10 but kept for subsequent analysis
+NOTE: sample_2052_58 is identical to sample_2036_51 but kept for subsequent analysis
+NOTE: sample_2060_11 is identical to sample_2044_7 but kept for subsequent analysis
+NOTE: sample_2056_77 is identical to sample_2044_70 but kept for subsequent analysis
+NOTE: sample_2060_64 is identical to sample_2052_45 but kept for subsequent analysis
+NOTE: sample_2076_87 is identical to sample_2056_81 but kept for subsequent analysis
+NOTE: sample_2092_17 is identical to sample_2076_4 but kept for subsequent analysis
+NOTE: sample_2084_85 is identical to sample_2080_83 but kept for subsequent analysis
+NOTE: sample_2108_52 is identical to sample_2088_61 but kept for subsequent analysis
+NOTE: sample_2124_24 is identical to sample_2116_10 but kept for subsequent analysis
+NOTE: sample_2124_69 is identical to sample_2120_32 but kept for subsequent analysis
+NOTE: sample_2128_64 is identical to sample_2120_66 but kept for subsequent analysis
+NOTE: sample_2136_6 is identical to sample_2132_20 but kept for subsequent analysis
+NOTE: sample_2196_60 is identical to sample_2144_17 but kept for subsequent analysis
+NOTE: sample_2164_57 is identical to sample_2144_40 but kept for subsequent analysis
+NOTE: sample_2172_76 is identical to sample_2156_85 but kept for subsequent analysis
+NOTE: sample_2188_88 is identical to sample_2188_6 but kept for subsequent analysis
+NOTE: sample_2192_14 is identical to sample_2188_47 but kept for subsequent analysis
+NOTE: sample_2220_11 is identical to sample_2192_4 but kept for subsequent analysis
+NOTE: sample_2216_51 is identical to sample_2196_36 but kept for subsequent analysis
+NOTE: sample_2244_29 is identical to sample_2228_74 but kept for subsequent analysis
+NOTE: sample_2276_76 is identical to sample_2268_57 but kept for subsequent analysis
+NOTE: sample_2320_50 is identical to sample_2284_95 but kept for subsequent analysis
+NOTE: sample_2300_15 is identical to sample_2296_51 but kept for subsequent analysis
+NOTE: sample_2312_66 is identical to sample_2308_73 but kept for subsequent analysis
+NOTE: sample_2320_66 is identical to sample_2320_6 but kept for subsequent analysis
+NOTE: sample_2348_72 is identical to sample_2328_99 but kept for subsequent analysis
+NOTE: sample_2336_59 is identical to sample_2336_29 but kept for subsequent analysis
+NOTE: sample_2412_66 is identical to sample_2356_25 but kept for subsequent analysis
+NOTE: sample_2388_2 is identical to sample_2372_26 but kept for subsequent analysis
+NOTE: sample_2396_42 is identical to sample_2388_80 but kept for subsequent analysis
+NOTE: sample_2404_48 is identical to sample_2400_12 but kept for subsequent analysis
+NOTE: sample_2424_21 is identical to sample_2408_30 but kept for subsequent analysis
+NOTE: sample_2432_64 is identical to sample_2428_51 but kept for subsequent analysis
+NOTE: sample_2436_71 is identical to sample_2428_76 but kept for subsequent analysis
+NOTE: sample_2456_83 is identical to sample_2444_75 but kept for subsequent analysis
+NOTE: sample_2476_84 is identical to sample_2448_73 but kept for subsequent analysis
+NOTE: sample_2460_67 is identical to sample_2456_55 but kept for subsequent analysis
+NOTE: sample_2468_8 is identical to sample_2460_25 but kept for subsequent analysis
+NOTE: sample_2484_8 is identical to sample_2468_94 but kept for subsequent analysis
+NOTE: sample_2504_69 is identical to sample_2492_47 but kept for subsequent analysis
+NOTE: sample_2528_53 is identical to sample_2504_16 but kept for subsequent analysis
+NOTE: sample_2512_14 is identical to sample_2504_95 but kept for subsequent analysis
+NOTE: sample_2516_35 is identical to sample_2508_99 but kept for subsequent analysis
+NOTE: sample_2536_18 is identical to sample_2524_43 but kept for subsequent analysis
+NOTE: sample_2544_69 is identical to sample_2544_49 but kept for subsequent analysis
+NOTE: sample_2576_38 is identical to sample_2572_54 but kept for subsequent analysis
+NOTE: sample_2584_27 is identical to sample_2576_2 but kept for subsequent analysis
+NOTE: sample_2608_73 is identical to sample_2596_25 but kept for subsequent analysis
+NOTE: sample_2632_6 is identical to sample_2600_44 but kept for subsequent analysis
+NOTE: sample_2636_10 is identical to sample_2624_11 but kept for subsequent analysis
+NOTE: sample_2664_99 is identical to sample_2652_10 but kept for subsequent analysis
+NOTE: sample_2668_63 is identical to sample_2664_10 but kept for subsequent analysis
+NOTE: sample_2720_67 is identical to sample_2696_46 but kept for subsequent analysis
+NOTE: sample_2716_39 is identical to sample_2712_75 but kept for subsequent analysis
+NOTE: sample_2728_90 is identical to sample_2716_57 but kept for subsequent analysis
+NOTE: sample_2780_16 is identical to sample_2716_87 but kept for subsequent analysis
+NOTE: sample_2764_98 is identical to sample_2744_96 but kept for subsequent analysis
+NOTE: sample_2756_99 is identical to sample_2744_99 but kept for subsequent analysis
+NOTE: sample_2784_76 is identical to sample_2756_79 but kept for subsequent analysis
+NOTE: sample_2808_93 is identical to sample_2776_12 but kept for subsequent analysis
+NOTE: sample_2776_60 is identical to sample_2776_26 but kept for subsequent analysis
+NOTE: sample_2828_79 is identical to sample_2820_25 but kept for subsequent analysis
+NOTE: sample_2876_54 is identical to sample_2840_57 but kept for subsequent analysis
+NOTE: sample_2860_11 is identical to sample_2860_7 but kept for subsequent analysis
+NOTE: sample_2900_68 is identical to sample_2880_66 but kept for subsequent analysis
+NOTE: sample_2892_75 is identical to sample_2884_82 but kept for subsequent analysis
+NOTE: sample_2904_50 is identical to sample_2896_21 but kept for subsequent analysis
+NOTE: sample_2952_9 is identical to sample_2948_49 but kept for subsequent analysis
+NOTE: sample_2952_22 is identical to sample_2948_57 but kept for subsequent analysis
+NOTE: sample_2972_1 is identical to sample_2948_75 but kept for subsequent analysis
+NOTE: sample_2972_96 is identical to sample_2952_54 but kept for subsequent analysis
+NOTE: sample_2988_32 is identical to sample_2972_61 but kept for subsequent analysis
+Checking for duplicate sequences: done in 0.0078311 secs using 211.4% CPU
+Identifying sites to remove: done in 0.0155292 secs using 88.63% CPU
+NOTE: 14 identical sequences (see below) will be ignored for subsequent analysis
+NOTE: sample_2112_74 (identical to sample_2076_4) is ignored but added at the end
+NOTE: sample_2112_94 (identical to sample_2076_4) is ignored but added at the end
+NOTE: sample_2128_95 (identical to sample_2076_4) is ignored but added at the end
+NOTE: sample_2152_64 (identical to sample_2076_4) is ignored but added at the end
+NOTE: sample_2124_89 (identical to sample_2088_61) is ignored but added at the end
+NOTE: sample_2160_7 (identical to sample_2132_20) is ignored but added at the end
+NOTE: sample_2212_5 (identical to sample_2144_17) is ignored but added at the end
+NOTE: sample_2248_39 (identical to sample_2228_74) is ignored but added at the end
+NOTE: sample_2416_100 (identical to sample_2356_25) is ignored but added at the end
+NOTE: sample_2432_49 (identical to sample_2356_25) is ignored but added at the end
+NOTE: sample_2424_54 (identical to sample_2372_26) is ignored but added at the end
+NOTE: sample_2436_80 (identical to sample_2428_76) is ignored but added at the end
+NOTE: sample_2780_45 (identical to sample_2716_87) is ignored but added at the end
+NOTE: sample_2992_33 (identical to sample_2952_54) is ignored but added at the end
+Alignment was printed to subsampled_sequences-delim.fasta.uniqueseq.phy
+
+For your convenience alignment with unique sequences printed to subsampled_sequences-delim.fasta.uniqueseq.phy
+
+Create initial parsimony tree by phylogenetic likelihood library (PLL)... 1.094 seconds
+
+NOTE: 145 MB RAM (0 GB) is required!
+Measuring multi-threading efficiency up to 1 CPU cores
+3 trees examined
+Threads: 1 / Time: 1.200 sec / Speedup: 1.000 / Efficiency: 100% / LogL: -448159
+Determining AUTO threadcount: done in 1.20016 secs using 95.76% CPU
+BEST NUMBER OF THREADS: 1
+
+Estimate model parameters (epsilon = 0.500)
+1. Initial log-likelihood: -93562.986
+2. Current log-likelihood: -91866.988
+Optimal log-likelihood: -91866.563
+Rate parameters:  A-C: 1.08316  A-G: 2.49654  A-T: 0.95256  C-G: 1.20399  C-T: 3.81300  G-T: 1.00000
+Base frequencies:  A: 0.326  C: 0.209  G: 0.229  T: 0.236
+Parameters optimization took 2 rounds (2.743 sec)
+Wrote distance file to... 
+Computing ML distances based on estimated model parameters...
+Calculating distance matrix: done in 12.8955 secs using 99.03% CPU
+Computing ML distances took 12.908437 sec (of wall-clock time) 12.778321 sec (of CPU time)
+Setting up auxiliary I and S matrices: done in 0.100662 secs using 191% CPU
+Constructing RapidNJ tree: done in 0.215012 secs using 194.7% CPU
+Computing RapidNJ tree took 0.315775 sec (of wall-clock time) 0.611095 sec (of CPU time)
+Log-likelihood of RapidNJ tree: -92192.615
+--------------------------------------------------------------------
+|             INITIALIZING CANDIDATE TREE SET                      |
+--------------------------------------------------------------------
+
+Do NNI search on 2 best initial trees
+Estimate model parameters (epsilon = 0.500)
+BETTER TREE FOUND at iteration 1: -91854.026
+Finish initializing candidate tree set (4)
+Current best tree score: -91854.026 / CPU time: 5.143
+Number of iterations: 2
+TREE SEARCH COMPLETED AFTER 2 ITERATIONS / Time: 0h:0m:26s
+
+--------------------------------------------------------------------
+|                    FINALIZING TREE SEARCH                        |
+--------------------------------------------------------------------
+Performs final model parameters optimization
+Estimate model parameters (epsilon = 0.050)
+1. Initial log-likelihood: -91854.026
+Optimal log-likelihood: -91854.022
+Rate parameters:  A-C: 1.08320  A-G: 2.49864  A-T: 0.95254  C-G: 1.20368  C-T: 3.81813  G-T: 1.00000
+Base frequencies:  A: 0.326  C: 0.209  G: 0.229  T: 0.236
+Parameters optimization took 1 rounds (0.564 sec)
+BEST SCORE FOUND : -91854.022
+Total tree length: 6.497
+
+Total number of iterations: 2
+CPU time used for tree search: 5.095 sec (0h:0m:5s)
+Wall-clock time used for tree search: 5.145 sec (0h:0m:5s)
+Total CPU time used: 27.222 sec (0h:0m:27s)
+Total wall-clock time used: 27.303 sec (0h:0m:27s)
+
+Analysis results written to: 
+  IQ-TREE report:                subsampled_sequences-delim.fasta.iqtree
+  Maximum-likelihood tree:       subsampled_sequences-delim.fasta.treefile
+  Likelihood distances:          subsampled_sequences-delim.fasta.mldist
+  Screen log file:               subsampled_sequences-delim.fasta.log
+
+Date and Time: Tue Dec 16 15:21:32 2025

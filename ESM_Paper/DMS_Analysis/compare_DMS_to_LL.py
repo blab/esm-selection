@@ -1,7 +1,7 @@
 # /// script
 # requires-python = ">=3.13"
 # dependencies = [
-#     "marimo",
+#     "marimo>=0.17.0",
 #     "pandas==2.3.3",
 #     "numpy==2.3.4",
 #     "matplotlib==3.10.7",
@@ -9,12 +9,13 @@
 #     "scipy==1.16.3",
 #     "tabulate==0.9.0",
 #     "logomaker==0.8.7",
+#     "pyzmq",
 # ]
 # ///
 
 import marimo
 
-__generated_with = "0.17.7"
+__generated_with = "0.18.0"
 app = marimo.App(width="medium")
 
 
@@ -992,6 +993,11 @@ def _(esm_bottom_mutations_df, logomaker, pd, plt):
 @app.cell
 def _(esm_650m_bottom_15):
     esm_650m_bottom_15
+    return
+
+
+@app.cell
+def _():
     return
 
 

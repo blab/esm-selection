@@ -283,10 +283,6 @@ def _(
     train_r2 = r2_score(y_train, y_train_pred)
     test_r2 = r2_score(y_test, y_test_pred)
 
-    # Calculate correlation metrics
-    train_r2 = r2_score(y_train, y_train_pred)
-    test_r2 = r2_score(y_test, y_test_pred)
-
     train_pearson, _ = pearsonr(y_train, y_train_pred)
     test_pearson, _ = pearsonr(y_test, y_test_pred)
 
@@ -333,6 +329,18 @@ def _(
 
     plt.tight_layout()
     plt.show()
+    return (y_test_pred,)
+
+
+@app.cell
+def _(y_test):
+    y_test
+    return
+
+
+@app.cell
+def _(y_test_pred):
+    y_test_pred
     return
 
 
